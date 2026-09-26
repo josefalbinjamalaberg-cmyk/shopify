@@ -1,0 +1,17 @@
+{% comment %}
+  Loads the NordicReflection footer design-system assets. Its own tiny
+  section (same pattern as nr-header-assets.liquid) so the whole footer
+  visual/interaction layer stays in one auditable, easily-removable place.
+  Renders no visible markup of its own.
+{% endcomment %}
+
+{{ 'nr-footer.css' | asset_url | stylesheet_tag }}
+{{ 'nr-footer-mobile.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'nr-footer.js' | asset_url }}" type="module" defer></script>
+
+{% schema %}
+{
+  "name": "NR: Footer-tillgångar",
+  "settings": []
+}
+{% endschema %}

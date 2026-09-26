@@ -1,0 +1,158 @@
+{% comment %}
+  Footer bottom bar: one row, copyright + company info on the left,
+  payment icons on the right.
+
+  Neither native footer section can host this combination — footer.liquid
+  allows "text"/"payment-icons" but not "footer-copyright", while
+  footer-utilities.liquid allows "footer-copyright" but not "text" or
+  "payment-icons". Rather than editing either shared file, this is its own
+  small section. The copyright year is computed with a real Liquid date
+  filter directly in this template (not inside a block "text" setting,
+  which can't run filters) — so it's genuinely dynamic, never hardcoded.
+
+  payment-icons is still the native block — nothing about how payment
+  methods are listed is reimplemented here.
+
+  Mobile only (see assets/nr-footer-mobile.css): the trust lines are shown
+  above the company info, and the company text (split on " · ") stacks one
+  part per line. On desktop the trust lines are hidden and the company text
+  renders exactly as before.
+{% endcomment %}
+
+{%- assign company_parts = section.settings.company_text | split: ' · ' -%}
+
+<div class="section section--page-width nr-footer-bottom">
+  <div class="nr-footer-bottom__row">
+    {%- if section.settings.trust_rating != blank or section.settings.trust_service != blank -%}
+      <div class="nr-footer-bottom__trust">
+        {%- if section.settings.trust_rating != blank -%}
+          <p class="nr-footer-bottom__trust-line">
+            <span
+              class="nr-footer-bottom__stars"
+              aria-hidden="true"
+            >
+              {%- for i in (1..5) -%}
+                <svg viewBox="0 0 12 12" focusable="false"><path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/></svg>
+              {%- endfor -%}
+            </span>
+            <span>{{ section.settings.trust_rating | escape }}</span>
+          </p>
+        {%- endif -%}
+        {%- if section.settings.trust_service != blank -%}
+          <p class="nr-footer-bottom__trust-line">{{ section.settings.trust_service | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <p class="nr-footer-bottom__company">
+      &copy; {{ 'now' | date: '%Y' }}
+      {% for part in company_parts -%}
+        <span class="nr-footer-bottom__company-part">{{ part }}</span>
+        {%- unless forloop.last %}<span class="nr-footer-bottom__company-sep"> · </span>{% endunless -%}
+      {%- endfor %}
+    </p>
+    <div class="nr-footer-bottom__payments">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .nr-footer-bottom__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .nr-footer-bottom__company {
+    margin: 0;
+    max-width: 640px;
+  }
+
+  .nr-footer-bottom__payments {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+
+  /* Trust lines: mobile only. */
+  .nr-footer-bottom__trust {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .nr-footer-bottom__trust {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .nr-footer-bottom__trust-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: var(--nr-footer-muted, #a5a5a0);
+    }
+
+    .nr-footer-bottom__stars {
+      display: inline-flex;
+      gap: 1px;
+      color: var(--nr-footer-text, #f5f5f2);
+    }
+
+    .nr-footer-bottom__stars svg {
+      width: 11px;
+      height: 11px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Footer-bottenrad",
+  "tag": "section",
+  "class": "section-wrapper",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "company_text",
+      "label": "Företagsinformation (visas efter årtalet)",
+      "info": "Delar separerade med \" · \" visas på egna rader i mobil.",
+      "default": "NordicReflection · HyperGloss Scandinavia AB · Org.nr 559523-6976 · Raabs väg 1, 394 70 Kalmar"
+    },
+    {
+      "type": "header",
+      "content": "Förtroenderad (endast mobil)"
+    },
+    {
+      "type": "text",
+      "id": "trust_rating",
+      "label": "Betyg (visas efter fem stjärnor)",
+      "default": "4.7/5 på Trustpilot"
+    },
+    {
+      "type": "text",
+      "id": "trust_service",
+      "label": "Service",
+      "default": "Fri frakt över 799 kr · Leverans 1–3 dagar"
+    }
+  ],
+  "blocks": [
+    { "type": "payment-icons" }
+  ],
+  "presets": [
+    { "name": "NR: Footer-bottenrad" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,265 @@
+/*
+  NordicReflection footer — MOBILE ONLY (max-width: 749px).
+
+  Loaded right after nr-footer.css (sections/nr-footer-assets.liquid), so
+  these rules win over the shared footer styles at equal specificity. Every
+  rule lives inside the media query below: desktop/tablet (750px+) is
+  exactly what nr-footer.css already renders.
+
+  Hierarchy on mobile:
+    1. Brand + short statement
+    2. Newsletter (strongest functional element)
+    3. Link groups as compact accordions (Horizon's native menu-block
+       accordion: <details>/<summary> via accordion-custom — closed by
+       default on mobile, keyboard + screen-reader support built in)
+    4. Trust line (sections/nr-footer-bottom.liquid, mobile only)
+    5. Company info + copyright
+
+  Quick-edit tokens (all mobile):
+    --nr-fm-gutter      side padding
+    --nr-fm-section     space between the major sections
+    --nr-fm-row         accordion row vertical padding
+    --nr-fm-link-gap    space between links in an open accordion
+    --nr-fm-fs-*        font sizes
+*/
+
+@media screen and (max-width: 749px) {
+  [id$="__nr_footer_brand"],
+  [id$="__nr_footer_nav"],
+  [id$="__nr_footer_bottom"] {
+    --nr-fm-gutter: 20px;
+    --nr-fm-section: 32px;
+    --nr-fm-row: 15px;
+    --nr-fm-link-gap: 6px;
+    --nr-fm-fs-newsletter: 22px;
+    --nr-fm-fs-heading: 15px;
+    --nr-fm-fs-link: 14px;
+    --nr-fm-fs-secondary: 13px;
+    --nr-fm-fs-legal: 11.5px;
+    --nr-fm-line: rgba(255, 255, 255, 0.1);
+  }
+
+  [id$="__nr_footer_brand"] .footer-content,
+  [id$="__nr_footer_nav"] .nr-footer-links__grid,
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__row {
+    padding-inline: var(--nr-fm-gutter);
+  }
+
+  /* ---------- 1 + 2: brand first, then newsletter ---------- */
+  /* minmax(0, 1fr) + min-width: 0 let the column shrink below the email
+     field's intrinsic width (it overflowed the viewport at 320px). */
+  [id$="__nr_footer_brand"] .footer-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--nr-fm-section);
+    padding-block-start: 44px !important;
+    padding-block-end: 0 !important;
+  }
+
+  [id$="__nr_footer_brand"] .footer-content > :nth-child(1),
+  [id$="__nr_footer_brand"] .footer-content > :nth-child(2) {
+    order: 0;
+    min-width: 0;
+  }
+
+  [id$="__nr_footer_brand"] .logo-block {
+    width: min(100%, 200px);
+  }
+
+  [id$="__nr_footer_brand"] .text-block--brand_principle {
+    font-size: var(--nr-fm-fs-secondary);
+    line-height: 1.55;
+    color: var(--nr-footer-muted);
+  }
+
+  [id$="__nr_footer_brand"] .text-block--brand_principle strong {
+    font-weight: 400;
+  }
+
+  [id$="__nr_footer_brand"] .text-block--brand_principle :is(p, h3):empty,
+  [id$="__nr_footer_brand"] .text-block--newsletter_text p:empty {
+    display: none;
+  }
+
+  [id$="__nr_footer_brand"] .text-block--brand_principle p,
+  [id$="__nr_footer_brand"] .text-block--newsletter_text p,
+  [id$="__nr_footer_brand"] .text-block--newsletter_privacy p {
+    margin: 0;
+  }
+
+  [id$="__nr_footer_brand"] .text-block--newsletter_heading {
+    font-size: var(--nr-fm-fs-newsletter);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+  }
+
+  [id$="__nr_footer_brand"] .text-block--newsletter_text {
+    font-size: var(--nr-fm-fs-secondary);
+    line-height: 1.5;
+    color: var(--nr-footer-muted);
+  }
+
+  [id$="__nr_footer_brand"] .text-block--newsletter_text em {
+    font-style: normal;
+  }
+
+  [id$="__nr_footer_brand"] .footer-content > :nth-child(2),
+  [id$="__nr_footer_brand"] .email-signup-block {
+    max-width: none;
+  }
+
+  [id$="__nr_footer_brand"] .email-signup__input {
+    min-height: 52px;
+    height: 52px;
+    font-size: 16px; /* 16px+ keeps iOS from zooming on focus */
+  }
+
+  [id$="__nr_footer_brand"] .email-signup__button--integrated.email-signup__button--arrow {
+    width: 44px;
+    height: 44px;
+    margin-right: 4px;
+    border-radius: 10px;
+  }
+
+  [id$="__nr_footer_brand"] .text-block--newsletter_privacy {
+    font-size: var(--nr-fm-fs-legal);
+    line-height: 1.55;
+    opacity: 0.55;
+    max-width: none;
+  }
+
+  [id$="__nr_footer_brand"] .text-block--newsletter_privacy p + p {
+    margin-top: 2px;
+  }
+
+  /* ---------- 3: link groups as compact accordions ---------- */
+  [id$="__nr_footer_nav"] .nr-footer-links {
+    padding-block: var(--nr-fm-section) 0;
+  }
+
+  [id$="__nr_footer_nav"] .nr-footer-links__grid {
+    gap: 0;
+  }
+
+  [id$="__nr_footer_nav"] .nr-footer-links__grid > :first-child .menu__details,
+  [id$="__nr_footer_nav"] .nr-footer-links__grid > .menu:first-child .menu__details {
+    border-top: 1px solid var(--nr-fm-line);
+  }
+
+  [id$="__nr_footer_nav"] .menu__details {
+    border-bottom: 1px solid var(--nr-fm-line);
+  }
+
+  /* The whole row is the native <summary> (button role, expanded state). */
+  [id$="__nr_footer_nav"] .menu__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 50px;
+    margin: 0;
+    padding-block: var(--nr-fm-row);
+    font-family: var(--font-body--family);
+    font-size: var(--nr-fm-fs-heading);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--nr-footer-text);
+    list-style: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  [id$="__nr_footer_nav"] .menu__heading::-webkit-details-marker {
+    display: none;
+  }
+
+  [id$="__nr_footer_nav"] .menu__heading:focus-visible {
+    outline: 2px solid var(--nr-footer-text);
+    outline-offset: 2px;
+  }
+
+  /* Minimal plus / minus drawn in CSS; the theme's caret icon is hidden. */
+  [id$="__nr_footer_nav"] .menu__heading__toggle {
+    display: none;
+  }
+
+  [id$="__nr_footer_nav"] .menu__heading::after {
+    content: '';
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    margin-left: auto;
+    background:
+      linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+    opacity: 0.7;
+    transition: background-size 200ms ease;
+  }
+
+  [id$="__nr_footer_nav"] .menu__details[open] > .menu__heading::after {
+    background-size: 12px 1.5px, 1.5px 0;
+  }
+
+  [id$="__nr_footer_nav"] .menu__details[open] .details-content {
+    padding-block-end: 16px;
+  }
+
+  [id$="__nr_footer_nav"] .menu .list-unstyled {
+    gap: var(--nr-fm-link-gap);
+  }
+
+  [id$="__nr_footer_nav"] .menu__item a {
+    padding-block: 3px;
+    font-size: var(--nr-fm-fs-link);
+    line-height: 1.45;
+  }
+
+  /* ---------- 4 + 5: trust line, payments, company ---------- */
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__row {
+    gap: 18px;
+    margin-top: 0; /* padding, not margin: a margin here can collapse out of the section */
+    padding-top: 28px;
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+    border-top: 0;
+  }
+
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__trust {
+    order: 1;
+  }
+
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__payments {
+    order: 2;
+    justify-content: flex-start;
+  }
+
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__company {
+    order: 3;
+    font-size: var(--nr-fm-fs-legal);
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__company-part {
+    display: block;
+  }
+
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__company-part:first-of-type {
+    display: inline;
+  }
+
+  [id$="__nr_footer_bottom"] .nr-footer-bottom__company-sep {
+    display: none;
+  }
+
+  [id$="__nr_footer_bottom"] .payment-icons__item svg {
+    height: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [id$="__nr_footer_nav"] .menu__heading::after {
+    transition: none;
+  }
+}
