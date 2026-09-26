@@ -7,6 +7,9 @@
   title, image, URL, price and compare-at price. The saving ("Spara X kr")
   is computed from compare_at_price − price and only shows when the
   product actually has a higher compare-at price — nothing is hardcoded.
+  The saving bar is scaled against the largest saving in the section, so
+  the bigger kits visibly give more value; the percentage is the saving
+  relative to the compare-at price.
   A block without a product renders nothing; if no block has a product the
   whole section is hidden.
 
@@ -19,9 +22,17 @@
 
 {%- liquid
   assign has_any_kit = false
+  assign max_saving = 0
   for block in section.blocks
-    if block.settings.product != blank
+    assign kit = block.settings.product
+    if kit != blank
       assign has_any_kit = true
+      if kit.compare_at_price > kit.price
+        assign kit_saving = kit.compare_at_price | minus: kit.price
+        if kit_saving > max_saving
+          assign max_saving = kit_saving
+        endif
+      endif
     endif
   endfor
 -%}
@@ -52,6 +63,8 @@
             assign saving = 0
             if product.compare_at_price > product.price
               assign saving = product.compare_at_price | minus: product.price
+              assign saving_pct = saving | times: 100.0 | divided_by: product.compare_at_price | round
+              assign saving_bar = saving | times: 100.0 | divided_by: max_saving | round
             endif
             assign points = block.settings.points | newline_to_br | split: '<br />'
             assign card_id = 'NrKit-' | append: block.id
@@ -82,6 +95,9 @@
 
                 <div class="nr-kit__summary">
                   <h3 class="nr-kit__title" id="{{ card_id }}">{{ product.title }}</h3>
+                  {%- if block.settings.contents != blank -%}
+                    <p class="nr-kit__contents">{{ block.settings.contents | escape }}</p>
+                  {%- endif -%}
                   <p class="nr-kit__price">
                     {%- if saving > 0 -%}
                       <span class="visually-hidden">Paketpris</span>
@@ -92,11 +108,18 @@
                       <s class="nr-kit__price-was">{{ product.compare_at_price | money }}</s>
                     {%- endif -%}
                   </p>
-                  {%- if saving > 0 -%}
-                    <p class="nr-kit__saving">Spara {{ saving | money }}</p>
-                  {%- endif -%}
                 </div>
               </div>
+
+              {%- if saving > 0 -%}
+                <div class="nr-kit__value">
+                  <p class="nr-kit__value-row">
+                    <span class="nr-kit__value-label">Du sparar</span>
+                    <span class="nr-kit__value-amount">{{ saving | money }} <span class="nr-kit__value-pct">(−{{ saving_pct }}&nbsp;%)</span></span>
+                  </p>
+                  <span class="nr-kit__value-bar" aria-hidden="true"><span style="width: {{ saving_bar }}%"></span></span>
+                </div>
+              {%- endif -%}
 
               {%- if block.settings.subheading != blank -%}
                 <p class="nr-kit__lead">{{ block.settings.subheading | escape }}</p>
@@ -264,12 +287,76 @@
     color: var(--nr-text-muted);
   }
 
-  .nr-kit__saving {
-    display: inline-block;
-    margin: 6px 0 0;
+  .nr-kit__contents {
+    margin: 4px 0 0;
     font-size: 0.8125rem;
+    color: var(--nr-text-muted);
+  }
+
+  /* Saving meter: bar length relative to the section's largest saving */
+  .nr-kit__value {
+    margin-top: var(--nr-space-sm);
+    padding: 12px 14px;
+    background: var(--nr-bg-soft);
+    border-radius: var(--nr-radius-sm);
+  }
+
+  .nr-kit__value-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 2px 12px;
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .nr-kit__value-label {
+    color: var(--nr-text-muted);
+  }
+
+  .nr-kit__value-amount {
     font-weight: 600;
-    color: var(--nr-text);
+  }
+
+  .nr-kit__value-pct {
+    font-weight: 400;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-kit__value-bar {
+    display: block;
+    height: 6px;
+    margin-top: 8px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: rgba(17, 17, 17, 0.1);
+  }
+
+  .nr-kit__value-bar > span {
+    display: block;
+    height: 100%;
+    min-width: 6px;
+    border-radius: inherit;
+    background: rgba(17, 17, 17, 0.45);
+  }
+
+  .nr-kits__item--featured .nr-kit__value {
+    background: var(--nr-text);
+    color: #fff;
+  }
+
+  .nr-kits__item--featured .nr-kit__value-label,
+  .nr-kits__item--featured .nr-kit__value-pct {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .nr-kits__item--featured .nr-kit__value-bar {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .nr-kits__item--featured .nr-kit__value-bar > span {
+    background: #fff;
   }
 
   .nr-kit__lead {
@@ -488,6 +575,12 @@
           "default": "Start"
         },
         {
+          "type": "text",
+          "id": "contents",
+          "label": "Innehåll (visas under namnet)",
+          "info": "T.ex. \"8 produkter\"."
+        },
+        {
           "type": "checkbox",
           "id": "featured",
           "label": "Framhäv (t.ex. Mest populär)",
@@ -522,8 +615,8 @@
       "name": "NR: Hitta rätt paket",
       "blocks": [
         { "type": "kit", "settings": { "badge": "Start" } },
-        { "type": "kit", "settings": { "badge": "Mest populär", "featured": true } },
-        { "type": "kit", "settings": { "badge": "Komplett" } }
+        { "type": "kit", "settings": { "badge": "Skumtvätt" } },
+        { "type": "kit", "settings": { "badge": "Mest populär", "featured": true } }
       ]
     }
   ]

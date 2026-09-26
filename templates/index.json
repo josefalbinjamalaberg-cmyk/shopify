@@ -888,31 +888,34 @@
             "subheading": "Grunden för en ordentlig exteriörtvätt.",
             "text": "Tre produkter som tar dig från avfettning till handtvätt. Ett enkelt sätt att komma igång utan att köpa mer än du behöver.",
             "points": "Rätt produkter från start\nEn komplett grundrutin\nBättre pris än separat köp",
-            "button_label": "Välj Startkit"
+            "button_label": "Välj Startkit",
+            "contents": "3 produkter"
           }
         },
         "kit_foam": {
           "type": "kit",
           "settings": {
             "product": "foam-wash-kit",
-            "badge": "Mest populär",
-            "featured": true,
+            "badge": "Skumtvätt",
+            "featured": false,
             "subheading": "Foamtvätten du faktiskt vill använda.",
             "text": "Foamtastic + Foam Cannon i ett färdigt paket. Produkterna är valda för att fungera tillsammans och ge dig ett tjockt, jämnt skumlager utan krångel.",
             "points": "Foam Cannon + Foamtastic\nFärdigt att använda tillsammans\nSpara jämfört med separat köp",
-            "button_label": "Välj Foam Wash Kit"
+            "button_label": "Välj Foam Wash Kit",
+            "contents": "2 produkter"
           }
         },
         "kit_complete": {
           "type": "kit",
           "settings": {
             "product": "exterior-komplett-kit",
-            "badge": "Komplett",
-            "featured": false,
+            "badge": "Mest populär",
+            "featured": true,
             "subheading": "Hela rutinen. Ett paket.",
             "text": "Från första rengöring till sista finish. För dig som vill ha hela NordicReflection-systemet och slippa fundera på vilka produkter som behövs.",
             "points": "Hela exteriörrutinen\nProdukter för flera steg i tvätten\nStörst total besparing",
-            "button_label": "Välj Komplett Kit"
+            "button_label": "Välj Komplett Kit",
+            "contents": "8 produkter"
           }
         }
       },
