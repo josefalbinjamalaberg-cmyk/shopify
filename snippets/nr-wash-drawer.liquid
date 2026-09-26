@@ -1,0 +1,544 @@
+{%- doc -%}
+  Mobile-only "Tvätta bilen steg för steg" entry for the header drawer.
+
+  Rendered as the first rows inside the Exteriör item's child list in
+  header-drawer.liquid. Outputs two <li> rows:
+    1. "Tvätta bilen steg för steg →" — a Horizon drill-down (<details> +
+       .menu-drawer__submenu) that slides in the 8-step routine panel. Open,
+       back ("← Exteriör"), close, Escape and focus trap are all handled by
+       the existing header-drawer.js via on:click="header-drawer/open/submenu"
+       and on:click="header-drawer/back" — no new JS.
+    2. "Alla produkter" — the same view-all URL the desktop mega menu uses.
+
+  Outputs nothing unless the header menu block uses the curated mega menu and
+  `link` is the item whose title matches "Menylänkens titel att matcha"
+  (exterior_menu_title) — the same match the desktop mega menu uses.
+
+  Product links, product names, the kit product and the kit heading/button are
+  read from the SAME block settings that feed the desktop mega menu
+  (exterior_step_N_product, exterior_step_N_name, exterior_promo_*), so both
+  always point to the same real product pages. Only the short mobile copy
+  (exterior_mobile_*, exterior_step_N_mobile_label) is mobile-specific.
+
+  Everything is hidden at 750px and up, so a drawer shown at desktop widths
+  (Horizon's overflow fallback) stays exactly as before.
+
+  @param {object} link - The top-level menu link being rendered in the drawer.
+  @param {object} block - The _header-menu block (source of settings).
+{%- enddoc -%}
+
+{%- liquid
+  assign bs = block.settings
+  assign show_wash_steps = false
+
+  if bs.menu_style == 'curated_products' and bs.exterior_menu_title != blank
+    assign link_title_key = link.title | strip | downcase
+    assign exterior_title_key = bs.exterior_menu_title | strip | downcase
+    if link_title_key == exterior_title_key
+      assign show_wash_steps = true
+    endif
+  endif
+-%}
+
+{%- if show_wash_steps -%}
+  {%- liquid
+    assign entry_label = bs.exterior_mobile_entry_label | default: bs.exterior_panel_heading | default: 'Tvätta bilen steg för steg'
+    assign panel_heading = bs.exterior_panel_heading | default: 'Tvätta bilen steg för steg'
+    assign panel_heading_html = panel_heading | escape | replace: ' steg för steg', '<br>steg för steg' | replace: ' Steg för steg', '<br>Steg för steg'
+    assign kit_product = bs.exterior_promo_product
+    if kit_product != blank and kit_product.url == blank
+      assign kit_product = all_products[kit_product]
+    endif
+  -%}
+
+  {%- capture nr_arrow -%}
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg>
+  {%- endcapture -%}
+
+  <li class="menu-drawer__list-item nr-wash-drawer">
+    <details id="Details-menu-drawer-{{ link.handle }}-wash-steps">
+      <summary
+        id="HeaderDrawer-{{ link.handle }}-wash-steps"
+        class="menu-drawer__menu-item nr-wash-drawer__entry focus-inset"
+        on:click="header-drawer/open/submenu"
+      >
+        <span class="nr-wash-drawer__entry-text">{{ entry_label | escape }}</span>
+        <span
+          class="nr-wash-drawer__arrow"
+          aria-hidden="true"
+        >
+          {{- nr_arrow -}}
+        </span>
+      </summary>
+
+      <div
+        id="link-{{ link.handle | escape }}-wash-steps"
+        class="menu-drawer__submenu has-submenu nr-wash-drawer__panel"
+        tabindex="-1"
+      >
+        <div class="menu-drawer__inner-submenu">
+          <div class="menu-drawer__nav-buttons nr-wash-drawer__nav">
+            <button
+              class="button menu-drawer__back-button nr-wash-drawer__back focus-inset"
+              type="button"
+              on:click="header-drawer/back"
+              aria-label="{{ 'actions.back_to' | t: title: link.title }}"
+            >
+              <span
+                class="nr-wash-drawer__back-arrow"
+                aria-hidden="true"
+              >
+                {{- nr_arrow -}}
+              </span>
+              <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+            </button>
+            <button
+              class="button button-unstyled close-button menu-drawer__close-button focus-inset"
+              type="button"
+              aria-label="{{ 'actions.close' | t }}"
+              on:click="header-drawer/close"
+            >
+              <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
+                {{- 'icon-close.svg' | inline_asset_content -}}
+              </span>
+            </button>
+          </div>
+
+          <div class="nr-wash-drawer__head">
+            <h2 class="nr-wash-drawer__heading">{{ panel_heading_html }}</h2>
+            {%- if bs.exterior_mobile_intro != blank -%}
+              <p class="nr-wash-drawer__intro">{{ bs.exterior_mobile_intro | escape }}</p>
+            {%- endif -%}
+          </div>
+
+          <ol
+            class="nr-wash-drawer__steps"
+            role="list"
+          >
+            {%- for i in (1..8) -%}
+              {%- liquid
+                case i
+                  when 1
+                    assign step_product = bs.exterior_step_1_product
+                    assign step_name = bs.exterior_step_1_name
+                    assign step_desc = bs.exterior_step_1_mobile_label | default: bs.exterior_step_1_label
+                  when 2
+                    assign step_product = bs.exterior_step_2_product
+                    assign step_name = bs.exterior_step_2_name
+                    assign step_desc = bs.exterior_step_2_mobile_label | default: bs.exterior_step_2_label
+                  when 3
+                    assign step_product = bs.exterior_step_3_product
+                    assign step_name = bs.exterior_step_3_name
+                    assign step_desc = bs.exterior_step_3_mobile_label | default: bs.exterior_step_3_label
+                  when 4
+                    assign step_product = bs.exterior_step_4_product
+                    assign step_name = bs.exterior_step_4_name
+                    assign step_desc = bs.exterior_step_4_mobile_label | default: bs.exterior_step_4_label
+                  when 5
+                    assign step_product = bs.exterior_step_5_product
+                    assign step_name = bs.exterior_step_5_name
+                    assign step_desc = bs.exterior_step_5_mobile_label | default: bs.exterior_step_5_label
+                  when 6
+                    assign step_product = bs.exterior_step_6_product
+                    assign step_name = bs.exterior_step_6_name
+                    assign step_desc = bs.exterior_step_6_mobile_label | default: bs.exterior_step_6_label
+                  when 7
+                    assign step_product = bs.exterior_step_7_product
+                    assign step_name = bs.exterior_step_7_name
+                    assign step_desc = bs.exterior_step_7_mobile_label | default: bs.exterior_step_7_label
+                  when 8
+                    assign step_product = bs.exterior_step_8_product
+                    assign step_name = bs.exterior_step_8_name
+                    assign step_desc = bs.exterior_step_8_mobile_label | default: bs.exterior_step_8_label
+                endcase
+
+                # Defensive: if a product setting ever reaches this snippet as a
+                # bare handle instead of a resolved product, look it up by handle.
+                if step_product != blank and step_product.url == blank
+                  assign step_product = all_products[step_product]
+                endif
+
+                assign step_number = i | prepend: '0' | slice: -2, 2
+              -%}
+              {%- if step_product != blank and step_product.url != blank -%}
+                <li class="nr-wash-drawer__step-item">
+                  <a
+                    href="{{ step_product.url }}"
+                    class="nr-wash-drawer__step"
+                    {% if step_product.url == request.path %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    <span
+                      class="nr-wash-drawer__num"
+                      aria-hidden="true"
+                    >
+                      {{- step_number -}}
+                    </span>
+                    <span class="nr-wash-drawer__body">
+                      <span class="nr-wash-drawer__name">{{ step_name | default: step_product.title | escape }}</span>
+                      {%- if step_desc != blank -%}
+                        <span class="nr-wash-drawer__desc">{{ step_desc | escape }}</span>
+                      {%- endif -%}
+                    </span>
+                    <span
+                      class="nr-wash-drawer__arrow"
+                      aria-hidden="true"
+                    >
+                      {{- nr_arrow -}}
+                    </span>
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ol>
+
+          {%- if kit_product != blank and kit_product.url != blank -%}
+            <a
+              href="{{ kit_product.url }}"
+              class="nr-wash-drawer__cta"
+            >
+              {%- if bs.exterior_mobile_cta_eyebrow != blank -%}
+                <span class="nr-wash-drawer__cta-eyebrow">{{ bs.exterior_mobile_cta_eyebrow | escape }}</span>
+              {%- endif -%}
+              <span class="nr-wash-drawer__cta-title">
+                {{- bs.exterior_promo_heading | default: kit_product.title | escape -}}
+              </span>
+              {%- liquid
+                assign cta_text = bs.exterior_mobile_cta_text | default: bs.exterior_promo_text
+              -%}
+              {%- if cta_text != blank -%}
+                <span class="nr-wash-drawer__cta-text">{{ cta_text | escape }}</span>
+              {%- endif -%}
+              <span class="nr-wash-drawer__cta-button">
+                <span>{{ bs.exterior_promo_button_label | default: 'Se paketet' | escape }}</span>
+                <span
+                  class="nr-wash-drawer__arrow"
+                  aria-hidden="true"
+                >
+                  {{- nr_arrow -}}
+                </span>
+              </span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </details>
+  </li>
+
+  {%- if bs.exterior_view_all_url != blank -%}
+    <li class="menu-drawer__list-item nr-wash-drawer nr-wash-drawer--view-all">
+      <a
+        id="HeaderDrawer-{{ link.handle }}-view-all"
+        href="{{ bs.exterior_view_all_url }}"
+        class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+      >
+        <span class="menu-drawer__menu-item-text wrap-text">
+          {{- bs.exterior_view_all_label | default: 'Alla produkter' | escape -}}
+        </span>
+      </a>
+    </li>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  /* Mobile-only: the drawer can also be shown at desktop widths when the
+     horizontal menu overflows. Keep that case exactly as before. */
+  @media screen and (min-width: 750px) {
+    .nr-wash-drawer {
+      display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* ---------- Entry row inside the Exteriör accordion ---------- */
+    .nr-wash-drawer {
+      display: block;
+      min-height: 0;
+    }
+
+    .nr-wash-drawer summary {
+      list-style: none;
+    }
+
+    .nr-wash-drawer summary::-webkit-details-marker {
+      display: none;
+    }
+
+    /* Extra .menu-drawer__list-item qualifier outranks Horizon's
+       `.menu-drawer__list-item--divider .menu-drawer__menu-item:not(...)`
+       48px min-height rule. */
+    .menu-drawer__list-item.nr-wash-drawer .nr-wash-drawer__entry.menu-drawer__menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+      margin-block: 6px 6px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background-color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.045);
+      font-family: var(--font-body--family);
+      font-size: 15.5px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-foreground);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 160ms ease;
+    }
+
+    .menu-drawer__list-item.nr-wash-drawer .nr-wash-drawer__entry.menu-drawer__menu-item:active {
+      background-color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+    }
+
+    .nr-wash-drawer__entry-text {
+      min-width: 0;
+      overflow-wrap: break-word;
+    }
+
+    /* Arrow glyph shared by entry, step rows, CTA and back button */
+    .nr-wash-drawer__arrow,
+    .nr-wash-drawer__back-arrow {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-drawer .nr-wash-drawer__arrow svg,
+    .menu-drawer .nr-wash-drawer__back-arrow svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .nr-wash-drawer__entry .nr-wash-drawer__arrow {
+      opacity: 0.55;
+    }
+
+    /* ---------- Routine panel (Horizon .menu-drawer__submenu) ---------- */
+    .nr-wash-drawer__panel {
+      white-space: normal;
+    }
+
+    .nr-wash-drawer__panel .menu-drawer__inner-submenu {
+      padding-block-end: max(28px, env(safe-area-inset-bottom));
+    }
+
+    /* Top bar: mirrors the drawer's own wordmark/close bar (72px, hairline) */
+    .nr-wash-drawer__nav.menu-drawer__nav-buttons {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      flex-shrink: 0;
+      min-height: 72px;
+      padding-inline: 22px;
+      gap: 12px;
+      background-color: var(--color-background);
+      border-bottom: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+    }
+
+    .nr-wash-drawer__back.menu-drawer__back-button {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0;
+      gap: 10px;
+      font-family: var(--font-body--family);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--color-foreground);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nr-wash-drawer__back-arrow {
+      transform: scaleX(-1);
+      opacity: 0.75;
+    }
+
+    .nr-wash-drawer__nav .menu-drawer__close-button {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Header */
+    .nr-wash-drawer__head {
+      padding: 28px 22px 18px;
+    }
+
+    .nr-wash-drawer__heading {
+      margin: 0;
+      font-family: var(--font-heading--family, inherit);
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--color-foreground);
+    }
+
+    .nr-wash-drawer__intro {
+      margin: 8px 0 0;
+      font-size: 14px;
+      line-height: 1.45;
+      color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.55);
+    }
+
+    /* Steps */
+    .nr-wash-drawer__steps {
+      list-style: none;
+      margin: 0;
+      padding: 0 22px;
+    }
+
+    .nr-wash-drawer__step-item {
+      border-top: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+    }
+
+    .nr-wash-drawer__step-item:last-child {
+      border-bottom: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+    }
+
+    .nr-wash-drawer__step {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr) auto;
+      column-gap: 12px;
+      align-items: center;
+      min-height: 64px;
+      padding-block: 13px;
+      color: var(--color-foreground);
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nr-wash-drawer__step:focus-visible,
+    .nr-wash-drawer__cta:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+
+    .nr-wash-drawer__num {
+      align-self: start;
+      font-size: 11.5px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+      color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.4);
+    }
+
+    .nr-wash-drawer__body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .nr-wash-drawer__name {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .nr-wash-drawer__desc {
+      font-size: 13.5px;
+      line-height: 1.35;
+      color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.55);
+      overflow-wrap: break-word;
+    }
+
+    .nr-wash-drawer__step .nr-wash-drawer__arrow {
+      opacity: 0.35;
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
+
+    .nr-wash-drawer__step:active .nr-wash-drawer__arrow {
+      opacity: 0.8;
+      transform: translateX(2px);
+    }
+
+    .nr-wash-drawer__step:active .nr-wash-drawer__name {
+      opacity: 0.7;
+    }
+
+    .nr-wash-drawer__step[aria-current='page'] .nr-wash-drawer__num {
+      color: var(--color-foreground);
+    }
+
+    /* Closing CTA: compact, not a promo card */
+    .nr-wash-drawer__cta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 28px 22px 0;
+      padding: 18px;
+      border-radius: 12px;
+      background-color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.035);
+      color: var(--color-foreground);
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nr-wash-drawer__cta-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.45);
+    }
+
+    .nr-wash-drawer__cta-title {
+      margin-top: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .nr-wash-drawer__cta-text {
+      margin-top: 4px;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.55);
+    }
+
+    .nr-wash-drawer__cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      margin-top: 14px;
+      padding-inline: 18px;
+      border-radius: 4px;
+      background-color: var(--color-foreground);
+      color: var(--color-background);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: opacity 160ms ease;
+    }
+
+    .nr-wash-drawer__cta:active .nr-wash-drawer__cta-button {
+      opacity: 0.85;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nr-wash-drawer__entry,
+    .nr-wash-drawer__arrow,
+    .nr-wash-drawer__cta-button {
+      transition: none !important;
+    }
+  }
+{% endstylesheet %}
