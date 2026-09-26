@@ -1,0 +1,1275 @@
+{%- doc -%}
+  NordicReflection mobile menu (below 750px only).
+
+  Rendered inside the Horizon header drawer (header-drawer.liquid), right
+  after its own top bar. Below 750px it replaces the drawer's default top
+  bar, link list and quick actions (hidden with CSS, still in the markup);
+  from 750px up this snippet is hidden, so a drawer shown at desktop widths
+  (Horizon's overflow fallback) is exactly the original.
+
+  Navigation is still the real Shopify menu (block setting "menu", i.e.
+  main-menu): every row, URL and child link comes from it. Items with child
+  links open a slide-in panel using Horizon's own drill-down
+  (on:click="header-drawer/open/submenu" / "header-drawer/back") — no new JS.
+
+  Content sources (all editable in the theme editor, Header → Meny):
+  - Feature block + Exteriör routine: nr-wash-drawer.liquid, fed by the same
+    exterior_step_N_* / exterior_promo_* settings as the desktop mega menu.
+  - Row descriptions: mobile_category_descriptions ("Titel | Beskrivning").
+  - Row thumbnails: the collection's featured image (Shopify falls back to
+    its first product's image).
+  - Populärt just nu: mobile_popular_product_1/2 (defaults to step 1 and
+    step 2 of the wash routine).
+  - Trust strip and utility links: mobile_trust_* / mobile_*_page settings.
+
+  @param {object} linklist - The drawer's menu (main-menu).
+  @param {object} block - The _header-menu block (source of settings).
+{%- enddoc -%}
+
+{%- liquid
+  assign bs = block.settings
+  assign menu_label = bs.mobile_menu_label | default: 'Meny'
+  assign exterior_title_key = bs.exterior_menu_title | strip | downcase
+  assign about_url = bs.mobile_about_page.url
+
+  assign show_routine = false
+  if bs.menu_style == 'curated_products' and bs.exterior_step_1_product != blank
+    assign show_routine = true
+  endif
+
+  assign heading = bs.exterior_panel_heading | default: 'Tvätta bilen steg för steg'
+  assign heading_html = heading | escape | replace: ' steg för steg', '<br>steg för steg' | replace: ' Steg för steg', '<br>Steg för steg'
+
+  assign desc_lines = bs.mobile_category_descriptions | newline_to_br | split: '<br />'
+-%}
+
+{%- capture nr_arrow -%}
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M2.5 8h11M9.5 4l4 4-4 4"/></svg>
+{%- endcapture -%}
+
+<div class="nr-mnav">
+  {%- comment -%} Header: logo · search · close {%- endcomment -%}
+  <div class="nr-mnav__header">
+    <a
+      href="{{ routes.root_url }}"
+      class="nr-mnav__logo"
+    >
+      {%- if settings.logo != blank -%}
+        {{
+          settings.logo
+          | image_url: width: 360
+          | image_tag: loading: 'lazy', alt: shop.name, class: 'nr-mnav__logo-image'
+        }}
+      {%- else -%}
+        {{ shop.name | escape }}
+      {%- endif -%}
+    </a>
+    <div class="nr-mnav__header-actions">
+      <label
+        for="NrMnavSearch"
+        class="nr-mnav__icon-button"
+      >
+        <span class="visually-hidden">{{ 'content.search' | t }}</span>
+        {{- 'icon-search.svg' | inline_asset_content -}}
+      </label>
+      <button
+        class="button button-unstyled close-button nr-mnav__icon-button focus-inset"
+        type="button"
+        aria-label="{{ 'actions.close' | t }}"
+        on:click="header-drawer/close"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Search: plain Shopify search form (/search?q=…) {%- endcomment -%}
+  <form
+    action="{{ routes.search_url }}"
+    method="get"
+    role="search"
+    class="nr-mnav__search"
+  >
+    <span
+      class="nr-mnav__search-icon"
+      aria-hidden="true"
+    >
+      {{- 'icon-search.svg' | inline_asset_content -}}
+    </span>
+    <input
+      id="NrMnavSearch"
+      class="nr-mnav__search-input"
+      type="search"
+      name="q"
+      placeholder="{{ bs.mobile_search_placeholder | default: 'Sök produkter...' | escape }}"
+      aria-label="{{ 'content.search' | t }}"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+      enterkeyhint="search"
+    >
+    <input
+      type="hidden"
+      name="options[prefix]"
+      value="last"
+    >
+  </form>
+
+  {%- comment -%} Feature block → opens the 8-step routine {%- endcomment -%}
+  {%- if show_routine -%}
+    {%- capture feature_summary -%}
+      <span class="nr-mnav__feature-title">{{ heading_html }}</span>
+      {%- if bs.mobile_feature_text != blank -%}
+        <span class="nr-mnav__feature-text">{{ bs.mobile_feature_text | escape }}</span>
+      {%- endif -%}
+      <span class="nr-mnav__feature-foot">
+        <span class="nr-mnav__feature-meta">{{ bs.mobile_feature_meta | escape }}</span>
+        <span class="nr-mnav__go">{{- nr_arrow -}}</span>
+      </span>
+    {%- endcapture -%}
+    {% render 'nr-wash-drawer',
+      block: block,
+      uid: 'main',
+      back_label: menu_label,
+      summary_class: 'nr-mnav__feature',
+      summary_content: feature_summary
+    %}
+  {%- endif -%}
+
+  {%- comment -%} Shoppa: the real top-level menu links {%- endcomment -%}
+  {%- if bs.mobile_shop_label != blank -%}
+    <p class="nr-mnav__label">{{ bs.mobile_shop_label | escape }}</p>
+  {%- endif -%}
+  <ul
+    class="nr-mnav__list"
+    role="list"
+  >
+    {%- for link in linklist.links -%}
+      {%- liquid
+        # "Om oss"-style page links are shown in the utility links below.
+        if link.links == blank and about_url != blank and link.url == about_url
+          continue
+        endif
+
+        assign link_key = link.title | strip | downcase
+        assign row_desc = blank
+        for line in desc_lines
+          assign parts = line | split: '|'
+          assign line_key = parts.first | strip | downcase
+          if parts.size > 1 and line_key == link_key
+            assign row_desc = parts.last | strip
+            break
+          endif
+        endfor
+
+        assign thumb = blank
+        if bs.mobile_show_category_thumbs
+          if link.type == 'collection_link'
+            assign thumb = link.object.featured_image
+          elsif link.type == 'product_link'
+            assign thumb = link.object.featured_image
+          endif
+        endif
+
+        assign is_exterior = false
+        if bs.menu_style == 'curated_products' and exterior_title_key != blank and link_key == exterior_title_key
+          assign is_exterior = true
+        endif
+      -%}
+      {%- capture row_inner -%}
+        {%- if thumb != blank -%}
+          <span class="nr-mnav__thumb">
+            {{- thumb | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' -}}
+          </span>
+        {%- endif -%}
+        <span class="nr-mnav__row-text">
+          <span class="nr-mnav__row-title">{{ link.title | escape }}</span>
+          {%- if row_desc != blank -%}
+            <span class="nr-mnav__row-desc">{{ row_desc | escape }}</span>
+          {%- endif -%}
+        </span>
+        <span class="nr-mnav__arrow">{{- nr_arrow -}}</span>
+      {%- endcapture -%}
+      {%- capture row_class -%}
+        nr-mnav__row{% if thumb == blank %} nr-mnav__row--no-thumb{% endif %}
+      {%- endcapture -%}
+
+      <li>
+        {%- if link.links != blank -%}
+          <details id="Details-nr-mnav-{{ link.handle }}">
+            <summary
+              id="NrMnav-{{ link.handle }}"
+              class="{{ row_class }}"
+              on:click="header-drawer/open/submenu"
+            >
+              {{- row_inner -}}
+            </summary>
+            <div
+              id="NrMnavPanel-{{ link.handle }}"
+              class="menu-drawer__submenu has-submenu nr-mnav__panel"
+              tabindex="-1"
+            >
+              <div class="menu-drawer__inner-submenu nr-mnav__panel-inner">
+                {% render 'nr-mobile-nav-bar', back_label: menu_label %}
+
+                <div class="nr-mnav__hero">
+                  <h2 class="nr-mnav__title">{{ link.title | escape }}</h2>
+                  {%- liquid
+                    if is_exterior
+                      assign hero_text = bs.mobile_feature_text
+                    else
+                      assign hero_text = row_desc
+                    endif
+                  -%}
+                  {%- if hero_text != blank -%}
+                    <p class="nr-mnav__hero-text">{{ hero_text | escape }}</p>
+                  {%- endif -%}
+                </div>
+
+                {%- if is_exterior -%}
+                  {%- comment -%} Exteriör: routine CTA · 2-column grid · kit {%- endcomment -%}
+                  {%- capture routine_summary -%}
+                    <span class="nr-mnav__routine-text">
+                      <span class="nr-mnav__routine-title">
+                        {{- bs.exterior_mobile_entry_label | default: heading | escape -}}
+                      </span>
+                      {%- if bs.mobile_feature_meta != blank -%}
+                        <span class="nr-mnav__routine-meta">{{ bs.mobile_feature_meta | escape }}</span>
+                      {%- endif -%}
+                    </span>
+                    <span class="nr-mnav__go">{{- nr_arrow -}}</span>
+                  {%- endcapture -%}
+                  {% render 'nr-wash-drawer',
+                    block: block,
+                    uid: link.handle,
+                    back_label: link.title,
+                    summary_class: 'nr-mnav__routine',
+                    summary_content: routine_summary
+                  %}
+
+                  <ul
+                    class="nr-mnav__grid"
+                    role="list"
+                  >
+                    {%- for i in (1..8) -%}
+                      {%- liquid
+                        case i
+                          when 1
+                            assign tile_product = bs.exterior_step_1_product
+                            assign tile_name = bs.exterior_step_1_name
+                            assign tile_label = bs.exterior_step_1_grid_label | default: bs.exterior_step_1_nav_label
+                          when 2
+                            assign tile_product = bs.exterior_step_2_product
+                            assign tile_name = bs.exterior_step_2_name
+                            assign tile_label = bs.exterior_step_2_grid_label | default: bs.exterior_step_2_nav_label
+                          when 3
+                            assign tile_product = bs.exterior_step_3_product
+                            assign tile_name = bs.exterior_step_3_name
+                            assign tile_label = bs.exterior_step_3_grid_label | default: bs.exterior_step_3_nav_label
+                          when 4
+                            assign tile_product = bs.exterior_step_4_product
+                            assign tile_name = bs.exterior_step_4_name
+                            assign tile_label = bs.exterior_step_4_grid_label | default: bs.exterior_step_4_nav_label
+                          when 5
+                            assign tile_product = bs.exterior_step_5_product
+                            assign tile_name = bs.exterior_step_5_name
+                            assign tile_label = bs.exterior_step_5_grid_label | default: bs.exterior_step_5_nav_label
+                          when 6
+                            assign tile_product = bs.exterior_step_6_product
+                            assign tile_name = bs.exterior_step_6_name
+                            assign tile_label = bs.exterior_step_6_grid_label | default: bs.exterior_step_6_nav_label
+                          when 7
+                            assign tile_product = bs.exterior_step_7_product
+                            assign tile_name = bs.exterior_step_7_name
+                            assign tile_label = bs.exterior_step_7_grid_label | default: bs.exterior_step_7_nav_label
+                          when 8
+                            assign tile_product = bs.exterior_step_8_product
+                            assign tile_name = bs.exterior_step_8_name
+                            assign tile_label = bs.exterior_step_8_grid_label | default: bs.exterior_step_8_nav_label
+                        endcase
+                        if tile_product != blank and tile_product.url == blank
+                          assign tile_product = all_products[tile_product]
+                        endif
+                      -%}
+                      {%- if tile_product != blank and tile_product.url != blank -%}
+                        <li>
+                          <a
+                            href="{{ tile_product.url }}"
+                            class="nr-mnav__tile"
+                          >
+                            <span class="nr-mnav__tile-label">{{ tile_label | default: tile_product.title | escape }}</span>
+                            <span class="nr-mnav__tile-foot">
+                              <span class="nr-mnav__tile-name">{{ tile_name | default: tile_product.title | escape }}</span>
+                              <span class="nr-mnav__arrow">{{- nr_arrow -}}</span>
+                            </span>
+                          </a>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+
+                  <a
+                    href="{{ bs.exterior_view_all_url | default: link.url }}"
+                    class="nr-mnav__view-all"
+                  >
+                    <span>{{ bs.exterior_view_all_label | default: 'Alla produkter' | escape }}</span>
+                    <span class="nr-mnav__arrow">{{- nr_arrow -}}</span>
+                  </a>
+
+                  {%- liquid
+                    assign kit_product = bs.exterior_promo_product
+                    if kit_product != blank and kit_product.url == blank
+                      assign kit_product = all_products[kit_product]
+                    endif
+                  -%}
+                  {%- if kit_product != blank and kit_product.url != blank -%}
+                    <a
+                      href="{{ kit_product.url }}"
+                      class="nr-mnav__kit"
+                    >
+                      {%- if bs.exterior_mobile_kit_eyebrow != blank -%}
+                        <span class="nr-mnav__kit-eyebrow">{{ bs.exterior_mobile_kit_eyebrow | escape }}</span>
+                      {%- endif -%}
+                      <span class="nr-mnav__kit-title">
+                        {{- bs.exterior_promo_heading | default: kit_product.title | escape -}}
+                      </span>
+                      {%- liquid
+                        assign kit_text = bs.exterior_mobile_cta_text | default: bs.exterior_promo_text
+                      -%}
+                      {%- if kit_text != blank -%}
+                        <span class="nr-mnav__kit-text">{{ kit_text | escape }}</span>
+                      {%- endif -%}
+                      <span class="nr-mnav__kit-button">
+                        <span>{{ bs.exterior_promo_button_label | default: 'Se paketet' | escape }}</span>
+                        {{- nr_arrow -}}
+                      </span>
+                    </a>
+                  {%- endif -%}
+                {%- else -%}
+                  {%- comment -%} Other categories: "Visa alla" + the menu's own child links {%- endcomment -%}
+                  <ul
+                    class="nr-mnav__sublist"
+                    role="list"
+                  >
+                    <li>
+                      <a
+                        href="{{ link.url }}"
+                        class="nr-mnav__subrow nr-mnav__subrow--all"
+                      >
+                        <span>{{ bs.mobile_view_all_label | default: 'Visa alla' | escape }}</span>
+                        <span class="nr-mnav__arrow">{{- nr_arrow -}}</span>
+                      </a>
+                    </li>
+                    {%- for childlink in link.links -%}
+                      <li>
+                        <a
+                          href="{{ childlink.url }}"
+                          class="nr-mnav__subrow"
+                          {% if childlink.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          <span>{{ childlink.title | escape }}</span>
+                          <span class="nr-mnav__arrow">{{- nr_arrow -}}</span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+            </div>
+          </details>
+        {%- else -%}
+          <a
+            href="{{ link.url }}"
+            class="{{ row_class }}"
+            {% if link.current %}
+              aria-current="page"
+            {% endif %}
+          >
+            {{- row_inner -}}
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  {%- comment -%} Populärt just nu: max two real products {%- endcomment -%}
+  {%- capture popular_rows -%}
+    {%- for i in (1..2) -%}
+      {%- liquid
+        if i == 1
+          assign pp = bs.mobile_popular_product_1 | default: bs.exterior_step_1_product
+        else
+          assign pp = bs.mobile_popular_product_2 | default: bs.exterior_step_2_product
+        endif
+        if pp != blank and pp.url == blank
+          assign pp = all_products[pp]
+        endif
+      -%}
+      {%- if pp != blank and pp.url != blank -%}
+        {%- liquid
+          assign title_parts = pp.title | split: ' – '
+          assign pp_name = title_parts.first | strip
+          assign pp_sub = blank
+          if title_parts.size > 1
+            assign pp_sub = title_parts.last | strip
+          endif
+        -%}
+        <li>
+          <a
+            href="{{ pp.url }}"
+            class="nr-mnav__product"
+          >
+            <span class="nr-mnav__product-media">
+              {%- if pp.featured_image != blank -%}
+                {{- pp.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: '' -}}
+              {%- endif -%}
+            </span>
+            <span class="nr-mnav__row-text">
+              <span class="nr-mnav__product-name">{{ pp_name | escape }}</span>
+              {%- if pp_sub != blank -%}
+                <span class="nr-mnav__row-desc">{{ pp_sub | escape }}</span>
+              {%- endif -%}
+            </span>
+            <span class="nr-mnav__product-price">
+              {%- if pp.price_varies -%}Från {% endif -%}
+              {{- pp.price | money_without_trailing_zeros -}}
+            </span>
+            <span class="nr-mnav__arrow">{{- nr_arrow -}}</span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if popular_rows != blank -%}
+    {%- if bs.mobile_popular_label != blank -%}
+      <p class="nr-mnav__label">{{ bs.mobile_popular_label | escape }}</p>
+    {%- endif -%}
+    <ul
+      class="nr-mnav__list"
+      role="list"
+    >
+      {{ popular_rows }}
+    </ul>
+  {%- endif -%}
+
+  {%- comment -%} Trust strip {%- endcomment -%}
+  {%- if bs.mobile_trust_1 != blank or bs.mobile_trust_2 != blank or bs.mobile_trust_3 != blank -%}
+    <ul
+      class="nr-mnav__trust"
+      role="list"
+    >
+      {%- if bs.mobile_trust_1 != blank -%}
+        <li>
+          {%- if bs.mobile_trust_show_stars -%}
+            <span
+              class="nr-mnav__stars"
+              aria-hidden="true"
+            >
+              {%- for s in (1..5) -%}
+                <svg viewBox="0 0 12 12" focusable="false"><path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/></svg>
+              {%- endfor -%}
+            </span>
+          {%- endif -%}
+          <span>{{ bs.mobile_trust_1 | escape }}</span>
+        </li>
+      {%- endif -%}
+      {%- if bs.mobile_trust_2 != blank -%}
+        <li>
+          <svg class="nr-mnav__trust-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M1.5 4.5h8v6h-8zM9.5 6.5h2.7l2.3 2.3v1.7h-5"/><circle cx="4.2" cy="11.8" r="1.2"/><circle cx="11.8" cy="11.8" r="1.2"/></svg>
+          <span>{{ bs.mobile_trust_2 | escape }}</span>
+        </li>
+      {%- endif -%}
+      {%- if bs.mobile_trust_3 != blank -%}
+        <li>
+          <svg class="nr-mnav__trust-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.8V8l2.2 1.4"/></svg>
+          <span>{{ bs.mobile_trust_3 | escape }}</span>
+        </li>
+      {%- endif -%}
+    </ul>
+  {%- endif -%}
+
+  {%- comment -%} Utility links {%- endcomment -%}
+  <ul
+    class="nr-mnav__utility"
+    role="list"
+  >
+    {%- if shop.customer_accounts_enabled -%}
+      <li>
+        <button
+          type="button"
+          class="nr-mnav__utility-link"
+          data-nr-account-trigger
+          aria-haspopup="dialog"
+          aria-controls="nr-account"
+        >
+          {{- bs.mobile_account_label | default: 'Konto' | escape -}}
+        </button>
+      </li>
+    {%- endif -%}
+    {%- if bs.mobile_contact_page != blank -%}
+      <li>
+        <a
+          href="{{ bs.mobile_contact_page.url }}"
+          class="nr-mnav__utility-link"
+        >
+          {{- bs.mobile_contact_label | default: bs.mobile_contact_page.title | escape -}}
+        </a>
+      </li>
+    {%- endif -%}
+    {%- if bs.mobile_about_page != blank -%}
+      <li>
+        <a
+          href="{{ bs.mobile_about_page.url }}"
+          class="nr-mnav__utility-link"
+        >
+          {{- bs.mobile_about_label | default: bs.mobile_about_page.title | escape -}}
+        </a>
+      </li>
+    {%- endif -%}
+  </ul>
+</div>
+
+{% stylesheet %}
+  /* Desktop / tablet: never shown — the original drawer markup is used. */
+  @media screen and (min-width: 750px) {
+    .nr-mnav {
+      display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* ---------- Drawer shell: full width, native feel ---------- */
+    .header-drawer .menu-drawer {
+      width: 100vw;
+      max-width: 100vw;
+      border-right: 0;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+    }
+
+    /* While a panel is open the drawer itself must not scroll (panels are
+       positioned against it). Same idea as Horizon's own
+       .menu-drawer--has-submenu-opened, but also correct for panels nested
+       inside panels (Exteriör → routine). */
+    .header-drawer .menu-drawer:has(.nr-mnav details.menu-open) {
+      overflow: clip;
+    }
+
+    /* The default Horizon drawer content is replaced by .nr-mnav on mobile. */
+    .menu-drawer > .menu-drawer__topbar,
+    .menu-drawer > .menu-drawer__navigation,
+    .menu-drawer > .menu-drawer__quick-actions,
+    .menu-drawer > .menu-drawer__featured-content,
+    .menu-drawer > .menu-drawer__utility-links:not(:has(*)) {
+      display: none;
+    }
+
+    .nr-mnav {
+      --nr-pad: 20px;
+      --nr-ink: var(--color-foreground);
+      --nr-muted: rgb(var(--color-foreground-rgb) / 0.56);
+      --nr-faint: rgb(var(--color-foreground-rgb) / 0.42);
+      --nr-line: rgb(var(--color-foreground-rgb) / 0.08);
+      --nr-fill: rgb(var(--color-foreground-rgb) / 0.045);
+      --nr-dark: #141517;
+      --nr-ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+      display: flex;
+      flex: 1 0 auto;
+      flex-direction: column;
+      padding-block-end: max(28px, env(safe-area-inset-bottom));
+      font-family: var(--font-body--family);
+      color: var(--nr-ink);
+      white-space: normal;
+    }
+
+    .nr-mnav summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .nr-mnav summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .nr-mnav a,
+    .nr-mnav summary,
+    .nr-mnav button,
+    .nr-mnav label {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nr-mnav a:focus-visible,
+    .nr-mnav summary:focus-visible,
+    .nr-mnav button:focus-visible,
+    .nr-mnav__search-input:focus-visible {
+      outline: 2px solid var(--nr-ink);
+      outline-offset: 2px;
+    }
+
+    .nr-mnav .nr-mnav__arrow {
+      display: inline-flex;
+      flex-shrink: 0;
+      color: rgb(var(--color-foreground-rgb) / 0.35);
+    }
+
+    .nr-mnav .nr-mnav__arrow svg,
+    .nr-mnav .nr-mnav__go svg,
+    .nr-mnav .nr-mnav__kit-button svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* ---------- Header ---------- */
+    .nr-mnav__header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 60px;
+      padding-inline: var(--nr-pad) 8px;
+      background-color: var(--color-background);
+    }
+
+    .nr-mnav__logo {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      font-family: var(--font-heading--family);
+      font-size: 16px;
+      font-weight: 650;
+      letter-spacing: 0.01em;
+      color: var(--nr-ink);
+      text-decoration: none;
+    }
+
+    .nr-mnav__logo-image {
+      display: block;
+      width: auto;
+      height: 22px;
+      max-width: 60vw;
+      object-fit: contain;
+    }
+
+    .nr-mnav__header-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .nr-mnav .nr-mnav__icon-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      padding: 0;
+      margin: 0;
+      color: var(--nr-ink);
+      background: none;
+      border: 0;
+      box-shadow: none;
+      cursor: pointer;
+    }
+
+    .nr-mnav .nr-mnav__icon-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ---------- Search ---------- */
+    .nr-mnav__search {
+      position: relative;
+      margin: 4px var(--nr-pad) 0;
+    }
+
+    .nr-mnav .nr-mnav__search-icon {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      display: inline-flex;
+      color: var(--nr-muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .nr-mnav .nr-mnav__search-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .nr-mnav .nr-mnav__search-input {
+      display: block;
+      width: 100%;
+      height: 48px;
+      margin: 0;
+      padding: 0 16px 0 42px;
+      border: 0;
+      border-radius: 12px;
+      background-color: var(--nr-fill);
+      box-shadow: none;
+      font-family: var(--font-body--family);
+      font-size: 16px; /* ≥16px: no iOS zoom on focus */
+      color: var(--nr-ink);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .nr-mnav .nr-mnav__search-input::placeholder {
+      color: var(--nr-muted);
+      opacity: 1;
+    }
+
+    .nr-mnav .nr-mnav__search-input::-webkit-search-decoration,
+    .nr-mnav .nr-mnav__search-input::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+
+    /* ---------- Feature block (dark) ---------- */
+    .nr-mnav > .nr-wash-drawer {
+      margin: 16px var(--nr-pad) 0;
+    }
+
+    .nr-mnav__feature,
+    .nr-mnav__routine {
+      color: #fff;
+      background-color: var(--nr-dark);
+      background-image: radial-gradient(120% 140% at 100% 0%, rgb(255 255 255 / 0.13) 0%, rgb(255 255 255 / 0) 55%);
+      transition: opacity 160ms ease;
+    }
+
+    .nr-mnav__feature:active,
+    .nr-mnav__routine:active {
+      opacity: 0.9;
+    }
+
+    .nr-mnav__feature {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 20px 18px;
+      border-radius: 16px;
+    }
+
+    .nr-mnav__feature-title {
+      text-wrap: balance;
+      font-family: var(--font-heading--family, inherit);
+      font-size: 21px;
+      font-weight: 650;
+      line-height: 1.12;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+
+    .nr-mnav__feature-text {
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: rgb(255 255 255 / 0.72);
+    }
+
+    .nr-mnav__feature-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .nr-mnav__feature-meta,
+    .nr-mnav__routine-meta {
+      font-size: 12.5px;
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+      color: rgb(255 255 255 / 0.56);
+    }
+
+    .nr-mnav .nr-mnav__go {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: rgb(255 255 255 / 0.12);
+      color: #fff;
+    }
+
+    /* ---------- Section labels ---------- */
+    .nr-mnav__label {
+      margin: 30px var(--nr-pad) 2px;
+      font-size: 11.5px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--nr-faint);
+    }
+
+    /* ---------- Rows (categories + popular products) ---------- */
+    .nr-mnav__list {
+      list-style: none;
+      margin: 0;
+      padding: 0 var(--nr-pad);
+    }
+
+    .nr-mnav__list > li + li {
+      border-top: 1px solid var(--nr-line);
+    }
+
+    .nr-mnav__row,
+    .nr-mnav__product {
+      display: grid;
+      align-items: center;
+      column-gap: 14px;
+      min-height: 68px;
+      padding-block: 12px;
+      color: var(--nr-ink);
+      text-decoration: none;
+    }
+
+    .nr-mnav__row {
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+    }
+
+    .nr-mnav__row--no-thumb {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .nr-mnav__thumb,
+    .nr-mnav__product-media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-color: var(--nr-fill);
+    }
+
+    .nr-mnav__thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+    }
+
+    .nr-mnav__thumb img,
+    .nr-mnav__product-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 4px;
+      object-fit: contain;
+      box-sizing: border-box;
+    }
+
+    .nr-mnav__row-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .nr-mnav__row-title {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.005em;
+      overflow-wrap: break-word;
+    }
+
+    .nr-mnav__row-desc {
+      font-size: 13.5px;
+      line-height: 1.35;
+      color: var(--nr-muted);
+      overflow-wrap: break-word;
+    }
+
+    .nr-mnav__row:active .nr-mnav__row-title,
+    .nr-mnav__product:active .nr-mnav__product-name {
+      opacity: 0.6;
+    }
+
+    .nr-mnav__product {
+      grid-template-columns: 52px minmax(0, 1fr) auto auto;
+      min-height: 72px;
+      padding-block: 10px;
+    }
+
+    .nr-mnav__product-media {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+    }
+
+    .nr-mnav__product-name {
+      font-size: 15.5px;
+      font-weight: 600;
+      line-height: 1.25;
+      overflow-wrap: break-word;
+    }
+
+    .nr-mnav__product-price {
+      font-size: 14.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ---------- Trust strip ---------- */
+    .nr-mnav__trust {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+      margin: 28px var(--nr-pad) 0;
+      padding: 18px 0 0;
+      border-top: 1px solid var(--nr-line);
+    }
+
+    .nr-mnav__trust li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      line-height: 1.35;
+      color: var(--nr-muted);
+    }
+
+    .nr-mnav .nr-mnav__stars {
+      display: inline-flex;
+      flex-shrink: 0;
+      gap: 1px;
+      color: var(--nr-ink);
+    }
+
+    .nr-mnav .nr-mnav__stars svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .nr-mnav .nr-mnav__trust-icon {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      color: rgb(var(--color-foreground-rgb) / 0.62);
+    }
+
+    /* ---------- Utility links ---------- */
+    .nr-mnav__utility {
+      list-style: none;
+      margin: 22px var(--nr-pad) 0;
+      padding: 10px 0 0;
+      border-top: 1px solid var(--nr-line);
+    }
+
+    .nr-mnav .nr-mnav__utility-link {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      background: none;
+      box-shadow: none;
+      font-family: var(--font-body--family);
+      font-size: 14.5px;
+      font-weight: 400;
+      text-align: left;
+      color: rgb(var(--color-foreground-rgb) / 0.72);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* ---------- Slide-in panels (Horizon .menu-drawer__submenu) ---------- */
+    .nr-mnav .nr-mnav__panel {
+      opacity: 1;
+      transform: translateX(100%);
+      background-color: var(--color-background);
+    }
+
+    .nr-mnav details[open] > .nr-mnav__panel {
+      transition: transform 280ms var(--nr-ease), visibility 280ms linear;
+    }
+
+    .nr-mnav .nr-mnav__panel-inner {
+      padding-block-end: max(32px, env(safe-area-inset-bottom));
+      overscroll-behavior: contain;
+    }
+
+    .nr-mnav .nr-mnav__bar {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      flex-shrink: 0;
+      gap: 12px;
+      min-height: 60px;
+      padding-inline: var(--nr-pad) 8px;
+      background-color: var(--color-background);
+      border-bottom: 1px solid var(--nr-line);
+    }
+
+    .nr-mnav .nr-mnav__back {
+      flex: 0 1 auto;
+      gap: 10px;
+      width: auto;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 8px 0 0;
+      font-family: var(--font-body--family);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--nr-ink);
+    }
+
+    .nr-mnav .nr-mnav__back-icon {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+    }
+
+    .nr-mnav__hero {
+      padding: 24px var(--nr-pad) 0;
+    }
+
+    .nr-mnav__title {
+      margin: 0;
+      font-family: var(--font-heading--family, inherit);
+      font-size: 30px;
+      font-weight: 650;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--nr-ink);
+    }
+
+    .nr-mnav__hero-text {
+      margin: 8px 0 0;
+      font-size: 14.5px;
+      line-height: 1.45;
+      color: var(--nr-muted);
+    }
+
+    /* Exteriör: routine CTA */
+    .nr-mnav__panel .nr-wash-drawer {
+      margin: 20px var(--nr-pad) 0;
+    }
+
+    .nr-mnav__routine {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 64px;
+      padding: 14px 14px 14px 18px;
+      border-radius: 14px;
+    }
+
+    .nr-mnav__routine-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .nr-mnav__routine-title {
+      text-wrap: balance;
+      font-size: 14.5px;
+      font-weight: 650;
+      line-height: 1.25;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* Exteriör: 2-column grid */
+    .nr-mnav__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      list-style: none;
+      margin: 12px var(--nr-pad) 0;
+      padding: 0;
+    }
+
+    .nr-mnav__tile {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      height: 100%;
+      min-height: 76px;
+      padding: 14px 12px 12px 14px;
+      border-radius: 12px;
+      background-color: var(--nr-fill);
+      color: var(--nr-ink);
+      text-decoration: none;
+      box-sizing: border-box;
+      transition: background-color 160ms ease;
+    }
+
+    .nr-mnav__tile:active {
+      background-color: rgb(var(--color-foreground-rgb) / 0.08);
+    }
+
+    .nr-mnav__tile-label {
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.25;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+
+    .nr-mnav__tile-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .nr-mnav__tile-name {
+      min-width: 0;
+      font-size: 13.5px;
+      line-height: 1.3;
+      color: var(--nr-muted);
+      overflow-wrap: anywhere;
+    }
+
+    .nr-mnav .nr-mnav__tile .nr-mnav__arrow svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .nr-mnav__view-all {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      margin: 6px var(--nr-pad) 0;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--nr-ink);
+      text-decoration: none;
+    }
+
+    /* Kit CTA (Exteriör panel + routine view) */
+    .nr-mnav__kit {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 20px var(--nr-pad) 0;
+      padding: 18px;
+      border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+      border-radius: 14px;
+      color: var(--nr-ink);
+      text-decoration: none;
+    }
+
+    .nr-wash-drawer__steps + .nr-mnav__kit {
+      margin-top: 28px;
+    }
+
+    .nr-mnav__kit-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--nr-faint);
+    }
+
+    .nr-mnav__kit-title {
+      margin-top: 8px;
+      font-size: 17px;
+      font-weight: 650;
+      line-height: 1.25;
+    }
+
+    .nr-mnav__kit-text {
+      margin-top: 4px;
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: var(--nr-muted);
+    }
+
+    .nr-mnav__kit-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      margin-top: 14px;
+      padding-inline: 18px;
+      border-radius: 10px;
+      background-color: var(--nr-dark);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: opacity 160ms ease;
+    }
+
+    .nr-mnav__kit:active .nr-mnav__kit-button {
+      opacity: 0.85;
+    }
+
+    /* Other categories: sub-list */
+    .nr-mnav__sublist {
+      list-style: none;
+      margin: 16px var(--nr-pad) 0;
+      padding: 0;
+    }
+
+    .nr-mnav__sublist > li + li {
+      border-top: 1px solid var(--nr-line);
+    }
+
+    .nr-mnav__subrow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 54px;
+      padding-block: 12px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: var(--nr-ink);
+      text-decoration: none;
+    }
+
+    .nr-mnav__subrow--all {
+      font-weight: 650;
+    }
+
+    .nr-mnav__subrow:active > span:first-child {
+      opacity: 0.6;
+    }
+  }
+
+  @media screen and (max-width: 349px) {
+    .nr-mnav {
+      --nr-pad: 16px;
+    }
+
+    .nr-mnav__tile {
+      padding-inline: 12px 10px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nr-mnav details[open] > .nr-mnav__panel,
+    .nr-mnav__feature,
+    .nr-mnav__routine,
+    .nr-mnav__tile,
+    .nr-mnav__kit-button {
+      transition: none !important;
+    }
+  }
+{% endstylesheet %}

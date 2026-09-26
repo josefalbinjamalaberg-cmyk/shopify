@@ -1,0 +1,264 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "nr_header_assets": {
+      "type": "nr-header-assets",
+      "settings": {}
+    },
+    "nr_announcement_bar": {
+      "type": "header-announcements",
+      "blocks": {
+        "announcement_qcKqkp": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "Leverans inom 1–3 arbetsdagar",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        },
+        "announcement_1": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Fri frakt över 799kr",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
+            "weight": "500",
+            "letter_spacing": "loose",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        },
+        "announcement_Ue4Bzj": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "4.7 / 5 på Trustpilot",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "announcement_qcKqkp",
+        "announcement_1",
+        "announcement_Ue4Bzj"
+      ],
+      "settings": {
+        "speed": 2,
+        "section_width": "full-width",
+        "background_color": "{{ settings.color_palette.foreground }}",
+        "divider_width": 0,
+        "divider_color": "",
+        "padding-block-start": 10,
+        "padding-block-end": 10
+      }
+    },
+    "main_header": {
+      "type": "header",
+      "blocks": {
+        "header-logo": {
+          "type": "_header-logo",
+          "static": true,
+          "settings": {
+            "hide_logo_on_home_page": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "header-menu": {
+          "type": "_header-menu",
+          "static": true,
+          "settings": {
+            "menu": "main-menu",
+            "background_color": "",
+            "text_color": "",
+            "type_font_primary_size": "0.9375rem",
+            "menu_font_style": "inverse",
+            "type_font_primary_link": "body",
+            "type_case_primary_link": "none",
+            "menu_style": "curated_products",
+            "featured_products_aspect_ratio": "4 / 5",
+            "featured_collections_aspect_ratio": "16 / 9",
+            "image_border_radius": 4,
+            "exterior_menu_title": "Exteriör",
+            "exterior_panel_heading": "Tvätta bilen steg för steg",
+            "exterior_panel_subheading": "Förstå rätt ordning för en enklare tvättrutin.",
+            "exterior_view_all_url": "/collections/exterior",
+            "exterior_view_all_label": "Alla produkter",
+            "exterior_step_1_product": "revolt-flygrostborttagare",
+            "exterior_step_1_name": "Revolt",
+            "exterior_step_1_label": "Flygrost & järn",
+            "exterior_step_1_nav_label": "Flygrost",
+            "exterior_step_2_product": "alkastrike-alkalisk-avfettning",
+            "exterior_step_2_name": "Alkastrike",
+            "exterior_step_2_label": "Alkalisk förtvätt",
+            "exterior_step_2_nav_label": "Alkalisk förtvätt",
+            "exterior_step_3_product": "deepdegrease-kallavfettning",
+            "exterior_step_3_name": "DeepDegrease",
+            "exterior_step_3_label": "Kallavfettning",
+            "exterior_step_3_nav_label": "Kallavfettning",
+            "exterior_step_4_product": "foamtastic-hogkoncentrerat-snow-foam",
+            "exterior_step_4_name": "Foamtastic",
+            "exterior_step_4_label": "Foam & skumtvätt",
+            "exterior_step_4_nav_label": "Foam",
+            "exterior_step_5_product": "pure-shampoo-ph-neutralt-bilschampo",
+            "exterior_step_5_name": "Pure Shampoo",
+            "exterior_step_5_label": "Handtvätt",
+            "exterior_step_5_nav_label": "Schampo",
+            "exterior_step_6_product": "glosscoat-hydrofobisk-sprayforsegling",
+            "exterior_step_6_name": "GlossCoat",
+            "exterior_step_6_label": "Glans & lackskydd",
+            "exterior_step_6_nav_label": "Lackskydd",
+            "exterior_step_7_product": "clarity-glasrengoring",
+            "exterior_step_7_name": "Clarity",
+            "exterior_step_7_label": "Glasrengöring",
+            "exterior_step_7_nav_label": "Glas",
+            "exterior_step_8_product": "pristine-dack-plastfornyare",
+            "exterior_step_8_name": "Pristine",
+            "exterior_step_8_label": "Däck & finish",
+            "exterior_step_8_nav_label": "Däck & finish",
+            "exterior_promo_badge": "Rekommenderat",
+            "exterior_promo_product": "exterior-komplett-kit",
+            "exterior_promo_heading": "Exteriör Komplett Kit",
+            "exterior_promo_text": "Allt för en komplett exteriörtvätt.",
+            "exterior_promo_button_label": "Se paketet",
+            "mobile_popular_product_1": "revolt-flygrostborttagare",
+            "mobile_popular_product_2": "alkastrike-alkalisk-avfettning",
+            "mobile_contact_page": "contact",
+            "mobile_about_page": "om-oss",
+            "interior_menu_title": "Interiör",
+            "interior_product_1": "core-apc-allrengoring",
+            "interior_product_1_tag": "Allrengöring",
+            "interior_product_2": "scrub-pad-interior",
+            "interior_product_2_tag": "Rengöringsverktyg",
+            "interior_view_all_url": "/collections/interior",
+            "interior_view_all_label": "Visa alla interiörprodukter",
+            "accessory_menu_title": "Tillbehör",
+            "accessory_product_1": "tvatthink-20l-grit-guard",
+            "accessory_product_1_tag": "20L Grit Guard-hink",
+            "accessory_product_2": "foam-lance-skumlans",
+            "accessory_product_2_tag": "Skumlans",
+            "accessory_product_3": "torkduk-70x90-1400gsm",
+            "accessory_product_3_tag": "Torkduk",
+            "accessory_view_all_url": "/collections/accessories",
+            "accessory_view_all_label": "Visa alla tillbehör",
+            "navigation_bar": false,
+            "background_color_navigation_bar": "{{ settings.color_palette.background }}",
+            "text_color_navigation_bar": "",
+            "drawer_accordion": true,
+            "drawer_accordion_expand_first": false,
+            "drawer_dividers": true
+          },
+          "blocks": {}
+        }
+      },
+      "settings": {
+        "logo_position": "left",
+        "menu_position": "center",
+        "menu_row": "top",
+        "customer_account_menu": "customer-account-main-menu",
+        "show_search": true,
+        "search_position": "right",
+        "search_row": "top",
+        "show_country": false,
+        "country_selector_style": true,
+        "show_language": false,
+        "localization_font": "heading",
+        "localization_font_size": "1rem",
+        "localization_position": "right",
+        "localization_row": "top",
+        "section_width": "page-width",
+        "section_height": "standard",
+        "enable_sticky_header": "always",
+        "divider_width": 0,
+        "divider_size": "page-width",
+        "divider_color": "",
+        "border_width": 1,
+        "bottom_border_color": "",
+        "actions_display_style": "icon",
+        "actions_font_size": "0.875rem",
+        "actions_font": "body",
+        "actions_text_case": "none",
+        "background_color_top": "",
+        "text_color_top": "",
+        "background_color_bottom": "",
+        "text_color_bottom": "",
+        "bubble_style": "custom",
+        "bubble_background_color": "#111111",
+        "bubble_text_color": "#ffffff",
+        "enable_transparent_header_home": true,
+        "home_inverse_logo": true,
+        "text_color_transparent_home": "#ffffff",
+        "enable_transparent_header_product": false,
+        "product_inverse_logo": false,
+        "text_color_transparent_product": "",
+        "enable_transparent_header_collection": false,
+        "collection_inverse_logo": false,
+        "text_color_transparent_collection": ""
+      }
+    },
+    "1786538289a874e9d9": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "nr_header_assets",
+    "nr_announcement_bar",
+    "main_header",
+    "1786538289a874e9d9"
+  ]
+}

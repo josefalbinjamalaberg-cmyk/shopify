@@ -96,6 +96,7 @@
           </span>
         </button>
       </div>
+      {% render 'nr-mobile-nav', linklist: linklist, block: block %}
       <nav
         class="menu-drawer__navigation"
         style="
@@ -167,7 +168,6 @@
                         role="list"
                         tabindex="-1"
                       >
-                        {% render 'nr-wash-drawer', link: link, block: block %}
                         {%- for childlink in link.links -%}
                           <li
                             class="menu-drawer__list-item"
@@ -229,7 +229,6 @@
                     role="list"
                     tabindex="-1"
                   >
-                    {% render 'nr-wash-drawer', link: link, block: block %}
                     {%- for childlink in link.links -%}
                       <li
                         class="menu-drawer__list-item"
@@ -345,7 +344,6 @@
                           role="list"
                           tabindex="-1"
                         >
-                          {% render 'nr-wash-drawer', link: link, block: block %}
                           {% assign first_accordion_open = false -%}
                           {%- for childlink in link.links -%}
                             <li

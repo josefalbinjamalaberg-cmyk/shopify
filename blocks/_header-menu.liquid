@@ -1464,6 +1464,74 @@
       "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
     },
     {
+      "type": "text",
+      "id": "exterior_mobile_kit_eyebrow",
+      "label": "Exteriörpanel – paket, överrubrik",
+      "default": "Hellre allt i ett?",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "paragraph",
+      "content": "Rutnätet i mobilens Exteriör-panel: kategori (här) + produktnamn och länk (från Steg 1–8 ovan).",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_1_grid_label",
+      "label": "Steg 1 – kategori i rutnätet (mobil)",
+      "default": "Flygrost",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_2_grid_label",
+      "label": "Steg 2 – kategori i rutnätet (mobil)",
+      "default": "Alkalisk",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_3_grid_label",
+      "label": "Steg 3 – kategori i rutnätet (mobil)",
+      "default": "Kallavfettning",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_4_grid_label",
+      "label": "Steg 4 – kategori i rutnätet (mobil)",
+      "default": "Foam",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_5_grid_label",
+      "label": "Steg 5 – kategori i rutnätet (mobil)",
+      "default": "Schampo",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_6_grid_label",
+      "label": "Steg 6 – kategori i rutnätet (mobil)",
+      "default": "Lackskydd",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_7_grid_label",
+      "label": "Steg 7 – kategori i rutnätet (mobil)",
+      "default": "Glas",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "exterior_step_8_grid_label",
+      "label": "Steg 8 – kategori i rutnätet (mobil)",
+      "default": "Däck",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
       "type": "header",
       "content": "Utvalda produkter – Interiör",
       "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
@@ -1572,6 +1640,136 @@
       "label": "Text – \"Visa alla\"-länk",
       "default": "Visa alla tillbehör",
       "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobilmeny"
+    },
+    {
+      "type": "paragraph",
+      "content": "Gäller endast mobilmenyn (under 750px). Menyraderna, länkarna och underlänkarna kommer från menyn ovan."
+    },
+    {
+      "type": "text",
+      "id": "mobile_search_placeholder",
+      "label": "Sökfält – platshållare",
+      "default": "Sök produkter..."
+    },
+    {
+      "type": "text",
+      "id": "mobile_feature_text",
+      "label": "Tvättguide-blocket – text",
+      "default": "Från första rengöring till sista finish.",
+      "info": "Visas även under rubriken i Exteriör-panelen."
+    },
+    {
+      "type": "text",
+      "id": "mobile_feature_meta",
+      "label": "Tvättguide-blocket – liten text",
+      "default": "8 steg · Hitta rätt produkt"
+    },
+    {
+      "type": "text",
+      "id": "mobile_menu_label",
+      "label": "Tillbaka-knappens text",
+      "default": "Meny"
+    },
+    {
+      "type": "text",
+      "id": "mobile_shop_label",
+      "label": "Rubrik över kategorierna",
+      "default": "Shoppa"
+    },
+    {
+      "type": "textarea",
+      "id": "mobile_category_descriptions",
+      "label": "Kategoribeskrivningar",
+      "default": "Exteriör | Förtvätt, schampo & skydd\nInteriör | Rengöring & detaljer\nTillbehör | Dukar, borstar & utrustning\nFärdiga paket | Kompletta lösningar",
+      "info": "En rad per menylänk: Menylänkens titel | Beskrivning"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_show_category_thumbs",
+      "label": "Visa miniatyrbild på kategorierna",
+      "default": true,
+      "info": "Samlingens bild, annars dess första produktbild."
+    },
+    {
+      "type": "text",
+      "id": "mobile_view_all_label",
+      "label": "Text – \"Visa alla\" i kategoripanelerna",
+      "default": "Visa alla"
+    },
+    {
+      "type": "text",
+      "id": "mobile_popular_label",
+      "label": "Rubrik – populära produkter",
+      "default": "Populärt just nu"
+    },
+    {
+      "type": "product",
+      "id": "mobile_popular_product_1",
+      "label": "Populär produkt 1",
+      "info": "Tomt = produkten i Steg 1."
+    },
+    {
+      "type": "product",
+      "id": "mobile_popular_product_2",
+      "label": "Populär produkt 2",
+      "info": "Tomt = produkten i Steg 2."
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_trust_show_stars",
+      "label": "Visa stjärnor före förtroendetext 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "mobile_trust_1",
+      "label": "Förtroendetext 1",
+      "default": "4.7/5 på Trustpilot"
+    },
+    {
+      "type": "text",
+      "id": "mobile_trust_2",
+      "label": "Förtroendetext 2",
+      "default": "Fri frakt över 799 kr"
+    },
+    {
+      "type": "text",
+      "id": "mobile_trust_3",
+      "label": "Förtroendetext 3",
+      "default": "Leverans inom 1–3 arbetsdagar"
+    },
+    {
+      "type": "text",
+      "id": "mobile_account_label",
+      "label": "Länktext – konto",
+      "default": "Konto"
+    },
+    {
+      "type": "page",
+      "id": "mobile_contact_page",
+      "label": "Sida – kontakt"
+    },
+    {
+      "type": "text",
+      "id": "mobile_contact_label",
+      "label": "Länktext – kontakt",
+      "default": "Kontakta oss"
+    },
+    {
+      "type": "page",
+      "id": "mobile_about_page",
+      "label": "Sida – om oss",
+      "info": "En menylänk till samma sida visas här i stället för bland kategorierna."
+    },
+    {
+      "type": "text",
+      "id": "mobile_about_label",
+      "label": "Länktext – om oss",
+      "default": "Om NordicReflection"
     },
     {
       "type": "header",

@@ -1,0 +1,39 @@
+{%- doc -%}
+  Sticky top bar for a slide-in panel of the mobile menu (nr-mobile-nav):
+  "← {back_label}" (Horizon's header-drawer/back) and close (header-drawer/close).
+
+  @param {string} back_label - Text shown after the back arrow.
+{%- enddoc -%}
+
+<div class="menu-drawer__nav-buttons nr-mnav__bar">
+  <button
+    class="button menu-drawer__back-button nr-mnav__back focus-inset"
+    type="button"
+    on:click="header-drawer/back"
+    aria-label="{{ 'actions.back_to' | t: title: back_label }}"
+  >
+    <svg
+      class="nr-mnav__back-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      focusable="false"
+      aria-hidden="true"
+    >
+      <path d="M13.5 8h-11M6.5 4l-4 4 4 4"/>
+    </svg>
+    <span>{{ back_label | escape }}</span>
+  </button>
+  <button
+    class="button button-unstyled close-button nr-mnav__icon-button focus-inset"
+    type="button"
+    aria-label="{{ 'actions.close' | t }}"
+    on:click="header-drawer/close"
+  >
+    {{- 'icon-close.svg' | inline_asset_content -}}
+  </button>
+</div>
