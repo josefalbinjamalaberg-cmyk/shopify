@@ -1,0 +1,140 @@
+{% comment %}
+  "Featured products" — reuses the theme's native product-card block (same
+  component used on collection pages) so cards stay visually and
+  functionally consistent with the rest of the store, wrapped in the
+  NordicReflection heading/grid shell.
+{% endcomment %}
+
+<div data-nr-scope class="nr-section nr-section--soft nr-featured-products">
+  <div class="nr-container">
+    <div class="nr-section-head" data-nr-reveal>
+      {%- if section.settings.heading != blank -%}
+        <h2 class="nr-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="nr-body nr-body--muted">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="nr-grid nr-grid--4 nr-featured-products__grid" data-nr-reveal>
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .nr-featured-products__grid .product-card {
+    --product-card-gap: 8px;
+  }
+
+  .nr-featured-products__grid .card-gallery {
+    border-radius: var(--nr-radius-md);
+    overflow: hidden;
+    background: var(--nr-surface);
+  }
+
+  /* Mobile only: swipeable carousel instead of a stacked column.
+     749px matches this theme's own mobile/desktop split (see .size-style
+     in base.css and .nr-container above) so tablet layout is untouched. */
+  @media screen and (max-width: 749px) {
+    /* .nr-grid.nr-featured-products__grid (not just the single class) so this
+       reliably beats the plain, unconditional `.nr-grid { display: grid }`
+       rule in nr-homepage.css regardless of stylesheet load order. */
+    .nr-grid.nr-featured-products__grid {
+      display: flex;
+      grid-template-columns: none;
+      flex-wrap: nowrap;
+      gap: var(--nr-space-sm);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline-start: var(--nr-space-sm);
+      -webkit-overflow-scrolling: touch;
+      margin-inline: calc(var(--nr-space-sm) * -1);
+      padding-inline: var(--nr-space-sm);
+      padding-block-end: 4px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .nr-grid.nr-featured-products__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nr-grid.nr-featured-products__grid > product-card {
+      flex: 0 0 auto;
+      width: 76%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Utvalda produkter",
+  "tag": "section",
+  "max_blocks": 4,
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Produkter att börja med"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Ingress",
+      "default": "Ett noggrant utvalt sortiment för en komplett och effektiv tvättrutin."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Utvalda produkter",
+      "blocks": [
+        {
+          "type": "product-card",
+          "settings": { "product_card_gap": 8 },
+          "blocks": [
+            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
+            { "type": "product-title" },
+            { "type": "price" }
+          ]
+        },
+        {
+          "type": "product-card",
+          "settings": { "product_card_gap": 8 },
+          "blocks": [
+            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
+            { "type": "product-title" },
+            { "type": "price" }
+          ]
+        },
+        {
+          "type": "product-card",
+          "settings": { "product_card_gap": 8 },
+          "blocks": [
+            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
+            { "type": "product-title" },
+            { "type": "price" }
+          ]
+        },
+        {
+          "type": "product-card",
+          "settings": { "product_card_gap": 8 },
+          "blocks": [
+            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
+            { "type": "product-title" },
+            { "type": "price" }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
