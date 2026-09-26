@@ -3270,9 +3270,9 @@
         "rec_1": {
           "type": "alkastrike-product-tile",
           "settings": {
-            "product": "glosscoat-hydrofobisk-sprayforsegling",
+            "product": "tryckspruta-2l-kemikalieresistent",
             "heading_override": "",
-            "description": "Jämnare applicering av Alkastrike.",
+            "description": "För jämn applicering av Alkastrike.",
             "badge_text": "",
             "cta_text": "Visa produkt",
             "show_price": false,
@@ -3288,7 +3288,7 @@
         "rec_2": {
           "type": "alkastrike-product-tile",
           "settings": {
-            "product": "clarity-glasrengoring",
+            "product": "deepdegrease-kallavfettning",
             "heading_override": "",
             "description": "För asfalt, tjära och oljebaserad smuts.",
             "badge_text": "",
@@ -3306,9 +3306,9 @@
         "rec_3": {
           "type": "alkastrike-product-tile",
           "settings": {
-            "product": "core-apc-allrengoring",
+            "product": "foamtastic-hogkoncentrerat-snow-foam",
             "heading_override": "",
-            "description": "Skumförtvätt efter Alkastrike.",
+            "description": "Skumförtvätt före handtvätten.",
             "badge_text": "",
             "cta_text": "Visa produkt",
             "show_price": false,
@@ -3324,9 +3324,9 @@
         "rec_4": {
           "type": "alkastrike-product-tile",
           "settings": {
-            "product": "foamtastic-hogkoncentrerat-snow-foam",
+            "product": "pure-shampoo-ph-neutralt-bilschampo",
             "heading_override": "",
-            "description": "Skonsam kontaktvätt som nästa steg.",
+            "description": "Bilschampo för kontaktvätten efter förtvätt.",
             "badge_text": "",
             "cta_text": "Visa produkt",
             "show_price": false,
