@@ -210,7 +210,7 @@
                   <h2 class="nr-mnav__title">{{ link.title | escape }}</h2>
                   {%- liquid
                     if is_exterior
-                      assign hero_text = bs.mobile_feature_text
+                      assign hero_text = bs.mobile_exterior_hero_text | default: bs.mobile_feature_text
                     else
                       assign hero_text = row_desc
                     endif
@@ -820,8 +820,8 @@
       display: grid;
       align-items: center;
       column-gap: 14px;
-      min-height: 68px;
-      padding-block: 12px;
+      min-height: 56px;
+      padding-block: 9px;
       color: var(--nr-ink);
       text-decoration: none;
     }
@@ -867,11 +867,13 @@
     }
 
     .nr-mnav__row-title {
-      font-size: 17px;
+      overflow: hidden;
+      font-size: 16.5px;
       font-weight: 600;
       line-height: 1.25;
       letter-spacing: -0.005em;
-      overflow-wrap: break-word;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .nr-mnav__row-desc {
@@ -887,14 +889,14 @@
     }
 
     .nr-mnav__product {
-      grid-template-columns: 52px minmax(0, 1fr) auto auto;
-      min-height: 72px;
+      grid-template-columns: 44px minmax(0, 1fr) auto auto;
+      min-height: 64px;
       padding-block: 10px;
     }
 
     .nr-mnav__product-media {
-      width: 52px;
-      height: 52px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
     }
 
@@ -916,10 +918,10 @@
     .nr-mnav__trust {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       list-style: none;
       margin: 28px var(--nr-pad) 0;
-      padding: 18px 0 0;
+      padding: 16px 0 0;
       border-top: 1px solid var(--nr-line);
     }
 
@@ -927,7 +929,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 13.5px;
+      font-size: 13px;
       line-height: 1.35;
       color: var(--nr-muted);
     }
@@ -970,10 +972,10 @@
       background: none;
       box-shadow: none;
       font-family: var(--font-body--family);
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 400;
       text-align: left;
-      color: rgb(var(--color-foreground-rgb) / 0.72);
+      color: rgb(var(--color-foreground-rgb) / 0.62);
       text-decoration: none;
       cursor: pointer;
     }
@@ -986,7 +988,7 @@
     }
 
     .nr-mnav details[open] > .nr-mnav__panel {
-      transition: transform 280ms var(--nr-ease), visibility 280ms linear;
+      transition: transform 240ms var(--nr-ease), visibility 240ms linear;
     }
 
     .nr-mnav .nr-mnav__panel-inner {
