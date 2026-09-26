@@ -26,6 +26,9 @@
     if variant.available
       assign can_add_to_cart = true
       assign add_to_cart_text = 'products.product.add_to_cart' | t
+      if block_settings.add_to_cart_label != blank
+        assign add_to_cart_text = block_settings.add_to_cart_label
+      endif
     elsif inventory_managed and inventory_quantity <= 0 and inventory_policy == 'deny' or quantity_rule_soldout
       assign can_add_to_cart = false
       assign add_to_cart_text = 'products.product.sold_out' | t
@@ -388,6 +391,12 @@
   "name": "t:names.product_buy_buttons",
   "tag": null,
   "settings": [
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Egen knapptext (valfri)",
+      "info": "Lämna tomt för temats standardtext \"Lägg i varukorgen\"."
+    },
     {
       "type": "checkbox",
       "id": "stacking",

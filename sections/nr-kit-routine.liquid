@@ -1,0 +1,159 @@
+{%- doc -%}
+  Kit PDP routine. Groups the kit's components by their "Uppgift i rutinen"
+  (nr_kit_component.group), in component order.
+
+  Two honest modes, chosen per kit by custom.kit_routine_verified:
+  - true:  "Din tvättrutin" — numbered steps with a thin connector, i.e. a
+           chronological routine. Only use when the order is confirmed.
+  - false: "Vad varje del löser" — the same groups WITHOUT numbers or arrows,
+           so no usage order is implied that hasn't been verified.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign components = kit.metafields.custom.kit_components.value
+  assign verified = kit.metafields.custom.kit_routine_verified.value
+
+  # Ordered, de-duplicated list of groups (a group appears once, at the
+  # position of its first component). Built as "A§B§C" — no leading or
+  # trailing separator, so split never yields an empty group.
+  assign group_list = ''
+  for component in components
+    assign group_name = component.group.value | strip
+    if group_name != blank
+      assign haystack = '§' | append: group_list | append: '§'
+      assign needle = '§' | append: group_name | append: '§'
+      unless haystack contains needle
+        if group_list == blank
+          assign group_list = group_name
+        else
+          assign group_list = group_list | append: '§' | append: group_name
+        endif
+      endunless
+    endif
+  endfor
+  assign groups = group_list | split: '§'
+-%}
+
+{%- if components != blank and groups.size > 0 -%}
+  <div class="nr-kit-section nr-kit-section--soft nr-kit-routine{% if verified %} nr-kit-routine--sequence{% endif %}">
+    <div class="nr-kit-container">
+      <header class="nr-kit-head">
+        <h2 class="nr-kit-h2">
+          {%- if verified -%}
+            {{- section.settings.heading_sequence | escape -}}
+          {%- else -%}
+            {{- section.settings.heading_tasks | escape -}}
+          {%- endif -%}
+        </h2>
+        {%- if verified -%}
+          {%- if section.settings.subheading_sequence != blank -%}
+            <p class="nr-kit-lead">{{ section.settings.subheading_sequence | escape }}</p>
+          {%- endif -%}
+        {%- elsif section.settings.subheading_tasks != blank -%}
+          <p class="nr-kit-lead">{{ section.settings.subheading_tasks | replace: '[antal]', groups.size | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ol
+        class="nr-kit-routine__list"
+        role="list"
+      >
+        {%- for group_name in groups -%}
+          <li class="nr-kit-routine__step">
+            {%- if verified -%}
+              <span
+                class="nr-kit-routine__index"
+                aria-hidden="true"
+              >
+                {{- forloop.index | prepend: '0' | slice: -2, 2 -}}
+              </span>
+            {%- endif -%}
+            <h3 class="nr-kit-routine__title">{{ group_name | escape }}</h3>
+            <ul
+              class="nr-kit-routine__products"
+              role="list"
+            >
+              {%- for component in components -%}
+                {%- assign component_group = component.group.value | strip -%}
+                {%- if component_group == group_name -%}
+                  {%- liquid
+                    assign component_variant = component.variant.value
+                    assign component_product = component_variant.product
+                    assign component_image = component_variant.image | default: component_product.featured_image
+                    assign short_name = component_product.title | split: ' – ' | first | split: ' - ' | first
+                    assign role = component.role.value | default: component_product.metafields.custom.product_category.value
+                  -%}
+                  {%- if component_variant != blank -%}
+                    <li class="nr-kit-routine__product">
+                      <span class="nr-kit-media nr-kit-routine__media">
+                        {%- if component_image != blank -%}
+                          {{
+                            component_image
+                            | image_url: width: 120
+                            | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '56px'
+                          }}
+                        {%- endif -%}
+                      </span>
+                      <span class="nr-kit-routine__text">
+                        <span class="nr-kit-routine__name">{{ short_name | escape }}</span>
+                        {%- if role != blank -%}
+                          <span class="nr-kit-routine__role">{{ role | escape }}</span>
+                        {%- endif -%}
+                      </span>
+                    </li>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR: Paket – rutin",
+  "tag": "section",
+  "class": "nr-kit-section-wrapper",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Grupperas efter komponenternas \"Uppgift i rutinen\". Numrerade steg visas bara när paketets metafält \"Paket – rutinordning bekräftad\" är på."
+    },
+    {
+      "type": "text",
+      "id": "heading_tasks",
+      "label": "Rubrik (ordning ej bekräftad)",
+      "default": "Vad varje del löser"
+    },
+    {
+      "type": "text",
+      "id": "subheading_tasks",
+      "label": "Underrubrik (ordning ej bekräftad)",
+      "info": "[antal] ersätts med antalet uppgifter.",
+      "default": "Paketet täcker [antal] uppgifter i en utvändig tvätt."
+    },
+    {
+      "type": "text",
+      "id": "heading_sequence",
+      "label": "Rubrik (ordning bekräftad)",
+      "default": "Din tvättrutin"
+    },
+    {
+      "type": "text",
+      "id": "subheading_sequence",
+      "label": "Underrubrik (ordning bekräftad)",
+      "default": "Så används produkterna i paketet, steg för steg."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Paket – rutin",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

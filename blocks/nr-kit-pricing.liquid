@@ -1,0 +1,79 @@
+{%- doc -%}
+  Kit PDP price hierarchy:
+    1 199 kr                     ← the kit's own price (visual focus)
+    Köpta separat: 1 382 kr      ← current prices of the components
+    Du sparar 183 kr
+  followed by the kit's quick value points (custom.kit_value_points).
+
+  "Köpta separat" comes from snippets/nr-kit-separate-total (the kit's
+  components at their current prices). It is never read from compare-at and
+  is never styled as a previous price or a sale. When no component data
+  exists the comparison is simply not shown.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = closest.product
+  assign kit_price = kit.selected_or_first_available_variant.price
+
+  capture separate_total
+    render 'nr-kit-separate-total', product: kit
+  endcapture
+  assign separate_total = separate_total | strip | plus: 0
+
+  assign saving = 0
+  if separate_total > kit_price
+    assign saving = separate_total | minus: kit_price
+  endif
+
+  assign points = kit.metafields.custom.kit_value_points.value
+-%}
+
+<div
+  class="nr-kit-pricing"
+  {{ block.shopify_attributes }}
+>
+  <p class="nr-kit-pricing__price">
+    <span class="visually-hidden">Paketpris</span>
+    {{- kit_price | money -}}
+  </p>
+
+  {%- if saving > 0 -%}
+    <p class="nr-kit-pricing__compare">
+      <span>Köpta separat: {{ separate_total | money }}</span>
+      <span class="nr-kit-pricing__saving">Du sparar {{ saving | money }}</span>
+    </p>
+  {%- endif -%}
+
+  {%- if points != blank -%}
+    <ul
+      class="nr-kit-points"
+      role="list"
+    >
+      {%- for point in points -%}
+        <li>
+          {%- render 'nr-kit-check' -%}
+          <span>{{ point | escape }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "NR: Paket – pris",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Visar paketpriset, \"Köpta separat\" (räknas från paketets komponenter) och de snabba fördelarna från metafältet Paket – snabba fördelar."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Paket – pris",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

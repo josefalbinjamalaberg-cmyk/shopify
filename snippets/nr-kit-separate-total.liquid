@@ -1,8 +1,15 @@
 {%- doc -%}
   Outputs what a kit's contents cost bought separately, in the shop's minor
-  currency unit: the sum of the current price of every product listed in the
-  kit's `custom.separate_components` metafield (one of each, first available
-  variant). Outputs 0 when the metafield is empty so callers can fall back.
+  currency unit.
+
+  Source, in order of preference:
+  1. `custom.kit_components` (list of nr_kit_component metaobjects): the price
+     of each component's exact variant × its quantity (blank quantity = 1).
+     If any component's variant can't be resolved, outputs 0 rather than a
+     partial (too low) total.
+  2. `custom.separate_components` (legacy list of products): the current price
+     of each product's first available variant, one of each.
+  Outputs 0 when neither is set, so callers can hide the comparison.
 
   This is deliberately NOT the kit's compare-at price: compare-at is shown by
   the theme as a previous price / sale, which a "bought separately" sum is not.
@@ -16,8 +23,28 @@
 
 {%- liquid
   assign total = 0
-  for component in product.metafields.custom.separate_components.value
-    assign total = total | plus: component.selected_or_first_available_variant.price
-  endfor
+  assign components = product.metafields.custom.kit_components.value
+
+  if components != blank
+    assign incomplete = false
+    for component in components
+      assign component_variant = component.variant.value
+      if component_variant == blank
+        assign incomplete = true
+        break
+      endif
+      assign component_quantity = component.quantity.value | default: 1
+      assign line_total = component_variant.price | times: component_quantity
+      assign total = total | plus: line_total
+    endfor
+    if incomplete
+      assign total = 0
+    endif
+  else
+    for component in product.metafields.custom.separate_components.value
+      assign total = total | plus: component.selected_or_first_available_variant.price
+    endfor
+  endif
+
   echo total
 -%}

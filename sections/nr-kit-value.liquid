@@ -1,0 +1,205 @@
+{%- doc -%}
+  Kit PDP value section:
+  1. A calm two-column comparison — "Köp produkterna separat" vs the kit —
+     using the kit's price and the current price of its components
+     (snippets/nr-kit-separate-total). Hidden when there's no saving.
+  2. "Passar dig som" (custom.kit_fit_points).
+  3. "Behöver du inte allt?" — the other kits in the family
+     (custom.kit_family), each introduced by its own custom.kit_alt_question.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign kit_price = kit.selected_or_first_available_variant.price
+  assign components = kit.metafields.custom.kit_components.value
+  assign fit_points = kit.metafields.custom.kit_fit_points.value
+  assign family = kit.metafields.custom.kit_family.value
+
+  capture separate_total
+    render 'nr-kit-separate-total', product: kit
+  endcapture
+  assign separate_total = separate_total | strip | plus: 0
+
+  assign saving = 0
+  if separate_total > kit_price
+    assign saving = separate_total | minus: kit_price
+  endif
+
+  assign item_count = 0
+  for component in components
+    assign component_quantity = component.quantity.value | default: 1
+    assign item_count = item_count | plus: component_quantity
+  endfor
+
+  assign alternatives = 0
+  assign cheaper = 0
+  assign pricier = 0
+  for family_kit in family
+    if family_kit.id != kit.id
+      assign alternatives = alternatives | plus: 1
+      if family_kit.price < kit_price
+        assign cheaper = cheaper | plus: 1
+      else
+        assign pricier = pricier | plus: 1
+      endif
+    endif
+  endfor
+
+  # Heading follows what the alternatives actually are relative to this kit.
+  assign alternatives_heading = section.settings.alternatives_heading_mixed
+  if cheaper == alternatives
+    assign alternatives_heading = section.settings.alternatives_heading
+  elsif pricier == alternatives
+    assign alternatives_heading = section.settings.alternatives_heading_larger
+  endif
+-%}
+
+{%- if saving > 0 or fit_points != blank or alternatives > 0 -%}
+  <div class="nr-kit-section nr-kit-value">
+    <div class="nr-kit-container">
+      {%- if saving > 0 -%}
+        <div class="nr-kit-value__compare">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="nr-kit-h2 nr-kit-value__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+          <div class="nr-kit-value__columns">
+            <div class="nr-kit-value__option">
+              <p class="nr-kit-eyebrow">{{ section.settings.separate_label | escape }}</p>
+              {%- if item_count > 0 -%}
+                <p class="nr-kit-value__count">{{ item_count }} produkter</p>
+              {%- endif -%}
+              <p class="nr-kit-value__amount">{{ separate_total | money }}</p>
+              <p class="nr-kit-value__note">{{ section.settings.separate_note | escape }}</p>
+            </div>
+            <div class="nr-kit-value__option nr-kit-value__option--kit">
+              <p class="nr-kit-eyebrow">{{ kit.title | escape }}</p>
+              {%- if item_count > 0 -%}
+                <p class="nr-kit-value__count">{{ item_count }} produkter</p>
+              {%- endif -%}
+              <p class="nr-kit-value__amount">{{ kit_price | money }}</p>
+              <p class="nr-kit-value__note">{{ section.settings.kit_note | escape }}</p>
+            </div>
+          </div>
+          <p class="nr-kit-value__saving">Du sparar {{ saving | money }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if fit_points != blank or alternatives > 0 -%}
+        <div class="nr-kit-value__fit">
+          {%- if fit_points != blank -%}
+            <div class="nr-kit-value__fit-main">
+              <h2 class="nr-kit-h3">{{ section.settings.fit_heading | escape }}</h2>
+              <ul
+                class="nr-kit-checklist"
+                role="list"
+              >
+                {%- for point in fit_points -%}
+                  <li>
+                    {%- render 'nr-kit-check' -%}
+                    <span>{{ point | escape }}</span>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          {%- if alternatives > 0 -%}
+            <div class="nr-kit-value__alternatives">
+              <h2 class="nr-kit-h3">{{ alternatives_heading | escape }}</h2>
+              <ul
+                class="nr-kit-alt-list"
+                role="list"
+              >
+                {%- for family_kit in family -%}
+                  {%- if family_kit.id != kit.id -%}
+                    <li>
+                      {%- assign question = family_kit.metafields.custom.kit_alt_question.value -%}
+                      {%- if question != blank -%}
+                        <p class="nr-kit-alt-list__question">{{ question | escape }}</p>
+                      {%- endif -%}
+                      <a
+                        href="{{ family_kit.url }}"
+                        class="nr-kit-link"
+                      >
+                        {{- family_kit.title | escape -}}
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR: Paket – värde & passform",
+  "tag": "section",
+  "class": "nr-kit-section-wrapper",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "\"Köp separat\" räknas från paketets komponenter. Punkterna och alternativen hämtas från paketets metafält."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik för jämförelsen",
+      "default": "Paket eller styckköp?"
+    },
+    {
+      "type": "text",
+      "id": "separate_label",
+      "label": "Etikett – styckköp",
+      "default": "Köp produkterna separat"
+    },
+    {
+      "type": "text",
+      "id": "separate_note",
+      "label": "Text – styckköp",
+      "default": "Du väljer varje produkt själv"
+    },
+    {
+      "type": "text",
+      "id": "kit_note",
+      "label": "Text – paket",
+      "default": "Färdig kombination"
+    },
+    {
+      "type": "text",
+      "id": "fit_heading",
+      "label": "Rubrik – passar dig som",
+      "default": "Passar dig som"
+    },
+    {
+      "type": "text",
+      "id": "alternatives_heading",
+      "label": "Rubrik – när alternativen är mindre paket",
+      "default": "Behöver du inte allt?"
+    },
+    {
+      "type": "text",
+      "id": "alternatives_heading_larger",
+      "label": "Rubrik – när alternativen är större paket",
+      "default": "Vill du ha mer?"
+    },
+    {
+      "type": "text",
+      "id": "alternatives_heading_mixed",
+      "label": "Rubrik – blandade alternativ",
+      "default": "Andra alternativ"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Paket – värde & passform",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

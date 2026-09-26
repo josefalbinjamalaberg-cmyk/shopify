@@ -1,0 +1,102 @@
+{%- doc -%}
+  Kit PDP: eyebrow, title, one-line value proposition and store rating at the
+  top of the purchase column. Eyebrow and value line come from the kit's own
+  metafields (custom.kit_eyebrow, custom.kit_tagline) and hide when empty.
+
+  The rating is the store's Trustpilot rating and is labelled as such — it is
+  never presented as a product-specific review count.
+
+  Also loads assets/nr-kit.css, the shared stylesheet for every kit section,
+  so the kit styles only ship on kit pages.
+{%- enddoc -%}
+
+{{ 'nr-kit.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign kit = closest.product
+  assign eyebrow = kit.metafields.custom.kit_eyebrow.value
+  assign tagline = kit.metafields.custom.kit_tagline.value
+-%}
+
+<div
+  class="nr-kit-intro"
+  {{ block.shopify_attributes }}
+>
+  {%- if eyebrow != blank -%}
+    <p class="nr-kit-eyebrow">{{ eyebrow | escape }}</p>
+  {%- endif -%}
+
+  <h1 class="nr-kit-intro__title">{{ kit.title | escape }}</h1>
+
+  {%- if tagline != blank -%}
+    <p class="nr-kit-intro__tagline">{{ tagline | escape }}</p>
+  {%- endif -%}
+
+  {%- if block.settings.rating_text != blank -%}
+    <p class="nr-kit-intro__rating">
+      <span
+        class="nr-kit-stars"
+        aria-hidden="true"
+      >
+        {%- for i in (1..5) -%}
+          <svg
+            viewBox="0 0 12 12"
+            focusable="false"
+          >
+            <path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/>
+          </svg>
+        {%- endfor -%}
+      </span>
+      <span>{{ block.settings.rating_text | escape }}</span>
+      {%- if block.settings.rating_url != blank and block.settings.rating_link_label != blank -%}
+        <span aria-hidden="true">·</span>
+        <a
+          href="{{ block.settings.rating_url }}"
+          class="nr-kit-intro__rating-link"
+          {% if block.settings.rating_url contains 'http' %}
+            target="_blank" rel="noopener"
+          {% endif %}
+        >
+          {{- block.settings.rating_link_label | escape -}}
+        </a>
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "NR: Paket – introduktion",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Överrubrik och värdemening hämtas från paketets metafält (Paket – överrubrik, Paket – värdemening)."
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Betyg",
+      "info": "Butikens betyg, t.ex. \"4.7/5 på Trustpilot\". Lämna tomt för att dölja.",
+      "default": "4.7/5 på Trustpilot"
+    },
+    {
+      "type": "text",
+      "id": "rating_link_label",
+      "label": "Länktext",
+      "default": "Läs omdömen"
+    },
+    {
+      "type": "url",
+      "id": "rating_url",
+      "label": "Länk till omdömen"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Paket – introduktion",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

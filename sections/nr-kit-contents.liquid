@@ -1,0 +1,129 @@
+{%- doc -%}
+  Kit PDP "Det här får du": every component of the kit, in order.
+
+  Each row is built from ONE nr_kit_component metaobject: its variant gives the
+  name, image, unit price and link (all from the same Shopify product), and
+  the metaobject adds quantity, verified size, short category and why it's in
+  this kit. There are no parallel lists of names/images/links to get out of
+  sync. Names link to the component's own product page; there are no
+  per-component add-to-cart buttons — the kit is what's being sold.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign components = kit.metafields.custom.kit_components.value
+-%}
+
+{%- if components != blank -%}
+  <div class="nr-kit-section nr-kit-contents section-wrapper">
+    <div class="nr-kit-container">
+      <header class="nr-kit-head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="nr-kit-h2">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="nr-kit-lead">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ol
+        class="nr-kit-contents__list"
+        role="list"
+      >
+        {%- for component in components -%}
+          {%- liquid
+            assign component_variant = component.variant.value
+            assign component_product = component_variant.product
+            assign component_url = component_product.url
+            if component_product.variants.size > 1
+              assign component_url = component_variant.url
+            endif
+            assign component_image = component_variant.image | default: component_product.featured_image
+            assign short_name = component_product.title | split: ' – ' | first | split: ' - ' | first
+            assign role = component.role.value | default: component_product.metafields.custom.product_category.value
+            assign quantity = component.quantity.value | default: 1
+            assign index = forloop.index | prepend: '0' | slice: -2, 2
+          -%}
+          {%- if component_variant != blank -%}
+          <li class="nr-kit-contents__item">
+            <span
+              class="nr-kit-contents__index"
+              aria-hidden="true"
+            >
+              {{- index -}}
+            </span>
+            <a
+              href="{{ component_url }}"
+              class="nr-kit-media nr-kit-contents__media"
+              tabindex="-1"
+              aria-hidden="true"
+            >
+              {%- if component_image != blank -%}
+                {{
+                  component_image
+                  | image_url: width: 360
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: '',
+                    widths: '120, 180, 240, 360',
+                    sizes: '(min-width: 990px) 120px, 96px'
+                }}
+              {%- endif -%}
+            </a>
+            <div class="nr-kit-contents__body">
+              <h3 class="nr-kit-contents__name">
+                <a href="{{ component_url }}">{{ short_name | escape }}</a>
+              </h3>
+              {%- if role != blank -%}
+                <p class="nr-kit-contents__role">{{ role | escape }}</p>
+              {%- endif -%}
+              {%- if component.purpose != blank -%}
+                <p class="nr-kit-contents__purpose">{{ component.purpose.value | escape }}</p>
+              {%- endif -%}
+              <p class="nr-kit-contents__meta">
+                <span>
+                  {{- quantity }} st
+                  {%- if component.size != blank %} · {{ component.size.value | escape }}{% endif -%}
+                </span>
+                <span class="nr-kit-contents__unit-price">Styckpris {{ component_variant.price | money }}</span>
+              </p>
+            </div>
+          </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR: Paket – innehåll",
+  "tag": "section",
+  "class": "nr-kit-section-wrapper",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Innehållet hämtas från paketets metafält Paket – innehåll. Sektionen döljs om det är tomt."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Det här får du"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Underrubrik",
+      "default": "Varje produkt har en tydlig uppgift i paketet."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Paket – innehåll",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

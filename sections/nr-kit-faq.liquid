@@ -1,0 +1,131 @@
+{%- doc -%}
+  Kit PDP FAQ. Three answers are generated from the kit's own data, so they
+  are always correct for the kit being viewed:
+    - Vad innehåller paketet?      (components, quantity, verified size)
+    - Kan jag köpa produkterna separat?  (current separate total vs kit price)
+    - Hur använder jag produkterna?      (links to each product's own page)
+  Further questions (shipping, returns, …) are "question" blocks, shared by
+  every kit using this template. Only add verified information.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign kit_price = kit.selected_or_first_available_variant.price
+  assign components = kit.metafields.custom.kit_components.value
+
+  capture separate_total
+    render 'nr-kit-separate-total', product: kit
+  endcapture
+  assign separate_total = separate_total | strip | plus: 0
+-%}
+
+<div class="nr-kit-section nr-kit-faq">
+  <div class="nr-kit-container nr-kit-container--narrow">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="nr-kit-h2 nr-kit-faq__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="nr-kit-faq__list">
+      {%- if components != blank -%}
+        <details class="nr-kit-faq__item">
+          <summary class="nr-kit-faq__question">Vad innehåller paketet?</summary>
+          <div class="nr-kit-faq__answer">
+            <ul role="list">
+              {%- for component in components -%}
+                {%- assign component_variant = component.variant.value -%}
+                {%- if component_variant != blank -%}
+                  <li>
+                    {{ component.quantity.value | default: 1 }} st {{ component_variant.product.title | escape }}
+                    {%- if component.size != blank %} ({{ component.size.value | escape }}){% endif -%}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        </details>
+
+        {%- if separate_total > kit_price -%}
+          <details class="nr-kit-faq__item">
+            <summary class="nr-kit-faq__question">Kan jag köpa produkterna separat?</summary>
+            <div class="nr-kit-faq__answer">
+              <p>
+                Ja, alla produkter i paketet säljs även styckvis. Köpta separat kostar de i dag
+                {{ separate_total | money }} – i paketet betalar du {{ kit_price | money }}.
+              </p>
+            </div>
+          </details>
+        {%- endif -%}
+
+        <details class="nr-kit-faq__item">
+          <summary class="nr-kit-faq__question">Hur använder jag produkterna?</summary>
+          <div class="nr-kit-faq__answer">
+            <p>Varje produkt har en utförlig bruksanvisning på sin produktsida:</p>
+            <ul role="list">
+              {%- for component in components -%}
+                {%- assign component_product = component.variant.value.product -%}
+                {%- if component_product != blank -%}
+                  <li>
+                    <a href="{{ component_product.url }}">{{ component_product.title | escape }}</a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        </details>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.settings.question != blank and block.settings.answer != blank -%}
+          <details
+            class="nr-kit-faq__item"
+            {{ block.shopify_attributes }}
+          >
+            <summary class="nr-kit-faq__question">{{ block.settings.question | escape }}</summary>
+            <div class="nr-kit-faq__answer">{{ block.settings.answer }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "NR: Paket – vanliga frågor",
+  "tag": "section",
+  "class": "nr-kit-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Vanliga frågor"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Fråga",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Fråga"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Svar",
+          "info": "Endast verifierad information."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Paket – vanliga frågor",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

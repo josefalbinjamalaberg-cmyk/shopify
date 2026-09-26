@@ -1,0 +1,112 @@
+{%- doc -%}
+  Kit PDP "Vilket paket passar dig?": the kits in this kit's family
+  (custom.kit_family, max three), side by side on desktop and as compact rows
+  on mobile. Each kit describes itself through its own metafields
+  (custom.kit_eyebrow, custom.kit_card_line); the current kit is marked
+  "Ditt val" and isn't linked. Prices are each kit's own price.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign family = kit.metafields.custom.kit_family.value
+-%}
+
+{%- if family.size > 1 -%}
+  <div class="nr-kit-section nr-kit-family">
+    <div class="nr-kit-container">
+      <header class="nr-kit-head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="nr-kit-h2">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="nr-kit-lead">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ul
+        class="nr-kit-family__list"
+        role="list"
+      >
+        {%- for family_kit in family limit: 3 -%}
+          {%- liquid
+            assign is_current = false
+            if family_kit.id == kit.id
+              assign is_current = true
+            endif
+            assign family_eyebrow = family_kit.metafields.custom.kit_eyebrow.value
+            assign family_line = family_kit.metafields.custom.kit_card_line.value
+          -%}
+          <li class="nr-kit-family__item{% if is_current %} nr-kit-family__item--current{% endif %}">
+            {%- if is_current -%}
+              <p class="nr-kit-family__current">{{ section.settings.current_label | escape }}</p>
+            {%- elsif family_eyebrow != blank -%}
+              <p class="nr-kit-eyebrow">{{ family_eyebrow | escape }}</p>
+            {%- endif -%}
+            <h3 class="nr-kit-family__title">
+              {%- if is_current -%}
+                {{- family_kit.title | escape -}}
+              {%- else -%}
+                <a href="{{ family_kit.url }}">{{ family_kit.title | escape }}</a>
+              {%- endif -%}
+            </h3>
+            {%- if family_line != blank -%}
+              <p class="nr-kit-family__line">{{ family_line | escape }}</p>
+            {%- endif -%}
+            <p class="nr-kit-family__price">{{ family_kit.price | money }}</p>
+            {%- unless is_current -%}
+              <span
+                class="nr-kit-link"
+                aria-hidden="true"
+              >
+                {{- section.settings.link_label | escape }} →</span
+              >
+            {%- endunless -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR: Paket – välj paket",
+  "tag": "section",
+  "class": "nr-kit-section-wrapper",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Paketen hämtas från metafältet Paket – paketfamilj. Sektionen döljs om färre än två paket är valda."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Vilket paket passar dig?"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Underrubrik"
+    },
+    {
+      "type": "text",
+      "id": "current_label",
+      "label": "Etikett för aktuellt paket",
+      "default": "Ditt val"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Länktext",
+      "default": "Se paketet"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Paket – välj paket",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
