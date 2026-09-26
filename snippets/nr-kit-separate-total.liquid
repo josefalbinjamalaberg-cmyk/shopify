@@ -1,0 +1,23 @@
+{%- doc -%}
+  Outputs what a kit's contents cost bought separately, in the shop's minor
+  currency unit: the sum of the current price of every product listed in the
+  kit's `custom.separate_components` metafield (one of each, first available
+  variant). Outputs 0 when the metafield is empty so callers can fall back.
+
+  This is deliberately NOT the kit's compare-at price: compare-at is shown by
+  the theme as a previous price / sale, which a "bought separately" sum is not.
+
+  Liquid can't return values from a snippet, so capture and convert:
+    {% capture separate %}{% render 'nr-kit-separate-total', product: kit %}{% endcapture %}
+    {% assign separate = separate | strip | plus: 0 %}
+
+  @param {product} product - The kit product.
+{%- enddoc -%}
+
+{%- liquid
+  assign total = 0
+  for component in product.metafields.custom.separate_components.value
+    assign total = total | plus: component.selected_or_first_available_variant.price
+  endfor
+  echo total
+-%}

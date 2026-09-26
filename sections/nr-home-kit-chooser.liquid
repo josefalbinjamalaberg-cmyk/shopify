@@ -7,6 +7,9 @@
   title, image, URL, price and compare-at price. The saving ("Spara X kr")
   is computed from compare_at_price − price and only shows when the
   product actually has a higher compare-at price — nothing is hardcoded.
+  Kits with a `custom.separate_components` metafield instead compare against
+  what those products cost bought separately (snippets/nr-kit-separate-total),
+  shown as "Köpta separat" rather than a struck-through previous price.
   The saving bar is scaled against the largest saving in the section, so
   the bigger kits visibly give more value; the percentage is the saving
   relative to the compare-at price.
@@ -27,8 +30,15 @@
     assign kit = block.settings.product
     if kit != blank
       assign has_any_kit = true
-      if kit.compare_at_price > kit.price
-        assign kit_saving = kit.compare_at_price | minus: kit.price
+      capture kit_separate
+        render 'nr-kit-separate-total', product: kit
+      endcapture
+      assign kit_base = kit_separate | strip | plus: 0
+      if kit_base == 0
+        assign kit_base = kit.compare_at_price | default: 0
+      endif
+      if kit_base > kit.price
+        assign kit_saving = kit_base | minus: kit.price
         if kit_saving > max_saving
           assign max_saving = kit_saving
         endif
@@ -61,9 +71,17 @@
           {%- if product == blank -%}{%- continue -%}{%- endif -%}
           {%- liquid
             assign saving = 0
-            if product.compare_at_price > product.price
-              assign saving = product.compare_at_price | minus: product.price
-              assign saving_pct = saving | times: 100.0 | divided_by: product.compare_at_price | round
+            capture separate_total
+              render 'nr-kit-separate-total', product: product
+            endcapture
+            assign separate_total = separate_total | strip | plus: 0
+            assign base_price = separate_total
+            if base_price == 0
+              assign base_price = product.compare_at_price | default: 0
+            endif
+            if base_price > product.price
+              assign saving = base_price | minus: product.price
+              assign saving_pct = saving | times: 100.0 | divided_by: base_price | round
               assign saving_bar = saving | times: 100.0 | divided_by: max_saving | round
             endif
             assign points = block.settings.points | newline_to_br | split: '<br />'
@@ -103,7 +121,9 @@
                       <span class="visually-hidden">Paketpris</span>
                     {%- endif -%}
                     <span class="nr-kit__price-now">{{ product.price | money }}</span>
-                    {%- if saving > 0 -%}
+                    {%- if saving > 0 and separate_total > 0 -%}
+                      <span class="nr-kit__price-was">Köpta separat: {{ separate_total | money }}</span>
+                    {%- elsif saving > 0 -%}
                       <span class="visually-hidden">Ordinarie pris</span>
                       <s class="nr-kit__price-was">{{ product.compare_at_price | money }}</s>
                     {%- endif -%}
