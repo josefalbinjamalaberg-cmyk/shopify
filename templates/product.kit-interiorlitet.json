@@ -140,7 +140,7 @@
       "type": "nr-kit-routine",
       "settings": {
         "heading_tasks": "Vad varje del löser",
-        "subheading_tasks": "Paketet täcker [antal] uppgifter i en utvändig tvätt.",
+        "subheading_tasks": "Paketet täcker [antal] uppgifter i kupén.",
         "heading_sequence": "Din tvättrutin",
         "subheading_sequence": "Så används produkterna i paketet, steg för steg."
       }
@@ -156,16 +156,16 @@
         "alternatives_heading": "Behöver du inte allt?",
         "alternatives_heading_larger": "Vill du ha mer?",
         "alternatives_heading_mixed": "Andra alternativ",
-        "show_alternatives": true
+        "show_alternatives": false
       }
     },
-    "family": {
-      "type": "nr-kit-family",
+    "tiers": {
+      "type": "nr-kit-tiers",
       "settings": {
-        "heading": "Vilket paket passar dig?",
-        "subheading": "",
+        "heading": "Jämför paketen",
+        "subheading": "Samma grund – olika mycket. Välj efter hur mycket av kupén du vill kunna rengöra.",
         "current_label": "Ditt val",
-        "link_label": "Se paketet"
+        "saving_label": "Du sparar"
       }
     },
     "proof": {
@@ -173,108 +173,6 @@
       "settings": {
         "heading": "Se resultatet",
         "subheading": "Produkterna i paketet, filmade i riktig användning."
-      }
-    },
-    "reviews": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_f9f7e7d_gRy4wf": {
-          "type": "ai_gen_block_f9f7e7d",
-          "settings": {
-            "heading": "Vad våra kunder säger",
-            "subheading": "Utvalda omdömen från våra kunder på Trustpilot.",
-            "trustpilot_url": "https://se.trustpilot.com/review/nordicreflection.se",
-            "trustpilot_label": "Läs alla omdömen på Trustpilot",
-            "total_rating": "4.7/5",
-            "total_reviews": "34",
-            "desktop_width_percent": 100,
-            "background_color": "#F8F7F3",
-            "card_color": "#FFFFFF",
-            "text_color": "#1C1C1C",
-            "border_color": "#DFDFDF",
-            "star_color": "#287A45",
-            "review_1_enabled": true,
-            "review_1_rating": 5,
-            "review_1_title": "Jobbat med med Rekond i 3 år och…",
-            "review_1_text": "Jobbat med med Rekond i 3 år och tvättar mina bilar flera gånger i veckan så testat en hel del produkter. Testade deras fälgrent, schampo och wet coat. Grym djup glans och otroligt bra rengöring. Avrinningen från wet coaten va helt brutal\nOtroligt nöjd med min beställning!",
-            "review_1_name": "VP",
-            "review_1_date": "11 september 2026",
-            "review_1_url": "",
-            "review_1_verified": false,
-            "review_2_enabled": true,
-            "review_2_rating": 5,
-            "review_2_title": "Riktigt nöjd med produkterna!",
-            "review_2_text": "Fantastiska produkter! Fälg rengöringen är helt otrolig, fälgarna var extremt smutsiga, sprayade på och lät de bara sitta en stund, spolade av och allt var borta! Avfettning och Schampo var också underbart. Gör definitivt sitt jobb ordentligt. Glosscoat gjorde bilen otroligt glansig🥰 Kommer definitivt fortsätta med dessa produkter❤️",
-            "review_2_name": "My Segerstedt",
-            "review_2_date": "8 september 2026",
-            "review_2_url": "",
-            "review_2_verified": false,
-            "review_3_enabled": true,
-            "review_3_rating": 5,
-            "review_3_title": "Produkterna gav ett resultat över min…",
-            "review_3_text": "Produkterna gav ett resultat över min förväntan. Fungerade utmärkt och simpelt att använda, samt sköna att hålla i när dem används. Beställde på en måndag vid 17 fick hem sakerna på onsdagen vid 12. Extremt bra produkter som är väldigt prisvärda.",
-            "review_3_name": "Filip Am",
-            "review_3_date": "7 september 2026",
-            "review_3_url": "",
-            "review_3_verified": false,
-            "review_4_enabled": true,
-            "review_4_rating": 4,
-            "review_4_title": "Fantastisk",
-            "review_4_text": "Snabb leverans till Gotland, en riktigt bra flygrostborttagare som gav ett fantastiskt resultat. Även en riktigt bra alkalisk avfättning. Grymma dofter som ger en bra känsla när man lägger på medlet. Slutresultatet på bil som hoj blir otroligt bra!",
-            "review_4_name": "streamnight",
-            "review_4_date": "11 september 2026",
-            "review_4_url": "",
-            "review_4_verified": false,
-            "review_5_enabled": true,
-            "review_5_rating": 5,
-            "review_5_title": "Produkterna var riktigt bra och lätta…",
-            "review_5_text": "Produkterna var riktigt bra och lätta att använda, kall- och alkaliska avfettningarna var riktigt bra för att få bort 150mils smuts från bilen, schampot gjorde bilen riktigt fin o blank med som dessutom skummade på bra och luktade riktigt gott! Rekommenderar starkt dessa produkter!",
-            "review_5_name": "Hyseni",
-            "review_5_date": "9 september 2026",
-            "review_5_url": "",
-            "review_5_verified": false,
-            "review_6_enabled": false,
-            "review_6_rating": 5,
-            "review_6_title": "",
-            "review_6_text": "",
-            "review_6_name": "",
-            "review_6_date": "",
-            "review_6_url": "",
-            "review_6_verified": false
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_f9f7e7d_gRy4wf"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "background_media": "none",
-        "background_color": "",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_color": "",
-        "border_radius": 0,
-        "padding-block-start": 0,
-        "padding-block-end": 0
       }
     },
     "faq": {
@@ -309,9 +207,8 @@
     "contents",
     "routine",
     "value",
-    "family",
+    "tiers",
     "proof",
-    "reviews",
     "faq"
   ]
 }

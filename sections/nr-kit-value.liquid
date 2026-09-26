@@ -35,7 +35,7 @@
   assign cheaper = 0
   assign pricier = 0
   for family_kit in family
-    if family_kit.id != kit.id
+    if family_kit.id != kit.id and section.settings.show_alternatives
       assign alternatives = alternatives | plus: 1
       if family_kit.price < kit_price
         assign cheaper = cheaper | plus: 1
@@ -175,6 +175,13 @@
       "id": "fit_heading",
       "label": "Rubrik – passar dig som",
       "default": "Passar dig som"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_alternatives",
+      "label": "Visa alternativa paket",
+      "info": "Stäng av om sidan redan har en jämförelse av paketnivåer.",
+      "default": true
     },
     {
       "type": "text",

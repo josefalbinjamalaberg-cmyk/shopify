@@ -140,7 +140,7 @@
       "type": "nr-kit-routine",
       "settings": {
         "heading_tasks": "Vad varje del löser",
-        "subheading_tasks": "Paketet täcker [antal] uppgifter i en utvändig tvätt.",
+        "subheading_tasks": "Paketet täcker [antal] uppgifter för fälgar och däck.",
         "heading_sequence": "Din tvättrutin",
         "subheading_sequence": "Så används produkterna i paketet, steg för steg."
       }

@@ -280,6 +280,13 @@
     "faq": {
       "type": "nr-kit-faq",
       "blocks": {
+        "compat": {
+          "type": "question",
+          "settings": {
+            "question": "Passar Foam Cannon min högtryckstvätt?",
+            "answer": "<p>Foam Cannon är utvecklad för att monteras på en högtryckstvätt, men exakt kompatibilitet varierar mellan modeller. Kontrollera anslutningen mot din högtryckstvätt om du är osäker innan köp.</p>"
+          }
+        },
         "shipping": {
           "type": "question",
           "settings": {
@@ -296,6 +303,7 @@
         }
       },
       "block_order": [
+        "compat",
         "shipping",
         "returns"
       ],

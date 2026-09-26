@@ -3,7 +3,9 @@
     1 199 kr                     ← the kit's own price (visual focus)
     Köpta separat: 1 382 kr      ← current prices of the components
     Du sparar 183 kr
-  followed by the kit's quick value points (custom.kit_value_points).
+  followed by the kit's quick value points (custom.kit_value_points) and,
+  when set, a visible "Viktigt att veta" note (custom.kit_notice) for things
+  a buyer must know before purchase, such as required equipment.
 
   "Köpta separat" comes from snippets/nr-kit-separate-total (the kit's
   components at their current prices). It is never read from compare-at and
@@ -26,6 +28,7 @@
   endif
 
   assign points = kit.metafields.custom.kit_value_points.value
+  assign notice = kit.metafields.custom.kit_notice.value
 -%}
 
 <div
@@ -56,6 +59,13 @@
         </li>
       {%- endfor -%}
     </ul>
+  {%- endif -%}
+
+  {%- if notice != blank -%}
+    <p class="nr-kit-notice">
+      <strong>Viktigt att veta:</strong>
+      {{ notice | escape | newline_to_br }}
+    </p>
   {%- endif -%}
 </div>
 

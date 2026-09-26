@@ -155,7 +155,8 @@
         "fit_heading": "Passar dig som",
         "alternatives_heading": "Behöver du inte allt?",
         "alternatives_heading_larger": "Vill du ha mer?",
-        "alternatives_heading_mixed": "Andra alternativ"
+        "alternatives_heading_mixed": "Andra alternativ",
+        "show_alternatives": true
       }
     },
     "family": {

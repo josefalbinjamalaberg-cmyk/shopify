@@ -2,6 +2,8 @@
   Kit PDP routine. Groups the kit's components by their "Uppgift i rutinen"
   (nr_kit_component.group), in component order.
 
+  Hidden when the kit covers fewer than two tasks (nothing to explain).
+
   Two honest modes, chosen per kit by custom.kit_routine_verified:
   - true:  "Din tvättrutin" — numbered steps with a thin connector, i.e. a
            chronological routine. Only use when the order is confirmed.
@@ -35,7 +37,7 @@
   assign groups = group_list | split: '§'
 -%}
 
-{%- if components != blank and groups.size > 0 -%}
+{%- if components != blank and groups.size > 1 -%}
   <div class="nr-kit-section nr-kit-section--soft nr-kit-routine{% if verified %} nr-kit-routine--sequence{% endif %}">
     <div class="nr-kit-container">
       <header class="nr-kit-head">
