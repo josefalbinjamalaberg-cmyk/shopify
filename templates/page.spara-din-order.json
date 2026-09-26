@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "tracking": {
+      "type": "nr-order-tracking",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Spåra din order",
+        "text": "Följ din leverans från vårt lager hela vägen till dig.",
+        "help_heading": "Behöver du hjälp med din leverans?",
+        "help_text": "Om något ser fel ut eller om din leverans inte har uppdaterats på ett tag hjälper vi dig gärna.",
+        "help_cta": "Kontakta oss",
+        "contact_link": "shopify://pages/contact",
+        "data_source": "mock",
+        "endpoint_base": "/apps/nordic-tracking"
+      }
+    }
+  },
+  "order": ["tracking"]
+}

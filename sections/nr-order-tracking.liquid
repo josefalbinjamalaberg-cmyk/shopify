@@ -1,0 +1,375 @@
+{%- doc -%}
+  "Spåra din order" – NordicReflection's branded order tracking page.
+
+  Two ways to search:
+  1. Order number + e-mail (primary). Sent by POST to the server-side order
+     lookup, which verifies the e-mail against the Shopify order before any
+     data is returned. Only this flow may return the order's products.
+  2. Tracking number (secondary). Sent by POST to the server-side tracking
+     lookup. Never returns Shopify order data.
+
+  This section contains no credentials of any kind. All Shopify Admin and DHL
+  communication happens server-side behind the endpoints below (a Shopify app
+  proxy, e.g. /apps/nordic-tracking). The frontend only ever receives the
+  normalised tracking model documented in docs/tracking/README.md.
+
+  Test mode ("mock"): lets us try every state with test data before the DHL
+  API is approved. It can only switch on when the setting asks for it AND the
+  page is rendered by an unpublished/development theme or the theme editor.
+  On the live theme it is always off, whatever the setting says, and the mock
+  script is never loaded.
+{%- enddoc -%}
+
+{%- liquid
+  assign mock_requested = false
+  if section.settings.data_source == 'mock'
+    assign mock_requested = true
+  endif
+
+  assign mock_allowed = false
+  if request.design_mode or theme.role == 'unpublished' or theme.role == 'development'
+    assign mock_allowed = true
+  endif
+
+  assign use_mock = false
+  if mock_requested and mock_allowed
+    assign use_mock = true
+  endif
+
+  assign contact_url = section.settings.contact_link | default: '/pages/contact'
+  assign endpoint = section.settings.endpoint_base | default: '/apps/nordic-tracking'
+-%}
+
+{{ 'nr-homepage.css' | asset_url | stylesheet_tag }}
+{{ 'nr-tracking.css' | asset_url | stylesheet_tag }}
+
+<nr-order-tracking
+  class="nr-track"
+  data-nr-scope
+  data-mode="{% if use_mock %}mock{% else %}live{% endif %}"
+  data-endpoint="{{ endpoint | escape }}"
+  {% if use_mock %}
+    data-mock-src="{{ 'nr-tracking-mock.js' | asset_url }}"
+  {% endif %}
+>
+  <div class="nr-container nr-track__container">
+    <header class="nr-track__hero">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="nr-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="nr-h2 nr-track__title">{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.text != blank -%}
+        <p class="nr-body nr-body--muted nr-track__intro">{{ section.settings.text | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if use_mock -%}
+      <aside
+        class="nr-track-dev"
+        aria-label="Testläge"
+        data-track-dev
+      >
+        <p class="nr-track-dev__title">Testläge – visas bara i förhandsvisning</p>
+        <p class="nr-track-dev__text">
+          Sidan använder testdata. Välj ett scenario eller skriv in testvärdena själv. E-post för alla testorder:
+          <code>test@nordicreflection.se</code>
+        </p>
+        <div
+          class="nr-track-dev__buttons"
+          data-track-dev-buttons
+        ></div>
+      </aside>
+      {%- comment -%} Real product names and images for the mock order contents (test mode only). {%- endcomment -%}
+      {%- liquid
+        assign mock_foam = all_products['foamtastic-hogkoncentrerat-snow-foam']
+        assign mock_alka = all_products['alkastrike-alkalisk-avfettning']
+        assign mock_pure = all_products['pure-shampoo-ph-neutralt-bilschampo']
+      -%}
+      <script type="application/json" data-track-mock-assets>
+        {
+          "foamtastic": { "title": {{ mock_foam.title | json }}, "variant": {{ mock_foam.selected_or_first_available_variant.title | json }}, "image": {{ mock_foam.featured_image | image_url: width: 160 | json }} },
+          "alkastrike": { "title": {{ mock_alka.title | json }}, "variant": {{ mock_alka.selected_or_first_available_variant.title | json }}, "image": {{ mock_alka.featured_image | image_url: width: 160 | json }} },
+          "pure": { "title": {{ mock_pure.title | json }}, "variant": {{ mock_pure.selected_or_first_available_variant.title | json }}, "image": {{ mock_pure.featured_image | image_url: width: 160 | json }} }
+        }
+      </script>
+    {%- endif -%}
+
+    <div
+      class="nr-track__search"
+      data-track-search
+    >
+      <form
+        class="nr-track-form nr-track-form--primary"
+        data-track-form="order"
+        method="post"
+        onsubmit="return false;"
+        novalidate
+        aria-labelledby="NrTrackOrderHeading"
+      >
+        <h2
+          class="nr-track-form__heading"
+          id="NrTrackOrderHeading"
+        >
+          Spåra med ordernummer
+        </h2>
+        <p
+          class="nr-track-form__lead"
+          id="NrTrackOrderLead"
+        >
+          Använd ditt ordernummer och e-postadressen från beställningen.
+        </p>
+
+        <div class="nr-track-field">
+          <label
+            class="nr-track-field__label"
+            for="NrTrackOrderNumber"
+          >
+            Ordernummer
+          </label>
+          <input
+            class="nr-track-field__input"
+            id="NrTrackOrderNumber"
+            name="orderNumber"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="#1047"
+            maxlength="32"
+            aria-describedby="NrTrackOrderLead"
+          >
+        </div>
+
+        <div class="nr-track-field">
+          <label
+            class="nr-track-field__label"
+            for="NrTrackEmail"
+          >
+            E-postadress
+          </label>
+          <input
+            class="nr-track-field__input"
+            id="NrTrackEmail"
+            name="email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="namn@email.se"
+            maxlength="254"
+          >
+        </div>
+
+        <p
+          class="nr-track-form__error"
+          id="NrTrackOrderError"
+          data-track-form-error
+          role="alert"
+          hidden
+        ></p>
+
+        <button
+          type="submit"
+          class="nr-btn nr-btn--primary nr-track-form__submit"
+        >
+          Spåra min order
+        </button>
+      </form>
+
+      <div
+        class="nr-track__or"
+        role="separator"
+        aria-label="eller"
+      >
+        <span aria-hidden="true">eller</span>
+      </div>
+
+      <form
+        class="nr-track-form nr-track-form--secondary"
+        data-track-form="tracking"
+        method="post"
+        onsubmit="return false;"
+        novalidate
+        aria-labelledby="NrTrackNumberHeading"
+      >
+        <h2
+          class="nr-track-form__heading"
+          id="NrTrackNumberHeading"
+        >
+          Spåra med spårningsnummer
+        </h2>
+        <p
+          class="nr-track-form__lead"
+          id="NrTrackNumberLead"
+        >
+          Har du redan ditt spårningsnummer från DHL?
+        </p>
+
+        <div class="nr-track-field">
+          <label
+            class="nr-track-field__label"
+            for="NrTrackNumber"
+          >
+            Spårningsnummer
+          </label>
+          <input
+            class="nr-track-field__input"
+            id="NrTrackNumber"
+            name="trackingNumber"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            placeholder="Ange ditt spårningsnummer"
+            maxlength="40"
+            aria-describedby="NrTrackNumberLead"
+          >
+        </div>
+
+        <p
+          class="nr-track-form__error"
+          id="NrTrackNumberError"
+          data-track-form-error
+          role="alert"
+          hidden
+        ></p>
+
+        <button
+          type="submit"
+          class="nr-btn nr-btn--secondary nr-track-form__submit"
+        >
+          Spåra leverans
+        </button>
+      </form>
+
+      <noscript>
+        <p class="nr-track__noscript">Spårningen kräver att JavaScript är aktiverat i din webbläsare.</p>
+      </noscript>
+    </div>
+
+    <p
+      class="visually-hidden"
+      data-track-announcer
+      role="status"
+      aria-live="polite"
+    ></p>
+
+    <div
+      class="nr-track__result"
+      data-track-result
+      hidden
+    ></div>
+  </div>
+
+  <section
+    class="nr-track-help"
+    aria-labelledby="NrTrackHelpHeading"
+  >
+    <div class="nr-container nr-track__container">
+      <h2
+        class="nr-track-help__heading"
+        id="NrTrackHelpHeading"
+      >
+        {{ section.settings.help_heading | escape }}
+      </h2>
+      {%- if section.settings.help_text != blank -%}
+        <p class="nr-body nr-body--muted nr-track-help__text">{{ section.settings.help_text | escape }}</p>
+      {%- endif -%}
+      <a
+        href="{{ contact_url }}"
+        class="nr-btn nr-btn--secondary nr-track-help__cta"
+      >
+        {{- section.settings.help_cta | escape -}}
+      </a>
+    </div>
+  </section>
+</nr-order-tracking>
+
+<script
+  type="module"
+  src="{{ 'nr-tracking.js' | asset_url }}"
+></script>
+
+{% schema %}
+{
+  "name": "NR: Spåra order",
+  "tag": "section",
+  "class": "nr-track-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Överrubrik"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Spåra din order"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Undertext",
+      "default": "Följ din leverans från vårt lager hela vägen till dig."
+    },
+    {
+      "type": "header",
+      "content": "Hjälp"
+    },
+    {
+      "type": "text",
+      "id": "help_heading",
+      "label": "Rubrik",
+      "default": "Behöver du hjälp med din leverans?"
+    },
+    {
+      "type": "textarea",
+      "id": "help_text",
+      "label": "Text",
+      "default": "Om något ser fel ut eller om din leverans inte har uppdaterats på ett tag hjälper vi dig gärna."
+    },
+    {
+      "type": "text",
+      "id": "help_cta",
+      "label": "Knapptext",
+      "default": "Kontakta oss"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Kontaktsida"
+    },
+    {
+      "type": "header",
+      "content": "Datakälla"
+    },
+    {
+      "type": "select",
+      "id": "data_source",
+      "label": "Datakälla",
+      "info": "Testdata fungerar bara i opublicerade teman och i temaredigeraren. I publicerat tema används alltid riktig spårning.",
+      "options": [
+        { "value": "live", "label": "Riktig spårning (server)" },
+        { "value": "mock", "label": "Testdata (endast förhandsvisning)" }
+      ],
+      "default": "live"
+    },
+    {
+      "type": "text",
+      "id": "endpoint_base",
+      "label": "Serveradress (app proxy)",
+      "info": "Sökväg till spårningstjänsten, t.ex. /apps/nordic-tracking. Inga nycklar här.",
+      "default": "/apps/nordic-tracking"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Spåra order"
+    }
+  ]
+}
+{% endschema %}
