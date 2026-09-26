@@ -1,0 +1,1201 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "nr-home-hero",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Allt du behöver för en bil som glänser",
+        "text": "Från förtvätt till finish, utan krångel.",
+        "primary_button_label": "Handla bilvård",
+        "primary_button_link": "shopify://collections/all",
+        "secondary_button_label": "Hitta ditt tvättkit",
+        "secondary_button_link": "shopify://collections/fardiga-paket",
+        "text_position": "left",
+        "height": "medium",
+        "desktop_media_type": "video",
+        "desktop_video": "shopify://files/videos/finalupdatedbanner22.mov",
+        "video_autoplay": true,
+        "overlay_opacity": 0
+      }
+    },
+    "benefits": {
+      "type": "nr-home-benefits",
+      "blocks": {
+        "point_1": {
+          "type": "point",
+          "settings": {
+            "icon": "check_box",
+            "heading": "Nöjda bilvårdsentusiaster",
+            "text": "4.7/5 På Trustpilot."
+          }
+        },
+        "point_2": {
+          "type": "point",
+          "settings": {
+            "icon": "stopwatch",
+            "heading": "Snabb leverans",
+            "text": "Vi skickar normalt senast nästa vardag."
+          }
+        },
+        "point_3": {
+          "type": "point",
+          "settings": {
+            "icon": "truck",
+            "heading": "Fri frakt över 799 kr",
+            "text": "Fri frakt när du handlar för över 799 kr."
+          }
+        }
+      },
+      "block_order": [
+        "point_1",
+        "point_2",
+        "point_3"
+      ],
+      "custom_css": [],
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "nr-home-featured-products",
+      "blocks": {
+        "product_1": {
+          "type": "product-card",
+          "settings": {
+            "product": "revolt-flygrostborttagare",
+            "product_card_gap": 8,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "usecase": {
+              "type": "text",
+              "settings": {
+                "text": "<p>För järnpartiklar och fälgrengöring</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "1.4",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 2,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "cta": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Se produkt →</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "gallery",
+            "title",
+            "usecase",
+            "price",
+            "cta"
+          ]
+        },
+        "product_3": {
+          "type": "product-card",
+          "settings": {
+            "product": "alkastrike-alkalisk-avfettning",
+            "product_card_gap": 8,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "usecase": {
+              "type": "text",
+              "settings": {
+                "text": "<p>För trafikfilm och organisk vägsmuts</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "1.4",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 2,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "cta": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Se produkt →</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "gallery",
+            "title",
+            "usecase",
+            "price",
+            "cta"
+          ]
+        },
+        "product_4": {
+          "type": "product-card",
+          "settings": {
+            "product": "foamtastic-hogkoncentrerat-snow-foam",
+            "product_card_gap": 8,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "usecase": {
+              "type": "text",
+              "settings": {
+                "text": "<p>För skumförtvätt</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "1.4",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 2,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "cta": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Se produkt →</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "gallery",
+            "title",
+            "usecase",
+            "price",
+            "cta"
+          ]
+        },
+        "product_2": {
+          "type": "product-card",
+          "settings": {
+            "product": "pure-shampoo-ph-neutralt-bilschampo",
+            "product_card_gap": 8,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "product-title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "usecase": {
+              "type": "text",
+              "settings": {
+                "text": "<p>För kontaktvätten</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "1.4",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 2,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "cta": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Se produkt →</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 6,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "gallery",
+            "title",
+            "usecase",
+            "price",
+            "cta"
+          ]
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_3",
+        "product_4",
+        "product_2"
+      ],
+      "settings": {
+        "heading": "Bästsäljare",
+        "text": ""
+      }
+    },
+    "shop_by_problem": {
+      "type": "nr-home-shop-by-problem",
+      "blocks": {
+        "problem_1": {
+          "type": "problem",
+          "settings": {
+            "title": "Trafikfilm",
+            "text": "Alkalisk förtvätt före handtvätten.",
+            "product": "alkastrike-alkalisk-avfettning"
+          }
+        },
+        "problem_2": {
+          "type": "problem",
+          "settings": {
+            "title": "Järnpartiklar",
+            "text": "Rengör fälgar och utsatta ytor från metalliska partiklar.",
+            "product": "revolt-flygrostborttagare"
+          }
+        },
+        "problem_3": {
+          "type": "problem",
+          "settings": {
+            "title": "Smutsigt glas",
+            "text": "Ränderfri rengöring av bilens glas.",
+            "product": "clarity-glasrengoring"
+          }
+        },
+        "problem_gjLUdV": {
+          "type": "problem",
+          "settings": {
+            "title": "Trafikfilm",
+            "text": "Alkalisk förtvätt före handtvätten.",
+            "product": ""
+          }
+        },
+        "problem_4": {
+          "type": "problem",
+          "settings": {
+            "title": "Skydd & glans",
+            "text": "Snabb sprayförsegling med djup glans och vattenavrinning.",
+            "product": "glosscoat-hydrofobisk-sprayforsegling"
+          }
+        }
+      },
+      "block_order": [
+        "problem_1",
+        "problem_2",
+        "problem_3",
+        "problem_gjLUdV",
+        "problem_4"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Utvalda produkter",
+        "text": ""
+      }
+    },
+    "1790010514dd646917": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "17900112775de6b377": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_f9f7e7d_gRy4wf": {
+          "type": "ai_gen_block_f9f7e7d",
+          "settings": {
+            "heading": "Vad våra kunder säger",
+            "subheading": "Utvalda omdömen från våra kunder på Trustpilot.",
+            "trustpilot_url": "https://se.trustpilot.com/review/nordicreflection.se",
+            "trustpilot_label": "Läs alla omdömen på Trustpilot",
+            "total_rating": "4.7/5",
+            "total_reviews": "34",
+            "desktop_width_percent": 100,
+            "background_color": "#F8F7F3",
+            "card_color": "#FFFFFF",
+            "text_color": "#1C1C1C",
+            "border_color": "#DFDFDF",
+            "star_color": "#287A45",
+            "review_1_enabled": true,
+            "review_1_rating": 5,
+            "review_1_title": "Jobbat med med Rekond i 3 år och…",
+            "review_1_text": "Jobbat med med Rekond i 3 år och tvättar mina bilar flera gånger i veckan så testat en hel del produkter. Testade deras fälgrent, schampo och wet coat. Grym djup glans och otroligt bra rengöring. Avrinningen från wet coaten va helt brutal\nOtroligt nöjd med min beställning!",
+            "review_1_name": "VP",
+            "review_1_date": "11 september 2026",
+            "review_1_url": "",
+            "review_1_verified": false,
+            "review_2_enabled": true,
+            "review_2_rating": 5,
+            "review_2_title": "Riktigt nöjd med produkterna!",
+            "review_2_text": "Fantastiska produkter! Fälg rengöringen är helt otrolig, fälgarna var extremt smutsiga, sprayade på och lät de bara sitta en stund, spolade av och allt var borta! Avfettning och Schampo var också underbart. Gör definitivt sitt jobb ordentligt. Glosscoat gjorde bilen otroligt glansig🥰 Kommer definitivt fortsätta med dessa produkter❤️",
+            "review_2_name": "My Segerstedt",
+            "review_2_date": "8 september 2026",
+            "review_2_url": "",
+            "review_2_verified": false,
+            "review_3_enabled": true,
+            "review_3_rating": 5,
+            "review_3_title": "Produkterna gav ett resultat över min…",
+            "review_3_text": "Produkterna gav ett resultat över min förväntan. Fungerade utmärkt och simpelt att använda, samt sköna att hålla i när dem används. Beställde på en måndag vid 17 fick hem sakerna på onsdagen vid 12. Extremt bra produkter som är väldigt prisvärda.",
+            "review_3_name": "Filip Am",
+            "review_3_date": "7 september 2026",
+            "review_3_url": "",
+            "review_3_verified": false,
+            "review_4_enabled": true,
+            "review_4_rating": 4,
+            "review_4_title": "Fantastisk",
+            "review_4_text": "Snabb leverans till Gotland, en riktigt bra flygrostborttagare som gav ett fantastiskt resultat. Även en riktigt bra alkalisk avfättning. Grymma dofter som ger en bra känsla när man lägger på medlet. Slutresultatet på bil som hoj blir otroligt bra!",
+            "review_4_name": "streamnight",
+            "review_4_date": "11 september 2026",
+            "review_4_url": "",
+            "review_4_verified": false,
+            "review_5_enabled": true,
+            "review_5_rating": 5,
+            "review_5_title": "Produkterna var riktigt bra och lätta…",
+            "review_5_text": "Produkterna var riktigt bra och lätta att använda, kall- och alkaliska avfettningarna var riktigt bra för att få bort 150mils smuts från bilen, schampot gjorde bilen riktigt fin o blank med som dessutom skummade på bra och luktade riktigt gott! Rekommenderar starkt dessa produkter!",
+            "review_5_name": "Hyseni",
+            "review_5_date": "9 september 2026",
+            "review_5_url": "",
+            "review_5_verified": false,
+            "review_6_enabled": false,
+            "review_6_rating": 5,
+            "review_6_title": "",
+            "review_6_text": "",
+            "review_6_name": "",
+            "review_6_date": "",
+            "review_6_url": "",
+            "review_6_verified": false
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_f9f7e7d_gRy4wf"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "categories": {
+      "type": "nr-home-categories",
+      "blocks": {
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "label": "Exteriör",
+            "description": "Förtvätt, fälg, schampo & skydd",
+            "link": "/collections/exterior",
+            "image": "shopify://shop_images/IMG_0350_794d0134-4f67-4ed9-8987-8b9f36a57cd0.heic"
+          }
+        },
+        "cat_2": {
+          "type": "category",
+          "settings": {
+            "label": "Interiör",
+            "description": "Rengöring för bilens insida",
+            "link": "/collections/interior",
+            "image": "shopify://shop_images/IMG_0310_13b17cb9-ea51-42d6-8d97-1a16b1bfccf7.heic"
+          }
+        },
+        "cat_3": {
+          "type": "category",
+          "settings": {
+            "label": "Tillbehör",
+            "description": "Dukar, borstar & tvättutrustning",
+            "link": "/collections/accessories",
+            "image": "shopify://shop_images/IMG_0237_96af2006-479e-4106-bcff-d3cb93887ee5.heic"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3"
+      ],
+      "settings": {
+        "heading": "Utvalda kategorier"
+      }
+    },
+    "bundle": {
+      "type": "nr-home-kit-chooser",
+      "blocks": {
+        "kit_start": {
+          "type": "kit",
+          "settings": {
+            "product": "litet-exterior-startkit",
+            "badge": "Start",
+            "featured": false,
+            "subheading": "Grunden för en ordentlig exteriörtvätt.",
+            "text": "Tre produkter som tar dig från avfettning till handtvätt. Ett enkelt sätt att komma igång utan att köpa mer än du behöver.",
+            "points": "Rätt produkter från start\nEn komplett grundrutin\nBättre pris än separat köp",
+            "button_label": "Välj Startkit"
+          }
+        },
+        "kit_foam": {
+          "type": "kit",
+          "settings": {
+            "product": "foam-wash-kit",
+            "badge": "Mest populär",
+            "featured": true,
+            "subheading": "Foamtvätten du faktiskt vill använda.",
+            "text": "Foamtastic + Foam Cannon i ett färdigt paket. Produkterna är valda för att fungera tillsammans och ge dig ett tjockt, jämnt skumlager utan krångel.",
+            "points": "Foam Cannon + Foamtastic\nFärdigt att använda tillsammans\nSpara jämfört med separat köp",
+            "button_label": "Välj Foam Wash Kit"
+          }
+        },
+        "kit_complete": {
+          "type": "kit",
+          "settings": {
+            "product": "exterior-komplett-kit",
+            "badge": "Komplett",
+            "featured": false,
+            "subheading": "Hela rutinen. Ett paket.",
+            "text": "Från första rengöring till sista finish. För dig som vill ha hela NordicReflection-systemet och slippa fundera på vilka produkter som behövs.",
+            "points": "Hela exteriörrutinen\nProdukter för flera steg i tvätten\nStörst total besparing",
+            "button_label": "Välj Komplett Kit"
+          }
+        }
+      },
+      "block_order": [
+        "kit_start",
+        "kit_foam",
+        "kit_complete"
+      ],
+      "settings": {
+        "eyebrow": "Färdiga lösningar",
+        "heading": "Hitta rätt paket",
+        "text": "Rätt produkter tillsammans, till ett bättre paketpris. Välj nivån som passar din tvätt – vi har redan satt ihop resten.",
+        "tagline": "Mindre funderande. Mer bilvård.",
+        "more_text": "Vill du se fler alternativ?",
+        "more_label": "Se alla färdiga paket",
+        "more_link": "shopify://collections/fardiga-paket"
+      }
+    },
+    "demo": {
+      "type": "nr-home-demo",
+      "blocks": {
+        "video": {
+          "type": "video",
+          "static": true,
+          "settings": {
+            "source": "uploaded",
+            "video": "shopify://files/videos/foambanner1.mov",
+            "video_url": "",
+            "video_autoplay": true,
+            "video_loop": true,
+            "alt": "",
+            "custom_width": 100,
+            "custom_width_mobile": 100,
+            "aspect_ratio": "auto",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "settings": {
+        "heading": "Se vad som händer före handtvätten.",
+        "text": "Rätt förtvätt hjälper dig att få bort mer smuts innan tvätthandsken rör lacken.",
+        "button_label": "Se produkter för förtvätt",
+        "button_link": "shopify://collections/exterior"
+      }
+    },
+    "visual_proof": {
+      "type": "nr-home-visual-proof",
+      "blocks": {
+        "proof_1": {
+          "type": "proof",
+          "settings": {
+            "problem": "Trafikfilm",
+            "product": "alkastrike-alkalisk-avfettning",
+            "text": "Löser upp trafikfilm och organisk smuts innan kontaktvätten."
+          }
+        },
+        "proof_2": {
+          "type": "proof",
+          "settings": {
+            "problem": "Järnpartiklar",
+            "product": "revolt-flygrostborttagare",
+            "text": "Löser upp järnpartiklar och bromsdamm på fälgen.",
+            "video": "shopify://files/videos/revoltförstavideo.mov"
+          }
+        },
+        "proof_3": {
+          "type": "proof",
+          "settings": {
+            "problem": "Skumförtvätt",
+            "product": "foamtastic-hogkoncentrerat-snow-foam",
+            "text": "Tjockt, vidhäftande skum som löser upp smuts innan handtvätten.",
+            "video": "shopify://files/videos/foambanner1.mov"
+          }
+        }
+      },
+      "block_order": [
+        "proof_1",
+        "proof_2",
+        "proof_3"
+      ],
+      "settings": {
+        "heading": "Rätt produkt för rätt typ av smuts"
+      }
+    },
+    "brand_story": {
+      "type": "nr-home-brand-story",
+      "blocks": {
+        "principle_1": {
+          "type": "principle",
+          "settings": {
+            "heading": "Rätt produkt för rätt smuts",
+            "text": "Du ska förstå vad produkten gör innan du köper den."
+          }
+        },
+        "principle_2": {
+          "type": "principle",
+          "settings": {
+            "heading": "Tydliga instruktioner",
+            "text": "Enklare att använda produkterna på rätt sätt."
+          }
+        },
+        "principle_3": {
+          "type": "principle",
+          "settings": {
+            "heading": "En tydligare tvättprocess",
+            "text": "Från förtvätt till finish utan onödigt krångel."
+          }
+        }
+      },
+      "block_order": [
+        "principle_1",
+        "principle_2",
+        "principle_3"
+      ],
+      "settings": {
+        "heading": "Bilvård ska vara enklare att förstå",
+        "text": "<p>Bilvård behöver inte bestå av ett rörigt sortiment och otydliga val. NordicReflection bygger på ett tydligt system där varje produkt har ett specifikt jobb – från att lösa smuts till att skapa glans och skydd.</p>",
+        "button_label": "Läs mer om NordicReflection",
+        "button_link": "shopify://pages/om-oss",
+        "media_position": "left",
+        "image": "shopify://shop_images/IMG_0778.png"
+      }
+    },
+    "guides": {
+      "type": "nr-home-guides",
+      "blocks": {
+        "guide_1": {
+          "type": "guide",
+          "settings": {
+            "article": "",
+            "category": "Grundteknik",
+            "title_override": "Så tvättar du bilen steg för steg",
+            "excerpt_override": "Rätt ordning på förtvätt, skum och kontaktvätt gör tvätten säkrare och mer effektiv.",
+            "link_override": ""
+          }
+        },
+        "guide_2": {
+          "type": "guide",
+          "settings": {
+            "article": "",
+            "category": "Produktkunskap",
+            "title_override": "Alkalisk eller kallavfettning – vad är skillnaden?",
+            "excerpt_override": "Alkastrike löser trafikfilm och organisk smuts. DeepDegrease är till för asfalt och petroleumbaserad smuts.",
+            "link_override": ""
+          }
+        },
+        "guide_3": {
+          "type": "guide",
+          "settings": {
+            "article": "",
+            "category": "Utrustning",
+            "title_override": "Så använder du en foam lance",
+            "excerpt_override": "Rätt spädning och teknik ger ett jämnt, vidhäftande skumlager som gör mer av jobbet innan handtvätten.",
+            "link_override": ""
+          }
+        },
+        "guide_4": {
+          "type": "guide",
+          "settings": {
+            "article": "",
+            "category": "Grundteknik",
+            "title_override": "Så torkar du bilen utan onödigt slitage",
+            "excerpt_override": "En metodisk avtorkning minskar risken för repor och ger ett renare, jämnare slutresultat.",
+            "link_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "guide_1",
+        "guide_2",
+        "guide_3",
+        "guide_4"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Lär dig tvätta bättre",
+        "text": "Tydliga guider för dig som vill förstå produkterna, undvika vanliga misstag och få bättre resultat."
+      }
+    },
+    "results": {
+      "type": "nr-home-results",
+      "blocks": {
+        "result_1": {
+          "type": "result",
+          "settings": {
+            "caption": "",
+            "product": ""
+          }
+        },
+        "result_2": {
+          "type": "result",
+          "settings": {
+            "caption": "",
+            "product": ""
+          }
+        },
+        "result_HKhM3g": {
+          "type": "result",
+          "settings": {
+            "caption": "",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "result_1",
+        "result_2",
+        "result_HKhM3g"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Resultat du kan se",
+        "text": "Verkliga produkter. Verklig användning. Tydliga resultat."
+      }
+    },
+    "newsletter": {
+      "type": "nr-home-newsletter",
+      "blocks": {
+        "signup": {
+          "type": "email-signup",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "heading": "",
+            "heading_text_color": "",
+            "heading_preset": "h3",
+            "border_style": "all",
+            "input_style": "default",
+            "border_width": 1,
+            "border_radius": 100,
+            "input_background_color": "",
+            "input_text_color": "",
+            "input_border_color": "",
+            "input_type_preset": "paragraph",
+            "style_class": "button",
+            "custom_button_background": "{{ settings.color_palette.foreground }}",
+            "custom_button_text": "{{ settings.color_palette.background }}",
+            "custom_button_border": "{{ settings.color_palette.background }}",
+            "link_text_color": "",
+            "display_type": "text",
+            "label": "Sign up",
+            "integrated_button": false,
+            "button_type_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {
+        "heading": "Bättre bilvård direkt i inkorgen",
+        "text": "Få tvättguider, produktnyheter och användbara tips som hjälper dig få bättre resultat.",
+        "privacy_text": "Genom att registrera dig godkänner du vår integritetspolicy. Du kan avsluta prenumerationen när som helst."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "benefits",
+    "featured_products",
+    "shop_by_problem",
+    "1790010514dd646917",
+    "17900112775de6b377",
+    "categories",
+    "bundle",
+    "demo",
+    "visual_proof",
+    "brand_story",
+    "guides",
+    "results",
+    "newsletter"
+  ]
+}

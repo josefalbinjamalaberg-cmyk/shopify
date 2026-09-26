@@ -1,0 +1,531 @@
+{% comment %}
+  "Hitta rätt paket" — three ready-made kits side by side (START / MEST
+  POPULÄR / KOMPLETT). Replaces the old single-product nr-home-bundle slot
+  on the homepage and keeps its #nr-bundle anchor.
+
+  Everything product-related comes from the product chosen in each block:
+  title, image, URL, price and compare-at price. The saving ("Spara X kr")
+  is computed from compare_at_price − price and only shows when the
+  product actually has a higher compare-at price — nothing is hardcoded.
+  A block without a product renders nothing; if no block has a product the
+  whole section is hidden.
+
+  Layout: three equal cards from 990px; below that the cards stack in a
+  compact form (thumbnail beside title + price) so all three fit on a
+  phone without a carousel.
+
+  Styling builds on assets/nr-homepage.css (loaded by nr-home-hero).
+{% endcomment %}
+
+{%- liquid
+  assign has_any_kit = false
+  for block in section.blocks
+    if block.settings.product != blank
+      assign has_any_kit = true
+    endif
+  endfor
+-%}
+
+{%- if has_any_kit -%}
+  <div id="nr-bundle" data-nr-scope class="nr-section nr-section--soft nr-kits">
+    <div class="nr-container">
+      <div class="nr-section-head nr-section-head--center nr-kits__head" data-nr-reveal>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="nr-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="nr-h2">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="nr-body nr-body--muted">{{ section.settings.text | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.tagline != blank -%}
+          <p class="nr-kits__tagline">{{ section.settings.tagline | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      <ul class="nr-kits__list" role="list" data-nr-reveal>
+        {%- for block in section.blocks -%}
+          {%- assign product = block.settings.product -%}
+          {%- if product == blank -%}{%- continue -%}{%- endif -%}
+          {%- liquid
+            assign saving = 0
+            if product.compare_at_price > product.price
+              assign saving = product.compare_at_price | minus: product.price
+            endif
+            assign points = block.settings.points | newline_to_br | split: '<br />'
+            assign card_id = 'NrKit-' | append: block.id
+          -%}
+          <li
+            class="nr-kits__item{% if block.settings.featured %} nr-kits__item--featured{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            <article class="nr-kit" aria-labelledby="{{ card_id }}">
+              {%- if block.settings.badge != blank -%}
+                <p class="nr-kit__badge">{{ block.settings.badge | escape }}</p>
+              {%- endif -%}
+
+              <div class="nr-kit__top">
+                <a href="{{ product.url }}" class="nr-kit__media" tabindex="-1" aria-hidden="true">
+                  {%- if product.featured_image != blank -%}
+                    {{
+                      product.featured_image
+                      | image_url: width: 600
+                      | image_tag:
+                        loading: 'lazy',
+                        alt: '',
+                        widths: '200, 300, 400, 600',
+                        sizes: '(min-width: 990px) 340px, 112px'
+                    }}
+                  {%- endif -%}
+                </a>
+
+                <div class="nr-kit__summary">
+                  <h3 class="nr-kit__title" id="{{ card_id }}">{{ product.title }}</h3>
+                  <p class="nr-kit__price">
+                    {%- if saving > 0 -%}
+                      <span class="visually-hidden">Paketpris</span>
+                    {%- endif -%}
+                    <span class="nr-kit__price-now">{{ product.price | money }}</span>
+                    {%- if saving > 0 -%}
+                      <span class="visually-hidden">Ordinarie pris</span>
+                      <s class="nr-kit__price-was">{{ product.compare_at_price | money }}</s>
+                    {%- endif -%}
+                  </p>
+                  {%- if saving > 0 -%}
+                    <p class="nr-kit__saving">Spara {{ saving | money }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {%- if block.settings.subheading != blank -%}
+                <p class="nr-kit__lead">{{ block.settings.subheading | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="nr-kit__text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+
+              {%- if block.settings.points != blank -%}
+                <ul class="nr-kit__points" role="list">
+                  {%- for point in points -%}
+                    {%- assign point_text = point | strip -%}
+                    {%- if point_text != blank -%}
+                      <li>
+                        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>{{ point_text | escape }}</span>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+
+              <a
+                href="{{ product.url }}"
+                class="nr-btn {% if block.settings.featured %}nr-btn--primary{% else %}nr-btn--secondary{% endif %} nr-kit__cta"
+              >
+                {{- block.settings.button_label | default: product.title | escape -}}
+                <span class="nr-link__arrow" aria-hidden="true">→</span>
+              </a>
+            </article>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.more_label != blank -%}
+        <p class="nr-kits__more">
+          {%- if section.settings.more_text != blank -%}
+            <span class="nr-kits__more-text">{{ section.settings.more_text | escape }}</span>
+          {%- endif -%}
+          <a href="{{ section.settings.more_link | default: routes.collections_url }}" class="nr-link">
+            {{- section.settings.more_label | escape -}}
+            <span class="nr-link__arrow" aria-hidden="true">→</span>
+          </a>
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .nr-kits__head {
+    max-width: 720px;
+  }
+
+  .nr-kits__tagline {
+    margin: var(--nr-space-sm) 0 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .nr-kits__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--nr-space-md);
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nr-kits__item {
+    display: flex;
+    min-width: 0;
+  }
+
+  .nr-kit {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: var(--nr-space-md);
+    background: var(--nr-surface);
+    border: 1px solid var(--nr-border);
+    border-radius: var(--nr-radius-md);
+  }
+
+  .nr-kits__item--featured .nr-kit {
+    border-color: var(--nr-text);
+    box-shadow: 0 0 0 1px var(--nr-text);
+  }
+
+  .nr-kit__badge {
+    align-self: flex-start;
+    margin: 0 0 var(--nr-space-sm);
+    padding: 5px 10px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nr-text);
+    background: var(--nr-bg-soft);
+    border-radius: var(--nr-radius-sm);
+  }
+
+  .nr-kits__item--featured .nr-kit__badge {
+    color: #fff;
+    background: var(--nr-text);
+  }
+
+  .nr-kit__top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nr-space-sm);
+  }
+
+  .nr-kit__media {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--nr-radius-sm);
+    background: var(--nr-bg-soft);
+  }
+
+  .nr-kit__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform var(--nr-transition-normal);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .nr-kit:hover .nr-kit__media img {
+      transform: scale(1.03);
+    }
+  }
+
+  .nr-kit__summary {
+    min-width: 0;
+  }
+
+  .nr-kit__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.1875rem, 1.05rem + 0.4vw, 1.375rem);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .nr-kit__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    margin: 8px 0 0;
+  }
+
+  .nr-kit__price-now {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .nr-kit__price-was {
+    font-size: 0.875rem;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-kit__saving {
+    display: inline-block;
+    margin: 6px 0 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--nr-text);
+  }
+
+  .nr-kit__lead {
+    margin: var(--nr-space-md) 0 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .nr-kit__text {
+    margin: 6px 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-kit__points {
+    display: grid;
+    gap: 8px;
+    margin: var(--nr-space-sm) 0 0;
+    padding: var(--nr-space-sm) 0 0;
+    border-top: 1px solid var(--nr-border);
+    list-style: none;
+  }
+
+  .nr-kit__points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .nr-kit__points svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+  }
+
+  /* Pushes the button to the card bottom so all three line up */
+  .nr-kit__cta {
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .nr-kit > :nth-last-child(2) {
+    margin-bottom: var(--nr-space-md);
+  }
+
+  .nr-kits__more {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 4px 10px;
+    margin: var(--nr-space-lg) 0 0;
+    text-align: center;
+  }
+
+  .nr-kits__more-text {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  /* ---------- Below 990px: compact stacked cards ---------- */
+  @media screen and (max-width: 989px) {
+    .nr-kits__list {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--nr-space-sm);
+      max-width: 640px;
+      margin-inline: auto;
+    }
+
+    .nr-kit {
+      padding: 20px;
+    }
+
+    .nr-kit__top {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--nr-space-sm);
+    }
+
+    .nr-kit__media {
+      flex: 0 0 112px;
+      width: 112px;
+    }
+
+    .nr-kit__lead {
+      margin-top: var(--nr-space-sm);
+    }
+
+    .nr-kits__more {
+      margin-top: var(--nr-space-md);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .nr-kits .nr-section-head {
+      margin-bottom: var(--nr-space-md);
+    }
+
+    .nr-kit {
+      padding: 18px 16px;
+    }
+
+    .nr-kit__badge {
+      margin-bottom: 12px;
+    }
+
+    .nr-kit__media {
+      flex-basis: 96px;
+      width: 96px;
+    }
+
+    .nr-kit__title {
+      font-size: 1.125rem;
+    }
+
+    .nr-kit__price-now {
+      font-size: 1.0625rem;
+    }
+
+    .nr-kit__text,
+    .nr-kit__points li {
+      font-size: 0.875rem;
+    }
+
+    .nr-kit__points {
+      gap: 6px;
+      margin-top: 12px;
+      padding-top: 12px;
+    }
+
+    .nr-kit > :nth-last-child(2) {
+      margin-bottom: 18px;
+    }
+
+    .nr-kits__more {
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Hitta rätt paket",
+  "tag": "section",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Överrubrik",
+      "default": "Färdiga lösningar"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Hitta rätt paket"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Rätt produkter tillsammans, till ett bättre paketpris. Välj nivån som passar din tvätt – vi har redan satt ihop resten."
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Kort budskap under texten",
+      "default": "Mindre funderande. Mer bilvård."
+    },
+    {
+      "type": "header",
+      "content": "Länk under paketen"
+    },
+    {
+      "type": "text",
+      "id": "more_text",
+      "label": "Text före länken",
+      "default": "Vill du se fler alternativ?"
+    },
+    {
+      "type": "text",
+      "id": "more_label",
+      "label": "Länktext",
+      "info": "Pilen läggs till automatiskt.",
+      "default": "Se alla färdiga paket"
+    },
+    {
+      "type": "url",
+      "id": "more_link",
+      "label": "Länk"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "kit",
+      "name": "Paket",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Paketprodukt",
+          "info": "Namn, bild, pris, jämförpris och länk hämtas från produkten. \"Spara X kr\" räknas ut från jämförpriset och visas bara om det finns."
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Etikett",
+          "default": "Start"
+        },
+        {
+          "type": "checkbox",
+          "id": "featured",
+          "label": "Framhäv (t.ex. Mest populär)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Kort rubrik"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "textarea",
+          "id": "points",
+          "label": "Fördelar (en per rad)"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Knapptext",
+          "info": "Pilen läggs till automatiskt. Knappen leder till produktsidan."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Hitta rätt paket",
+      "blocks": [
+        { "type": "kit", "settings": { "badge": "Start" } },
+        { "type": "kit", "settings": { "badge": "Mest populär", "featured": true } },
+        { "type": "kit", "settings": { "badge": "Komplett" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
