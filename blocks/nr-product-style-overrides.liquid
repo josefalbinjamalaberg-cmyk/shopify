@@ -1,0 +1,781 @@
+{%- doc -%}
+  Shared, parameterized style-overrides block for every NordicReflection
+  chemical product page (Alkastrike, Clarity, and every product built after
+  them). Replaces the old per-product alkastrike-style-overrides.liquid /
+  clarity-style-overrides.liquid pair, which duplicated the same CSS with
+  only a handful of differing values (sidebar width, media bg, padding,
+  object-fit, buy-column width, checkout-button sizing).
+
+  Hero/buy-box tuning always targets #shopify-section-main, since every
+  chem product template keys its product-information section "main" by
+  convention. The shared typography scale targets every OTHER section via
+  the attribute selector [id^="shopify-section-"]:not(#shopify-section-main)
+  instead of an enumerated per-product section-key list, so a new product
+  template needs zero CSS changes here no matter which section keys it uses.
+
+  Placeholder media notes (.nr-media-placeholder-note, plus the legacy
+  alkastrike-result-video/-before-after production-note chips) hide
+  automatically once settings.nr_production_mode is off store-wide, so
+  going live doesn't require hunting down and clearing every note by hand.
+
+  === Pre-launch design/polish pass (all 9 product pages, this file only) ===
+  Every rule below targets markup/classes already confirmed by reading the
+  live theme source (group.liquid, text.liquid, buy-buttons-styles.liquid,
+  accordion-styles.liquid, sections/section.liquid, and every
+  alkastrike-*/clarity-* section file) — nothing here is a guess. Three
+  targeting techniques are used throughout:
+
+  1. Static template blocks render with `block.id` equal to their JSON key
+     (confirmed in snippets/text.liquid: class="text-block text-block--{{
+     block.id }} ..."). Since every product page's JSON uses the same block
+     keys (brand, title, category, number, warning, ...), classes like
+     `.text-block--brand` or `.color-custom-warning` reliably target "the
+     eyebrow line" or "the how-to-use advice box" on every product page
+     without needing a product-specific selector.
+  2. Section padding (padding-block-start/end) is written as an inline
+     style by the spacing-style snippet, so establishing a real vertical
+     rhythm (hero-adjacent story sections larger, dense utility sections
+     tighter) requires !important here — there is no other way to vary it
+     globally without editing padding on every section instance across all
+     9 product JSON templates individually.
+  3. Two different section wrapper shapes exist and are targeted
+     differently on purpose: sections with their own dedicated .liquid file
+     (result_video, before_after, why_*, comparison, usage_areas, system,
+     recommended, cross_sell, material_note, final_cta) render an explicit
+     `<div class="section section--page-width ...">` as a child of
+     Shopify's auto id wrapper — confirmed directly in each file's source —
+     so those are targeted with `#shopify-section-X > .section`. Sections
+     using the theme's generic `sections/section.liquid` (how_to_use,
+     dirt_types, removes, faq, delivery_returns, surfaces, tech_specs)
+     instead carry schema `"class": "section-wrapper"`, which Shopify
+     applies directly to the auto id wrapper itself with no separate inner
+     div — so those are targeted as the bare `#shopify-section-X`. Using
+     the wrong one of these two forms on a given section key is a silent
+     no-op, never a double-applied style, which is why both forms are kept
+     explicit and commented rather than merged into one "looks close enough"
+     selector.
+
+  No new sections were added and no product copy/media was touched — this
+  is presentation only.
+
+  === Mobile CRO pass (paid-traffic PDP audit) ===
+  Found: every product using this block sets its own
+  media_max_height_mobile (50-60vh across the 7 audited products) with no
+  shared ceiling, so on a 320-390px phone the hero image alone was eating
+  ~55-60% of the viewport before any purchase content appeared — price and
+  Add to Cart landing below the first scroll on the smallest devices this
+  store's Meta/Google traffic actually uses. Rather than hand-edit each
+  product's individual setting (7 separate ~100-120KB hand-built JSON
+  templates), the mobile media-height and padding rules below are wrapped
+  in CSS min() against a shared hard ceiling — so every product page gets a
+  sane mobile image size immediately, and any future chem product page
+  using this same block inherits the ceiling automatically with zero setup.
+  Per-product settings still work exactly as before for anything under the
+  new ceiling; nothing above it can push the image past 42vh on mobile
+  again. H1 also gets a mobile-specific clamp lower than the existing
+  desktop-first one, so the product name doesn't compound the same
+  above-the-fold problem on the smallest widths.
+{%- enddoc -%}
+
+{{ 'nr-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'nr-product.js' | asset_url }}" type="module" defer></script>
+
+<div hidden data-nr-product-style-overrides {{ block.shopify_attributes }}></div>
+
+{%- unless block.settings.show_dynamic_checkout -%}
+  {% style %}
+    #shopify-section-main .accelerated-checkout-block,
+    #shopify-section-final_cta .accelerated-checkout-block {
+      display: none !important;
+    }
+  {% endstyle %}
+{%- endunless -%}
+
+{%- unless settings.nr_production_mode -%}
+  {% style %}
+    .nr-media-placeholder-note,
+    .alkastrike-result-video__production-note,
+    .alkastrike-before-after__production-note {
+      display: none !important;
+    }
+  {% endstyle %}
+{%- endunless -%}
+
+{% style %}
+  #shopify-section-main {
+    --sidebar-width: {{ block.settings.sidebar_width }};
+  }
+
+  #shopify-section-main media-gallery {
+    background: {{ block.settings.media_bg_color }};
+  }
+
+  #shopify-section-main .product-media-container img,
+  #shopify-section-main .product-media-container video {
+    object-fit: {{ block.settings.media_object_fit }} !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-main .product-media-container {
+      padding: {{ block.settings.media_padding_desktop }}px;
+    }
+
+    #shopify-section-main media-gallery {
+      max-height: {{ block.settings.media_max_height_desktop }}px !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-main .product-media-container {
+      /* Mobile CRO pass: hard ceiling regardless of the per-product
+         setting above it — see doc comment. */
+      padding: min({{ block.settings.media_padding_mobile }}px, 16px);
+    }
+
+    #shopify-section-main media-gallery {
+      max-height: min({{ block.settings.media_max_height_mobile }}vh, 42vh) !important;
+    }
+  }
+
+  #shopify-section-main .product-details > .group-block {
+    max-width: {{ block.settings.buy_column_max_width }}px;
+  }
+
+  #shopify-section-main .accelerated-checkout-block,
+  #shopify-section-final_cta .accelerated-checkout-block {
+    margin-top: 12px;
+    max-width: {{ block.settings.checkout_button_max_width }}px;
+  }
+{% endstyle %}
+
+{% stylesheet %}
+  /* ---------- Shared type scale. Every rule below except the h1 targets
+     "every section that isn't the hero", so it applies unchanged no matter
+     which section keys a given product's template happens to use.
+     Desktop targets: H1 36–42px, H2 32–40px, H3 20–24px (already correct). ---------- */
+  #shopify-section-main h1 {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: -0.01em;
+    font-size: clamp(2.25rem, 1.95rem + 1.4vw, 2.625rem);
+    line-height: 1.08;
+  }
+
+  /* Mobile CRO pass: the fluid clamp above is desktop-first (still ~37-38px
+     on a 375-430px phone). Paid-traffic PDPs need the product name to
+     resolve fast without competing with the image for vertical space —
+     28-34px is the target range on the smallest viewports this audit
+     covers (320-430px). Overrides only inside the mobile breakpoint; the
+     desktop clamp above is untouched. */
+  @media screen and (max-width: 749px) {
+    #shopify-section-main h1 {
+      font-size: clamp(1.75rem, 1.35rem + 3.5vw, 2.125rem);
+      line-height: 1.12;
+    }
+  }
+
+  [id^="shopify-section-"]:not(#shopify-section-main) h2 {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: -0.01em;
+    font-size: clamp(2rem, 1.7rem + 1.4vw, 2.5rem);
+    line-height: 1.15;
+  }
+
+  [id^="shopify-section-"]:not(#shopify-section-main) h3 {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: -0.01em;
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    line-height: 1.25;
+  }
+
+  [id^="shopify-section-"]:not(#shopify-section-main) p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  @media screen and (min-width: 750px) {
+    [id^="shopify-section-"]:not(#shopify-section-main) p {
+      font-size: 1.0625rem;
+    }
+  }
+
+  /* ---------- Hero / buy box mechanics that don't need per-product
+     values (the parameterized parts live in the {% style %} block above). ---------- */
+  #shopify-section-main .section > * {
+    max-width: 1440px;
+    margin-inline: auto;
+  }
+
+  #shopify-section-main media-gallery {
+    box-shadow: none !important;
+    border: none;
+  }
+
+  #shopify-section-main .product-media-container {
+    box-shadow: none !important;
+  }
+
+  #shopify-section-main .product-media-container img,
+  #shopify-section-main .product-media-container video {
+    object-position: center center;
+  }
+
+  #shopify-section-main .slideshow-controls__thumbnail {
+    box-shadow: none !important;
+  }
+
+  @media screen and (min-width: 1200px) {
+    #shopify-section-main
+      .product-information__grid:not(
+        .product-information__grid--half,
+        .product-information--media-none
+      ).product-information--media-left {
+      grid-template-columns: 54fr 46fr;
+    }
+  }
+
+  /* ---------- Metafield-text typography (category / value prop / body) —
+     class-based, so it's a no-op wherever a page doesn't use these blocks. ---------- */
+  .alkastrike-metafield-text--category p {
+    font-size: clamp(0.9375rem, 0.86rem + 0.3vw, 1.0625rem);
+    opacity: 0.75;
+  }
+
+  .alkastrike-metafield-text--h5 p {
+    font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.1875rem);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .alkastrike-metafield-text--paragraph p {
+    font-size: clamp(1rem, 0.93rem + 0.3vw, 1.0625rem);
+    line-height: 1.55;
+  }
+
+  #shopify-section-main .rte ul {
+    font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+    line-height: 1.6;
+  }
+
+  #shopify-section-main product-price .price {
+    font-size: clamp(1.625rem, 1.4rem + 1vw, 2rem) !important;
+    font-weight: 600;
+  }
+
+  /* Mobile CRO pass: price must read clearly at the smallest widths too —
+     the fluid clamp above already covers this reasonably (26-28px at
+     320-430px), so only the floor needed a nudge to stay inside the
+     22-28px target on the very smallest phones. */
+  @media screen and (max-width: 749px) {
+    #shopify-section-main product-price .price {
+      font-size: clamp(1.5rem, 1.3rem + 1vw, 1.75rem) !important;
+    }
+  }
+
+  /* ---------- Shared "two-column bullet compare" heading size (used by
+     alkastrike-comparison.liquid / clarity-usage-areas.liquid instances) —
+     class-based, harmless no-op elsewhere. ---------- */
+  .clarity-usage-areas__column-heading {
+    font-size: var(--font-h5--size, 1.125rem);
+  }
+
+  /* ---------- Placeholder media chip. Drop
+     <p class="nr-media-placeholder-note">Typ – förhållande – längd – shot-instruktion</p>
+     inside any native text/group block wherever a media slot is still
+     empty; it hides automatically when settings.nr_production_mode is off. ---------- */
+  .nr-media-placeholder-note {
+    display: inline-block;
+    margin: 0;
+    padding: 6px 10px;
+    border: 1px dashed rgb(var(--color-foreground-rgb) / 0.35);
+    background: var(--color-background);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text, 0.75));
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Trust badges: icon chips instead of plain icon+text rows.
+     Scoped to the hero buy-box trust row and the delivery/returns icons —
+     the only two places this icon+text "reassurance" pattern appears on a
+     product page — so it reads as a deliberate trust-badge system rather
+     than a global icon restyle. .icon-block is the block-wrapper class
+     Horizon applies automatically (schema "class": "icon-block" in
+     blocks/icon.liquid), so this targets real, confirmed markup. ---------- */
+  #shopify-section-main .icon-block,
+  #shopify-section-delivery_returns .icon-block {
+    padding: 6px;
+    border-radius: 999px;
+    background: rgb(var(--color-foreground-rgb) / 0.06);
+  }
+
+  /* ---------- Benefit bullet lists: checkmarks instead of the browser
+     default, so the buy-box benefit list reads as proof points rather than
+     a generic list. Encoded as a tiny inline SVG mask so it costs no extra
+     request and inherits the page's foreground color automatically. ---------- */
+  #shopify-section-main .rte ul {
+    list-style: none;
+    padding-inline-start: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  #shopify-section-main .rte ul li {
+    position: relative;
+    padding-inline-start: 1.6em;
+  }
+
+  #shopify-section-main .rte ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgb(var(--color-foreground-rgb) / 0.9);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' d='M6.5 11.5 3 8l1-1 2.5 2.5L12 4l1 1z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' d='M6.5 11.5 3 8l1-1 2.5 2.5L12 4l1 1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+
+  /* ---------- Headings never break awkwardly on a single trailing word,
+     on mobile or desktop. No-op in browsers that don't support it yet. ---------- */
+  #shopify-section-main h1,
+  [id^="shopify-section-"]:not(#shopify-section-main) h2,
+  [id^="shopify-section-"]:not(#shopify-section-main) h3 {
+    text-wrap: balance;
+  }
+
+  /* =====================================================================
+     PRE-LAUNCH POLISH PASS — everything below is new.
+     ===================================================================== */
+
+  /* ---------- 1. Eyebrow line ("NordicReflection" above the H1).
+     .text-block--brand is the confirmed static-block class (block id
+     "brand" in every product's header_group). Small, tracked, subdued —
+     a real eyebrow instead of body-sized text competing with the H1. ---------- */
+  #shopify-section-main .text-block--brand {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.55;
+    margin-block-end: 2px;
+  }
+
+  /* ---------- 2. Buy box: premium button sizing. --height-buy-buttons is
+     the theme's own token (see snippets/buy-buttons-styles.liquid) and
+     already drives the Add to cart button, the quantity selector AND the
+     Shop Pay / accelerated-checkout web component's block-size, so setting
+     it once keeps all three visually aligned at a proper 52px target
+     instead of overriding three separate components by hand. ---------- */
+  #shopify-section-main,
+  #shopify-section-final_cta {
+    --height-buy-buttons: 52px;
+  }
+
+  #shopify-section-main .product-form-buttons button,
+  #shopify-section-final_cta .product-form-buttons button {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  /* Shop Pay / dynamic checkout must stay visually secondary to "Lägg i
+     varukorgen": push it down, cap its width (settings-driven above) and
+     label the gap so it doesn't read as a second equal-weight CTA. Shopify
+     owns the button's internal styling (brand-locked), so this only
+     touches layout — no attempt to recolor the Shop Pay button itself. */
+  #shopify-section-main .accelerated-checkout-block,
+  #shopify-section-final_cta .accelerated-checkout-block {
+    position: relative;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+
+  #shopify-section-main .accelerated-checkout-block::before,
+  #shopify-section-final_cta .accelerated-checkout-block::before {
+    content: 'eller';
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text, 0.55));
+  }
+
+  /* ---------- 3. FAQ accordion: the summary row inherits the theme's h6
+     preset (~12px) via --summary-font-size, which reads as compressed at
+     product-decision time. Raise it to the 15–16px floor and give the row
+     real vertical breathing room and a comfortable touch target. ---------- */
+  #shopify-section-faq .details__header {
+    --summary-font-size: 1rem;
+    padding-block: 18px;
+    gap: 12px;
+    transition: opacity 180ms ease;
+  }
+
+  #shopify-section-faq .details-content {
+    padding-block-end: 18px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  #shopify-section-faq .details__header:hover {
+    opacity: 0.7;
+  }
+
+  #shopify-section-faq .details__header:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: -2px;
+  }
+
+  /* ---------- 4. Section spacing rhythm. Every chem product page reuses
+     the same section keys (why_* varies its suffix per product, matched
+     with a substring selector), so one tiered scale here replaces the flat
+     56px-everywhere default with real hierarchy: story sections read as
+     bigger moments, dense utility sections stay tighter. !important is
+     required because padding-block-start/end ships as an inline style from
+     the spacing-style snippet on every section instance. Selector shape
+     (bare id vs `> .section`) follows the two wrapper forms documented at
+     the top of this file — see doc comment for why they're kept separate. ---------- */
+
+  /* Tier A — story sections (own .liquid file, confirmed `> .section` child) */
+  #shopify-section-result_video > .section,
+  #shopify-section-before_after > .section,
+  [id^="shopify-section-"][id*="-why_"] > .section {
+    padding-block-start: 96px !important;
+    padding-block-end: 96px !important;
+  }
+
+  /* Tier B — standard content, generic section.liquid (bare id wrapper) */
+  #shopify-section-how_to_use,
+  #shopify-section-dirt_types,
+  #shopify-section-removes {
+    padding-block-start: 80px !important;
+    padding-block-end: 80px !important;
+  }
+
+  /* Tier B — standard content, own .liquid file (confirmed `> .section` child) */
+  #shopify-section-comparison > .section,
+  #shopify-section-usage_areas > .section,
+  #shopify-section-system > .section,
+  #shopify-section-recommended > .section {
+    padding-block-start: 80px !important;
+    padding-block-end: 80px !important;
+  }
+
+  /* Tier C — dense/utility, generic section.liquid (bare id wrapper) */
+  #shopify-section-surfaces,
+  #shopify-section-tech_specs,
+  #shopify-section-faq,
+  #shopify-section-delivery_returns {
+    padding-block-start: 64px !important;
+    padding-block-end: 64px !important;
+  }
+
+  /* Tier C — dense/utility, own .liquid file (confirmed `> .section` child) */
+  #shopify-section-cross_sell > .section,
+  #shopify-section-material_note > .section {
+    padding-block-start: 64px !important;
+    padding-block-end: 64px !important;
+  }
+
+  /* Closing statement — own .liquid file (confirmed `> .section` child) */
+  #shopify-section-final_cta > .section {
+    padding-block-start: 104px !important;
+    padding-block-end: 104px !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-result_video > .section,
+    #shopify-section-before_after > .section,
+    [id^="shopify-section-"][id*="-why_"] > .section,
+    #shopify-section-final_cta > .section {
+      padding-block-start: 72px !important;
+      padding-block-end: 72px !important;
+    }
+
+    #shopify-section-how_to_use,
+    #shopify-section-dirt_types,
+    #shopify-section-removes,
+    #shopify-section-comparison > .section,
+    #shopify-section-usage_areas > .section,
+    #shopify-section-system > .section,
+    #shopify-section-recommended > .section {
+      padding-block-start: 64px !important;
+      padding-block-end: 64px !important;
+    }
+
+    #shopify-section-surfaces,
+    #shopify-section-tech_specs,
+    #shopify-section-faq,
+    #shopify-section-delivery_returns,
+    #shopify-section-cross_sell > .section,
+    #shopify-section-material_note > .section {
+      padding-block-start: 56px !important;
+      padding-block-end: 56px !important;
+    }
+  }
+
+  /* ---------- 5. Container width + line-length. Section width already
+     comes from the theme's page-width grid system (base.css); this only
+     tightens running text so paragraphs never stretch edge-to-edge on
+     wide desktop viewports — harmless no-op wherever text already sits in
+     a narrower column. ---------- */
+  [id^="shopify-section-"]:not(#shopify-section-main) .rte,
+  [id^="shopify-section-"]:not(#shopify-section-main) p:not([class]) {
+    max-width: 68ch;
+  }
+
+  /* ---------- 6. "Why" storytelling sections: media/text proportion closer
+     to 55/45 (was an even 50/50), text vertically centered against the
+     media for a more intentional editorial composition on desktop. ---------- */
+  @media screen and (min-width: 750px) {
+    .alkastrike-why-alkaline__media {
+      flex: 1 1 55%;
+    }
+
+    .alkastrike-why-alkaline__text {
+      flex: 1 1 45%;
+      max-width: 480px;
+    }
+  }
+
+  /* ---------- 7. Media section headers (result video / before-after):
+     more deliberate spacing between heading, supporting line and the media
+     itself, matching the same rhythm across both sections. ---------- */
+  .alkastrike-result-video__inner {
+    gap: 40px;
+  }
+
+  .alkastrike-result-video__intro h2 {
+    margin-block-end: 10px !important;
+  }
+
+  .alkastrike-before-after__heading {
+    margin-block-end: 36px !important;
+  }
+
+  .alkastrike-before-after__caption,
+  .alkastrike-result-video__subheading,
+  .alkastrike-comparison__footer,
+  .clarity-usage-areas__footer {
+    font-size: 0.875rem !important;
+  }
+
+  /* ---------- 8. Step / item numerals ("01", "02"...) in how_to_use and
+     dirt_types-style sections. .text-block--number is the confirmed static
+     block class (every step/item's numeral block uses the JSON key
+     "number"), so this reaches every product's steps in one rule. Small
+     and tracked rather than large — an intentional label, not a headline. ---------- */
+  [id^="shopify-section-"]:not(#shopify-section-main) .text-block--number {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    opacity: 0.45;
+    margin-block-end: 4px !important;
+  }
+
+  /* ---------- 9. "Bra att veta" advice boxes (how_to_use warning row).
+     .color-custom-warning is the confirmed dynamic class Horizon adds
+     whenever a group block (JSON key "warning") has a background_color
+     set — true for this row on every product page. Adds the "subtle
+     border" called for without touching the background color already set
+     per-product (kept as-is: it's already a light, non-alarming neutral). ---------- */
+  [id^="shopify-section-"]:not(#shopify-section-main) .color-custom-warning {
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  /* ---------- 10. Delivery/returns + recommended/system/cross-sell tiles:
+     consistent caption sizing and a touch more breathing room so the grid
+     doesn't feel like leftover space. ---------- */
+  .alkastrike-tile__description {
+    font-size: 0.875rem !important;
+  }
+
+  .alkastrike-recommended__grid,
+  .alkastrike-system__grid {
+    gap: 28px;
+  }
+
+  /* ---------- 11. Final CTA: read as the close of the story, not the hero
+     pasted into a box again — larger heading, more generous internal
+     spacing, media/content proportion nudged toward the copy side. ---------- */
+  .alkastrike-final-cta__inner {
+    gap: 56px;
+  }
+
+  .alkastrike-final-cta__heading {
+    font-size: clamp(1.75rem, 1.5rem + 1.2vw, 2.25rem) !important;
+    margin-block-end: 16px !important;
+  }
+
+  .alkastrike-final-cta__text {
+    font-size: 1.0625rem;
+  }
+
+  /* ---------- 12. Borders / radius consistency. Comparison, usage-areas
+     and product-tile media already use a plain 1px neutral border/no
+     radius — this just makes sure the tile media block matches it exactly
+     instead of the theme's generic card radius token bleeding through. ---------- */
+  .alkastrike-tile__media {
+    border-radius: 0;
+  }
+
+  .alkastrike-comparison__column,
+  .clarity-usage-areas__column {
+    border-color: rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  /* ---------- 13. Micro-interactions kept intentionally minimal: fast,
+     subtle, no bounce/parallax. Buttons already get the theme's native
+     hover state; this only adds a quick press-down affordance consistent
+     with the rest of the page's 150–250ms rhythm. ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    #shopify-section-main .product-form-buttons button,
+    #shopify-section-final_cta .product-form-buttons button {
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
+
+    #shopify-section-main .product-form-buttons button:active,
+    #shopify-section-final_cta .product-form-buttons button:active {
+      transform: scale(0.98);
+    }
+  }
+
+  /* =====================================================================
+     MOBILE CRO PASS — paid-traffic PDP audit. See top-of-file doc comment
+     for the media-height/H1/price mobile overrides above; the rules below
+     are the remaining, non-media-height findings from the same pass.
+     ===================================================================== */
+
+  /* ---------- 14. Quantity selector: keep it a compact stepper, never a
+     full-width row, so it doesn't compete with Add to cart for visual
+     weight or push the button further down on short viewports. Horizon's
+     own quantity-selector markup is already compact by default — this only
+     guards against it stretching if a parent flex/grid context changes. ---------- */
+  #shopify-section-main quantity-selector-component,
+  #shopify-section-final_cta quantity-selector-component {
+    flex: 0 0 auto;
+    width: fit-content;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Stilfixar (kemprodukter)",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Delat stilblock för alla NordicReflection-kemproduktsidor. Lägg till detta block först i produktdetaljerna, en gång per produktsida."
+    },
+    {
+      "type": "text",
+      "id": "sidebar_width",
+      "label": "Köpsektionens bredd (sidebar-width)",
+      "info": "CSS-längd, t.ex. 36rem.",
+      "default": "36rem"
+    },
+    {
+      "type": "range",
+      "id": "buy_column_max_width",
+      "label": "Köpkolumnens maxbredd",
+      "min": 400,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 580
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "color",
+      "id": "media_bg_color",
+      "label": "Bakgrundsfärg produktbild",
+      "default": "#f5f4f0"
+    },
+    {
+      "type": "select",
+      "id": "media_object_fit",
+      "label": "Bildanpassning",
+      "options": [
+        { "value": "contain", "label": "Contain (visa hela produkten, ingen beskärning)" },
+        { "value": "cover", "label": "Cover (fyll ytan, kan beskära)" }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "range",
+      "id": "media_padding_desktop",
+      "label": "Padding runt produktbild (desktop)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "media_padding_mobile",
+      "label": "Padding runt produktbild (mobil)",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 24,
+      "info": "Begränsas till max 16px på mobil oavsett värde här (mobil CRO-tak)."
+    },
+    {
+      "type": "range",
+      "id": "media_max_height_desktop",
+      "label": "Maxhöjd produktbild (desktop)",
+      "min": 300,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "media_max_height_mobile",
+      "label": "Maxhöjd produktbild (mobil)",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "vh",
+      "default": 55,
+      "info": "Begränsas till max 42vh på mobil oavsett värde här (mobil CRO-tak)."
+    },
+    {
+      "type": "header",
+      "content": "Köpknappar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Visa Shop Pay / snabbköpsknapp",
+      "info": "Den dynamiska betalknappen visas som en mindre, sekundär knapp under \"Lägg i varukorgen\". Avmarkera för att dölja den helt.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "checkout_button_max_width",
+      "label": "Max bredd Shop Pay-knapp",
+      "min": 200,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 320
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,109 @@
+{%- doc -%}
+  Renders a single line of copy sourced from a custom.* product metafield,
+  falling back to an editable default when the metafield is empty. Used for
+  the pieces of buy-box copy that should be metafield-first but must never
+  be blank on launch (category line, value proposition, short description).
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign value = blank
+  if block_settings.metafield_key != blank
+    assign value = product.metafields.custom[block_settings.metafield_key].value
+  endif
+  if value == blank
+    assign value = block_settings.fallback_text
+  endif
+-%}
+
+<div
+  class="alkastrike-metafield-text alkastrike-metafield-text--{{ block_settings.type_preset }} spacing-style"
+  style="{% render 'spacing-style', settings: block_settings %}"
+  {{ block.shopify_attributes }}
+>
+  {%- case block_settings.type_preset -%}
+    {%- when 'h2' -%}
+      <h2>{{ value }}</h2>
+    {%- else -%}
+      <p>{{ value }}</p>
+  {%- endcase -%}
+</div>
+
+{% stylesheet %}
+  .alkastrike-metafield-text--paragraph {
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text, 0.7));
+    font-size: var(--font-paragraph-small--size, 0.875rem);
+  }
+
+  .alkastrike-metafield-text--h5 p {
+    font-size: var(--font-h5--size, 1.125rem);
+    font-weight: var(--font-weight-medium, 500);
+    line-height: var(--font-heading--line-height, 1.3);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Metafälttext",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "metafield_key",
+      "label": "Metafield-nyckel (custom.*)",
+      "info": "T.ex. product_category, short_value_proposition eller short_description."
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_text",
+      "label": "Standardtext",
+      "info": "Visas om metafältet är tomt."
+    },
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "Stil",
+      "options": [
+        { "value": "paragraph", "label": "Brödtext" },
+        { "value": "h5", "label": "Rubrik (h5)" },
+        { "value": "h2", "label": "Rubrik (h2)" }
+      ],
+      "default": "paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Topp",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Botten",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Metafälttext"
+    }
+  ]
+}
+{% endschema %}
