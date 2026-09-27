@@ -482,6 +482,62 @@
   margin: 0;
 }
 
+/* ---------- Video pause/play control (snippets/nr-video-toggle) ---------- */
+.nr-video-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: #fff;
+  background: rgba(17, 17, 17, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--nr-radius-sm);
+  cursor: pointer;
+  transition: background-color var(--nr-transition-fast);
+}
+
+.nr-video-toggle[hidden] {
+  display: none;
+}
+
+.nr-video-toggle:hover {
+  background: rgba(17, 17, 17, 0.82);
+}
+
+.nr-video-toggle:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.8);
+}
+
+.nr-video-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.nr-video-toggle__play,
+.nr-video-toggle.is-paused .nr-video-toggle__pause {
+  display: none;
+}
+
+.nr-video-toggle.is-paused .nr-video-toggle__play {
+  display: block;
+}
+
+/* ---------- Bigger hit area for standalone text links ----------
+   Text links are ~20px tall; an invisible extension gives them a 44px
+   touch target without changing how they look or the layout around them. */
+.nr-link {
+  position: relative;
+}
+
+.nr-link::after {
+  content: '';
+  position: absolute;
+  inset: -12px -6px;
+}
+
 /* ---------- Reveal-on-scroll (progressive enhancement) ---------- */
 @media (prefers-reduced-motion: no-preference) {
   [data-nr-reveal] {

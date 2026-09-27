@@ -41,6 +41,7 @@
     {%- if has_video -%}
       <video
         data-nr-hero-video
+        data-nr-video
         class="nr-hero__video"
         muted
         loop
@@ -89,6 +90,10 @@
       ></div>
     {%- endif -%}
   </div>
+
+  {%- if has_video -%}
+    {%- render 'nr-video-toggle', class_name: 'nr-hero__video-toggle' -%}
+  {%- endif -%}
 
   <div class="nr-container nr-hero__content-wrap">
     <div class="nr-hero__content" data-nr-reveal>
@@ -172,6 +177,22 @@
     inset: 0;
     background: rgb(0 0 0 / var(--nr-hero-overlay, 0.3));
     pointer-events: none;
+  }
+
+  .nr-hero__video-toggle {
+    position: absolute;
+    right: var(--nr-space-sm);
+    bottom: var(--nr-space-sm);
+    z-index: 2;
+  }
+
+  /* On mobile the copy and full-width buttons fill the bottom of the hero,
+     so the control sits in the top corner instead of on a button. */
+  @media screen and (max-width: 749px) {
+    .nr-hero__video-toggle {
+      top: var(--nr-space-sm);
+      bottom: auto;
+    }
   }
 
   .nr-hero__content-wrap {

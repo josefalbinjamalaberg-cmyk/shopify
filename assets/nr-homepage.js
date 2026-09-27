@@ -69,22 +69,50 @@
     });
   }
 
-  /* ---------- Hero video: pause when off-screen, respect reduced motion ---------- */
-  function initHeroVideo() {
-    initAll('[data-nr-hero-video]', (video) => {
+  /* ---------- Background videos: pause control, off-screen pause, reduced motion ----------
+     Every <video data-nr-video> may have a [data-nr-video-toggle] button in
+     the same container. The visitor's choice wins: once they pause, the
+     video stays paused even when it scrolls back into view. */
+  function initVideos() {
+    initAll('[data-nr-video]', (video) => {
+      const toggle = video.parentElement && video.parentElement.querySelector('[data-nr-video-toggle]')
+        || video.closest('.nr-hero')?.querySelector('[data-nr-video-toggle]');
+      let userPaused = prefersReducedMotion;
+
+      const sync = () => {
+        if (!toggle) return;
+        const paused = video.paused;
+        toggle.classList.toggle('is-paused', paused);
+        toggle.setAttribute('aria-label', paused ? 'Spela videon' : 'Pausa videon');
+      };
+
       if (prefersReducedMotion) {
         video.removeAttribute('autoplay');
         video.pause();
-        return;
+      }
+
+      if (toggle) {
+        toggle.hidden = false;
+        toggle.addEventListener('click', () => {
+          if (video.paused) {
+            userPaused = false;
+            video.play().catch(() => {});
+          } else {
+            userPaused = true;
+            video.pause();
+          }
+        });
+        video.addEventListener('play', sync);
+        video.addEventListener('pause', sync);
+        sync();
       }
 
       if (!('IntersectionObserver' in window)) return;
-
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              video.play().catch(() => {});
+              if (!userPaused) video.play().catch(() => {});
             } else {
               video.pause();
             }
@@ -114,7 +142,7 @@
   function init() {
     initReveal();
     initWashSteps();
-    initHeroVideo();
+    initVideos();
     initResultSlider();
   }
 

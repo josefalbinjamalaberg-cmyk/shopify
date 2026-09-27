@@ -29,6 +29,7 @@
             <div class="nr-visual-proof__media{% if block.settings.video == blank %} nr-visual-proof__media--product{% endif %}">
               {%- if block.settings.video != blank -%}
                 <video
+                  data-nr-video
                   class="nr-visual-proof__video"
                   muted
                   loop
@@ -38,6 +39,7 @@
                 >
                   <source src="{{ block.settings.video.sources.last.url }}" type="video/mp4">
                 </video>
+                {%- render 'nr-video-toggle', class_name: 'nr-visual-proof__video-toggle' -%}
               {%- elsif block.settings.image != blank -%}
                 {{
                   block.settings.image
@@ -88,6 +90,7 @@
   }
 
   .nr-visual-proof__media {
+    position: relative;
     aspect-ratio: 4 / 3;
     border-radius: var(--nr-radius-md);
     overflow: hidden;
@@ -105,6 +108,13 @@
   .nr-visual-proof__media--product img {
     object-fit: contain;
     padding: 24px;
+  }
+
+  .nr-visual-proof__video-toggle {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    z-index: 1;
   }
 
   .nr-visual-proof__copy {
@@ -168,7 +178,7 @@
       min-height: 320px;
     }
 
-    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media > * {
+    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media > :not(.nr-video-toggle) {
       position: absolute;
       inset: 0;
     }

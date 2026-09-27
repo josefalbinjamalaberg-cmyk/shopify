@@ -1,0 +1,24 @@
+{%- doc -%}
+  Pause/play control for a muted, looping background video (WCAG 2.2.2:
+  moving content that starts by itself must be pausable). Place it inside
+  the same positioned container as the <video data-nr-video>; the script in
+  assets/nr-homepage.js finds the nearest video and keeps the label in sync.
+
+  @param {string} [class_name] - Extra class for positioning.
+{%- enddoc -%}
+
+<button
+  type="button"
+  class="nr-video-toggle {{ class_name }}"
+  data-nr-video-toggle
+  aria-label="Pausa videon"
+  hidden
+>
+  <svg class="nr-video-toggle__pause" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+    <rect x="3.5" y="2.5" width="3" height="11" rx="0.75" fill="currentColor"/>
+    <rect x="9.5" y="2.5" width="3" height="11" rx="0.75" fill="currentColor"/>
+  </svg>
+  <svg class="nr-video-toggle__play" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+    <path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.2-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/>
+  </svg>
+</button>
