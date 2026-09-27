@@ -1,0 +1,461 @@
+/*
+  NordicReflection header design system. Adds premium polish and
+  micro-interactions on top of the theme's native header (header.liquid,
+  _header-menu, _header-logo, header-actions, cart-drawer) — it does not
+  reimplement sticky/transparent/mega-menu/drawer logic, all of which is
+  already native, tested and accessible. Loaded once from
+  sections/nr-header-assets.liquid, in the header group only.
+*/
+
+:root {
+  --nr-header-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Header shell: crisp, low-contrast separation ---------- */
+.header-section {
+  box-shadow: none;
+}
+
+#header-component {
+  transition: background-color var(--nr-header-transition), box-shadow var(--nr-header-transition);
+}
+
+#header-component[data-sticky-state='active'] {
+  box-shadow: 0 1px 0 0 rgb(17 17 17 / 0.06);
+}
+
+/* ---------- Top-level nav links: controlled underline growth ---------- */
+.menu-list__link-title {
+  position: relative;
+  letter-spacing: 0.01em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    left: calc(var(--gap-xl) / 2);
+    right: calc(var(--gap-xl) / 2);
+    bottom: -2px;
+    height: 1px;
+    background: currentcolor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms ease;
+  }
+
+  .menu-list__list-item:where(:hover, :focus-within) .menu-list__link-title::after,
+  .menu-list__link--active .menu-list__link-title::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Chevron on items that open a mega menu ---------- */
+.menu-list__link[aria-haspopup='true'] .menu-list__link-title {
+  padding-inline-end: calc(var(--gap-xl) / 2 + 14px);
+}
+
+.menu-list__link[aria-haspopup='true'] .menu-list__link-title::before {
+  content: '';
+  position: absolute;
+  right: calc(var(--gap-xl) / 2);
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -5px;
+  border-right: 1.5px solid currentcolor;
+  border-bottom: 1.5px solid currentcolor;
+  transform: rotate(45deg);
+  transition: transform 200ms ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-list__link[aria-expanded='true'] .menu-list__link-title::before {
+    transform: rotate(-135deg);
+    margin-top: -2px;
+  }
+}
+
+/* ---------- Mega menu images: always shown in full, never cropped ----------
+   .mega-menu__link-image is used in "collection images" mode;
+   .resource-card__image (inside .mega-menu__content-list--products) is what
+   "featured products" mode actually renders — both get the same treatment.
+   Scoped to the mega menu only, so collection/predictive-search cards
+   elsewhere on the site keep their normal cover-fit behaviour. */
+.menu-list__submenu .mega-menu__link-image,
+.menu-list__submenu .resource-card__image {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  object-fit: contain;
+  object-position: center;
+  background-color: #f7f7f7;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: transform 260ms ease;
+}
+
+.menu-list__submenu .resource-card__media {
+  background-color: #f7f7f7;
+  border-radius: var(--resource-card-corner-radius, 0);
+  overflow: hidden;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .menu-list__submenu .mega-menu__link:hover .mega-menu__link-image,
+  .menu-list__submenu .resource-card:hover .resource-card__image {
+    transform: scale(1.02);
+  }
+}
+
+.mega-menu__link {
+  transition: color var(--nr-header-transition);
+}
+
+.mega-menu__link--parent {
+  font-weight: 600;
+}
+
+/* ---------- Dropdown/mega-menu content: always uppercase.
+   Top-level navigation (.menu-list__link-title) is deliberately excluded —
+   only the content *inside* an open dropdown is affected. ---------- */
+.menu-list__submenu,
+.menu-list__submenu .resource-card__title {
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.mega-menu__link--parent {
+  letter-spacing: 0.07em;
+}
+
+.menu-list__submenu .resource-card__subtext {
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Header action icons (search, account, cart): consistent
+   hover/active/focus, no hover-only functionality — these are already
+   real <button>/<a> elements from the native theme ---------- */
+.header-actions__action,
+.account-button {
+  transition: opacity var(--nr-header-transition), transform 120ms ease;
+}
+
+@media (hover: hover) {
+  .header-actions__action:hover,
+  .account-button:hover {
+    opacity: 0.7;
+  }
+}
+
+.header-actions__action:active,
+.account-button:active {
+  transform: scale(0.94);
+}
+
+/* ---------- Account vs. cart icon: give them breathing room ----------
+   The native <header-actions> element (which wraps the account and cart
+   buttons together) never sets a gap between its children (gap: normal,
+   i.e. 0) — at every viewport width and in both the drawer and full-nav
+   header styles, the two 40×40px icons sit flush against each other with
+   zero space, reading as one merged shape rather than two separate
+   buttons. Unlike the search-icon overlap below (which really was
+   desktop-only, from a negative-margin rule that only fires at
+   min-width:750px), this one is universal, so the fix is too. */
+ header-actions {
+  gap: 16px;
+}
+
+/* ---------- Search icon vs. account/cart icons: fix visual overlap ----------
+   Native theme CSS (snippets/search.liquid) pulls the search icon toward
+   its neighbours with negative margin-inline (`calc(var(--gap-md) * -1)` /
+   `calc(var(--gap-xs) * -1)`), on top of the header__column--right flex
+   gap. With this theme's spacing scale that overcompensates and the search
+   icon's hit area actually overlaps the account icon by a couple of
+   pixels at desktop widths — the two icons visually read as fused
+   together instead of as separate buttons. Restoring the same gap the
+   rest of the icon row already uses is simpler and safer than trying to
+   re-tune the negative-margin compensation. */
+@media screen and (min-width: 750px) {
+  .header__column--right .search-action {
+    margin-inline: 0;
+  }
+}
+
+/* ---------- Mobile header: right-size the logo, give search/account/cart
+   room to breathe ----------
+   Mobile only (max-width: 749px). Desktop header layout is untouched —
+   none of these rules fire above 749px (the account/cart gap above is the
+   one exception, and it's intentionally universal — see its own comment).
+
+   1) Logo: the native mobile size is a fixed width derived straight from
+      logo_height_mobile × the logo image's native aspect ratio, with no
+      upper bound (see blocks/_header-logo.liquid). This store's wordmark
+      logo (and its transparent-header inverse variant) is wide relative to
+      its height, so that fixed width renders oversized on phones. Clamped
+      with height: auto — the same pattern the theme already uses for the
+      desktop logo, just tuned for phone widths. The floor/ceiling here are
+      40px lower than an earlier revision of this rule, to match the wider
+      fixed-column budget in point 3.
+
+   2) Hamburger: unchanged grid column (44px, native), but its own tap
+      target is explicitly capped at 40px (was 45.6px, from padding: var(
+      --padding-lg) around the icon) so it fits inside that column instead
+      of overflowing into the logo's space at narrow (320px) viewports —
+      40px still comfortably clears the 40–44px minimum tap-target target.
+
+   3) Search/account/cart columns: the native mobile header grid is 5
+      equal-width "bookend" columns (leftA/leftB/center/rightA/rightB, see
+      header.liquid). On this store, header.liquid's own two same-
+      specificity fallback rules for `.search-action` — one keyed off
+      :not(:has(header-actions)) (→ leftB), one off :not(:has(shopify-
+      account)) (→ rightA) — resolve to rightA, because our account
+      trigger (see header-actions.liquid) is a plain
+      <button data-nr-account-trigger>, not the native <shopify-account>
+      element the second rule checks for. rightA sits immediately before
+      rightB (<header-actions>, i.e. account+cart), so the mobile search
+      button (search-action--hidden-on-menu — intentionally the visible
+      variant in drawer/mobile mode; see header.liquid's "Mobile search
+      duplicate" comment) needs real space in rightA too. Giving it 0px,
+      as an earlier revision of this rule did on the assumption that
+      leftB/rightA were both always dead space, let its 40×40 tap target
+      overflow straight into rightB and sit exactly on top of the account
+      button — both 40×40 at the same grid boundary, reading as one fused
+      icon instead of two. Reclaiming 40px for rightA fixes that; leftB
+      stays 0px since nothing actually resolves there. Total fixed-column
+      width goes from 140px to 180px, so the logo clamp in point 1 is
+      shifted down by that same 40px, keeping the centered logo — even at
+      its new floor — from colliding with the hamburger or with search/
+      account/cart down to a 320px viewport. */
+@media screen and (max-width: 749px) {
+  .header-logo__image {
+    width: clamp(140px, 27vw + 53px, 170px);
+    height: auto;
+  }
+
+  .menu-drawer-container .header__icon--summary {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  #header-component[data-menu-style='drawer'] .header__columns,
+  .header__columns {
+    grid-template-columns: 44px 0px 1fr 40px 96px;
+  }
+
+  .search-action {
+    width: 40px;
+    justify-self: center;
+  }
+
+  header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 96px;
+  }
+
+  .header-actions__action {
+    flex-shrink: 0;
+  }
+}
+
+/* ---------- Cart count bubble: discreet, never a loud alert badge ---------- */
+.cart-count-bubble {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* ---------- Logo: no jump on compact/sticky state changes ---------- */
+.header-logo {
+  transition: opacity var(--nr-header-transition);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #header-component[data-sticky-state='inactive'] .header-logo,
+  #header-component[data-sticky-state='active'] .header-logo {
+    transition: opacity var(--nr-header-transition);
+  }
+}
+
+/* ---------- Mobile drawer: premium skin ----------
+   Layered on top of the native .menu-drawer* markup/behaviour from
+   header-drawer.liquid — positioning, slide/fade transitions, focus trap,
+   scroll lock, Escape and outside-click are already handled natively by
+   header-drawer.js. This only restyles the existing elements/classes so
+   the drawer matches the desktop nav's level of polish. (Replaces an
+   earlier rule here that targeted classes which don't exist in the real
+   markup — .header__drawer .disclosure__toggle .icon-caret — and was a
+   silent no-op.) */
+@media screen and (max-width: 749px) {
+  .menu-drawer {
+    width: min(92vw, 420px);
+    max-width: min(92vw, 420px);
+  }
+
+  .menu-drawer__backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* Top bar: wordmark + close button */
+  .menu-drawer__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding-inline: 22px;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+  }
+
+  .menu-drawer__wordmark {
+    font-family: var(--font-heading--family);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+
+  .menu-drawer__topbar .menu-drawer__close-button {
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-drawer__navigation {
+    padding-block-start: 4px;
+  }
+
+  .menu-drawer__menu.has-submenu {
+    margin-block-end: 0;
+  }
+
+  /* Top-level rows */
+  .menu-drawer__menu-item--mainlist {
+    padding-block: 18px;
+    padding-inline: 22px;
+    font-family: var(--font-body--family);
+    font-size: 21px;
+    font-weight: 560;
+    line-height: 1.2;
+    color: var(--color-foreground);
+  }
+
+  .menu-drawer__list-item--divider {
+    border-block-end: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+  }
+
+  /* Chevron for items that open an accordion (Exteriör, Interiör, Tillbehör) */
+  .menu-drawer__menu-item--mainlist .icon-plus svg {
+    width: 13px;
+    height: 13px;
+    transition: transform 200ms ease;
+  }
+
+  details[open] > summary.menu-drawer__menu-item--mainlist .icon-plus svg {
+    transform: rotate(45deg);
+  }
+
+  /* Right-aligned arrow for simple links with no accordion
+     (Färdiga paket, Om oss) — CSS-only, no invented markup. */
+  a.menu-drawer__menu-item--mainlist::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    margin-inline-start: 12px;
+    flex-shrink: 0;
+    border-right: 1.5px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.45);
+    border-bottom: 1.5px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.45);
+    transform: rotate(-45deg);
+  }
+
+  /* Accordion child links */
+  .menu-drawer__menu--childlist {
+    padding-block-end: 4px;
+  }
+
+  .menu-drawer__menu-item--child {
+    padding-block: 12px;
+    font-size: 15.5px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.62);
+  }
+
+  .menu-drawer__menu-item--child:hover,
+  .menu-drawer__menu-item--child:active {
+    color: var(--color-foreground);
+  }
+
+  /* Bottom utility row: Sök / Mitt konto / Varukorg. Real triggers reusing
+     the same routes/events as the header bar's own search, account and
+     cart buttons — not a new destination, just a second way to reach them
+     from inside the open drawer. */
+  .menu-drawer__utility-links {
+    margin-inline-start: 0;
+    padding-inline: 22px;
+    padding-block: 14px;
+  }
+
+  .menu-drawer__quick-actions {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding-inline: 22px;
+    padding-block: 14px;
+    margin-block-start: auto;
+    border-top: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+  }
+
+  .menu-drawer__quick-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body--family);
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--color-foreground);
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .menu-drawer__quick-action .svg-wrapper svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .menu-drawer__quick-action:active {
+    opacity: 0.6;
+  }
+
+  /* Open/close + accordion speed, within the 220-280ms / 180-220ms bands */
+  .menu-drawer,
+  details[open] > .menu-drawer__submenu {
+    transition-duration: 260ms;
+  }
+}
+
+.menu-drawer__menu-item:focus-visible,
+.menu-drawer__close-button:focus-visible,
+.menu-drawer__wordmark:focus-visible,
+.menu-drawer__quick-action:focus-visible {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-drawer,
+  .menu-drawer__backdrop,
+  details[open] > .menu-drawer__submenu,
+  .menu-drawer__menu-item--mainlist .icon-plus svg {
+    transition: none !important;
+  }
+}
