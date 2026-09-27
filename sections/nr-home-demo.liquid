@@ -1,0 +1,120 @@
+{% comment %}
+  Product demonstration section. Embeds the theme's native video block
+  (content_for 'block') for real Shopify-hosted playback, captions and
+  poster support — falls back to the theme's own video placeholder until a
+  video is uploaded, exactly like the Alkastrike result-video section.
+
+  The small badge overlaying the video is static copy (not a merchant
+  setting) since it names a verified clip duration — update the text by
+  hand if the video block's source is ever swapped for a different clip.
+  pointer-events: none keeps it from ever intercepting the tap-to-play hit
+  area on mobile.
+{% endcomment %}
+
+<div data-nr-scope class="nr-section nr-demo">
+  <div class="nr-container">
+    <div class="nr-section-head nr-section-head--center" data-nr-reveal>
+      {%- if section.settings.heading != blank -%}
+        <h2 class="nr-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="nr-body nr-body--muted">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="nr-link nr-demo__link">
+          {{ section.settings.button_label }}
+          <span class="nr-link__arrow" aria-hidden="true">→</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="nr-demo__media" data-nr-reveal>
+      <span class="nr-demo__badge" aria-hidden="true">Se förtvätten i verkligheten · 13 sek</span>
+      {% content_for 'block', type: 'video', id: 'video' %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .nr-demo__link {
+    margin-top: var(--nr-space-sm);
+  }
+
+  .nr-demo__media {
+    position: relative;
+    max-width: 1100px;
+    margin-inline: auto;
+  }
+
+  .nr-demo__badge {
+    position: absolute;
+    top: var(--nr-space-sm);
+    left: var(--nr-space-sm);
+    z-index: 2;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: rgba(17, 17, 17, 0.72);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 100px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .nr-demo__badge {
+      top: var(--nr-space-xs);
+      left: var(--nr-space-xs);
+      font-size: 0.625rem;
+      padding: 5px 10px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Produktdemonstration",
+  "tag": "section",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" },
+    { "type": "video" }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Se skillnaden i processen"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Rätt produkt ska inte bara låta bra. Den ska vara enkel att förstå, använda och bedöma i verklig användning."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Knapptext",
+      "default": "Se våra produkter i användning"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Knapplänk"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Produktdemonstration",
+      "blocks": [{ "type": "video" }]
+    }
+  ]
+}
+{% endschema %}

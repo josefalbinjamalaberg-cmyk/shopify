@@ -1,0 +1,139 @@
+{% comment %}
+  Compact trust row directly under the hero. Maximum three points by design
+  (schema caps blocks at 3) — simple line icons, no heavy card styling.
+{% endcomment %}
+
+<div data-nr-scope class="nr-section nr-section--sm nr-benefits">
+  <div class="nr-container">
+    <div class="nr-grid nr-grid--3 nr-benefits__grid">
+      {% for block in section.blocks %}
+        <div class="nr-benefits__item" data-nr-reveal {{ block.shopify_attributes }}>
+          <span class="nr-benefits__icon">
+            {%- render 'icon-or-image', icon: block.settings.icon, width: 22, class_name: 'nr-benefits__icon-svg' -%}
+          </span>
+          <div class="nr-benefits__copy">
+            {%- if block.settings.heading != blank -%}
+              <p class="nr-benefits__heading">{{ block.settings.heading }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="nr-benefits__text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .nr-benefits__grid {
+    gap: var(--nr-space-md);
+  }
+
+  .nr-benefits__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--nr-space-sm);
+  }
+
+  .nr-benefits__icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+  }
+
+  .nr-benefits__icon-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .nr-benefits__heading {
+    margin: 0 0 2px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .nr-benefits__text {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--nr-text-muted);
+  }
+
+  @media screen and (max-width: 480px) {
+    .nr-benefits__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Varumärkesfördelar",
+  "tag": "section",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Punkt",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Ikon",
+          "options": [
+            { "value": "check_box", "label": "Bock" },
+            { "value": "bottle", "label": "Flaska" },
+            { "value": "truck", "label": "Leverans" },
+            { "value": "stopwatch", "label": "Snabb" },
+            { "value": "star", "label": "Stjärna" }
+          ],
+          "default": "check_box"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Rubrik"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Varumärkesfördelar",
+      "blocks": [
+        {
+          "type": "point",
+          "settings": {
+            "icon": "check_box",
+            "heading": "Tydliga produkter",
+            "text": "Varje produkt har ett specifikt jobb i tvättprocessen."
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "icon": "bottle",
+            "heading": "Utvecklat för resultat",
+            "text": "Fokus på effektiv rengöring, glans och enkel användning."
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "icon": "truck",
+            "heading": "Snabb leverans från Sverige",
+            "text": "Order skickas normalt senast nästa vardag."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

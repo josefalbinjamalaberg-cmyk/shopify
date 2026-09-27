@@ -1,0 +1,222 @@
+{% comment %}
+  "Utvalda kategorier" — four fixed, equal-width category cards directly
+  under the hero. Each card always renders (label + link have schema
+  defaults), so a missing image can never collapse the grid down to a
+  single card the way the previous collection-picker version could.
+  Image object-position reads each image's native Shopify focal point
+  (set in Admin → Media), so no per-card position setting is needed.
+{% endcomment %}
+
+<div data-nr-scope class="nr-section nr-categories">
+  <div class="nr-container">
+    <h2 class="nr-h2 nr-categories__heading">{{ section.settings.heading }}</h2>
+
+    <ul class="nr-categories__grid" role="list" style="--nr-categories-count: {{ section.blocks.size }};">
+      {% for block in section.blocks %}
+        {%- liquid
+          assign image = block.settings.image
+          assign focal_point = image.presentation.focal_point | default: 'center'
+        -%}
+        <li class="nr-categories__item" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.link | default: '#' }}" class="nr-categories__card">
+            <span class="nr-categories__media">
+              {%- if image != blank -%}
+                {{
+                  image
+                  | image_url: width: 900
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.label,
+                    widths: '400, 600, 900',
+                    sizes: '(min-width: 990px) 23vw, (min-width: 750px) 46vw, 85vw',
+                    style: 'object-position: ' | append: focal_point
+                }}
+              {%- else -%}
+                <span class="nr-placeholder nr-categories__placeholder">
+                  <span class="nr-placeholder__label">Bild kommer snart</span>
+                </span>
+              {%- endif -%}
+            </span>
+            <span class="nr-categories__label">{{ block.settings.label }}</span>
+            {%- if block.settings.description != blank -%}
+              <span class="nr-categories__description">{{ block.settings.description }}</span>
+            {%- endif -%}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  /* Extra bottom air on this section specifically — on top of the shared
+     .nr-section padding-block, not instead of it, so other homepage
+     sections using .nr-section stay untouched. */
+  .nr-categories {
+    padding-bottom: calc(var(--nr-section-space) + 24px);
+  }
+
+  .nr-categories__heading {
+    text-align: left;
+    /* Base heading→grid gap (var(--nr-space-lg)) plus a bit more
+       breathing room, scoped to this heading only — doesn't touch the
+       shared --nr-space-lg variable or any other section's spacing. */
+    margin-bottom: calc(var(--nr-space-lg) + 24px);
+    /* ~12.5% smaller than the shared .nr-h2 scale at every breakpoint, so
+       this heading doesn't visually compete with the more commercially
+       important problem-solving sections above/below it. */
+    font-size: clamp(1.5rem, 1.1rem + 1.7vw, 2.625rem);
+  }
+
+  .nr-categories__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    /* Column count matches the actual number of blocks (set via inline
+       custom property above), so removing a card re-spaces the rest
+       evenly across the full row instead of leaving a phantom column. */
+    grid-template-columns: repeat(var(--nr-categories-count, 4), minmax(0, 1fr));
+    gap: var(--nr-space-md);
+  }
+
+  .nr-categories__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nr-space-sm);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .nr-categories__media {
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--nr-radius-md);
+    background: var(--nr-bg-soft);
+  }
+
+  .nr-categories__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 320ms ease;
+  }
+
+  .nr-categories__placeholder {
+    min-height: 0;
+    border-radius: var(--nr-radius-md);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .nr-categories__card:hover .nr-categories__media img {
+      transform: scale(1.04);
+    }
+  }
+
+  .nr-categories__card:focus-visible {
+    outline: 2px solid var(--nr-text);
+    outline-offset: 4px;
+    border-radius: var(--nr-radius-md);
+  }
+
+  .nr-categories__label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .nr-categories__description {
+    margin-top: -4px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--nr-text-muted);
+  }
+
+  @media screen and (max-width: 989px) {
+    .nr-categories__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Mobile: single column, full-width stacked cards — no slider/overflow.
+     Desktop and tablet grids above are untouched. */
+  @media screen and (max-width: 749px) {
+    .nr-categories__heading {
+      /* Slightly less added space than desktop, per spec. */
+      margin-bottom: calc(var(--nr-space-lg) + 16px);
+      font-size: clamp(1.375rem, 1.2rem + 1vw, 1.75rem);
+    }
+
+    .nr-categories__grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .nr-categories__card {
+      gap: 12px;
+    }
+
+    .nr-categories__media {
+      aspect-ratio: 4 / 3;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Utvalda kategorier",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Utvalda kategorier"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Kategori",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Namn",
+          "default": "Kategori"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Kort beskrivning (valfri)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Länk (kollektion, sida eller produkt)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Bild",
+          "info": "Bildbeskärningen följer bildens fokuspunkt (Admin → Innehåll → Filer)."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Utvalda kategorier",
+      "blocks": [
+        { "type": "category", "settings": { "label": "Exteriör" } },
+        { "type": "category", "settings": { "label": "Interiör" } },
+        { "type": "category", "settings": { "label": "Tillbehör" } },
+        { "type": "category", "settings": { "label": "Färdiga paket" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

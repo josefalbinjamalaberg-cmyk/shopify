@@ -1,0 +1,503 @@
+/*
+  NordicReflection homepage design system.
+  Loaded once (via sections/nr-home-hero.liquid) so it never ships on
+  pages that don't use these components. Scoped under [data-nr-scope] on
+  <body> plus component classes — never a bare element or global selector.
+  Low specificity throughout: single classes, no !important.
+*/
+
+/* Anchor targets (e.g. the header's "Tvättsteg" link → #nr-wash-system)
+   must not end up hidden under the sticky header on jump */
+#nr-wash-system,
+#nr-bundle {
+  scroll-margin-top: calc(var(--header-height, 80px) + 16px);
+}
+
+[data-nr-scope] {
+  --nr-page-width: 1440px;
+  --nr-content-width: 1240px;
+  --nr-text-width: 680px;
+
+  --nr-bg: #ffffff;
+  --nr-bg-soft: #f5f5f2;
+  --nr-surface: #ffffff;
+  --nr-text: #111111;
+  --nr-text-muted: #686868;
+  --nr-border: rgba(17, 17, 17, 0.12);
+  --nr-accent: #111111;
+
+  --nr-radius-sm: 4px;
+  --nr-radius-md: 8px;
+
+  --nr-space-xs: 8px;
+  --nr-space-sm: 16px;
+  --nr-space-md: 24px;
+  --nr-space-lg: 40px;
+  --nr-space-xl: 64px;
+  --nr-space-2xl: 96px;
+
+  --nr-section-space: clamp(56px, 5vw + 32px, 112px);
+  --nr-section-space-sm: clamp(40px, 3.5vw + 24px, 80px);
+  --nr-heading-gap: clamp(24px, 2vw + 12px, 40px);
+
+  --nr-transition-fast: 160ms ease;
+  --nr-transition-normal: 260ms ease;
+
+  color: var(--nr-text);
+}
+
+/* ---------- Layout primitives ---------- */
+.nr-section {
+  background: var(--nr-bg);
+  padding-block: var(--nr-section-space);
+}
+
+.nr-section--sm {
+  padding-block: var(--nr-section-space-sm);
+}
+
+.nr-section--soft {
+  background: var(--nr-bg-soft);
+}
+
+.nr-section--dark {
+  background: var(--nr-text);
+  color: #fff;
+}
+
+.nr-container {
+  width: 100%;
+  max-width: var(--nr-content-width);
+  margin-inline: auto;
+  padding-inline: var(--nr-space-md);
+}
+
+@media screen and (min-width: 1500px) {
+  .nr-container {
+    max-width: var(--nr-page-width);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .nr-container {
+    padding-inline: var(--nr-space-sm);
+  }
+}
+
+.nr-container--wide {
+  max-width: var(--nr-page-width);
+}
+
+.nr-prose {
+  max-width: var(--nr-text-width);
+}
+
+/* ---------- Typography ---------- */
+.nr-eyebrow {
+  display: block;
+  margin: 0 0 var(--nr-space-xs);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--nr-text-muted);
+}
+
+.nr-section--dark .nr-eyebrow {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.nr-h1 {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  font-size: clamp(2.375rem, 1.55rem + 3vw, 4.5rem);
+}
+
+.nr-h2 {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  font-size: clamp(1.75rem, 1.25rem + 1.9vw, 3rem);
+}
+
+.nr-h3 {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-weight: 600;
+  line-height: 1.25;
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.625rem);
+}
+
+.nr-body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--nr-text);
+}
+
+@media screen and (min-width: 750px) {
+  .nr-body {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+}
+
+.nr-body--muted {
+  color: var(--nr-text-muted);
+}
+
+.nr-section--dark .nr-body--muted {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.nr-section-head {
+  margin-bottom: var(--nr-heading-gap);
+}
+
+.nr-section-head--center {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.nr-section-head .nr-body {
+  margin-top: var(--nr-space-sm);
+  max-width: var(--nr-text-width);
+}
+
+.nr-section-head--center .nr-body {
+  margin-inline: auto;
+}
+
+/* ---------- Buttons & links ---------- */
+.nr-btn {
+  --nr-btn-height: 48px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nr-space-xs);
+  height: var(--nr-btn-height);
+  padding-inline: var(--nr-space-md);
+  border-radius: var(--nr-radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--nr-transition-fast), color var(--nr-transition-fast),
+    border-color var(--nr-transition-fast), transform var(--nr-transition-fast);
+}
+
+.nr-btn:active {
+  transform: translateY(1px);
+}
+
+.nr-btn--primary {
+  background: var(--nr-text);
+  color: #fff;
+  border-color: var(--nr-text);
+}
+
+.nr-btn--primary:hover {
+  background: #2b2b2b;
+  border-color: #2b2b2b;
+}
+
+.nr-section--dark .nr-btn--primary {
+  background: #fff;
+  color: var(--nr-text);
+  border-color: #fff;
+}
+
+.nr-section--dark .nr-btn--primary:hover {
+  background: #e9e9e9;
+  border-color: #e9e9e9;
+}
+
+.nr-btn--secondary {
+  background: transparent;
+  color: var(--nr-text);
+  border-color: var(--nr-border);
+}
+
+.nr-btn--secondary:hover {
+  border-color: var(--nr-text);
+}
+
+.nr-section--dark .nr-btn--secondary {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.nr-section--dark .nr-btn--secondary:hover {
+  border-color: #fff;
+}
+
+.nr-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--nr-text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  background-image: linear-gradient(currentcolor, currentcolor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--nr-transition-normal);
+  padding-block-end: 2px;
+}
+
+.nr-link:hover {
+  background-size: 100% 1px;
+}
+
+.nr-link__arrow {
+  display: inline-flex;
+  transition: transform var(--nr-transition-fast);
+}
+
+.nr-link:hover .nr-link__arrow {
+  transform: translateX(3px);
+}
+
+/* Buttons/links double as click targets on touch: no hover dependency */
+@media (hover: none) {
+  .nr-link {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------- Cards (product tiles, wash-steps, guides) ---------- */
+.nr-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--nr-radius-md);
+  overflow: hidden;
+}
+
+.nr-card__media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--nr-bg-soft);
+}
+
+.nr-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--nr-transition-normal);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nr-card:hover .nr-card__media img {
+    transform: scale(1.03);
+  }
+}
+
+.nr-card__step {
+  position: absolute;
+  top: var(--nr-space-sm);
+  left: var(--nr-space-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: rgba(17, 17, 17, 0.55);
+  padding: 0.3em 0.65em;
+  border-radius: var(--nr-radius-sm);
+  backdrop-filter: blur(2px);
+}
+
+.nr-card__body {
+  padding-block: var(--nr-space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nr-card__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--nr-text-muted);
+}
+
+.nr-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--nr-text);
+}
+
+.nr-card__text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--nr-text-muted);
+}
+
+.nr-card__meta {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nr-space-xs);
+}
+
+.nr-card__price {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.nr-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.nr-card__cta .nr-link__arrow {
+  transition: transform var(--nr-transition-fast);
+}
+
+@media (hover: hover) {
+  .nr-card:hover .nr-card__cta .nr-link__arrow {
+    transform: translateX(3px);
+  }
+}
+
+.nr-card:focus-visible {
+  outline: 2px solid var(--nr-text);
+  outline-offset: 3px;
+  border-radius: var(--nr-radius-sm);
+}
+
+/* ---------- Grids ---------- */
+.nr-grid {
+  display: grid;
+  gap: var(--nr-space-lg);
+}
+
+.nr-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.nr-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media screen and (max-width: 989px) {
+  .nr-grid--3,
+  .nr-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--nr-space-md);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .nr-grid--3,
+  .nr-grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Media surfaces ---------- */
+.nr-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: var(--nr-bg-soft);
+}
+
+.nr-media img,
+.nr-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nr-media--contain img {
+  object-fit: contain;
+}
+
+/* ---------- Production-mode placeholders ---------- */
+.nr-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  padding: var(--nr-space-md);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--nr-bg-soft),
+    var(--nr-bg-soft) 10px,
+    #efeeea 10px,
+    #efeeea 20px
+  );
+  border: 1px dashed var(--nr-border);
+  color: var(--nr-text-muted);
+}
+
+.nr-placeholder__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.nr-placeholder__hint {
+  font-size: 0.8125rem;
+  max-width: 32ch;
+}
+
+/* ---------- Divider ---------- */
+.nr-divider {
+  border: none;
+  border-top: 1px solid var(--nr-border);
+  margin: 0;
+}
+
+/* ---------- Reveal-on-scroll (progressive enhancement) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-nr-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 480ms ease, transform 480ms ease;
+  }
+
+  [data-nr-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* No-JS / reduced-motion: content is visible by default (progressive
+   enhancement — JS only adds the animation, never gates visibility) */
+
+/* ---------- Focus ---------- */
+[data-nr-scope] :focus-visible {
+  outline: 2px solid var(--nr-text);
+  outline-offset: 2px;
+}

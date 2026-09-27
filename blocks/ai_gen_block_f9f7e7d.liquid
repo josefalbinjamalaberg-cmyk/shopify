@@ -1,0 +1,175 @@
+{% doc %}
+  @prompt
+    Skapa en komplett, responsiv sektion för kundomdömen till NordicReflection, en premiumbutik för bilvård. Den ska ersätta vår nuvarande enkla recensionskarusell och kännas genomarbetad, trovärdig och lättläst.
+    
+    DESIGN
+    
+    * Använd butikens befintliga typsnitt.
+    * Varmvit bakgrund, mörk text och vita recensionskort med tunn, ljusgrå kant.
+    * Diskret rundade hörn, cirka 12 px. Inga kraftiga skuggor, gradienter eller dekorativa animationer.
+    * Grönt används sparsamt till stjärnbetyg.
+    * Samma innehållsbredd som butikens produktsektion, med maxbredd cirka 1 200 px.
+    * Cirka 48 px luft ovanför och under på dator, 32 px på mobil.
+    * All text ska vara riktig, markerbar text.
+    
+    SEKTIONENS ÖVERDEL
+    
+    * Rubrik: ”Vad våra kunder säger”.
+    * Undertext: ”Utvalda omdömen från våra kunder på Trustpilot.”
+    * Rubrik och undertext vänsterställs.
+    * Lägg länken ”Läs alla omdömen på Trustpilot” till höger på dator och under undertexten på mobil.
+    * Gör länkmålet redigerbart.
+    * Lägg till valfria fält för aktuellt totalbetyg och totalt antal omdömen. Dölj sammanställningen om uppgifterna saknas. Beräkna aldrig totalbetyget från enbart de utvalda recensionerna.
+    
+    RECENSIONSKORT
+    Varje recension ska vara ett eget redigerbart block med:
+    
+    1. Stjärnbetyg, 1–5.
+    2. Valfri kort rubrik eller utvald mening, ordagrant från recensionen.
+    3. Recensionens fullständiga originaltext.
+    4. Kundens namn.
+    5. Datum.
+    6. Länk till originalomdömet.
+    7. Valfri markering ”Verifierat omdöme”, avstängd som standard och endast aktiverad manuellt när originalet har den märkningen.
+    
+    Ge korten tydlig hierarki:
+    
+    * Stjärnor överst.
+    * Kort rubrik i större, halvfet text.
+    * Recensionstext med cirka 16 px textstorlek och 1,5 i radavstånd.
+    * Namn, datum och källänk samlade nederst.
+    * Cirka 24 px inre marginal på dator och 20 px på mobil.
+    * Korten ska ha samma grundhöjd och avsändarinformationen ligga i linje på dator.
+    
+    LÅNGA RECENSIONER
+    Visa ungefär fem rader som standard. Om texten är längre ska en knapp ”Visa hela omdömet” visa hela texten i kortet. Knappen ändras då till ”Visa mindre”.
+    Text får aldrig klippas utan möjlighet att läsa resten. Markera den förkortade visningen som ”Utdrag”. Skriv inte om kundens ord.
+    
+    KARUSELL OCH MOBIL
+    
+    * Dator: tre kort samtidigt.
+    * Surfplatta: två kort.
+    * Mobil: ett kort och en liten del av nästa så att svepfunktionen syns.
+    * Stöd svep, musklick och tangentbord.
+    * Ingen automatisk rullning.
+    * Diskreta men tydliga föregående- och nästa-knappar med minst 44 × 44 px tryckyta.
+    * Dölj navigeringen när alla kort redan får plats.
+    * Använd en begriplig räknare, exempelvis ”Omdömen 1–3 av 6”, som uppdateras korrekt.
+    * Ingen horisontell scroll på hela sidan och inga överlappande element.
+    * Ta hänsyn till inställningen för minskad rörelse.
+    
+    REDIGERING OCH FUNKTION
+    Gör rubrik, undertext, färger, avstånd, länkar och samtliga recensionsfält redigerbara i Shopify.
+    Återanvänd befintliga recensioner endast om deras innehåll finns tillgängligt. Hitta aldrig på omdömen, namn, betyg, datum eller verifieringar. Dölj tomma block.
+    Avgränsa all styling och funktion till denna sektion så att resten av butiken inte påverkas.
+    
+    Prioritera läsbarhet, tydlig källa och bra mobilfunktion. Resultatet ska vara färdigt att använda och kännas som en naturlig del av vår butik.
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .nr-reviews-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    padding: 48px 20px;
+  }
+  .nr-reviews-{{ ai_gen_id }}__inner { width: {{ block.settings.desktop_width_percent }}%; max-width: 1200px; margin: 0 auto; }
+  .nr-reviews-{{ ai_gen_id }}__header { display:flex; justify-content:space-between; gap:24px; align-items:flex-end; margin-bottom:28px; }
+  .nr-reviews-{{ ai_gen_id }}__title { margin:0 0 8px; font-size:clamp(28px,4vw,42px); line-height:1.1; font-weight:700; }
+  .nr-reviews-{{ ai_gen_id }}__intro { margin:0; font-size:16px; line-height:1.5; }
+  .nr-reviews-{{ ai_gen_id }}__summary { margin-top:14px; display:flex; gap:12px; align-items:center; font-size:14px; }
+  .nr-reviews-{{ ai_gen_id }}__summary strong { font-size:18px; }
+  .nr-reviews-{{ ai_gen_id }}__link { color:{{ block.settings.text_color }}; font-weight:600; text-underline-offset:3px; white-space:nowrap; }
+  .nr-reviews-{{ ai_gen_id }}__track-wrap { overflow:hidden; }
+  .nr-reviews-{{ ai_gen_id }}__track { display:flex; gap:16px; transition:transform .2s ease; }
+  .nr-reviews-{{ ai_gen_id }}__card { flex:0 0 calc((100% - 32px) / 3); box-sizing:border-box; background:{{ block.settings.card_color }}; border:1px solid {{ block.settings.border_color }}; border-radius:12px; padding:24px; min-height:330px; display:flex; flex-direction:column; }
+  .nr-reviews-{{ ai_gen_id }}__stars { color:{{ block.settings.star_color }}; letter-spacing:2px; font-size:18px; line-height:1; }
+  .nr-reviews-{{ ai_gen_id }}__heading { margin:18px 0 10px; font-size:20px; line-height:1.3; font-weight:600; }
+  .nr-reviews-{{ ai_gen_id }}__body { margin:0; font-size:16px; line-height:1.5; }
+  .nr-reviews-{{ ai_gen_id }}__body.is-collapsed { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5; overflow:hidden; }
+  .nr-reviews-{{ ai_gen_id }}__excerpt { font-size:12px; color:#666; margin:8px 0 0; }
+  .nr-reviews-{{ ai_gen_id }}__more { align-self:flex-start; margin-top:10px; padding:0; border:0; background:none; color:{{ block.settings.text_color }}; text-decoration:underline; cursor:pointer; font:inherit; }
+  .nr-reviews-{{ ai_gen_id }}__meta { margin-top:auto; padding-top:22px; font-size:13px; line-height:1.5; }
+  .nr-reviews-{{ ai_gen_id }}__verified { display:inline-block; margin-bottom:5px; color:#275b35; font-weight:600; }
+  .nr-reviews-{{ ai_gen_id }}__source { display:block; color:{{ block.settings.text_color }}; text-underline-offset:3px; }
+  .nr-reviews-{{ ai_gen_id }}__controls { display:flex; align-items:center; justify-content:space-between; margin-top:20px; }
+  .nr-reviews-{{ ai_gen_id }}__buttons { display:flex; gap:8px; }
+  .nr-reviews-{{ ai_gen_id }}__button { width:44px; height:44px; border:1px solid {{ block.settings.border_color }}; border-radius:50%; background:{{ block.settings.card_color }}; color:{{ block.settings.text_color }}; cursor:pointer; font-size:20px; }
+  .nr-reviews-{{ ai_gen_id }}__button:disabled { opacity:.4; cursor:not-allowed; }
+  .nr-reviews-{{ ai_gen_id }}__counter { font-size:14px; }
+  .nr-reviews-{{ ai_gen_id }}__empty { padding:24px; border:1px solid {{ block.settings.border_color }}; background:{{ block.settings.card_color }}; border-radius:12px; }
+  @media (max-width: 989px) { .nr-reviews-{{ ai_gen_id }}__card { flex-basis:calc((100% - 16px) / 2); } }
+  @media (max-width: 749px) {
+    .nr-reviews-{{ ai_gen_id }} { padding:32px 16px; }
+    .nr-reviews-{{ ai_gen_id }}__inner { width:100%; }
+    .nr-reviews-{{ ai_gen_id }}__header { display:block; margin-bottom:22px; }
+    .nr-reviews-{{ ai_gen_id }}__link { display:inline-block; margin-top:14px; }
+    .nr-reviews-{{ ai_gen_id }}__card { flex-basis:calc(88% - 8px); padding:20px; min-height:320px; }
+    .nr-reviews-{{ ai_gen_id }}__track { gap:12px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .nr-reviews-{{ ai_gen_id }}__track { transition:none; } }
+{% endstyle %}
+
+<reviews-carousel-{{ ai_gen_id }} class="nr-reviews-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="nr-reviews-{{ ai_gen_id }}__inner">
+    <div class="nr-reviews-{{ ai_gen_id }}__header">
+      <div>
+        <h2 class="nr-reviews-{{ ai_gen_id }}__title">{{ block.settings.heading | escape }}</h2>
+        <p class="nr-reviews-{{ ai_gen_id }}__intro">{{ block.settings.subheading | escape }}</p>
+        {% if block.settings.total_rating != blank or block.settings.total_reviews != blank %}<div class="nr-reviews-{{ ai_gen_id }}__summary"><strong>{% if block.settings.total_rating != blank %}{{ block.settings.total_rating | escape }}{% endif %}</strong>{% if block.settings.total_reviews != blank %}<span>{{ block.settings.total_reviews | escape }} omdömen</span>{% endif %}</div>{% endif %}
+      </div>
+      {% if block.settings.trustpilot_url != blank %}<a class="nr-reviews-{{ ai_gen_id }}__link" href="{{ block.settings.trustpilot_url }}" target="_blank" rel="noopener">{{ block.settings.trustpilot_label | escape }}</a>{% endif %}
+    </div>
+    {% assign review_count = 0 %}
+    {% for i in (1..6) %}{% assign enabled_key = 'review_' | append: i | append: '_enabled' %}{% if block.settings[enabled_key] %}{% assign review_count = review_count | plus: 1 %}{% endif %}{% endfor %}
+    {% if review_count > 0 %}
+      <div class="nr-reviews-{{ ai_gen_id }}__track-wrap"><div class="nr-reviews-{{ ai_gen_id }}__track">
+        {% for i in (1..6) %}
+          {% liquid
+            assign enabled_key = 'review_' | append: i | append: '_enabled'
+            assign rating_key = 'review_' | append: i | append: '_rating'
+            assign title_key = 'review_' | append: i | append: '_title'
+            assign text_key = 'review_' | append: i | append: '_text'
+            assign name_key = 'review_' | append: i | append: '_name'
+            assign date_key = 'review_' | append: i | append: '_date'
+            assign url_key = 'review_' | append: i | append: '_url'
+            assign verified_key = 'review_' | append: i | append: '_verified'
+          %}
+          {% if block.settings[enabled_key] and block.settings[text_key] != blank %}
+            <article class="nr-reviews-{{ ai_gen_id }}__card">
+              <div class="nr-reviews-{{ ai_gen_id }}__stars" aria-label="{{ block.settings[rating_key] }} av 5 stjärnor">{% for star in (1..5) %}{% if star <= block.settings[rating_key] %}★{% else %}☆{% endif %}{% endfor %}</div>
+              {% if block.settings[title_key] != blank %}<h3 class="nr-reviews-{{ ai_gen_id }}__heading">{{ block.settings[title_key] | escape }}</h3>{% endif %}
+              <p class="nr-reviews-{{ ai_gen_id }}__body is-collapsed">{{ block.settings[text_key] | escape | newline_to_br }}</p><span class="nr-reviews-{{ ai_gen_id }}__excerpt">Utdrag</span><button class="nr-reviews-{{ ai_gen_id }}__more" type="button" aria-expanded="false">Visa hela omdömet</button>
+              <div class="nr-reviews-{{ ai_gen_id }}__meta">{% if block.settings[verified_key] %}<span class="nr-reviews-{{ ai_gen_id }}__verified">Verifierat omdöme</span><br>{% endif %}{% if block.settings[name_key] != blank %}<strong>{{ block.settings[name_key] | escape }}</strong>{% endif %}{% if block.settings[date_key] != blank %}<span> · {{ block.settings[date_key] | escape }}</span>{% endif %}{% if block.settings[url_key] != blank %}<a class="nr-reviews-{{ ai_gen_id }}__source" href="{{ block.settings[url_key] }}" target="_blank" rel="noopener">Originalomdöme på Trustpilot</a>{% endif %}</div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div></div>
+      <div class="nr-reviews-{{ ai_gen_id }}__controls"><span class="nr-reviews-{{ ai_gen_id }}__counter" aria-live="polite"></span><div class="nr-reviews-{{ ai_gen_id }}__buttons"><button class="nr-reviews-{{ ai_gen_id }}__button" type="button" data-prev aria-label="Föregående omdömen">‹</button><button class="nr-reviews-{{ ai_gen_id }}__button" type="button" data-next aria-label="Nästa omdömen">›</button></div></div>
+    {% else %}<div class="nr-reviews-{{ ai_gen_id }}__empty">Lägg till publicerade kundomdömen i blockinställningarna.</div>{% endif %}
+  </div>
+</reviews-carousel-{{ ai_gen_id }}>
+
+<script>
+(function(){
+  class ReviewsCarousel{{ ai_gen_id }} extends HTMLElement {
+    connectedCallback(){
+      this.track=this.querySelector('.nr-reviews-{{ ai_gen_id }}__track'); if(!this.track)return;
+      this.cards=[...this.track.children]; this.index=0; this.prev=this.querySelector('[data-prev]'); this.next=this.querySelector('[data-next]'); this.counter=this.querySelector('.nr-reviews-{{ ai_gen_id }}__counter');
+      this.cards.forEach(card=>{const button=card.querySelector('.nr-reviews-{{ ai_gen_id }}__more'); const text=card.querySelector('.nr-reviews-{{ ai_gen_id }}__body'); const excerpt=card.querySelector('.nr-reviews-{{ ai_gen_id }}__excerpt'); button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')==='true'; button.setAttribute('aria-expanded',String(!open)); button.textContent=open?'Visa hela omdömet':'Visa mindre'; text.classList.toggle('is-collapsed',open); excerpt.hidden=!open;});});
+      this.prev.addEventListener('click',()=>this.move(-1)); this.next.addEventListener('click',()=>this.move(1)); this.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')this.move(-1);if(e.key==='ArrowRight')this.move(1);}); this.update();
+    }
+    visible(){return window.innerWidth<750?1:window.innerWidth<990?2:3}
+    move(step){this.index=Math.max(0,Math.min(this.cards.length-this.visible(),this.index+step));this.update()}
+    update(){const visible=this.visible(); const gap=window.innerWidth<750?12:16; const width=this.cards[0].getBoundingClientRect().width+gap; this.track.style.transform='translateX(-'+(this.index*width)+'px)'; const end=Math.min(this.cards.length,this.index+visible); this.counter.textContent='Omdömen '+(this.index+1)+'–'+end+' av '+this.cards.length; this.prev.disabled=this.index===0; this.next.disabled=end===this.cards.length; this.prev.parentElement.parentElement.hidden=this.cards.length<=visible;}
+  }
+  if(!customElements.get('reviews-carousel-{{ ai_gen_id }}'))customElements.define('reviews-carousel-{{ ai_gen_id }}',ReviewsCarousel{{ ai_gen_id }});
+})();
+</script>
+
+{% schema %}
+{"name":"Kundomdömen","settings":[{"type":"text","id":"heading","label":"Rubrik","default":"Vad våra kunder säger"},{"type":"textarea","id":"subheading","label":"Undertext","default":"Utvalda omdömen från våra kunder på Trustpilot."},{"type":"url","id":"trustpilot_url","label":"Trustpilot-länk"},{"type":"text","id":"trustpilot_label","label":"Länktext","default":"Läs alla omdömen på Trustpilot"},{"type":"text","id":"total_rating","label":"Aktuellt totalbetyg"},{"type":"text","id":"total_reviews","label":"Totalt antal omdömen"},{"type":"range","id":"desktop_width_percent","label":"Desktopbredd","min":50,"max":100,"step":5,"unit":"%","default":100},{"type":"color","id":"background_color","label":"Bakgrund","default":"#F8F7F3"},{"type":"color","id":"card_color","label":"Kort","default":"#FFFFFF"},{"type":"color","id":"text_color","label":"Text","default":"#1C1C1C"},{"type":"color","id":"border_color","label":"Kant","default":"#DFDFDF"},{"type":"color","id":"star_color","label":"Stjärnor","default":"#287A45"},{"type":"header","content":"Omdöme 1"},{"type":"checkbox","id":"review_1_enabled","label":"Visa omdöme 1","default":false},{"type":"range","id":"review_1_rating","label":"Betyg 1","min":1,"max":5,"step":1,"default":5},{"type":"text","id":"review_1_title","label":"Rubrik 1"},{"type":"textarea","id":"review_1_text","label":"Originaltext 1"},{"type":"text","id":"review_1_name","label":"Namn 1"},{"type":"text","id":"review_1_date","label":"Datum 1"},{"type":"url","id":"review_1_url","label":"Källänk 1"},{"type":"checkbox","id":"review_1_verified","label":"Verifierat 1","default":false},{"type":"header","content":"Omdöme 2"},{"type":"checkbox","id":"review_2_enabled","label":"Visa omdöme 2","default":false},{"type":"range","id":"review_2_rating","label":"Betyg 2","min":1,"max":5,"step":1,"default":5},{"type":"text","id":"review_2_title","label":"Rubrik 2"},{"type":"textarea","id":"review_2_text","label":"Originaltext 2"},{"type":"text","id":"review_2_name","label":"Namn 2"},{"type":"text","id":"review_2_date","label":"Datum 2"},{"type":"url","id":"review_2_url","label":"Källänk 2"},{"type":"checkbox","id":"review_2_verified","label":"Verifierat 2","default":false},{"type":"header","content":"Omdöme 3"},{"type":"checkbox","id":"review_3_enabled","label":"Visa omdöme 3","default":false},{"type":"range","id":"review_3_rating","label":"Betyg 3","min":1,"max":5,"step":1,"default":5},{"type":"text","id":"review_3_title","label":"Rubrik 3"},{"type":"textarea","id":"review_3_text","label":"Originaltext 3"},{"type":"text","id":"review_3_name","label":"Namn 3"},{"type":"text","id":"review_3_date","label":"Datum 3"},{"type":"url","id":"review_3_url","label":"Källänk 3"},{"type":"checkbox","id":"review_3_verified","label":"Verifierat 3","default":false},{"type":"header","content":"Omdöme 4"},{"type":"checkbox","id":"review_4_enabled","label":"Visa omdöme 4","default":false},{"type":"range","id":"review_4_rating","label":"Betyg 4","min":1,"max":5,"step":1,"default":5},{"type":"text","id":"review_4_title","label":"Rubrik 4"},{"type":"textarea","id":"review_4_text","label":"Originaltext 4"},{"type":"text","id":"review_4_name","label":"Namn 4"},{"type":"text","id":"review_4_date","label":"Datum 4"},{"type":"url","id":"review_4_url","label":"Källänk 4"},{"type":"checkbox","id":"review_4_verified","label":"Verifierat 4","default":false},{"type":"header","content":"Omdöme 5"},{"type":"checkbox","id":"review_5_enabled","label":"Visa omdöme 5","default":false},{"type":"range","id":"review_5_rating","label":"Betyg 5","min":1,"max":5,"step":1,"default":5},{"type":"text","id":"review_5_title","label":"Rubrik 5"},{"type":"textarea","id":"review_5_text","label":"Originaltext 5"},{"type":"text","id":"review_5_name","label":"Namn 5"},{"type":"text","id":"review_5_date","label":"Datum 5"},{"type":"url","id":"review_5_url","label":"Källänk 5"},{"type":"checkbox","id":"review_5_verified","label":"Verifierat 5","default":false},{"type":"header","content":"Omdöme 6"},{"type":"checkbox","id":"review_6_enabled","label":"Visa omdöme 6","default":false},{"type":"range","id":"review_6_rating","label":"Betyg 6","min":1,"max":5,"step":1,"default":5},{"type":"text","id":"review_6_title","label":"Rubrik 6"},{"type":"textarea","id":"review_6_text","label":"Originaltext 6"},{"type":"text","id":"review_6_name","label":"Namn 6"},{"type":"text","id":"review_6_date","label":"Datum 6"},{"type":"url","id":"review_6_url","label":"Källänk 6"},{"type":"checkbox","id":"review_6_verified","label":"Verifierat 6","default":false}],"presets":[{"name":"Kundomdömen"}],"tag":null,"class":"nordicreflection-reviews"}
+{% endschema %}

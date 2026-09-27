@@ -1,0 +1,485 @@
+{% comment %}
+  NordicReflection homepage hero. First section on the page — loads the
+  shared nr-homepage.css/js design-system assets so they never ship on
+  pages that don't use these components.
+
+  Media priority: desktop video > desktop image > production-mode
+  placeholder > clean text-only hero (never a native Shopify placeholder
+  illustration). The video renders — and autoplays, if enabled — on both
+  desktop and mobile; there is no separate mobile media swap for video.
+{% endcomment %}
+
+{{ 'nr-homepage.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'nr-homepage.js' | asset_url }}" type="module" defer></script>
+
+{%- liquid
+  assign has_video = false
+  if section.settings.desktop_media_type == 'video' and section.settings.desktop_video != blank
+    assign has_video = true
+  endif
+
+  assign has_image = false
+  if section.settings.desktop_media_type == 'image' and section.settings.desktop_image != blank
+    assign has_image = true
+  endif
+
+  assign has_media = false
+  if has_video or has_image
+    assign has_media = true
+  endif
+
+  assign mobile_image = section.settings.mobile_image | default: section.settings.desktop_image
+  assign video_poster = section.settings.mobile_image | default: section.settings.desktop_video.preview_image
+  assign production_mode = settings.nr_production_mode
+-%}
+
+<div
+  data-nr-scope
+  class="nr-hero nr-hero--{{ section.settings.height }}{% if has_media %} nr-hero--has-media{% endif %}{% if section.settings.text_position == 'center' %} nr-hero--center{% endif %}"
+>
+  <div class="nr-hero__media">
+    {%- if has_video -%}
+      <video
+        data-nr-hero-video
+        class="nr-hero__video"
+        muted
+        loop
+        playsinline
+        {% if section.settings.video_autoplay %}
+          autoplay
+        {% endif %}
+        poster="{{ video_poster | image_url: width: 1920 }}"
+      >
+        <source
+          src="{{ section.settings.desktop_video.sources.last.url }}"
+          type="video/mp4"
+        >
+      </video>
+    {%- elsif has_image -%}
+      <picture>
+        {%- if mobile_image != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ mobile_image | image_url: width: 750 }} 750w, {{ mobile_image | image_url: width: 1100 }} 1100w"
+          >
+        {%- endif -%}
+        <img
+          src="{{ section.settings.desktop_image | image_url: width: 1920 }}"
+          srcset="{{ section.settings.desktop_image | image_url: width: 1200 }} 1200w, {{ section.settings.desktop_image | image_url: width: 1600 }} 1600w, {{ section.settings.desktop_image | image_url: width: 1920 }} 1920w, {{ section.settings.desktop_image | image_url: width: 2400 }} 2400w"
+          sizes="100vw"
+          alt="{{ section.settings.desktop_image.alt | default: section.settings.heading | escape }}"
+          loading="eager"
+          fetchpriority="high"
+          width="{{ section.settings.desktop_image.width }}"
+          height="{{ section.settings.desktop_image.height }}"
+          class="nr-hero__image"
+        >
+      </picture>
+    {%- elsif production_mode -%}
+      <div class="nr-placeholder nr-hero__placeholder">
+        <span class="nr-placeholder__label">Hero-media saknas</span>
+        <span class="nr-placeholder__hint">Liggande bild eller video, 16:9–21:9, minst 1920px bred. Se shotlist.</span>
+      </div>
+    {%- endif -%}
+
+    {%- if has_media -%}
+      <div
+        class="nr-hero__overlay"
+        style="--nr-hero-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+      ></div>
+    {%- endif -%}
+  </div>
+
+  <div class="nr-container nr-hero__content-wrap">
+    <div class="nr-hero__content" data-nr-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="nr-eyebrow nr-hero__eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h1 class="nr-h1 nr-hero__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="nr-body nr-hero__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+      <div class="nr-hero__actions">
+        {%- if section.settings.primary_button_label != blank -%}
+          <a href="{{ section.settings.primary_button_link | default: '#' }}" class="nr-btn nr-btn--primary">
+            {{ section.settings.primary_button_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.secondary_button_label != blank -%}
+          <a href="{{ section.settings.secondary_button_link | default: '#' }}" class="nr-btn nr-btn--secondary">
+            {{ section.settings.secondary_button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .nr-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 420px;
+    background: var(--nr-bg-soft);
+    overflow: hidden;
+  }
+
+  .nr-hero--has-media {
+    color: #fff;
+  }
+
+  .nr-hero--small {
+    height: clamp(420px, 55vh, 640px);
+  }
+
+  .nr-hero--medium {
+    height: clamp(480px, 70vh, 760px);
+  }
+
+  .nr-hero--large {
+    height: clamp(520px, 85vh, 880px);
+  }
+
+  .nr-hero--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .nr-hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .nr-hero__image,
+  .nr-hero__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .nr-hero__placeholder {
+    position: absolute;
+    inset: 0;
+    border: none;
+  }
+
+  .nr-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / var(--nr-hero-overlay, 0.3));
+    pointer-events: none;
+  }
+
+  .nr-hero__content-wrap {
+    position: relative;
+    z-index: 1;
+    padding-block: var(--nr-space-2xl) var(--nr-space-xl);
+    width: 100%;
+  }
+
+  .nr-hero--center .nr-hero__content-wrap {
+    padding-block: var(--nr-space-xl);
+  }
+
+  .nr-hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nr-space-sm);
+    max-width: 640px;
+  }
+
+  .nr-hero--center .nr-hero__content {
+    max-width: 720px;
+    margin-inline: auto;
+    align-items: center;
+  }
+
+  .nr-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--nr-space-sm);
+    margin-top: var(--nr-space-xs);
+  }
+
+  /* Video/image footage sits behind the content on both breakpoints, so
+     the .nr-eyebrow/.nr-body/.nr-btn base colors (which assume the light
+     no-media background) need a light-on-dark treatment here. Shared by
+     mobile and desktop — only sizing/position/overlay shape differ below. */
+  .nr-hero--has-media .nr-hero__eyebrow {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .nr-hero--has-media .nr-hero__heading {
+    color: #ffffff;
+  }
+
+  .nr-hero--has-media .nr-hero__text {
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .nr-hero--has-media .nr-hero__actions .nr-btn--primary {
+    background: #ffffff;
+    color: #111111;
+    border-color: #ffffff;
+  }
+
+  .nr-hero--has-media .nr-hero__actions .nr-btn--primary:hover,
+  .nr-hero--has-media .nr-hero__actions .nr-btn--primary:active {
+    background: #f0f0f0;
+    border-color: #f0f0f0;
+  }
+
+  .nr-hero--has-media .nr-hero__actions .nr-btn--secondary {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  .nr-hero--has-media .nr-hero__actions .nr-btn--secondary:hover {
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+
+  @media screen and (max-width: 749px) {
+    .nr-hero {
+      min-height: 360px;
+    }
+
+    .nr-hero--small,
+    .nr-hero--medium,
+    .nr-hero--large {
+      height: clamp(420px, 78vh, 620px);
+    }
+
+    .nr-hero .nr-hero__content-wrap {
+      padding-block: var(--nr-space-xl) var(--nr-space-lg);
+      padding-inline: 22px;
+    }
+
+    /* Mobile sits on video/image footage, not the soft background, so the
+       overlay needs a tuned gradient — text/button colors are handled by
+       the shared .nr-hero--has-media rules above (same on both breakpoints). */
+    .nr-hero--has-media .nr-hero__overlay {
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.22) 0%,
+        rgba(0, 0, 0, 0.28) 30%,
+        rgba(0, 0, 0, 0.5) 55%,
+        rgba(0, 0, 0, 0.58) 75%,
+        rgba(0, 0, 0, 0.42) 100%
+      );
+    }
+
+    .nr-hero__content {
+      gap: 20px;
+    }
+
+    .nr-hero__heading {
+      font-size: clamp(2.125rem, 1.8rem + 1.6vw, 2.5rem);
+      line-height: 1.02;
+      max-width: 380px;
+    }
+
+    .nr-hero--center .nr-hero__heading {
+      max-width: none;
+    }
+
+    .nr-hero__text {
+      font-size: clamp(15px, 4vw, 17px);
+      line-height: 1.5;
+    }
+
+    .nr-hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .nr-hero__actions .nr-btn {
+      width: 100%;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    /* Substantial, cinematic — but still bounded so it never dwarfs the
+       header/nav above it. Mirrors the height tiers, just scaled up. */
+    .nr-hero--small {
+      height: clamp(560px, 68vh, 760px);
+    }
+
+    .nr-hero--medium {
+      height: clamp(650px, 78vh, 900px);
+    }
+
+    .nr-hero--large {
+      height: clamp(720px, 88vh, 960px);
+    }
+
+    .nr-hero {
+      align-items: center;
+    }
+
+    .nr-hero .nr-hero__content-wrap {
+      max-width: 1480px;
+      padding-inline: clamp(32px, 5vw, 80px);
+    }
+
+    .nr-hero__content {
+      gap: var(--nr-space-md);
+    }
+
+    .nr-hero__actions {
+      gap: var(--nr-space-md);
+    }
+
+    /* Cinematic left-to-right read: dark enough behind the copy for solid
+       contrast, fading out well before the right side so the footage keeps
+       its highlights — a soft light gradient, not a flat dark rectangle. */
+    .nr-hero--has-media .nr-hero__overlay {
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.64) 0%,
+        rgba(0, 0, 0, 0.46) 30%,
+        rgba(0, 0, 0, 0.16) 55%,
+        rgba(0, 0, 0, 0.06) 100%
+      );
+    }
+
+    .nr-hero__heading {
+      font-size: clamp(3.25rem, 5vw, 4.875rem);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+    }
+
+    .nr-hero__text {
+      font-size: clamp(1.0625rem, 0.85rem + 0.33vw, 1.25rem);
+      line-height: 1.5;
+      max-width: 560px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Kicker",
+      "default": "NordicReflection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik (H1)",
+      "default": "Bilvård för dig som kräver mer av resultatet."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Genomtänkta bilvårdsprodukter och tillbehör för en effektivare tvätt, högre glans och en tydligare process från förtvätt till finish."
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primär knapptext",
+      "default": "Utforska produkterna"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primär knapplänk"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Sekundär knapptext",
+      "default": "Se hela tvättsystemet"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Sekundär knapplänk"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Textplacering",
+      "options": [
+        { "value": "left", "label": "Vänster" },
+        { "value": "center", "label": "Centrerad" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Höjd (desktop)",
+      "options": [
+        { "value": "small", "label": "Kompakt" },
+        { "value": "medium", "label": "Normal" },
+        { "value": "large", "label": "Stor" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "select",
+      "id": "desktop_media_type",
+      "label": "Mediatyp",
+      "options": [
+        { "value": "image", "label": "Bild" },
+        { "value": "video", "label": "Video" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Bild (desktop)",
+      "visible_if": "{{ section.settings.desktop_media_type == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "desktop_video",
+      "label": "Video (Shopify-hostad)",
+      "visible_if": "{{ section.settings.desktop_media_type == 'video' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_autoplay",
+      "label": "Autoplay video (ljudlös)",
+      "default": false,
+      "visible_if": "{{ section.settings.desktop_media_type == 'video' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Bild (mobil, valfri override)",
+      "info": "Används som affischbild (poster) innan videon startar när video är vald ovan, eller som ersättning för desktopbilden på mobil när en bild är vald."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay-styrka",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    }
+  ],
+  "presets": [
+    { "name": "NR: Hero" }
+  ]
+}
+{% endschema %}

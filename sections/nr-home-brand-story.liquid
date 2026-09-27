@@ -1,0 +1,214 @@
+{% comment %}
+  Brand story: two columns, media one side, text the other. Text column is
+  capped at ~580px and left-aligned per the brief's typography rules.
+
+  Media takes a smaller share (0.85fr) than text (1.15fr) and the section
+  uses a reduced padding-block — both scoped overrides on top of the
+  shared .nr-section token, so this is the only section pulled in from the
+  default spacing/ratio. grid-template-columns (not the `order` swap alone)
+  is what keeps media at 0.85fr in both the left- and right-media variants.
+{% endcomment %}
+
+{%- liquid
+  assign production_mode = settings.nr_production_mode
+-%}
+
+<div data-nr-scope class="nr-section nr-brand-story{% if section.settings.media_position == 'right' %} nr-brand-story--media-right{% endif %}">
+  <div class="nr-container">
+    <div class="nr-brand-story__grid">
+      <div class="nr-media nr-brand-story__media" data-nr-reveal>
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 1200
+            | image_tag:
+              loading: 'lazy',
+              alt: section.settings.image.alt | default: section.settings.heading,
+              widths: '500, 800, 1000, 1200',
+              sizes: '(min-width: 750px) 38vw, 100vw'
+          }}
+        {%- elsif production_mode -%}
+          <div class="nr-placeholder">
+            <span class="nr-placeholder__label">Varumärkesbild saknas</span>
+            <span class="nr-placeholder__hint">Stående eller kvadratisk bild, minst 1200px bred.</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="nr-brand-story__content" data-nr-reveal>
+        {%- if section.settings.heading != blank -%}
+          <h2 class="nr-h2">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="nr-body nr-prose nr-brand-story__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        <div class="nr-brand-story__principles">
+          {% for block in section.blocks %}
+            <div class="nr-brand-story__principle" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <p class="nr-brand-story__principle-heading">{{ block.settings.heading }}</p>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="nr-brand-story__principle-text">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </div>
+          {% endfor %}
+        </div>
+
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link | default: '#' }}" class="nr-btn nr-btn--secondary nr-brand-story__button">
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .nr-brand-story {
+    /* ~17.5% less than the shared section padding — mid-point of the
+       15-20% reduction range, applied to both top and bottom. */
+    padding-block: calc(var(--nr-section-space) * 0.825);
+  }
+
+  .nr-brand-story__grid {
+    display: grid;
+    /* Media — 15% narrower than an even 1fr/1fr split — text gets the
+       freed-up width so it doesn't dominate the section. */
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: var(--nr-space-xl);
+    align-items: center;
+  }
+
+  .nr-brand-story--media-right .nr-brand-story__grid {
+    /* Text is auto-placed into track 1 here (media has order: 2, so it
+       auto-places into track 2) — track sizes swap to match, keeping
+       media at the smaller 0.85fr share regardless of visual side. */
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .nr-brand-story--media-right .nr-brand-story__media {
+    order: 2;
+  }
+
+  .nr-brand-story__media {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--nr-radius-md);
+  }
+
+  .nr-brand-story__content {
+    max-width: 580px;
+  }
+
+  .nr-brand-story__text {
+    margin-top: var(--nr-space-sm);
+  }
+
+  .nr-brand-story__principles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nr-space-sm);
+    margin-block: var(--nr-space-lg);
+    padding-block-start: var(--nr-space-md);
+    border-top: 1px solid var(--nr-border);
+  }
+
+  .nr-brand-story__principle-heading {
+    margin: 0 0 2px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .nr-brand-story__principle-text {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--nr-text-muted);
+  }
+
+  @media screen and (max-width: 749px) {
+    .nr-brand-story__grid,
+    .nr-brand-story--media-right .nr-brand-story__grid {
+      grid-template-columns: 1fr;
+      gap: var(--nr-space-md);
+    }
+
+    .nr-brand-story--media-right .nr-brand-story__media {
+      order: 0;
+    }
+
+    .nr-brand-story__content {
+      max-width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Varumärkesberättelse",
+  "tag": "section",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "principle",
+      "name": "Princip",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Rubrik" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Bilvård ska vara enklare att förstå"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Bilvård behöver inte bestå av ett rörigt sortiment och otydliga val. NordicReflection bygger ett tydligt system där varje produkt har en definierad roll – från att lösa asfalt och trafikfilm till att skapa glans och skydd.</p><p>Vi fokuserar på produkter som är enkla att förstå, effektiva att använda och tydligt presenterade. Målet är inte att kunden ska köpa flest produkter. Målet är att kunden ska välja rätt produkter och få ett bättre resultat.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Knapptext",
+      "default": "Läs mer om NordicReflection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Knapplänk"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Mediaposition",
+      "options": [
+        { "value": "left", "label": "Vänster" },
+        { "value": "right", "label": "Höger" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Bild"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Varumärkesberättelse",
+      "blocks": [
+        { "type": "principle", "settings": { "heading": "Tydligt användningsområde", "text": "Du ska förstå vad produkten gör innan du köper den." } },
+        { "type": "principle", "settings": { "heading": "Rätt produkt i rätt steg", "text": "Sortimentet organiseras efter tvättprocessen." } },
+        { "type": "principle", "settings": { "heading": "Resultat före överdrifter", "text": "Vi använder inte tomma löften eller påhittade prestandapåståenden." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
