@@ -344,6 +344,12 @@ class NrOrderTracking extends HTMLElement {
       });
     }
 
+    this.mode = 'order';
+    this.modeButtons = [...this.querySelectorAll('[data-track-mode]')];
+    for (const button of this.modeButtons) {
+      button.addEventListener('click', () => this.setMode(button.dataset.trackMode, true));
+    }
+
     this.ready = this.createTransport().then((transport) => {
       this.service = createService(transport);
     });
@@ -371,6 +377,19 @@ class NrOrderTracking extends HTMLElement {
   }
 
   /* ---------- Forms ---------- */
+
+  /** Shows one of the two search forms (order number / tracking number). */
+  setMode(kind, focus = false) {
+    if (!this.forms[kind]) return;
+    this.mode = kind;
+    for (const [name, form] of Object.entries(this.forms)) {
+      if (form) form.hidden = name !== kind;
+    }
+    for (const button of this.modeButtons) {
+      button.setAttribute('aria-pressed', String(button.dataset.trackMode === kind));
+    }
+    if (focus) this.forms[kind].querySelector('input').focus();
+  }
 
   field(kind, name) {
     return this.forms[kind].elements.namedItem(name);
@@ -500,6 +519,7 @@ class NrOrderTracking extends HTMLElement {
       button.type = 'button';
       button.addEventListener('click', () => {
         this.showSearch();
+        this.setMode(scenario.form);
         const form = this.forms[scenario.form];
         for (const [name, value] of Object.entries(scenario.values)) {
           form.elements.namedItem(name).value = value;
@@ -534,7 +554,10 @@ class NrOrderTracking extends HTMLElement {
 
     const fragment = document.createDocumentFragment();
 
-    /* Status header */
+    /* Status card: numbers, heading, progress and the latest event */
+    const summary = el('section', 'nr-track-summary');
+    summary.setAttribute('aria-labelledby', 'NrTrackStatusHeading');
+
     const header = el('header', 'nr-track-status');
     const numbers = el('p', 'nr-track-status__numbers');
     if (tracking.orderNumber) {
@@ -546,61 +569,58 @@ class NrOrderTracking extends HTMLElement {
     if (numbers.childElementCount) header.append(numbers);
 
     const title = el('h2', 'nr-track-status__title', heading);
+    title.id = 'NrTrackStatusHeading';
     title.tabIndex = -1;
     header.append(title, el('p', 'nr-track-status__text', intro));
-    fragment.append(header);
+    summary.append(header, this.renderProgress(tracking, status));
 
-    /* Progress */
-    fragment.append(this.renderProgress(tracking, status));
-
-    /* Latest update */
     const latest = tracking.latestEvent;
     if (latest || tracking.lastUpdated) {
-      const card = el('section', 'nr-track-card nr-track-latest');
-      card.setAttribute('aria-label', 'Senaste händelse');
-      card.append(el('p', 'nr-track-card__eyebrow', 'Senaste händelse'));
-      if (latest) card.append(el('p', 'nr-track-latest__description', latest.description));
+      const row = el('div', 'nr-track-latest');
+      const body = el('div', 'nr-track-latest__body');
+      body.append(el('p', 'nr-track-latest__eyebrow', 'Senaste händelse'));
+      if (latest) body.append(el('p', 'nr-track-latest__description', latest.description));
       const meta = el('p', 'nr-track-latest__meta');
       const when = formatDateTime((latest && latest.timestamp) || tracking.lastUpdated);
-      if (when) meta.append(el('span', null, `Senast uppdaterad ${when}`));
+      if (when) meta.append(el('span', null, when));
       if (latest && latest.location) meta.append(el('span', null, latest.location));
-      if (meta.childElementCount) card.append(meta);
-      fragment.append(card);
+      if (meta.childElementCount) body.append(meta);
+      row.append(body);
+      summary.append(row);
     }
+    fragment.append(summary);
 
-    /* Delivery info */
+    /* Details card: delivery info, history and (verified lookups only) order contents */
+    const details = el('div', 'nr-track-details');
     const info = this.renderInfo(tracking);
-    if (info) fragment.append(info);
-
-    /* History */
-    if (tracking.events.length > 1) fragment.append(this.renderHistory(tracking.events));
-
-    /* Order contents – verified order lookups only */
+    if (info) details.append(info);
+    if (tracking.events.length > 1) details.append(this.renderHistory(tracking.events));
     if (tracking.source === 'shopify' && tracking.items.length) {
-      fragment.append(this.renderItems(tracking.items));
+      details.append(this.renderItems(tracking.items));
     }
+    if (details.childElementCount) fragment.append(details);
 
-    /* Carrier */
+    /* Actions: search again + carrier link */
+    const actions = el('div', 'nr-track-actions');
+    const again = el('button', 'nr-track-actions__again');
+    again.type = 'button';
+    again.append(el('span', null, '\u2190'), document.createTextNode(' Sök igen'));
+    again.firstChild.setAttribute('aria-hidden', 'true');
+    again.addEventListener('click', () => {
+      this.showSearch();
+      this.forms[this.mode].querySelector('input').focus();
+    });
+    actions.append(again);
+
     if (tracking.trackingNumber && /dhl/i.test(tracking.carrier)) {
-      const carrier = el('div', 'nr-track-carrier');
-      carrier.append(el('span', 'nr-track-carrier__label', 'Levereras med DHL'));
-      const link = el('a', 'nr-track-carrier__link', 'Visa hos DHL');
+      const link = el('a', 'nr-track-actions__carrier', 'Visa hos DHL');
       link.href = dhlTrackingUrl(tracking.trackingNumber);
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       link.append(el('span', 'visually-hidden', ' (öppnas i nytt fönster)'), svgIcon('arrow'));
-      carrier.append(link);
-      fragment.append(carrier);
+      actions.append(link);
     }
-
-    /* Search again */
-    const again = el('button', 'nr-btn nr-btn--secondary nr-track__again', 'Sök igen');
-    again.type = 'button';
-    again.addEventListener('click', () => {
-      this.showSearch();
-      this.field('order', 'orderNumber').focus();
-    });
-    fragment.append(again);
+    fragment.append(actions);
 
     this.result.replaceChildren(fragment);
     this.result.hidden = false;
@@ -648,22 +668,27 @@ class NrOrderTracking extends HTMLElement {
     return list;
   }
 
+  renderBlock(className, headingText, headingId) {
+    const section = el('section', `nr-track-block ${className}`);
+    section.setAttribute('aria-labelledby', headingId);
+    const heading = el('h3', 'nr-track-block__heading', headingText);
+    heading.id = headingId;
+    section.append(heading);
+    return section;
+  }
+
   renderInfo(tracking) {
     const rows = [];
-    if (tracking.service) rows.push(['Leverans', tracking.service]);
+    if (tracking.service) rows.push(['Fraktsätt', tracking.service]);
     if (tracking.estimatedDelivery && tracking.status !== 'delivered') {
       rows.push(['Beräknad leverans', formatDate(tracking.estimatedDelivery)]);
     }
     if (tracking.pickupPoint) rows.push(['Utlämningsställe', tracking.pickupPoint]);
-    if (tracking.trackingNumber) rows.push(['Spårningsnummer', tracking.trackingNumber]);
+    // The tracking number is already shown at the top of the status card.
     if (!rows.length) return null;
 
-    const card = el('section', 'nr-track-card nr-track-info');
-    if (tracking.status === 'ready_for_pickup') card.classList.add('nr-track-info--highlight');
-    card.setAttribute('aria-labelledby', 'NrTrackInfoHeading');
-    const heading = el('h3', 'nr-track-card__heading', 'Leveransinformation');
-    heading.id = 'NrTrackInfoHeading';
-    card.append(heading);
+    const section = this.renderBlock('nr-track-info', 'Leverans', 'NrTrackInfoHeading');
+    if (tracking.status === 'ready_for_pickup') section.classList.add('nr-track-info--highlight');
 
     const list = el('dl', 'nr-track-info__list');
     for (const [label, value] of rows) {
@@ -679,20 +704,19 @@ class NrOrderTracking extends HTMLElement {
       row.append(dd);
       list.append(row);
     }
-    card.append(list);
-    return card;
+    section.append(list);
+    return section;
   }
 
   renderHistory(events) {
-    const section = el('section', 'nr-track-card nr-track-history');
-    section.setAttribute('aria-labelledby', 'NrTrackHistoryHeading');
-    const heading = el('h3', 'nr-track-card__heading', 'Leveranshistorik');
-    heading.id = 'NrTrackHistoryHeading';
-    section.append(heading);
+    const VISIBLE = 3;
+    const section = this.renderBlock('nr-track-history', 'Leveranshistorik', 'NrTrackHistoryHeading');
 
     const list = el('ol', 'nr-track-timeline');
-    for (const event of events) {
+    list.id = 'NrTrackTimeline';
+    events.forEach((event, index) => {
       const item = el('li', 'nr-track-timeline__item');
+      if (index >= VISIBLE) item.hidden = true;
       const when = formatDateTime(event.timestamp);
       if (when) {
         const time = el('time', 'nr-track-timeline__time', when);
@@ -702,17 +726,29 @@ class NrOrderTracking extends HTMLElement {
       item.append(el('p', 'nr-track-timeline__description', event.description));
       if (event.location) item.append(el('p', 'nr-track-timeline__location', event.location));
       list.append(item);
-    }
+    });
     section.append(list);
+
+    if (events.length > VISIBLE) {
+      const toggle = el('button', 'nr-track-timeline__toggle', `Visa alla ${events.length} händelser`);
+      toggle.type = 'button';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-controls', list.id);
+      toggle.addEventListener('click', () => {
+        const expand = toggle.getAttribute('aria-expanded') !== 'true';
+        [...list.children].forEach((item, index) => {
+          if (index >= VISIBLE) item.hidden = !expand;
+        });
+        toggle.setAttribute('aria-expanded', String(expand));
+        toggle.textContent = expand ? 'Visa färre' : `Visa alla ${events.length} händelser`;
+      });
+      section.append(toggle);
+    }
     return section;
   }
 
   renderItems(items) {
-    const section = el('section', 'nr-track-card nr-track-items');
-    section.setAttribute('aria-labelledby', 'NrTrackItemsHeading');
-    const heading = el('h3', 'nr-track-card__heading', 'Din beställning');
-    heading.id = 'NrTrackItemsHeading';
-    section.append(heading);
+    const section = this.renderBlock('nr-track-items', 'Din beställning', 'NrTrackItemsHeading');
 
     const list = el('ul', 'nr-track-items__list');
     list.setAttribute('role', 'list');

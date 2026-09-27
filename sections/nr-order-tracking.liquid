@@ -98,156 +98,182 @@
       class="nr-track__search"
       data-track-search
     >
-      <form
-        class="nr-track-form nr-track-form--primary"
-        data-track-form="order"
-        method="post"
-        onsubmit="return false;"
-        novalidate
-        aria-labelledby="NrTrackOrderHeading"
-      >
-        <h2
-          class="nr-track-form__heading"
-          id="NrTrackOrderHeading"
+      <div class="nr-track-panel">
+        <div
+          class="nr-track-switch"
+          role="group"
+          aria-label="Sök med"
         >
-          Spåra med ordernummer
-        </h2>
-        <p
-          class="nr-track-form__lead"
-          id="NrTrackOrderLead"
-        >
-          Använd ditt ordernummer och e-postadressen från beställningen.
-        </p>
-
-        <div class="nr-track-field">
-          <label
-            class="nr-track-field__label"
-            for="NrTrackOrderNumber"
+          <button
+            type="button"
+            class="nr-track-switch__option"
+            data-track-mode="order"
+            aria-pressed="true"
+            aria-controls="NrTrackOrderForm"
           >
             Ordernummer
-          </label>
-          <input
-            class="nr-track-field__input"
-            id="NrTrackOrderNumber"
-            name="orderNumber"
-            type="text"
-            inputmode="text"
-            autocomplete="off"
-            autocapitalize="off"
-            spellcheck="false"
-            placeholder="#1047"
-            maxlength="32"
-            aria-describedby="NrTrackOrderLead"
-          >
-        </div>
-
-        <div class="nr-track-field">
-          <label
-            class="nr-track-field__label"
-            for="NrTrackEmail"
-          >
-            E-postadress
-          </label>
-          <input
-            class="nr-track-field__input"
-            id="NrTrackEmail"
-            name="email"
-            type="email"
-            inputmode="email"
-            autocomplete="email"
-            autocapitalize="off"
-            spellcheck="false"
-            placeholder="namn@email.se"
-            maxlength="254"
-          >
-        </div>
-
-        <p
-          class="nr-track-form__error"
-          id="NrTrackOrderError"
-          data-track-form-error
-          role="alert"
-          hidden
-        ></p>
-
-        <button
-          type="submit"
-          class="nr-btn nr-btn--primary nr-track-form__submit"
-        >
-          Spåra min order
-        </button>
-      </form>
-
-      <div
-        class="nr-track__or"
-        role="separator"
-        aria-label="eller"
-      >
-        <span aria-hidden="true">eller</span>
-      </div>
-
-      <form
-        class="nr-track-form nr-track-form--secondary"
-        data-track-form="tracking"
-        method="post"
-        onsubmit="return false;"
-        novalidate
-        aria-labelledby="NrTrackNumberHeading"
-      >
-        <h2
-          class="nr-track-form__heading"
-          id="NrTrackNumberHeading"
-        >
-          Spåra med spårningsnummer
-        </h2>
-        <p
-          class="nr-track-form__lead"
-          id="NrTrackNumberLead"
-        >
-          Har du redan ditt spårningsnummer från DHL?
-        </p>
-
-        <div class="nr-track-field">
-          <label
-            class="nr-track-field__label"
-            for="NrTrackNumber"
+          </button>
+          <button
+            type="button"
+            class="nr-track-switch__option"
+            data-track-mode="tracking"
+            aria-pressed="false"
+            aria-controls="NrTrackNumberForm"
           >
             Spårningsnummer
-          </label>
-          <input
-            class="nr-track-field__input"
-            id="NrTrackNumber"
-            name="trackingNumber"
-            type="text"
-            inputmode="text"
-            autocomplete="off"
-            autocapitalize="characters"
-            spellcheck="false"
-            placeholder="Ange ditt spårningsnummer"
-            maxlength="40"
-            aria-describedby="NrTrackNumberLead"
-          >
+          </button>
         </div>
 
-        <p
-          class="nr-track-form__error"
-          id="NrTrackNumberError"
-          data-track-form-error
-          role="alert"
-          hidden
-        ></p>
-
-        <button
-          type="submit"
-          class="nr-btn nr-btn--secondary nr-track-form__submit"
+        <form
+          class="nr-track-form"
+          id="NrTrackOrderForm"
+          data-track-form="order"
+          method="post"
+          onsubmit="return false;"
+          novalidate
+          aria-labelledby="NrTrackOrderHeading"
         >
-          Spåra leverans
-        </button>
-      </form>
+          <h2
+            class="visually-hidden"
+            id="NrTrackOrderHeading"
+          >
+            Spåra med ordernummer
+          </h2>
+          <p
+            class="nr-track-form__lead"
+            id="NrTrackOrderLead"
+          >
+            Ange ordernumret och e-postadressen du använde när du beställde.
+          </p>
 
-      <noscript>
-        <p class="nr-track__noscript">Spårningen kräver att JavaScript är aktiverat i din webbläsare.</p>
-      </noscript>
+          <div class="nr-track-form__fields">
+            <div class="nr-track-field">
+              <label
+                class="nr-track-field__label"
+                for="NrTrackOrderNumber"
+              >
+                Ordernummer
+              </label>
+              <input
+                class="nr-track-field__input"
+                id="NrTrackOrderNumber"
+                name="orderNumber"
+                type="text"
+                inputmode="text"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="#1047"
+                maxlength="32"
+                aria-describedby="NrTrackOrderLead"
+              >
+            </div>
+
+            <div class="nr-track-field">
+              <label
+                class="nr-track-field__label"
+                for="NrTrackEmail"
+              >
+                E-postadress
+              </label>
+              <input
+                class="nr-track-field__input"
+                id="NrTrackEmail"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="namn@email.se"
+                maxlength="254"
+              >
+            </div>
+          </div>
+
+          <p
+            class="nr-track-form__error"
+            id="NrTrackOrderError"
+            data-track-form-error
+            role="alert"
+            hidden
+          ></p>
+
+          <button
+            type="submit"
+            class="nr-btn nr-btn--primary nr-track-form__submit"
+          >
+            Spåra min order
+          </button>
+
+          <p class="nr-track-form__hint">Ordernumret hittar du i orderbekräftelsen i din e-post.</p>
+        </form>
+
+        <form
+          class="nr-track-form"
+          id="NrTrackNumberForm"
+          data-track-form="tracking"
+          method="post"
+          onsubmit="return false;"
+          novalidate
+          aria-labelledby="NrTrackNumberHeading"
+          hidden
+        >
+          <h2
+            class="visually-hidden"
+            id="NrTrackNumberHeading"
+          >
+            Spåra med spårningsnummer
+          </h2>
+          <p
+            class="nr-track-form__lead"
+            id="NrTrackNumberLead"
+          >
+            Har du redan ditt spårningsnummer från DHL? Ange det här.
+          </p>
+
+          <div class="nr-track-field">
+            <label
+              class="nr-track-field__label"
+              for="NrTrackNumber"
+            >
+              Spårningsnummer
+            </label>
+            <input
+              class="nr-track-field__input"
+              id="NrTrackNumber"
+              name="trackingNumber"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              autocapitalize="characters"
+              spellcheck="false"
+              placeholder="Ange ditt spårningsnummer"
+              maxlength="40"
+              aria-describedby="NrTrackNumberLead"
+            >
+          </div>
+
+          <p
+            class="nr-track-form__error"
+            id="NrTrackNumberError"
+            data-track-form-error
+            role="alert"
+            hidden
+          ></p>
+
+          <button
+            type="submit"
+            class="nr-btn nr-btn--primary nr-track-form__submit"
+          >
+            Spåra leverans
+          </button>
+        </form>
+
+        <noscript>
+          <p class="nr-track__noscript">Spårningen kräver att JavaScript är aktiverat i din webbläsare.</p>
+        </noscript>
+      </div>
     </div>
 
     <p
@@ -269,21 +295,26 @@
     aria-labelledby="NrTrackHelpHeading"
   >
     <div class="nr-container nr-track__container">
-      <h2
-        class="nr-track-help__heading"
-        id="NrTrackHelpHeading"
-      >
-        {{ section.settings.help_heading | escape }}
-      </h2>
-      {%- if section.settings.help_text != blank -%}
-        <p class="nr-body nr-body--muted nr-track-help__text">{{ section.settings.help_text | escape }}</p>
-      {%- endif -%}
-      <a
-        href="{{ contact_url }}"
-        class="nr-btn nr-btn--secondary nr-track-help__cta"
-      >
-        {{- section.settings.help_cta | escape -}}
-      </a>
+      <div class="nr-track-help__inner">
+        <div>
+          <h2
+            class="nr-track-help__heading"
+            id="NrTrackHelpHeading"
+          >
+            {{ section.settings.help_heading | escape }}
+          </h2>
+          {%- if section.settings.help_text != blank -%}
+            <p class="nr-track-help__text">{{ section.settings.help_text | escape }}</p>
+          {%- endif -%}
+        </div>
+        <a
+          href="{{ contact_url }}"
+          class="nr-track-help__cta"
+        >
+          {{- section.settings.help_cta | escape -}}
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
     </div>
   </section>
 </nr-order-tracking>
