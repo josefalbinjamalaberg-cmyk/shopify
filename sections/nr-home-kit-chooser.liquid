@@ -65,7 +65,7 @@
         {%- endif -%}
       </div>
 
-      <ul class="nr-kits__list" role="list" data-nr-reveal>
+      <ul class="nr-kits__list" role="list" data-nr-reveal="stagger">
         {%- for block in section.blocks -%}
           {%- assign product = block.settings.product -%}
           {%- if product == blank -%}{%- continue -%}{%- endif -%}
@@ -272,6 +272,19 @@
   }
 
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .nr-kit {
+      transition: transform 320ms var(--nr-ease-out), box-shadow 320ms var(--nr-ease-out);
+    }
+
+    .nr-kit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px -18px rgba(17, 17, 17, 0.35);
+    }
+
+    .nr-kits__item--featured .nr-kit:hover {
+      box-shadow: 0 0 0 1px var(--nr-text), 0 12px 28px -18px rgba(17, 17, 17, 0.35);
+    }
+
     .nr-kit:hover .nr-kit__media img {
       transform: scale(1.03);
     }
@@ -344,13 +357,13 @@
     color: var(--nr-text-muted);
   }
 
+  /* The bar is the value itself; no empty track behind it, so it reads as
+     "how much" rather than as a progress meter. */
   .nr-kit__value-bar {
     display: block;
-    height: 6px;
-    margin-top: 8px;
-    overflow: hidden;
-    border-radius: 3px;
-    background: rgba(17, 17, 17, 0.1);
+    height: 4px;
+    margin-top: 10px;
+    border-radius: 2px;
   }
 
   .nr-kit__value-bar > span {
@@ -358,7 +371,7 @@
     height: 100%;
     min-width: 6px;
     border-radius: inherit;
-    background: rgba(17, 17, 17, 0.45);
+    background: rgba(17, 17, 17, 0.55);
   }
 
   .nr-kits__item--featured .nr-kit__value {
@@ -369,10 +382,6 @@
   .nr-kits__item--featured .nr-kit__value-label,
   .nr-kits__item--featured .nr-kit__value-pct {
     color: rgba(255, 255, 255, 0.75);
-  }
-
-  .nr-kits__item--featured .nr-kit__value-bar {
-    background: rgba(255, 255, 255, 0.2);
   }
 
   .nr-kits__item--featured .nr-kit__value-bar > span {

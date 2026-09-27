@@ -11,7 +11,12 @@
   <div class="nr-container">
     <h2 class="nr-h2 nr-categories__heading">{{ section.settings.heading }}</h2>
 
-    <ul class="nr-categories__grid" role="list" style="--nr-categories-count: {{ section.blocks.size }};">
+    <ul
+      class="nr-categories__grid{% if section.blocks.size == 3 %} nr-categories__grid--feature{% endif %}"
+      role="list"
+      style="--nr-categories-count: {{ section.blocks.size }};"
+      data-nr-reveal="stagger"
+    >
       {% for block in section.blocks %}
         {%- liquid
           assign image = block.settings.image
@@ -28,7 +33,7 @@
                     loading: 'lazy',
                     alt: block.settings.label,
                     widths: '400, 600, 900',
-                    sizes: '(min-width: 990px) 23vw, (min-width: 750px) 46vw, 85vw',
+                    sizes: '(min-width: 990px) 50vw, (min-width: 750px) 46vw, 92vw',
                     style: 'object-position: ' | append: focal_point
                 }}
               {%- else -%}
@@ -121,31 +126,79 @@
   }
 
   .nr-categories__label {
-    font-size: 0.9375rem;
+    font-family: var(--font-heading--family);
+    font-size: 1.125rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: -0.01em;
   }
 
   .nr-categories__description {
-    margin-top: -4px;
-    font-size: 0.8125rem;
-    line-height: 1.4;
+    margin-top: -8px;
+    font-size: 0.875rem;
+    line-height: 1.45;
     color: var(--nr-text-muted);
+  }
+
+  .nr-categories__card:active .nr-categories__media {
+    transform: scale(0.99);
+  }
+
+  .nr-categories__media {
+    transition: transform var(--nr-transition-fast);
+  }
+
+  /* Three categories: one large feature tile beside two stacked tiles,
+     instead of a third row of identical equal-width cards on the page. */
+  @media screen and (min-width: 990px) {
+    .nr-categories__grid--feature {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      column-gap: var(--nr-space-lg);
+      row-gap: var(--nr-space-md);
+    }
+
+    .nr-categories__grid--feature > :first-child {
+      grid-row: span 2;
+    }
+
+    .nr-categories__grid--feature .nr-categories__card {
+      height: 100%;
+    }
+
+    .nr-categories__grid--feature > :first-child .nr-categories__media {
+      aspect-ratio: auto;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .nr-categories__grid--feature > :not(:first-child) .nr-categories__media {
+      aspect-ratio: 16 / 9;
+    }
+
+    .nr-categories__grid--feature > :first-child .nr-categories__label {
+      font-size: 1.375rem;
+    }
   }
 
   @media screen and (max-width: 989px) {
     .nr-categories__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .nr-categories__grid--feature > :first-child {
+      grid-column: 1 / -1;
+    }
+
+    .nr-categories__grid--feature > :first-child .nr-categories__media {
+      aspect-ratio: 16 / 9;
+    }
   }
 
-  /* Mobile: single column, full-width stacked cards — no slider/overflow.
-     Desktop and tablet grids above are untouched. */
+  /* Mobile: the first category full width, the other two side by side.
+     Shorter than three stacked full-width photos, still no carousel. */
   @media screen and (max-width: 749px) {
     .nr-categories__heading {
-      /* Slightly less added space than desktop, per spec. */
-      margin-bottom: calc(var(--nr-space-lg) + 16px);
+      margin-bottom: var(--nr-space-md);
       font-size: clamp(1.375rem, 1.2rem + 1vw, 1.75rem);
     }
 
@@ -154,12 +207,33 @@
       gap: 24px;
     }
 
+    .nr-categories__grid--feature {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px 12px;
+    }
+
     .nr-categories__card {
-      gap: 12px;
+      gap: 10px;
     }
 
     .nr-categories__media {
       aspect-ratio: 4 / 3;
+    }
+
+    .nr-categories__grid--feature > :first-child .nr-categories__media {
+      aspect-ratio: 4 / 3;
+    }
+
+    .nr-categories__grid--feature > :not(:first-child) .nr-categories__media {
+      aspect-ratio: 1;
+    }
+
+    .nr-categories__grid--feature > :not(:first-child) .nr-categories__label {
+      font-size: 1rem;
+    }
+
+    .nr-categories__grid--feature > :not(:first-child) .nr-categories__description {
+      font-size: 0.8125rem;
     }
   }
 {% endstylesheet %}

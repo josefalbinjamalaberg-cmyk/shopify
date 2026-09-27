@@ -253,6 +253,9 @@
     .nr-hero--medium,
     .nr-hero--large {
       height: clamp(420px, 78vh, 620px);
+      /* svh: sized to the viewport with the browser bars showing, so the
+         hero doesn't jump when iOS Safari's address bar collapses. */
+      height: clamp(420px, 78svh, 620px);
     }
 
     .nr-hero .nr-hero__content-wrap {
@@ -350,8 +353,9 @@
 
     .nr-hero__heading {
       font-size: clamp(3.25rem, 5vw, 4.875rem);
-      line-height: 0.98;
-      letter-spacing: -0.02em;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
     }
 
     .nr-hero__text {

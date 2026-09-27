@@ -42,6 +42,9 @@
 
   --nr-transition-fast: 160ms ease;
   --nr-transition-normal: 260ms ease;
+  /* Decelerating curve shared by reveals and hover lifts: quick start,
+     soft landing. */
+  --nr-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   color: var(--nr-text);
 }
@@ -483,11 +486,30 @@
 @media (prefers-reduced-motion: no-preference) {
   [data-nr-reveal] {
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 480ms ease, transform 480ms ease;
+    transform: translateY(16px);
+    transition: opacity 640ms var(--nr-ease-out), transform 640ms var(--nr-ease-out);
   }
 
   [data-nr-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Grids reveal their items one after another instead of as one slab:
+     the container stays put, its direct children cascade in. */
+  [data-nr-reveal='stagger'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-nr-reveal='stagger'] > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 640ms var(--nr-ease-out), transform 640ms var(--nr-ease-out);
+    transition-delay: calc(min(var(--nr-i, 0), 5) * 70ms);
+  }
+
+  [data-nr-reveal='stagger'].is-visible > * {
     opacity: 1;
     transform: none;
   }

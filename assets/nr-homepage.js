@@ -30,6 +30,16 @@
     const targets = document.querySelectorAll('[data-nr-reveal]:not(.is-visible)');
     if (!targets.length) return;
 
+    // Stagger containers: each direct child gets its position so the CSS
+    // can delay it (see [data-nr-reveal='stagger'] in nr-homepage.css).
+    targets.forEach((el) => {
+      if (el.dataset.nrReveal !== 'stagger') return;
+      // Skip inline <style>/<script> siblings some theme blocks render.
+      [...el.children]
+        .filter((child) => !['STYLE', 'SCRIPT', 'LINK'].includes(child.tagName))
+        .forEach((child, index) => child.style.setProperty('--nr-i', index));
+    });
+
     if (!('IntersectionObserver' in window)) {
       targets.forEach((el) => el.classList.add('is-visible'));
       return;

@@ -13,13 +13,13 @@
 
 <div data-nr-scope class="nr-section nr-visual-proof">
   <div class="nr-container">
-    <div class="nr-section-head nr-section-head--center" data-nr-reveal>
+    <div class="nr-section-head nr-visual-proof__head" data-nr-reveal>
       {%- if section.settings.heading != blank -%}
         <h2 class="nr-h2">{{ section.settings.heading }}</h2>
       {%- endif -%}
     </div>
 
-    <div class="nr-visual-proof__grid" data-nr-reveal>
+    <div class="nr-visual-proof__grid{% if section.blocks.size == 3 %} nr-visual-proof__grid--bento{% endif %}" data-nr-reveal="stagger">
       {% for block in section.blocks %}
         {%- liquid
           assign product = block.settings.product
@@ -54,7 +54,7 @@
             </div>
             <div class="nr-visual-proof__copy">
               <span class="nr-visual-proof__problem">{{ block.settings.problem }}</span>
-              <span class="nr-visual-proof__product">{{ product.title | upcase }}</span>
+              <span class="nr-visual-proof__product">{{ product.title | split: ' – ' | first | split: ' - ' | first }}</span>
               {%- if block.settings.text != blank -%}
                 <p class="nr-visual-proof__text">{{ block.settings.text }}</p>
               {%- endif -%}
@@ -71,6 +71,10 @@
 </div>
 
 {% stylesheet %}
+  .nr-visual-proof__head {
+    max-width: var(--nr-text-width);
+  }
+
   .nr-visual-proof__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -80,6 +84,7 @@
   .nr-visual-proof__card {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
   .nr-visual-proof__media {
@@ -108,34 +113,135 @@
 
   .nr-visual-proof__problem {
     display: block;
-    font-size: 0.9375rem;
+    font-family: var(--font-heading--family);
+    font-size: 1.125rem;
     font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .nr-visual-proof__product {
     display: block;
     margin-top: 2px;
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
+    font-size: 0.8125rem;
     color: var(--nr-text-muted);
   }
 
   .nr-visual-proof__text {
     margin: var(--nr-space-xs) 0 0;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     line-height: 1.5;
     color: var(--nr-text-muted);
+    max-width: 46ch;
   }
 
   .nr-visual-proof__link {
     display: inline-flex;
-    margin-top: var(--nr-space-xs);
+    margin-top: var(--nr-space-sm);
   }
 
+  /* Three proofs: a bento of one large tile (first block) and two compact
+     tiles beside it, media and text side by side. */
+  @media screen and (min-width: 990px) {
+    /* Large tile on the right: mirrors the category bento higher up the
+       page so the two sections don't share the same silhouette. */
+    .nr-visual-proof__grid--bento {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+      grid-template-rows: auto auto;
+      gap: var(--nr-space-md) var(--nr-space-lg);
+    }
+
+    .nr-visual-proof__grid--bento > :first-child {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) {
+      grid-column: 1;
+    }
+
+    /* The large tile follows the height of the two compact tiles instead
+       of its media's intrinsic size: the media fills the space absolutely. */
+    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media {
+      position: relative;
+      aspect-ratio: auto;
+      flex: 1;
+      min-height: 320px;
+    }
+
+    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media > * {
+      position: absolute;
+      inset: 0;
+    }
+
+    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__problem {
+      font-size: 1.5rem;
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--nr-space-md);
+      align-items: center;
+      padding: var(--nr-space-sm);
+      background: var(--nr-bg-soft);
+      border-radius: var(--nr-radius-md);
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__media {
+      aspect-ratio: 1;
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__copy {
+      padding-top: 0;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .nr-visual-proof__grid--bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--nr-space-md);
+    }
+
+    .nr-visual-proof__grid--bento > :first-child {
+      grid-column: 1 / -1;
+    }
+
+    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  /* Mobile: the first proof large, the other two as compact rows (media
+     beside text) so three videos/images don't stack into a long scroll. */
   @media screen and (max-width: 749px) {
     .nr-visual-proof__grid {
       grid-template-columns: 1fr;
       gap: var(--nr-space-md);
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: var(--nr-space-sm);
+      align-items: start;
+      padding-top: var(--nr-space-md);
+      border-top: 1px solid var(--nr-border);
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__media {
+      aspect-ratio: 1;
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__media--product img {
+      padding: 10px;
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__copy {
+      padding-top: 0;
+    }
+
+    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__link {
+      margin-top: var(--nr-space-xs);
     }
   }
 {% endstylesheet %}

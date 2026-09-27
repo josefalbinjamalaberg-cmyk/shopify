@@ -4,11 +4,10 @@
   poster support — falls back to the theme's own video placeholder until a
   video is uploaded, exactly like the Alkastrike result-video section.
 
-  The small badge overlaying the video is static copy (not a merchant
-  setting) since it names a verified clip duration — update the text by
-  hand if the video block's source is ever swapped for a different clip.
-  pointer-events: none keeps it from ever intercepting the tap-to-play hit
-  area on mobile.
+  The caption under the video is static copy (not a merchant setting)
+  since it names a verified clip duration. Update the text by hand if the
+  video block's source is ever swapped for a different clip. It sits below
+  the video rather than as a label on top of the footage.
 {% endcomment %}
 
 <div data-nr-scope class="nr-section nr-demo">
@@ -28,10 +27,10 @@
       {%- endif -%}
     </div>
 
-    <div class="nr-demo__media" data-nr-reveal>
-      <span class="nr-demo__badge" aria-hidden="true">Se förtvätten i verkligheten · 13 sek</span>
+    <figure class="nr-demo__media" data-nr-reveal>
       {% content_for 'block', type: 'video', id: 'video' %}
-    </div>
+      <figcaption class="nr-demo__caption">Förtvätt i verkligheten, 13 sekunder.</figcaption>
+    </figure>
   </div>
 </div>
 
@@ -43,36 +42,19 @@
   .nr-demo__media {
     position: relative;
     max-width: 1100px;
-    margin-inline: auto;
+    margin: 0 auto;
   }
 
-  .nr-demo__badge {
-    position: absolute;
-    top: var(--nr-space-sm);
-    left: var(--nr-space-sm);
-    z-index: 2;
-    pointer-events: none;
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    background: rgba(17, 17, 17, 0.72);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    color: #fff;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-radius: 100px;
+  .nr-demo__media > :first-child {
+    border-radius: var(--nr-radius-md);
+    overflow: hidden;
   }
 
-  @media screen and (max-width: 749px) {
-    .nr-demo__badge {
-      top: var(--nr-space-xs);
-      left: var(--nr-space-xs);
-      font-size: 0.625rem;
-      padding: 5px 10px;
-    }
+  .nr-demo__caption {
+    margin-top: var(--nr-space-sm);
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--nr-text-muted);
   }
 {% endstylesheet %}
 

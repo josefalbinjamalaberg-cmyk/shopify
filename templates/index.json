@@ -747,7 +747,7 @@
             "total_rating": "4.7/5",
             "total_reviews": "34",
             "desktop_width_percent": 100,
-            "background_color": "#F8F7F3",
+            "background_color": "#F5F5F2",
             "card_color": "#FFFFFF",
             "text_color": "#1C1C1C",
             "border_color": "#DFDFDF",
@@ -927,8 +927,8 @@
       "settings": {
         "eyebrow": "Färdiga lösningar",
         "heading": "Hitta rätt paket",
-        "text": "Rätt produkter tillsammans, till ett bättre paketpris. Välj nivån som passar din tvätt – vi har redan satt ihop resten.",
-        "tagline": "Mindre funderande. Mer bilvård.",
+        "text": "Rätt produkter tillsammans, till ett bättre paketpris. Välj nivån som passar din tvätt. Vi har redan satt ihop resten.",
+        "tagline": "",
         "more_text": "Vill du se fler alternativ?",
         "more_label": "Se alla färdiga paket",
         "more_link": "shopify://collections/fardiga-paket"
@@ -1001,8 +1001,8 @@
         }
       },
       "block_order": [
-        "proof_1",
         "proof_2",
+        "proof_1",
         "proof_3"
       ],
       "settings": {
@@ -1041,7 +1041,7 @@
       ],
       "settings": {
         "heading": "Bilvård ska vara enklare att förstå",
-        "text": "<p>Bilvård behöver inte bestå av ett rörigt sortiment och otydliga val. NordicReflection bygger på ett tydligt system där varje produkt har ett specifikt jobb – från att lösa smuts till att skapa glans och skydd.</p>",
+        "text": "<p>Bilvård behöver inte bestå av ett rörigt sortiment och otydliga val. NordicReflection bygger på ett tydligt system där varje produkt har ett specifikt jobb, från att lösa smuts till att skapa glans och skydd.</p>",
         "button_label": "Läs mer om NordicReflection",
         "button_link": "shopify://pages/om-oss",
         "media_position": "left",
