@@ -42,7 +42,7 @@
             <p class="nr-pdp-trust__score">
               {% render 'nr-pdp-stars' %}
               <span>
-                <strong>{{ rating | escape }}/5</strong> på Trustpilot
+                <strong>{{ rating | replace: '.', ',' | escape }}/5</strong> på Trustpilot
                 {%- if rating_count > 0 %} · {{ rating_count }} omdömen om NordicReflection{% endif -%}
               </span>
             </p>

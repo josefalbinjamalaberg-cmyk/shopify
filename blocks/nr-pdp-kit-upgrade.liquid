@@ -33,66 +33,89 @@
     assign components = kit.metafields.custom.kit_components.value
   -%}
 
+  {%- liquid
+    assign kit_name = kit.title | replace: ' - ', ' – ' | split: ' – ' | first | strip
+    assign cta_label = block.settings.cta_label | replace: '[paket]', kit_name
+  -%}
   <aside
     class="nr-pdp-kit"
     aria-labelledby="NrPdpKitHeading-{{ block.id }}"
     {{ block.shopify_attributes }}
   >
     <p
-      class="nr-pdp-eyebrow"
+      class="nr-pdp-kit__heading"
       id="NrPdpKitHeading-{{ block.id }}"
     >
       {{ heading | escape }}
     </p>
 
-    <a
-      class="nr-pdp-kit__link"
-      href="{{ kit.url }}"
-      data-nr-event="kit_upgrade_click"
-      data-nr-product="{{ kit.handle }}"
-    >
-      <span class="nr-pdp-kit__media">
+    <div class="nr-pdp-kit__row">
+      <a
+        class="nr-pdp-kit__media"
+        href="{{ kit.url }}"
+        tabindex="-1"
+        aria-hidden="true"
+        data-nr-event="kit_upgrade_click"
+        data-nr-product="{{ kit.handle }}"
+        data-nr-source="image"
+      >
         {%- if kit.featured_image != blank -%}
           {{
             kit.featured_image
-            | image_url: width: 240
+            | image_url: width: 280
             | image_tag:
               loading: 'lazy',
-              widths: '120, 180, 240',
-              sizes: '88px',
+              widths: '140, 210, 280',
+              sizes: '104px',
               alt: ''
           }}
         {%- endif -%}
-      </span>
-      <span class="nr-pdp-kit__body">
-        <span class="nr-pdp-kit__title">{{ kit.title | escape }}</span>
+      </a>
+      <div class="nr-pdp-kit__body">
         {%- if components != blank -%}
-          <span class="nr-pdp-kit__contents">
+          <p class="nr-pdp-kit__contents">
             {%- for component in components -%}
               {%- assign component_product = component.variant.value.product -%}
               {%- if component_product == blank -%}{%- continue -%}{%- endif -%}
               {%- assign component_name = component_product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip -%}
-              {%- unless forloop.first %} + {% endunless -%}
+              {%- unless forloop.first -%}<span class="nr-pdp-kit__plus" aria-hidden="true"> + </span><span class="visually-hidden"> och </span>{%- endunless -%}
               <span{% if component_product.id == product.id %} class="is-current"{% endif %}>
                 {{- component_name | escape -}}
               </span>
             {%- endfor -%}
-          </span>
+          </p>
         {%- endif -%}
-        <span class="nr-pdp-kit__prices">
+        <p class="nr-pdp-kit__title">{{ kit.title | escape }}</p>
+        <dl class="nr-pdp-kit__prices">
           {%- if saving > 0 -%}
-            <span class="nr-pdp-kit__separate">Köpta separat {{ separate | money }}</span>
+            <div>
+              <dt>Köpta separat</dt>
+              <dd>{{ separate | money }}</dd>
+            </div>
           {%- endif -%}
-          <span class="nr-pdp-kit__price">Paketpris {{ kit.price | money }}</span>
+          <div>
+            <dt>Paketpris</dt>
+            <dd class="nr-pdp-kit__price">{{ kit.price | money }}</dd>
+          </div>
           {%- if saving > 0 -%}
-            <span class="nr-pdp-kit__saving">Du sparar {{ saving | money }}</span>
+            <div>
+              <dt class="visually-hidden">Besparing</dt>
+              <dd class="nr-pdp-kit__saving">Du sparar {{ saving | money }}</dd>
+            </div>
           {%- endif -%}
-        </span>
-        <span class="nr-pdp-kit__cta">
-          {{- block.settings.cta_label | escape -}}
-          <span aria-hidden="true">&rarr;</span>
-        </span>
-      </span>
+        </dl>
+      </div>
+    </div>
+
+    <a
+      class="nr-pdp-kit__cta"
+      href="{{ kit.url }}"
+      data-nr-event="kit_upgrade_click"
+      data-nr-product="{{ kit.handle }}"
+      data-nr-source="cta"
+    >
+      <span>{{ cta_label | escape }}</span>
+      <span aria-hidden="true">&rarr;</span>
     </a>
   </aside>
 {%- endif -%}
@@ -117,7 +140,8 @@
       "type": "text",
       "id": "cta_label",
       "label": "Knapptext",
-      "default": "Välj kitet"
+      "info": "[paket] ersätts med paketets namn.",
+      "default": "Välj [paket]"
     }
   ]
 }

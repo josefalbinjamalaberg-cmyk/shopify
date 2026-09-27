@@ -6,19 +6,30 @@
   `pdp.demo_heading` (falls back to the section heading). The whole section
   is hidden when there is no media — never an empty placeholder.
 
+  Optional `pdp.why` (multi-line text): a short "why does it work"
+  explanation shown with the media — plain language, chemistry kept light.
+  The section also renders with only `pdp.why` (no media), so the
+  explanation is ready now and the media slot activates once real
+  NordicReflection footage is added. No placeholders are ever shown.
+
   Videos never autoplay and load no video data until the customer presses
   play (preload="none", poster image shown).
 {%- enddoc -%}
 
 {%- liquid
   assign media = product.metafields.pdp.demo_media.value
+  assign why = product.metafields.pdp.why.value
   assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
   assign name = title_parts.first | strip
-  assign heading = product.metafields.pdp.demo_heading.value | default: section.settings.heading
+  if media != blank
+    assign heading = product.metafields.pdp.demo_heading.value | default: section.settings.heading
+  else
+    assign heading = section.settings.why_heading
+  endif
   assign heading = heading | replace: '[produkt]', name
 -%}
 
-{%- if media != blank -%}
+{%- if media != blank or why != blank -%}
   {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
 
   <section
@@ -33,11 +44,23 @@
         >
           {{ heading | escape }}
         </h2>
-        {%- if section.settings.note != blank -%}
+        {%- if why != blank -%}
+          <div class="nr-pdp-demo__why">
+            {%- assign why_lines = why | newline_to_br | split: '<br />' -%}
+            {%- for why_line in why_lines -%}
+              {%- assign why_text = why_line | strip -%}
+              {%- if why_text != blank -%}
+                <p>{{ why_text | escape }}</p>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if media != blank and section.settings.note != blank -%}
           <p class="nr-pdp-section__note">{{ section.settings.note | escape }}</p>
         {%- endif -%}
       </header>
 
+      {%- if media != blank -%}
       <div
         class="nr-pdp-demo__grid"
         data-count="{{ media.size | at_most: 3 }}"
@@ -72,6 +95,7 @@
           </figure>
         {%- endfor -%}
       </div>
+      {%- endif -%}
     </div>
   </section>
 {%- endif -%}
@@ -84,7 +108,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Media väljs per produkt i metafältet pdp.demo_media (videor/bilder, max 3). Rubrik från pdp.demo_heading. Sektionen döljs när produkten saknar media."
+      "content": "Media väljs per produkt i metafältet pdp.demo_media (videor/bilder, max 3), förklaring i pdp.why. Rubrik från pdp.demo_heading. Sektionen döljs när produkten saknar både media och förklaring."
     },
     {
       "type": "text",
@@ -92,6 +116,13 @@
       "label": "Standardrubrik",
       "info": "[produkt] ersätts med produktens namn.",
       "default": "Se [produkt] i praktiken"
+    },
+    {
+      "type": "text",
+      "id": "why_heading",
+      "label": "Rubrik när produkten saknar media",
+      "info": "[produkt] ersätts med produktens namn.",
+      "default": "Så fungerar [produkt]"
     },
     {
       "type": "text",

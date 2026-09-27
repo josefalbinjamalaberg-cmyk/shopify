@@ -5,6 +5,11 @@
   The stage that contains the current product is highlighted; the section
   is hidden on products that aren't in any stage (towels, tools…).
 
+  Problem map (section blocks "Problem → produkt"): for products that
+  customers confuse with each other (Revolt / Alkastrike / DeepDegrease), a
+  simple "which problem → which product" list is shown instead of the stage
+  strip whenever the current product is one of the mapped products.
+
   Products are product references, so names and links always come from the
   product itself. An optional per-product note comes from `pdp.routine_note`
   (e.g. that a speciality product is only needed when required).
@@ -31,9 +36,20 @@
   endfor
 
   assign routine_note = product.metafields.pdp.routine_note.value
+
+  assign in_map = false
+  for block in section.blocks
+    if block.settings.product.id == product.id
+      assign in_map = true
+    endif
+  endfor
+
+  assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
+  assign name = title_parts.first | strip
+  assign heading = section.settings.heading | replace: '[produkt]', name
 -%}
 
-{%- if current_stage > 0 -%}
+{%- if current_stage > 0 or in_map -%}
   {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
 
   <section
@@ -46,13 +62,53 @@
           class="nr-pdp-section__heading"
           id="NrPdpRoutineHeading"
         >
-          {{ section.settings.heading | escape }}
+          {{ heading | escape }}
         </h2>
         {%- if routine_note != blank -%}
           <p class="nr-pdp-section__note">{{ routine_note | escape }}</p>
         {%- endif -%}
       </header>
 
+      {%- if in_map -%}
+        <ul
+          class="nr-pdp-map"
+          role="list"
+        >
+          {%- for block in section.blocks -%}
+            {%- assign map_product = block.settings.product -%}
+            {%- if map_product == blank or block.settings.problem == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign map_name = map_product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip -%}
+            <li
+              class="nr-pdp-map__row{% if map_product.id == product.id %} is-current{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              <span class="nr-pdp-map__problem">{{ block.settings.problem | escape }}</span>
+              <span
+                class="nr-pdp-map__arrow"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+              {%- if map_product.id == product.id -%}
+                <span class="nr-pdp-map__product">
+                  {{- map_name | escape -}}
+                  <span class="nr-pdp-map__here">Den här produkten</span>
+                </span>
+              {%- else -%}
+                <a
+                  class="nr-pdp-map__product"
+                  href="{{ map_product.url }}"
+                  data-nr-event="cross_sell_click"
+                  data-nr-product="{{ map_product.handle }}"
+                  data-nr-source="routine_map"
+                >
+                  {{- map_name | escape -}}
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
       <ol
         class="nr-pdp-routine__stages"
         role="list"
@@ -110,8 +166,9 @@
           {%- endif -%}
         {%- endfor -%}
       </ol>
+      {%- endif -%}
 
-      {%- if section.settings.footer != blank -%}
+      {%- if section.settings.footer != blank and in_map == false -%}
         <p class="nr-pdp-routine__footer">{{ section.settings.footer | escape }}</p>
       {%- endif -%}
     </div>
@@ -132,7 +189,8 @@
       "type": "text",
       "id": "heading",
       "label": "Rubrik",
-      "default": "I tvättrutinen"
+      "info": "[produkt] ersätts med produktens namn.",
+      "default": "Var passar [produkt] in?"
     },
     {
       "type": "text",
@@ -183,6 +241,25 @@
       "id": "footer",
       "label": "Text under rutinen",
       "default": "Du behöver inte alla steg vid varje tvätt – välj det bilen behöver."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "problem",
+      "name": "Problem → produkt",
+      "settings": [
+        {
+          "type": "text",
+          "id": "problem",
+          "label": "Problem",
+          "info": "T.ex. \"Flygrost & bromsdamm\"."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produkt"
+        }
+      ]
     }
   ],
   "presets": [

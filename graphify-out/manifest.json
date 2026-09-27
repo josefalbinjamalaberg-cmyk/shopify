@@ -876,15 +876,21 @@
     "semantic_hash": ""
   },
   "templates/product.standard.json": {
-    "mtime": 1790518638.1594381,
-    "seen": 1790519232.5092335,
-    "ast_hash": "0a1670fc49edd1bb8cce430c2c26491a",
+    "mtime": 1790519881.859609,
+    "seen": 1790520155.3424184,
+    "ast_hash": "047a5add94b2245e65a40a34b9b68394",
     "semantic_hash": ""
   },
   "docs/pdp/architecture.md": {
     "mtime": 1790519396.9727309,
     "seen": 1790519404.2503526,
     "ast_hash": "b46222d395d24664c84cbf22ac761ad6",
+    "semantic_hash": ""
+  },
+  "templates/product.revolt.json": {
+    "mtime": 1790520094.8605006,
+    "seen": 1790520155.342416,
+    "ast_hash": "8ba8ddcfb94dd832fc8f90635fba5726",
     "semantic_hash": ""
   }
 }

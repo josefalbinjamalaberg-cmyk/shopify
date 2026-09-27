@@ -68,7 +68,7 @@
               "settings": {
                 "show_sale_price_first": true,
                 "show_installments": false,
-                "show_tax_info": true,
+                "show_tax_info": false,
                 "type_preset": "h4",
                 "width": "100%",
                 "alignment": "left",
@@ -186,7 +186,7 @@
               "type": "nr-pdp-kit-upgrade",
               "settings": {
                 "heading": "Köp som paket",
-                "cta_label": "Välj kitet"
+                "cta_label": "Välj [paket]"
               }
             }
           },
@@ -218,7 +218,8 @@
       "type": "nr-pdp-demo",
       "settings": {
         "heading": "Se [produkt] i praktiken",
-        "note": "Filmat av NordicReflection."
+        "note": "Filmat av NordicReflection.",
+        "why_heading": "Så fungerar [produkt]"
       }
     },
     "when": {
@@ -239,7 +240,7 @@
     "routine": {
       "type": "nr-pdp-routine",
       "settings": {
-        "heading": "I tvättrutinen",
+        "heading": "Var passar [produkt] in?",
         "stage_1_title": "Fälgar",
         "stage_1_products": [
           "revolt-flygrostborttagare"
@@ -261,7 +262,35 @@
           "pristine-dack-plastfornyare"
         ],
         "footer": "Du behöver inte alla steg vid varje tvätt – välj det bilen behöver."
-      }
+      },
+      "blocks": {
+        "map_traffic": {
+          "type": "problem",
+          "settings": {
+            "problem": "Trafikfilm & vägsmuts",
+            "product": "alkastrike-alkalisk-avfettning"
+          }
+        },
+        "map_tar": {
+          "type": "problem",
+          "settings": {
+            "problem": "Asfalt & tjära",
+            "product": "deepdegrease-kallavfettning"
+          }
+        },
+        "map_iron": {
+          "type": "problem",
+          "settings": {
+            "problem": "Flygrost & bromsdamm",
+            "product": "revolt-flygrostborttagare"
+          }
+        }
+      },
+      "block_order": [
+        "map_traffic",
+        "map_tar",
+        "map_iron"
+      ]
     },
     "accessories": {
       "type": "nr-pdp-accessories",
@@ -288,10 +317,10 @@
   },
   "order": [
     "main",
-    "demo",
     "when",
-    "how",
+    "demo",
     "routine",
+    "how",
     "accessories",
     "trust",
     "details"

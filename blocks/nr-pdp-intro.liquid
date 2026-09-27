@@ -38,7 +38,6 @@
   assign value_line = product.metafields.pdp.value_line.value
 
   assign rating = settings.nr_trustpilot_rating
-  assign rating_count = settings.nr_trustpilot_count
 -%}
 
 <div
@@ -55,9 +54,11 @@
     >
       <span class="nr-pdp-trustline__brand">NordicReflection</span>
       {% render 'nr-pdp-stars' %}
-      <span>
-        {{- rating | escape }}/5 på Trustpilot
-        {%- if rating_count > 0 %} · {{ rating_count }} omdömen{% endif -%}
+      <span class="nr-pdp-trustline__score">
+        {{- rating | replace: '.', ',' | escape }}/5 på Trustpilot
+      </span>
+      <span class="nr-pdp-trustline__cta">
+        Läs omdömen <span aria-hidden="true">&rarr;</span>
       </span>
     </a>
   {%- endif -%}
