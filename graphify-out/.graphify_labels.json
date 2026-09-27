@@ -117,7 +117,7 @@
   "115": "11. REDESIGN PROTOCOL",
   "116": "3. DEFAULT ARCHITECTURE & CONVENTIONS",
   "117": "6. PERFORMANCE & ACCESSIBILITY GUARDRAILS",
-  "118": "TestTokenizer",
+  "118": "Collection pages – Phase 1 audit (Exteriör, Interiör, Tillbehör)",
   "119": "Slides Reference",
   "120": "HTML Slide Template",
   "121": "HTML Slide Template",
@@ -128,7 +128,7 @@
   "126": "test_core.py",
   "127": "split_values",
   "128": "read_rows",
-  "129": "TestLandingAndStackContract",
+  "129": "logo/core.py",
   "130": "Pre-Delivery Checklist",
   "131": "Prerequisites",
   "132": "0. BRIEF INFERENCE (Read the Room Before Anything Else)",
@@ -184,5 +184,6 @@
   "182": ".test_add_colors",
   "183": ".test_default_content_paths_nextjs",
   "184": "csv",
+  "185": "TestGeneratedCatalogContract",
   "186": "publish"
 }
