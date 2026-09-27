@@ -4,8 +4,9 @@
   they don't compete with the buying decision.
 
   - `pdp.specs` multi-line, one row per line: "Label | Value"
-  - product.description: the existing indexable description, under
-    "Om produkten"
+  - product.description: under "Om produkten", only when the section
+    setting show_description is on (off by default — the page's own
+    sections already cover it; it stays in Shopify and structured data)
   - `pdp.faq`   multi-line, one question per line: "Question | Answer"
   The FAQPage structured data is generated from the SAME `pdp.faq` lines as
   the visible FAQ, so the two can't disagree. Hidden when all are empty.
@@ -17,7 +18,10 @@
   assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
   assign name = title_parts.first | strip
   assign faq_heading = section.settings.faq_heading | replace: '[produkt]', name
-  assign description = product.description | strip
+  assign description = blank
+  if section.settings.show_description
+    assign description = product.description | strip
+  endif
 -%}
 
 {%- if specs != blank or faq != blank or description != blank -%}
@@ -143,6 +147,13 @@
       "label": "Rubrik – FAQ",
       "info": "[produkt] ersätts med produktens namn.",
       "default": "Vanliga frågor om [produkt]"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Visa produktbeskrivningen (\"Om produkten\")",
+      "info": "Av som standard: sidans sektioner täcker redan beskrivningens innehåll. Beskrivningen finns kvar i Shopify, i metabeskrivningen och i produktens strukturerade data.",
+      "default": false
     },
     {
       "type": "text",

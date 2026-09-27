@@ -83,12 +83,6 @@
               {{ block.shopify_attributes }}
             >
               <span class="nr-pdp-map__problem">{{ block.settings.problem | escape }}</span>
-              <span
-                class="nr-pdp-map__arrow"
-                aria-hidden="true"
-              >
-                &rarr;
-              </span>
               {%- if map_product.id == product.id -%}
                 <span class="nr-pdp-map__product">
                   {{- map_name | escape -}}
@@ -102,7 +96,13 @@
                   data-nr-product="{{ map_product.handle }}"
                   data-nr-source="routine_map"
                 >
-                  {{- map_name | escape -}}
+                  <span>{{- map_name | escape -}}</span>
+                  <span
+                    class="nr-pdp-map__go"
+                    aria-hidden="true"
+                  >
+                    &rarr;
+                  </span>
                 </a>
               {%- endif -%}
             </li>

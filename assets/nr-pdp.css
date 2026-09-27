@@ -448,11 +448,17 @@
 
 @media screen and (min-width: 750px) {
   .nr-pdp-demo__grid[data-count='2'] {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+    align-items: start;
   }
 
   .nr-pdp-demo__grid[data-count='3'] {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .nr-pdp-demo__grid[data-count='3'] .nr-pdp-demo__item:first-child {
+    grid-row: span 2;
   }
 }
 
@@ -800,7 +806,7 @@
 
 .nr-pdp-map__row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: 8px 12px;
   min-height: 56px;
@@ -814,11 +820,6 @@
   color: var(--nr-pdp-muted);
 }
 
-.nr-pdp-map__arrow {
-  color: var(--nr-pdp-muted);
-  text-align: center;
-}
-
 .nr-pdp-map__product {
   display: inline-flex;
   flex-wrap: wrap;
@@ -826,7 +827,32 @@
   gap: 2px 10px;
   font-weight: 600;
   color: var(--nr-pdp-text);
-  text-underline-offset: 3px;
+}
+
+a.nr-pdp-map__product {
+  gap: 6px;
+  min-height: 44px;
+  align-items: center;
+  text-decoration: none;
+}
+
+a.nr-pdp-map__product span:first-child {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.nr-pdp-map__go {
+  transition: transform 200ms var(--nr-pdp-ease);
+}
+
+a.nr-pdp-map__product:hover .nr-pdp-map__go {
+  transform: translateX(3px);
+}
+
+a.nr-pdp-map__product:focus-visible {
+  outline: 2px solid var(--nr-pdp-text);
+  outline-offset: 2px;
 }
 
 .nr-pdp-map__row.is-current .nr-pdp-map__problem {
@@ -901,6 +927,7 @@
 
 .nr-pdp-routine__products a {
   color: inherit;
+  text-decoration: underline;
   text-underline-offset: 3px;
 }
 
@@ -1014,6 +1041,14 @@
 
 .nr-pdp-accessories__arrow {
   font-size: 1.125rem;
+}
+
+.nr-pdp-accessories__saving {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--nr-pdp-accent);
 }
 
 /* 08 Trust */
@@ -1272,4 +1307,70 @@ body:has(cart-drawer-component dialog[open]) .sticky-add-to-cart__bar {
 
 .product-details:has(.nr-pdp-intro) > .group-block {
   max-width: 34rem;
+}
+
+/* ---------- Hero refinements (desktop) ---------- */
+
+/* Product ~12 % larger in the gallery frame. Packshots are contained with
+   built-in margin, so scaling inside the fixed frame enlarges the product
+   without changing the layout or whitespace around the gallery. */
+@media screen and (min-width: 990px) {
+  .product-information:has(.nr-pdp-intro) .product-information__media .product-media-container--image img {
+    transform: scale(1.12);
+    transform-origin: center center;
+  }
+}
+
+/* Add to cart is the primary action; express checkout is secondary. */
+.product-details:has(.nr-pdp-intro) .add-to-cart-button {
+  min-height: 54px;
+}
+
+.product-details:has(.nr-pdp-intro) .accelerated-checkout-block {
+  --shopify-accelerated-checkout-button-block-size: 42px;
+  --shopify-accelerated-checkout-button-inline-size: 100%;
+  margin-top: 2px;
+}
+
+/* Sticky add to cart: smaller and quieter on desktop (~30 % less area),
+   same behaviour and button. */
+@media screen and (min-width: 750px) {
+  .sticky-add-to-cart__bar {
+    width: 440px;
+    gap: 12px;
+    padding: 6px;
+    box-shadow: 0 6px 20px rgba(17, 17, 17, 0.08);
+  }
+
+  .sticky-add-to-cart__bar::before {
+    backdrop-filter: none;
+    background: linear-gradient(#fff 0 100%), linear-gradient(rgba(17, 17, 17, 0.1) 0 100%);
+    background-clip: content-box, border-box;
+  }
+
+  .sticky-add-to-cart__image,
+  .sticky-add-to-cart__image-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sticky-add-to-cart__title {
+    font-size: 0.8125rem;
+  }
+
+  .sticky-add-to-cart__price,
+  .sticky-add-to-cart__price * {
+    font-size: 0.8125rem;
+  }
+
+  .sticky-add-to-cart__button {
+    min-height: 40px;
+    height: 40px;
+    padding-inline: 16px;
+    font-size: 0.8125rem;
+  }
+
+  .sticky-add-to-cart__button .svg-wrapper {
+    display: none;
+  }
 }

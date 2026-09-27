@@ -11,7 +11,10 @@
      correctly on both products' pages. Heading `pdp.compare_heading`.
   3. Optional short brand-trust quote (level 2): the first NordicReflection
      Trustpilot review (metaobject nr_trustpilot_review) that mentions this
-     product, clearly labelled as a review of NordicReflection.
+     product, clearly labelled as a review of NordicReflection. Shown as a
+     natural excerpt — whole sentences only (first sentence, plus the next
+     if the first is very short), never cut mid-word — with a link to the
+     full review in the Trustpilot section.
 
   Hidden entirely when there are neither problems nor a comparison.
 {%- enddoc -%}
@@ -158,7 +161,16 @@
       {%- if quote != blank and section.settings.show_quote -%}
         <figure class="nr-pdp-quote">
           <blockquote>
-            <p>{{ quote.body.value | strip_newlines | truncate: 220, '…' | escape }}</p>
+            {%- liquid
+              assign quote_body = quote.body.value | newline_to_br | replace: '<br />', ' ' | strip_newlines | strip
+              assign quote_marked = quote_body | replace: '. ', '.§' | replace: '! ', '!§' | replace: '? ', '?§'
+              assign quote_sentences = quote_marked | split: '§'
+              assign quote_excerpt = quote_sentences.first | strip
+              if quote_sentences.size > 1 and quote_excerpt.size < 70
+                assign quote_excerpt = quote_excerpt | append: ' ' | append: quote_sentences[1] | strip
+              endif
+            -%}
+            <p>{{ quote_excerpt | escape }}</p>
           </blockquote>
           <figcaption>
             {% render 'nr-pdp-stars' %}
@@ -170,7 +182,7 @@
               data-nr-event="trustpilot_click"
               data-nr-source="quote"
             >
-              Fler omdömen
+              Läs hela omdömet
             </a>
           </figcaption>
         </figure>

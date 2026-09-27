@@ -5,7 +5,10 @@
   Source: `pdp.accessories` (list of product references, max 3) and
   `pdp.accessory_reasons` (list of single-line text, SAME ORDER): one
   sentence on why each product goes with this one. Name, image, price and
-  link all come from the referenced product object. Hidden when empty.
+  link all come from the referenced product object. A referenced kit (a
+  product with custom.kit_components) also shows its real saving versus
+  buying the contents separately (snippets/nr-kit-separate-total).
+  Hidden when empty.
 {%- enddoc -%}
 
 {%- liquid
@@ -73,9 +76,25 @@
                 {%- if reason != blank -%}
                   <span class="nr-pdp-accessories__reason">{{ reason | escape }}</span>
                 {%- endif -%}
+                {%- liquid
+                  assign item_saving = 0
+                  if item.metafields.custom.kit_components != blank
+                    capture item_separate
+                      render 'nr-kit-separate-total', product: item
+                    endcapture
+                    assign item_separate = item_separate | strip | plus: 0
+                    if item_separate > item.price
+                      assign item_saving = item_separate | minus: item.price
+                    endif
+                  endif
+                -%}
                 <span class="nr-pdp-accessories__price">
+                  {%- if item_saving > 0 -%}Paketpris {% endif -%}
                   {%- if item.price_varies -%}Från {% endif -%}
                   {{- item.price | money -}}
+                  {%- if item_saving > 0 -%}
+                    <span class="nr-pdp-accessories__saving">Du sparar {{ item_saving | money }}</span>
+                  {%- endif -%}
                 </span>
               </span>
               <span
