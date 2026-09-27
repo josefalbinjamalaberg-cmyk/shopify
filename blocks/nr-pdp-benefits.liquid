@@ -1,0 +1,44 @@
+{%- doc -%}
+  Standard PDP: up to three short outcome-first benefits from
+  `pdp.benefits` (list of single-line text), shown as a plain check list —
+  no cards. Hidden when the metafield is empty.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  assign benefits = product.metafields.pdp.benefits.value
+-%}
+
+{%- if benefits != blank -%}
+  <ul
+    class="nr-pdp-benefits"
+    role="list"
+    {{ block.shopify_attributes }}
+  >
+    {%- for benefit in benefits limit: 3 -%}
+      <li>
+        <svg
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>{{ benefit | escape }}</span>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Fördelar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Visar högst tre fördelar från metafältet pdp.benefits. Döljs om fältet är tomt."
+    }
+  ]
+}
+{% endschema %}

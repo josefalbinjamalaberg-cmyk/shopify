@@ -1,0 +1,17 @@
+{%- doc -%}
+  Five decorative stars for the store's Trustpilot rating (aria-hidden: the
+  rating is always written out in text next to them).
+{%- enddoc -%}
+<span
+  class="nr-pdp-stars"
+  aria-hidden="true"
+>
+  {%- for i in (1..5) -%}
+    <svg
+      viewBox="0 0 12 12"
+      focusable="false"
+    >
+      <path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/>
+    </svg>
+  {%- endfor -%}
+</span>

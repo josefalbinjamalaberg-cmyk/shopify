@@ -1,0 +1,162 @@
+{%- doc -%}
+  Standard PDP 09–10: technical information, the full product description
+  (kept for SEO, collapsed) and a product-specific FAQ — all accordions, so
+  they don't compete with the buying decision.
+
+  - `pdp.specs` multi-line, one row per line: "Label | Value"
+  - product.description: the existing indexable description, under
+    "Om produkten"
+  - `pdp.faq`   multi-line, one question per line: "Question | Answer"
+  The FAQPage structured data is generated from the SAME `pdp.faq` lines as
+  the visible FAQ, so the two can't disagree. Hidden when all are empty.
+{%- enddoc -%}
+
+{%- liquid
+  assign specs = product.metafields.pdp.specs.value
+  assign faq = product.metafields.pdp.faq.value
+  assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
+  assign name = title_parts.first | strip
+  assign faq_heading = section.settings.faq_heading | replace: '[produkt]', name
+  assign description = product.description | strip
+-%}
+{% capture newline %}
+{% endcapture %}
+
+{%- if specs != blank or faq != blank or description != blank -%}
+  {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
+
+  <section
+    class="nr-pdp-section nr-pdp-details"
+    aria-label="{{ section.settings.aria_label | escape }}"
+  >
+    <div class="nr-pdp-container nr-pdp-details__grid">
+      {%- if specs != blank or description != blank -%}
+        <div class="nr-pdp-details__col">
+          <h2 class="nr-pdp-section__heading">{{ section.settings.specs_heading | escape }}</h2>
+
+          {%- if specs != blank -%}
+            <dl class="nr-pdp-specs">
+              {%- assign rows = specs | split: newline -%}
+              {%- for row in rows -%}
+                {%- assign parts = row | split: '|' -%}
+                {%- assign label = parts.first | strip -%}
+                {%- assign value = parts | slice: 1, 9 | join: '|' | strip -%}
+                {%- if label != blank and value != blank -%}
+                  <div class="nr-pdp-specs__row">
+                    <dt>{{ label | escape }}</dt>
+                    <dd>{{ value | escape }}</dd>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </dl>
+          {%- endif -%}
+
+          {%- if description != blank -%}
+            <details class="nr-pdp-accordion">
+              <summary>
+                <span>Om {{ name | escape }}</span>
+                <span
+                  class="nr-pdp-accordion__icon"
+                  aria-hidden="true"
+                ></span>
+              </summary>
+              <div class="nr-pdp-accordion__body rte">
+                {{ product.description }}
+              </div>
+            </details>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if faq != blank -%}
+        {%- assign faq_lines = faq | split: newline -%}
+        <div class="nr-pdp-details__col">
+          <h2 class="nr-pdp-section__heading">{{ faq_heading | escape }}</h2>
+          <div class="nr-pdp-faq">
+            {%- for line in faq_lines -%}
+              {%- assign parts = line | split: '|' -%}
+              {%- assign question = parts.first | strip -%}
+              {%- assign answer = parts | slice: 1, 9 | join: '|' | strip -%}
+              {%- if question != blank and answer != blank -%}
+                <details class="nr-pdp-accordion">
+                  <summary>
+                    <span>{{ question | escape }}</span>
+                    <span
+                      class="nr-pdp-accordion__icon"
+                      aria-hidden="true"
+                    ></span>
+                  </summary>
+                  <div class="nr-pdp-accordion__body">
+                    <p>{{ answer | escape }}</p>
+                  </div>
+                </details>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {%- assign first = true -%}
+              {%- for line in faq_lines -%}
+                {%- assign parts = line | split: '|' -%}
+                {%- assign question = parts.first | strip -%}
+                {%- assign answer = parts | slice: 1, 9 | join: '|' | strip -%}
+                {%- if question != blank and answer != blank -%}
+                  {%- unless first -%},{%- endunless -%}
+                  {%- assign first = false -%}
+                  {
+                    "@type": "Question",
+                    "name": {{ question | json }},
+                    "acceptedAnswer": { "@type": "Answer", "text": {{ answer | json }} }
+                  }
+                {%- endif -%}
+              {%- endfor -%}
+            ]
+          }
+        </script>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Teknisk info och FAQ",
+  "tag": "div",
+  "class": "nr-pdp-shell",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Teknisk info från pdp.specs (\"Etikett | Värde\" per rad), FAQ från pdp.faq (\"Fråga | Svar\" per rad). Produktbeskrivningen visas hopfälld under \"Om produkten\"."
+    },
+    {
+      "type": "text",
+      "id": "specs_heading",
+      "label": "Rubrik – teknisk information",
+      "default": "Teknisk information"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "Rubrik – FAQ",
+      "info": "[produkt] ersätts med produktens namn.",
+      "default": "Vanliga frågor om [produkt]"
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Tillgänglighetsetikett",
+      "default": "Produktinformation och vanliga frågor"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR PDP: Teknisk info och FAQ"
+    }
+  ]
+}
+{% endschema %}

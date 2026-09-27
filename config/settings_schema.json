@@ -935,5 +935,33 @@
       { "type": "number", "id": "free_gift_threshold", "label": "Gräns för gratis present (kr)", "info": "Separat erbjudande – ska inte vara samma som gränsen för fri frakt.", "default": 699 },
       { "type": "text", "id": "delivery_time_text", "label": "Leveranstext", "default": "Leverans inom 1–3 arbetsdagar" }
     ]
+  },
+  {
+    "name": "NordicReflection – Trustpilot",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Butikens Trustpilot-betyg. Används på produktsidorna (NR PDP) – alltid som omdömen om NordicReflection, aldrig som betyg av en enskild produkt."
+      },
+      {
+        "type": "text",
+        "id": "nr_trustpilot_rating",
+        "label": "Betyg (t.ex. 4.7)",
+        "default": "4.7"
+      },
+      {
+        "type": "number",
+        "id": "nr_trustpilot_count",
+        "label": "Antal omdömen",
+        "info": "Lämna tomt för att dölja antalet.",
+        "default": 34
+      },
+      {
+        "type": "text",
+        "id": "nr_trustpilot_url",
+        "label": "Länk till Trustpilot",
+        "default": "https://se.trustpilot.com/review/nordicreflection.se"
+      }
+    ]
   }
 ]

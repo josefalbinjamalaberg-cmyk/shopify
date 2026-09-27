@@ -1,0 +1,225 @@
+{%- doc -%}
+  Standard PDP 04: "Is this the product for my problem?"
+
+  1. Problems/uses from `pdp.problems` (multi-line text, one per line:
+     "Title | Short explanation"). Heading depends on `pdp.preset`:
+     chemicals get "När ska du använda …?", accessories/towels/tools
+     "Vad använder du … till?".
+  2. Optional comparison with a product customers confuse it with
+     (`pdp.compare_with`, product reference). Each side shows ITS OWN
+     `pdp.best_for` list, name, type and link, so the same comparison reads
+     correctly on both products' pages. Heading `pdp.compare_heading`.
+  3. Optional short brand-trust quote (level 2): the first NordicReflection
+     Trustpilot review (metaobject nr_trustpilot_review) that mentions this
+     product, clearly labelled as a review of NordicReflection.
+
+  Hidden entirely when there are neither problems nor a comparison.
+{%- enddoc -%}
+
+{%- liquid
+  assign problems = product.metafields.pdp.problems.value
+  assign compare_product = product.metafields.pdp.compare_with.value
+  assign own_best_for = product.metafields.pdp.best_for.value
+  assign other_best_for = compare_product.metafields.pdp.best_for.value
+
+  assign show_compare = false
+  if compare_product != blank and own_best_for != blank and other_best_for != blank
+    assign show_compare = true
+  endif
+
+  assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
+  assign name = title_parts.first | strip
+
+  assign preset = product.metafields.pdp.preset.value | default: 'kemikalie'
+  if preset == 'kemikalie'
+    assign heading = section.settings.heading_chemical
+  else
+    assign heading = section.settings.heading_accessory
+  endif
+  assign heading = heading | replace: '[produkt]', name
+
+  assign quote = blank
+  for review in shop.metaobjects.nr_trustpilot_review.values
+    for mentioned in review.mentions.value
+      if mentioned.id == product.id
+        assign quote = review
+        break
+      endif
+    endfor
+    if quote != blank
+      break
+    endif
+  endfor
+-%}
+{% capture newline %}
+{% endcapture %}
+
+{%- if problems != blank or show_compare -%}
+  {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
+
+  <section
+    class="nr-pdp-section nr-pdp-when"
+    aria-labelledby="NrPdpWhenHeading"
+  >
+    <div class="nr-pdp-container">
+      {%- if problems != blank -%}
+        <header class="nr-pdp-section__head">
+          <h2
+            class="nr-pdp-section__heading"
+            id="NrPdpWhenHeading"
+          >
+            {{ heading | escape }}
+          </h2>
+        </header>
+
+        <ul
+          class="nr-pdp-when__list"
+          role="list"
+        >
+          {%- assign lines = problems | split: newline -%}
+          {%- for line in lines -%}
+            {%- assign parts = line | split: '|' -%}
+            {%- assign problem_title = parts.first | strip -%}
+            {%- assign problem_text = parts | slice: 1, 9 | join: '|' | strip -%}
+            {%- if problem_title != blank -%}
+              <li class="nr-pdp-when__item">
+                <h3 class="nr-pdp-when__title">{{ problem_title | escape }}</h3>
+                {%- if problem_text != blank -%}
+                  <p class="nr-pdp-when__text">{{ problem_text | escape }}</p>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if show_compare -%}
+        {%- liquid
+          assign compare_heading = product.metafields.pdp.compare_heading.value | default: section.settings.compare_heading
+          assign other_parts = compare_product.title | replace: ' - ', ' – ' | split: ' – '
+          assign other_name = other_parts.first | strip
+          assign own_type = product.metafields.pdp.type_label.value
+          if own_type == blank and title_parts.size > 1
+            assign own_type = title_parts | slice: 1, 9 | join: ' – ' | strip
+          endif
+          assign other_type = compare_product.metafields.pdp.type_label.value
+          if other_type == blank and other_parts.size > 1
+            assign other_type = other_parts | slice: 1, 9 | join: ' – ' | strip
+          endif
+        -%}
+        <div
+          class="nr-pdp-compare"
+          {% if problems == blank %}
+            id="NrPdpWhenHeading"
+          {% endif %}
+        >
+          <h2 class="nr-pdp-compare__heading">{{ compare_heading | escape }}</h2>
+          <div class="nr-pdp-compare__grid">
+            <div class="nr-pdp-compare__col is-current">
+              <p class="nr-pdp-compare__label">Den här produkten</p>
+              <h3 class="nr-pdp-compare__name">{{ name | escape }}</h3>
+              {%- if own_type != blank -%}
+                <p class="nr-pdp-compare__type">{{ own_type | escape }}</p>
+              {%- endif -%}
+              <ul role="list">
+                {%- for point in own_best_for -%}
+                  <li>{{ point | escape }}</li>
+                {%- endfor -%}
+              </ul>
+            </div>
+            <div class="nr-pdp-compare__col">
+              <p class="nr-pdp-compare__label">Jämför med</p>
+              <h3 class="nr-pdp-compare__name">{{ other_name | escape }}</h3>
+              {%- if other_type != blank -%}
+                <p class="nr-pdp-compare__type">{{ other_type | escape }}</p>
+              {%- endif -%}
+              <ul role="list">
+                {%- for point in other_best_for -%}
+                  <li>{{ point | escape }}</li>
+                {%- endfor -%}
+              </ul>
+              <a
+                class="nr-pdp-link"
+                href="{{ compare_product.url }}"
+                data-nr-event="cross_sell_click"
+                data-nr-product="{{ compare_product.handle }}"
+                data-nr-source="compare"
+              >
+                Se {{ other_name | escape }} · {{ compare_product.price | money }}
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+          {%- assign compare_note = product.metafields.pdp.compare_note.value -%}
+          {%- if compare_note != blank -%}
+            <p class="nr-pdp-compare__note">{{ compare_note | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if quote != blank and section.settings.show_quote -%}
+        <figure class="nr-pdp-quote">
+          <blockquote>
+            <p>{{ quote.body.value | strip_newlines | truncate: 220, '…' | escape }}</p>
+          </blockquote>
+          <figcaption>
+            {% render 'nr-pdp-stars' %}
+            <span>
+              {{- quote.author.value | escape }} · omdöme om NordicReflection på Trustpilot
+            </span>
+            <a
+              href="#NrPdpTrust"
+              data-nr-event="trustpilot_click"
+              data-nr-source="quote"
+            >
+              Fler omdömen
+            </a>
+          </figcaption>
+        </figure>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: När använder du den",
+  "tag": "div",
+  "class": "nr-pdp-shell",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Innehåll per produkt: pdp.problems (en rad per användning: \"Rubrik | Kort förklaring\"), pdp.compare_with + pdp.best_for för jämförelse."
+    },
+    {
+      "type": "text",
+      "id": "heading_chemical",
+      "label": "Rubrik – kemikalier",
+      "default": "När ska du använda [produkt]?"
+    },
+    {
+      "type": "text",
+      "id": "heading_accessory",
+      "label": "Rubrik – tillbehör, dukar och verktyg",
+      "default": "Vad använder du [produkt] till?"
+    },
+    {
+      "type": "text",
+      "id": "compare_heading",
+      "label": "Standardrubrik för jämförelse",
+      "default": "Vilken behöver du?"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quote",
+      "label": "Visa ett Trustpilot-omdöme som nämner produkten",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR PDP: När använder du den"
+    }
+  ]
+}
+{% endschema %}

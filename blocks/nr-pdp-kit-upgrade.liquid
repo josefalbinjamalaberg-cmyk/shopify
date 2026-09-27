@@ -1,0 +1,124 @@
+{%- doc -%}
+  Standard PDP: the product's logical kit upgrade, as a small editorial
+  block — never a random product.
+
+  Source: `pdp.kit_upgrade` (product reference to a kit). Everything shown —
+  kit name, image, contents, price, link — comes from that one kit product
+  object, so a name can never be paired with the wrong image or price:
+  - contents: the kit's `custom.kit_components` (each component's variant →
+    its product title; the current product is marked)
+  - "Köpta separat": snippets/nr-kit-separate-total (component variant
+    prices × quantity), never the compare-at price
+  - saving: only shown when the kit really is cheaper
+  Heading: `pdp.kit_heading`, else the block setting.
+  Hidden when no kit is set.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  assign kit = product.metafields.pdp.kit_upgrade.value
+-%}
+
+{%- if kit != blank and kit.available -%}
+  {%- liquid
+    capture separate
+      render 'nr-kit-separate-total', product: kit
+    endcapture
+    assign separate = separate | strip | plus: 0
+    assign saving = 0
+    if separate > kit.price
+      assign saving = separate | minus: kit.price
+    endif
+    assign heading = product.metafields.pdp.kit_heading.value | default: block.settings.heading
+    assign components = kit.metafields.custom.kit_components.value
+  -%}
+
+  <aside
+    class="nr-pdp-kit"
+    aria-labelledby="NrPdpKitHeading-{{ block.id }}"
+    {{ block.shopify_attributes }}
+  >
+    <p
+      class="nr-pdp-eyebrow"
+      id="NrPdpKitHeading-{{ block.id }}"
+    >
+      {{ heading | escape }}
+    </p>
+
+    <a
+      class="nr-pdp-kit__link"
+      href="{{ kit.url }}"
+      data-nr-event="kit_upgrade_click"
+      data-nr-product="{{ kit.handle }}"
+    >
+      <span class="nr-pdp-kit__media">
+        {%- if kit.featured_image != blank -%}
+          {{
+            kit.featured_image
+            | image_url: width: 240
+            | image_tag:
+              loading: 'lazy',
+              widths: '120, 180, 240',
+              sizes: '88px',
+              alt: ''
+          }}
+        {%- endif -%}
+      </span>
+      <span class="nr-pdp-kit__body">
+        <span class="nr-pdp-kit__title">{{ kit.title | escape }}</span>
+        {%- if components != blank -%}
+          <span class="nr-pdp-kit__contents">
+            {%- for component in components -%}
+              {%- assign component_product = component.variant.value.product -%}
+              {%- if component_product == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign component_name = component_product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip -%}
+              {%- unless forloop.first %} + {% endunless -%}
+              <span{% if component_product.id == product.id %} class="is-current"{% endif %}>
+                {{- component_name | escape -}}
+              </span>
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+        <span class="nr-pdp-kit__prices">
+          {%- if saving > 0 -%}
+            <span class="nr-pdp-kit__separate">Köpta separat {{ separate | money }}</span>
+          {%- endif -%}
+          <span class="nr-pdp-kit__price">Paketpris {{ kit.price | money }}</span>
+          {%- if saving > 0 -%}
+            <span class="nr-pdp-kit__saving">Du sparar {{ saving | money }}</span>
+          {%- endif -%}
+        </span>
+        <span class="nr-pdp-kit__cta">
+          {{- block.settings.cta_label | escape -}}
+          <span aria-hidden="true">&rarr;</span>
+        </span>
+      </span>
+    </a>
+  </aside>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Paketuppgradering",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Paketet väljs per produkt i metafältet pdp.kit_upgrade. Innehåll, pris och besparing räknas ut från paketets egna data."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Standardrubrik",
+      "info": "Används när produkten saknar pdp.kit_heading.",
+      "default": "Köp som paket"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Knapptext",
+      "default": "Välj kitet"
+    }
+  ]
+}
+{% endschema %}

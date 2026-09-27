@@ -1,0 +1,132 @@
+{%- doc -%}
+  Standard PDP 05: "Så använder du …" — numbered steps, dilution and short
+  notes, all from the product's own metafields:
+  - `pdp.steps`       multi-line, one step per line: "Title | Explanation"
+  - `pdp.dilution`    multi-line, one row per line: "Situation | Ratio"
+                      (only verified values — shown as a small table)
+  - `pdp.usage_note`  single line, e.g. "Färdig att använda – ingen spädning."
+  - `pdp.safety_note` single line, the one warning that matters most
+  Hidden when there are no steps.
+{%- enddoc -%}
+
+{%- liquid
+  assign steps = product.metafields.pdp.steps.value
+  assign dilution = product.metafields.pdp.dilution.value
+  assign usage_note = product.metafields.pdp.usage_note.value
+  assign safety_note = product.metafields.pdp.safety_note.value
+  assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
+  assign name = title_parts.first | strip
+  assign heading = section.settings.heading | replace: '[produkt]', name
+-%}
+{% capture newline %}
+{% endcapture %}
+
+{%- if steps != blank -%}
+  {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
+
+  <section
+    class="nr-pdp-section nr-pdp-how"
+    aria-labelledby="NrPdpHowHeading"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-pdp-section__head">
+        <h2
+          class="nr-pdp-section__heading"
+          id="NrPdpHowHeading"
+        >
+          {{ heading | escape }}
+        </h2>
+        {%- if usage_note != blank -%}
+          <p class="nr-pdp-section__note">{{ usage_note | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ol
+        class="nr-pdp-steps"
+        role="list"
+      >
+        {%- assign lines = steps | split: newline -%}
+        {%- assign step_number = 0 -%}
+        {%- for line in lines -%}
+          {%- assign parts = line | split: '|' -%}
+          {%- assign step_title = parts.first | strip -%}
+          {%- assign step_text = parts | slice: 1, 9 | join: '|' | strip -%}
+          {%- if step_title != blank -%}
+            {%- assign step_number = step_number | plus: 1 -%}
+            <li class="nr-pdp-steps__item">
+              <span
+                class="nr-pdp-steps__number"
+                aria-hidden="true"
+              >
+                {%- if step_number < 10 %}0{% endif %}{{ step_number -}}
+              </span>
+              <h3 class="nr-pdp-steps__title">{{ step_title | escape }}</h3>
+              {%- if step_text != blank -%}
+                <p class="nr-pdp-steps__text">{{ step_text | escape }}</p>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ol>
+
+      {%- if dilution != blank -%}
+        <div class="nr-pdp-dilution">
+          <h3 class="nr-pdp-eyebrow">Spädning</h3>
+          <dl class="nr-pdp-dilution__grid">
+            {%- assign rows = dilution | split: newline -%}
+            {%- for row in rows -%}
+              {%- assign parts = row | split: '|' -%}
+              {%- assign situation = parts.first | strip -%}
+              {%- assign ratio = parts | slice: 1, 9 | join: '|' | strip -%}
+              {%- if situation != blank and ratio != blank -%}
+                <div>
+                  <dt>{{ situation | escape }}</dt>
+                  <dd>{{ ratio | escape }}</dd>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </dl>
+        </div>
+      {%- endif -%}
+
+      {%- if safety_note != blank -%}
+        <p class="nr-pdp-notice">
+          <svg
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M10 2.8l8 14H2zM10 8v4.2M10 14.6v.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>{{ safety_note | escape }}</span>
+        </p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Så använder du",
+  "tag": "div",
+  "class": "nr-pdp-shell",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Steg från pdp.steps (\"Rubrik | Förklaring\" per rad), spädning från pdp.dilution (\"Situation | Förhållande\" per rad), notering pdp.usage_note, varning pdp.safety_note. Döljs utan steg."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "info": "[produkt] ersätts med produktens namn.",
+      "default": "Så använder du [produkt]"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR PDP: Så använder du"
+    }
+  ]
+}
+{% endschema %}

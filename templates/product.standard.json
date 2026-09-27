@@ -1,0 +1,299 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "carousel",
+            "media_columns": "one",
+            "image_gap": 0,
+            "large_first_image": false,
+            "icons_style": "arrow",
+            "slideshow_controls_style": "thumbnails",
+            "slideshow_mobile_controls_style": "counter",
+            "thumbnail_position": "right",
+            "thumbnail_width": 56,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": false,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": true,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "center",
+            "gap": 20,
+            "sticky_details_desktop": true,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "intro": {
+              "type": "nr-pdp-intro",
+              "settings": {}
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": true,
+                "type_preset": "h4",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "benefits": {
+              "type": "nr-pdp-benefits",
+              "settings": {}
+            },
+            "facts": {
+              "type": "nr-pdp-facts",
+              "settings": {}
+            },
+            "variant_picker": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons",
+                "show_swatches": true,
+                "option_label_text_color": "",
+                "variant_style_class": "default",
+                "custom_variant_background": "{{ settings.color_palette.background }}",
+                "custom_variant_text": "{{ settings.color_palette.foreground }}",
+                "custom_variant_border": "{{ settings.color_palette.foreground }}",
+                "selected_variant_style_class": "default",
+                "custom_selected_variant_background": "{{ settings.color_palette.foreground }}",
+                "custom_selected_variant_text": "{{ settings.color_palette.background }}",
+                "custom_selected_variant_border": "{{ settings.color_palette.foreground }}",
+                "alignment": "left",
+                "padding-block-start": 4,
+                "padding-block-end": 4,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": true,
+                "text_color": "",
+                "show_pickup_availability": false,
+                "gift_card_form": false,
+                "recipient_button_style": "default",
+                "recipient_button_background": "{{ settings.color_palette.background }}",
+                "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_style": "default",
+                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "input_style": "default",
+                "input_background_color": "{{ settings.color_palette.background }}",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "{{ settings.color_palette.foreground }}",
+                "border_width": 1,
+                "border_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0
+                  },
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button",
+                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "delivery": {
+              "type": "nr-pdp-delivery",
+              "settings": {
+                "return_text": "14 dagars ångerrätt",
+                "show_payment_icons": true
+              }
+            },
+            "kit_upgrade": {
+              "type": "nr-pdp-kit-upgrade",
+              "settings": {
+                "heading": "Köp som paket",
+                "cta_label": "Välj kitet"
+              }
+            }
+          },
+          "block_order": [
+            "intro",
+            "price",
+            "benefits",
+            "facts",
+            "variant_picker",
+            "buy_buttons",
+            "delivery",
+            "kit_upgrade"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": false,
+        "limit_details_width": true,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "background_color": "#f5f4f0",
+        "padding-block-start": 24,
+        "padding-block-end": 24
+      }
+    },
+    "demo": {
+      "type": "nr-pdp-demo",
+      "settings": {
+        "heading": "Se [produkt] i praktiken",
+        "note": "Filmat av NordicReflection."
+      }
+    },
+    "when": {
+      "type": "nr-pdp-when",
+      "settings": {
+        "heading_chemical": "När ska du använda [produkt]?",
+        "heading_accessory": "Vad använder du [produkt] till?",
+        "compare_heading": "Vilken behöver du?",
+        "show_quote": true
+      }
+    },
+    "how": {
+      "type": "nr-pdp-how",
+      "settings": {
+        "heading": "Så använder du [produkt]"
+      }
+    },
+    "routine": {
+      "type": "nr-pdp-routine",
+      "settings": {
+        "heading": "I tvättrutinen",
+        "stage_1_title": "Fälgar",
+        "stage_1_products": [
+          "revolt-flygrostborttagare"
+        ],
+        "stage_2_title": "Förtvätt",
+        "stage_2_products": [
+          "alkastrike-alkalisk-avfettning",
+          "deepdegrease-kallavfettning",
+          "foamtastic-hogkoncentrerat-snow-foam"
+        ],
+        "stage_3_title": "Handtvätt",
+        "stage_3_products": [
+          "pure-shampoo-ph-neutralt-bilschampo"
+        ],
+        "stage_4_title": "Finish & skydd",
+        "stage_4_products": [
+          "glosscoat-hydrofobisk-sprayforsegling",
+          "clarity-glasrengoring",
+          "pristine-dack-plastfornyare"
+        ],
+        "footer": "Du behöver inte alla steg vid varje tvätt – välj det bilen behöver."
+      }
+    },
+    "accessories": {
+      "type": "nr-pdp-accessories",
+      "settings": {
+        "heading": "Passar ihop med [produkt]"
+      }
+    },
+    "trust": {
+      "type": "nr-pdp-trust",
+      "settings": {
+        "heading": "Vad kunder säger om NordicReflection",
+        "max_reviews": 4,
+        "source_note": "Omdömen om NordicReflection som butik, hämtade från Trustpilot. Inte betyg av den enskilda produkten."
+      }
+    },
+    "details": {
+      "type": "nr-pdp-details",
+      "settings": {
+        "specs_heading": "Teknisk information",
+        "faq_heading": "Vanliga frågor om [produkt]",
+        "aria_label": "Produktinformation och vanliga frågor"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "demo",
+    "when",
+    "how",
+    "routine",
+    "accessories",
+    "trust",
+    "details"
+  ]
+}

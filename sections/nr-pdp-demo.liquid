@@ -1,0 +1,109 @@
+{%- doc -%}
+  Standard PDP 03: the product in use — NordicReflection's own
+  demonstration media (application, reaction, foam, rinse, result).
+
+  Source: `pdp.demo_media` (list of files: videos and/or images), heading
+  `pdp.demo_heading` (falls back to the section heading). The whole section
+  is hidden when there is no media — never an empty placeholder.
+
+  Videos never autoplay and load no video data until the customer presses
+  play (preload="none", poster image shown).
+{%- enddoc -%}
+
+{%- liquid
+  assign media = product.metafields.pdp.demo_media.value
+  assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
+  assign name = title_parts.first | strip
+  assign heading = product.metafields.pdp.demo_heading.value | default: section.settings.heading
+  assign heading = heading | replace: '[produkt]', name
+-%}
+
+{%- if media != blank -%}
+  {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
+
+  <section
+    class="nr-pdp-section nr-pdp-demo"
+    aria-labelledby="NrPdpDemoHeading"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-pdp-section__head">
+        <h2
+          class="nr-pdp-section__heading"
+          id="NrPdpDemoHeading"
+        >
+          {{ heading | escape }}
+        </h2>
+        {%- if section.settings.note != blank -%}
+          <p class="nr-pdp-section__note">{{ section.settings.note | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <div
+        class="nr-pdp-demo__grid"
+        data-count="{{ media.count | at_most: 3 }}"
+      >
+        {%- for item in media limit: 3 -%}
+          <figure class="nr-pdp-demo__item">
+            {%- case item.media_type -%}
+              {%- when 'video' -%}
+                {{
+                  item
+                  | video_tag:
+                    controls: true,
+                    playsinline: true,
+                    preload: 'none',
+                    image_size: '1200x',
+                    class: 'nr-pdp-demo__video'
+                }}
+              {%- when 'image' -%}
+                {{
+                  item
+                  | image_url: width: 1400
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '480, 720, 960, 1200, 1400',
+                    sizes: '(min-width: 990px) 50vw, 100vw',
+                    class: 'nr-pdp-demo__image'
+                }}
+            {%- endcase -%}
+            {%- if item.alt != blank -%}
+              <figcaption>{{ item.alt | escape }}</figcaption>
+            {%- endif -%}
+          </figure>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Se produkten arbeta",
+  "tag": "div",
+  "class": "nr-pdp-shell",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Media väljs per produkt i metafältet pdp.demo_media (videor/bilder, max 3). Rubrik från pdp.demo_heading. Sektionen döljs när produkten saknar media."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Standardrubrik",
+      "info": "[produkt] ersätts med produktens namn.",
+      "default": "Se [produkt] i praktiken"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Notering under rubriken",
+      "default": "Filmat av NordicReflection."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR PDP: Se produkten arbeta"
+    }
+  ]
+}
+{% endschema %}

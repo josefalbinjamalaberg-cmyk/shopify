@@ -1,0 +1,88 @@
+{%- doc -%}
+  Standard PDP: top of the purchase column.
+
+  Order (mobile and desktop): store trust line → product name (dominant) →
+  product type → one-sentence value line.
+
+  - Name and type come from the product title ("Revolt – Flygrostborttagare"
+    → "Revolt" + "Flygrostborttagare"). `pdp.type_label` overrides the type.
+  - Value line: `pdp.value_line`. Hidden when empty.
+  - Trust line: the STORE's Trustpilot rating from theme settings
+    (NordicReflection – Trustpilot). It always names NordicReflection and
+    links to the brand review section on the page (#NrPdpTrust), so it can't
+    be read as a rating of this product.
+
+  Also loads assets/nr-pdp.css (shared by every nr-pdp-* block and section)
+  and assets/nr-pdp.js (custom analytics events, subtle section entrance).
+{%- enddoc -%}
+
+{{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
+<script
+  src="{{ 'nr-pdp.js' | asset_url }}"
+  type="module"
+  defer
+></script>
+
+{%- liquid
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
+  assign name = title_parts.first | strip
+  assign type_label = product.metafields.pdp.type_label.value
+  if type_label == blank and title_parts.size > 1
+    assign type_label = title_parts | slice: 1, 9 | join: ' – ' | strip
+  endif
+  assign value_line = product.metafields.pdp.value_line.value
+
+  assign rating = settings.nr_trustpilot_rating
+  assign rating_count = settings.nr_trustpilot_count
+-%}
+
+<div
+  class="nr-pdp-intro"
+  data-nr-pdp-product="{{ product.handle | escape }}"
+  {{ block.shopify_attributes }}
+>
+  {%- if rating != blank -%}
+    <a
+      class="nr-pdp-trustline"
+      href="#NrPdpTrust"
+      data-nr-event="trustpilot_click"
+      data-nr-source="intro"
+    >
+      <span class="nr-pdp-trustline__brand">NordicReflection</span>
+      {% render 'nr-pdp-stars' %}
+      <span>
+        {{- rating | escape }}/5 på Trustpilot
+        {%- if rating_count > 0 %} · {{ rating_count }} omdömen{% endif -%}
+      </span>
+    </a>
+  {%- endif -%}
+
+  <h1 class="nr-pdp-intro__title">
+    <span class="nr-pdp-intro__name">{{ name | escape }}</span>
+    {%- if type_label != blank -%}
+      <span class="nr-pdp-intro__type">{{ type_label | escape }}</span>
+    {%- endif -%}
+  </h1>
+
+  {%- if value_line != blank -%}
+    <p class="nr-pdp-intro__value">{{ value_line | escape }}</p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "NR PDP: Namn och budskap",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Namn och typ hämtas från produkttiteln. Typ kan skrivas över med metafältet pdp.type_label, budskapet kommer från pdp.value_line. Trustpilot-raden hämtas från temainställningarna (NordicReflection – Trustpilot)."
+    }
+  ]
+}
+{% endschema %}

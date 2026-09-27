@@ -1,0 +1,170 @@
+{%- doc -%}
+  Standard PDP 08: what customers say about NordicReflection (brand level).
+
+  - Rating, review count and link: theme settings (NordicReflection –
+    Trustpilot) — the same values as the trust line next to the title.
+  - Reviews: metaobject `nr_trustpilot_review` (verbatim Trustpilot reviews
+    of the store). Reviews that mention the current product (`mentions`)
+    are shown first; the source is always "omdöme om NordicReflection".
+  Anchor: #NrPdpTrust (the trust line near the title links here).
+
+  Future product-level reviews belong BEFORE this section (after usage),
+  as their own section — never mixed into this one.
+{%- enddoc -%}
+
+{%- liquid
+  assign rating = settings.nr_trustpilot_rating
+  assign rating_count = settings.nr_trustpilot_count
+  assign trustpilot_url = settings.nr_trustpilot_url
+  assign all_reviews = shop.metaobjects.nr_trustpilot_review.values
+  assign max_reviews = section.settings.max_reviews
+-%}
+
+{%- if rating != blank or all_reviews.size > 0 -%}
+  {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
+
+  <section
+    class="nr-pdp-section nr-pdp-trust"
+    id="NrPdpTrust"
+    aria-labelledby="NrPdpTrustHeading"
+    tabindex="-1"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-pdp-section__head nr-pdp-trust__head">
+        <div>
+          <h2
+            class="nr-pdp-section__heading"
+            id="NrPdpTrustHeading"
+          >
+            {{ section.settings.heading | escape }}
+          </h2>
+          {%- if rating != blank -%}
+            <p class="nr-pdp-trust__score">
+              {% render 'nr-pdp-stars' %}
+              <span>
+                <strong>{{ rating | escape }}/5</strong> på Trustpilot
+                {%- if rating_count > 0 %} · {{ rating_count }} omdömen om NordicReflection{% endif -%}
+              </span>
+            </p>
+          {%- endif -%}
+        </div>
+        {%- if trustpilot_url != blank -%}
+          <a
+            class="nr-pdp-link"
+            href="{{ trustpilot_url }}"
+            target="_blank"
+            rel="noopener"
+            data-nr-event="trustpilot_click"
+            data-nr-source="section"
+          >
+            Läs alla omdömen på Trustpilot
+            <span class="visually-hidden">(öppnas i ny flik)</span>
+            <span aria-hidden="true">&nearr;</span>
+          </a>
+        {%- endif -%}
+      </header>
+
+      {%- if all_reviews.size > 0 -%}
+        <ul
+          class="nr-pdp-trust__list"
+          role="list"
+        >
+          {%- assign shown = 0 -%}
+          {%- for pass in (1..2) -%}
+            {%- for review in all_reviews -%}
+              {%- if shown >= max_reviews -%}{%- break -%}{%- endif -%}
+              {%- liquid
+                assign mentions_product = false
+                for mentioned in review.mentions.value
+                  if mentioned.id == product.id
+                    assign mentions_product = true
+                  endif
+                endfor
+                if pass == 1 and mentions_product == false
+                  continue
+                endif
+                if pass == 2 and mentions_product
+                  continue
+                endif
+                assign shown = shown | plus: 1
+                assign review_rating = review.rating.value | default: 5
+              -%}
+              <li class="nr-pdp-trust__item">
+                <p class="nr-pdp-trust__stars">
+                  <span class="visually-hidden">{{ review_rating }} av 5 stjärnor</span>
+                  <span
+                    class="nr-pdp-stars"
+                    aria-hidden="true"
+                  >
+                    {%- for i in (1..5) -%}
+                      <svg
+                        viewBox="0 0 12 12"
+                        focusable="false"
+                        {% if i > review_rating %}
+                          class="is-empty"
+                        {% endif %}
+                      >
+                        <path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/>
+                      </svg>
+                    {%- endfor -%}
+                  </span>
+                </p>
+                {%- if review.title.value != blank -%}
+                  <h3 class="nr-pdp-trust__title">{{ review.title.value | escape }}</h3>
+                {%- endif -%}
+                <blockquote class="nr-pdp-trust__body">
+                  {{- review.body.value | escape | newline_to_br -}}
+                </blockquote>
+                <p class="nr-pdp-trust__meta">
+                  {{- review.author.value | escape -}}
+                  {%- if review.date.value != blank %} · {{ review.date.value | escape }}{% endif -%}
+                </p>
+              </li>
+            {%- endfor -%}
+          {%- endfor -%}
+        </ul>
+        <p class="nr-pdp-trust__source">{{ section.settings.source_note | escape }}</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Trustpilot",
+  "tag": "div",
+  "class": "nr-pdp-shell",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Betyg och länk: Temainställningar → NordicReflection – Trustpilot. Omdömen: metaobjektet \"Trustpilot-omdöme\" (Innehåll → Metaobjekt). Omdömen som nämner produkten visas först."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "default": "Vad kunder säger om NordicReflection"
+    },
+    {
+      "type": "range",
+      "id": "max_reviews",
+      "label": "Antal omdömen",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "source_note",
+      "label": "Källtext",
+      "default": "Omdömen om NordicReflection som butik, hämtade från Trustpilot. Inte betyg av den enskilda produkten."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR PDP: Trustpilot"
+    }
+  ]
+}
+{% endschema %}

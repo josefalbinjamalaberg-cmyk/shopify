@@ -1,0 +1,47 @@
+{%- doc -%}
+  Standard PDP: compact fact rows in the purchase column — the information a
+  customer needs before buying an accessory or tool (size, capacity,
+  compatibility, connection…). From `pdp.key_facts` (multi-line text, one
+  row per line: "Label | Value"). Hidden when empty. Chemicals normally
+  leave this empty; their technical details live lower on the page.
+{%- enddoc -%}
+
+{%- liquid
+  assign product = closest.product
+  assign facts = product.metafields.pdp.key_facts.value
+-%}
+{% capture newline %}
+{% endcapture %}
+
+{%- if facts != blank -%}
+  <dl
+    class="nr-pdp-facts"
+    {{ block.shopify_attributes }}
+  >
+    {%- assign lines = facts | split: newline -%}
+    {%- for line in lines -%}
+      {%- assign parts = line | split: '|' -%}
+      {%- assign label = parts.first | strip -%}
+      {%- assign value = parts | slice: 1, 9 | join: '|' | strip -%}
+      {%- if label != blank and value != blank -%}
+        <div class="nr-pdp-facts__row">
+          <dt>{{ label | escape }}</dt>
+          <dd>{{ value | escape }}</dd>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </dl>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Nyckelfakta",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Rader från metafältet pdp.key_facts (en rad per fakta: \"Etikett | Värde\"). Används främst för tillbehör: storlek, kompatibilitet, anslutning."
+    }
+  ]
+}
+{% endschema %}

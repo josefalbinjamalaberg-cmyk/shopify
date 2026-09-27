@@ -1,0 +1,119 @@
+{%- doc -%}
+  Standard PDP 07: 2–3 hand-picked products that belong with this one —
+  never an automatic "you may also like" carousel.
+
+  Source: `pdp.accessories` (list of product references, max 3) and
+  `pdp.accessory_reasons` (list of single-line text, SAME ORDER): one
+  sentence on why each product goes with this one. Name, image, price and
+  link all come from the referenced product object. Hidden when empty.
+{%- enddoc -%}
+
+{%- liquid
+  assign accessories = product.metafields.pdp.accessories.value
+  assign reasons = product.metafields.pdp.accessory_reasons.value
+  assign title_parts = product.title | replace: ' - ', ' – ' | split: ' – '
+  assign name = title_parts.first | strip
+  assign heading = section.settings.heading | replace: '[produkt]', name
+-%}
+
+{%- if accessories != blank -%}
+  {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
+
+  <section
+    class="nr-pdp-section nr-pdp-accessories"
+    aria-labelledby="NrPdpAccessoriesHeading"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-pdp-section__head">
+        <h2
+          class="nr-pdp-section__heading"
+          id="NrPdpAccessoriesHeading"
+        >
+          {{ heading | escape }}
+        </h2>
+      </header>
+
+      <ul
+        class="nr-pdp-accessories__list"
+        role="list"
+      >
+        {%- for item in accessories limit: 3 -%}
+          {%- liquid
+            if item.available == false
+              continue
+            endif
+            assign index = forloop.index0
+            assign reason = reasons[index]
+            assign item_parts = item.title | replace: ' - ', ' – ' | split: ' – '
+            assign item_name = item_parts.first | strip
+          -%}
+          <li class="nr-pdp-accessories__item">
+            <a
+              class="nr-pdp-accessories__link"
+              href="{{ item.url }}"
+              data-nr-event="cross_sell_click"
+              data-nr-product="{{ item.handle }}"
+              data-nr-source="accessories"
+            >
+              <span class="nr-pdp-accessories__media">
+                {%- if item.featured_image != blank -%}
+                  {{
+                    item.featured_image
+                    | image_url: width: 480
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '160, 240, 320, 480',
+                      sizes: '(min-width: 990px) 160px, 96px',
+                      alt: ''
+                  }}
+                {%- endif -%}
+              </span>
+              <span class="nr-pdp-accessories__body">
+                <span class="nr-pdp-accessories__name">{{ item_name | escape }}</span>
+                {%- if reason != blank -%}
+                  <span class="nr-pdp-accessories__reason">{{ reason | escape }}</span>
+                {%- endif -%}
+                <span class="nr-pdp-accessories__price">
+                  {%- if item.price_varies -%}Från {% endif -%}
+                  {{- item.price | money -}}
+                </span>
+              </span>
+              <span
+                class="nr-pdp-accessories__arrow"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR PDP: Passar ihop med",
+  "tag": "div",
+  "class": "nr-pdp-shell",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Produkter väljs per produkt i pdp.accessories (max 3). En mening per produkt i pdp.accessory_reasons, i samma ordning."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Rubrik",
+      "info": "[produkt] ersätts med produktens namn.",
+      "default": "Passar ihop med [produkt]"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR PDP: Passar ihop med"
+    }
+  ]
+}
+{% endschema %}
