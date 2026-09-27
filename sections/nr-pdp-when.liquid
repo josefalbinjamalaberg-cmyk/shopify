@@ -10,8 +10,9 @@
      `pdp.best_for` list, name, type and link, so the same comparison reads
      correctly on both products' pages. Heading `pdp.compare_heading`.
   3. Optional short brand-trust quote (level 2): the first NordicReflection
-     Trustpilot review (metaobject nr_trustpilot_review) that mentions this
-     product, clearly labelled as a review of NordicReflection. Shown as a
+     Trustpilot review (metaobject nr_trustpilot_review) whose FIRST
+     mentioned product is this product (so the excerpt is about it),
+     clearly labelled as a review of NordicReflection. Shown as a
      natural excerpt — whole sentences only (first sentence, plus the next
      if the first is very short), never cut mid-word — with a link to the
      full review in the Trustpilot section.
@@ -43,13 +44,9 @@
 
   assign quote = blank
   for review in shop.metaobjects.nr_trustpilot_review.values
-    for mentioned in review.mentions.value
-      if mentioned.id == product.id
-        assign quote = review
-        break
-      endif
-    endfor
-    if quote != blank
+    assign primary_mention = review.mentions.value.first
+    if primary_mention.id == product.id
+      assign quote = review
       break
     endif
   endfor
