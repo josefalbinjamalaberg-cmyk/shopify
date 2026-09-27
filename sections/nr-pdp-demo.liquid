@@ -40,7 +40,7 @@
 
       <div
         class="nr-pdp-demo__grid"
-        data-count="{{ media.count | at_most: 3 }}"
+        data-count="{{ media.size | at_most: 3 }}"
       >
         {%- for item in media limit: 3 -%}
           <figure class="nr-pdp-demo__item">

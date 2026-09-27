@@ -19,8 +19,6 @@
   assign faq_heading = section.settings.faq_heading | replace: '[produkt]', name
   assign description = product.description | strip
 -%}
-{% capture newline %}
-{% endcapture %}
 
 {%- if specs != blank or faq != blank or description != blank -%}
   {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
@@ -36,7 +34,7 @@
 
           {%- if specs != blank -%}
             <dl class="nr-pdp-specs">
-              {%- assign rows = specs | split: newline -%}
+              {%- assign rows = specs | newline_to_br | split: '<br />' -%}
               {%- for row in rows -%}
                 {%- assign parts = row | split: '|' -%}
                 {%- assign label = parts.first | strip -%}
@@ -69,7 +67,7 @@
       {%- endif -%}
 
       {%- if faq != blank -%}
-        {%- assign faq_lines = faq | split: newline -%}
+        {%- assign faq_lines = faq | newline_to_br | split: '<br />' -%}
         <div class="nr-pdp-details__col">
           <h2 class="nr-pdp-section__heading">{{ faq_heading | escape }}</h2>
           <div class="nr-pdp-faq">

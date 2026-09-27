@@ -26,6 +26,13 @@
   }
 }
 
+[class^='nr-pdp'],
+[class^='nr-pdp'] *,
+[class^='nr-pdp'] *::before,
+[class^='nr-pdp'] *::after {
+  box-sizing: border-box;
+}
+
 /* ---------- Purchase column ---------- */
 
 .nr-pdp-intro {
@@ -364,6 +371,28 @@
 .nr-pdp-demo__grid {
   display: grid;
   gap: 12px;
+}
+
+@media screen and (max-width: 749px) {
+  .nr-pdp-demo__grid:not([data-count='1']) {
+    grid-auto-flow: column;
+    grid-auto-columns: 86%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--nr-pdp-gutter);
+    margin-inline: calc(var(--nr-pdp-gutter) * -1);
+    padding-inline: var(--nr-pdp-gutter);
+    scrollbar-width: none;
+  }
+
+  .nr-pdp-demo__grid:not([data-count='1'])::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nr-pdp-demo__grid:not([data-count='1']) .nr-pdp-demo__item {
+    scroll-snap-align: start;
+  }
 }
 
 @media screen and (min-width: 750px) {

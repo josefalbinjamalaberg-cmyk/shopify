@@ -18,8 +18,6 @@
   assign name = title_parts.first | strip
   assign heading = section.settings.heading | replace: '[produkt]', name
 -%}
-{% capture newline %}
-{% endcapture %}
 
 {%- if steps != blank -%}
   {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
@@ -45,7 +43,7 @@
         class="nr-pdp-steps"
         role="list"
       >
-        {%- assign lines = steps | split: newline -%}
+        {%- assign lines = steps | newline_to_br | split: '<br />' -%}
         {%- assign step_number = 0 -%}
         {%- for line in lines -%}
           {%- assign parts = line | split: '|' -%}
@@ -73,7 +71,7 @@
         <div class="nr-pdp-dilution">
           <h3 class="nr-pdp-eyebrow">Spädning</h3>
           <dl class="nr-pdp-dilution__grid">
-            {%- assign rows = dilution | split: newline -%}
+            {%- assign rows = dilution | newline_to_br | split: '<br />' -%}
             {%- for row in rows -%}
               {%- assign parts = row | split: '|' -%}
               {%- assign situation = parts.first | strip -%}

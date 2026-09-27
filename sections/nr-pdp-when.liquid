@@ -51,8 +51,6 @@
     endif
   endfor
 -%}
-{% capture newline %}
-{% endcapture %}
 
 {%- if problems != blank or show_compare -%}
   {{ 'nr-pdp.css' | asset_url | stylesheet_tag }}
@@ -76,7 +74,7 @@
           class="nr-pdp-when__list"
           role="list"
         >
-          {%- assign lines = problems | split: newline -%}
+          {%- assign lines = problems | newline_to_br | split: '<br />' -%}
           {%- for line in lines -%}
             {%- assign parts = line | split: '|' -%}
             {%- assign problem_title = parts.first | strip -%}

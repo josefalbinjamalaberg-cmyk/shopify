@@ -10,15 +10,13 @@
   assign product = closest.product
   assign facts = product.metafields.pdp.key_facts.value
 -%}
-{% capture newline %}
-{% endcapture %}
 
 {%- if facts != blank -%}
   <dl
     class="nr-pdp-facts"
     {{ block.shopify_attributes }}
   >
-    {%- assign lines = facts | split: newline -%}
+    {%- assign lines = facts | newline_to_br | split: '<br />' -%}
     {%- for line in lines -%}
       {%- assign parts = line | split: '|' -%}
       {%- assign label = parts.first | strip -%}

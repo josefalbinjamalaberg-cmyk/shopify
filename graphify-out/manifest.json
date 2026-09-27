@@ -862,5 +862,23 @@
     "seen": 1790518053.1917722,
     "ast_hash": "f0621128b0d942b20888ba1dc4ee6ed6",
     "semantic_hash": ""
+  },
+  "assets/nr-pdp.js": {
+    "mtime": 1790518574.8529258,
+    "seen": 1790519232.5091918,
+    "ast_hash": "bd753c44251c9bd421991a974a791ccc",
+    "semantic_hash": ""
+  },
+  "config/settings_schema.json": {
+    "mtime": 1790518648.0074067,
+    "seen": 1790519232.5091984,
+    "ast_hash": "a77ca3bd429179cbae6dcfbeba713cda",
+    "semantic_hash": ""
+  },
+  "templates/product.standard.json": {
+    "mtime": 1790518638.1594381,
+    "seen": 1790519232.5092335,
+    "ast_hash": "0a1670fc49edd1bb8cce430c2c26491a",
+    "semantic_hash": ""
   }
 }
