@@ -124,6 +124,40 @@
     });
   }
 
+  /* ---------- Bestseller cards: short product names ----------
+     Product titles read "Name – long descriptor". On the homepage cards the
+     use-case line already describes the product, so the visible name stops
+     at the dash; the card link keeps the full title as its accessible name. */
+  function initShortTitles() {
+    document.querySelectorAll('.nr-featured-products__grid [role="heading"]').forEach((heading) => {
+      if (heading.dataset.nrShort) return;
+      const full = heading.textContent.trim();
+      const short = full.split(/\s[–-]\s/)[0];
+      if (short && short !== full) {
+        heading.textContent = short;
+        heading.title = full;
+      }
+      heading.dataset.nrShort = 'true';
+    });
+  }
+
+  /* ---------- Kit cards: collapsible details on small screens ---------- */
+  function initKitToggles() {
+    initAll('[data-nr-kit-toggle]', (toggle) => {
+      const card = toggle.closest('.nr-kit');
+      const label = toggle.querySelector('[data-nr-kit-toggle-label]');
+      if (!card) return;
+      card.classList.add('is-collapsible');
+      toggle.hidden = false;
+      toggle.addEventListener('click', () => {
+        const open = !card.classList.contains('is-open');
+        card.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        if (label) label.textContent = open ? 'Dölj detaljer' : 'Visa vad som ingår';
+      });
+    });
+  }
+
   /* ---------- Results gallery: simple before/after drag slider ---------- */
   function initResultSlider() {
     initAll('[data-nr-result-slider]', (root) => {
@@ -143,6 +177,8 @@
     initReveal();
     initWashSteps();
     initVideos();
+    initKitToggles();
+    initShortTitles();
     initResultSlider();
   }
 

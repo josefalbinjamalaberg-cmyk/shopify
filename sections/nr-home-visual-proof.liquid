@@ -11,11 +11,20 @@
   fill the frame, not show a product silhouette.
 {% endcomment %}
 
-<div data-nr-scope class="nr-section nr-visual-proof">
+<div data-nr-scope class="nr-section nr-section--soft nr-visual-proof">
   <div class="nr-container">
     <div class="nr-section-head nr-visual-proof__head" data-nr-reveal>
       {%- if section.settings.heading != blank -%}
         <h2 class="nr-h2">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="nr-body nr-body--muted">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ section.settings.link | default: '#' }}" class="nr-link nr-visual-proof__head-link">
+          {{ section.settings.link_label }}
+          <span class="nr-link__arrow" aria-hidden="true">→</span>
+        </a>
       {%- endif -%}
     </div>
 
@@ -75,6 +84,10 @@
 {% stylesheet %}
   .nr-visual-proof__head {
     max-width: var(--nr-text-width);
+  }
+
+  .nr-visual-proof__head-link {
+    margin-top: var(--nr-space-sm);
   }
 
   .nr-visual-proof__grid {
@@ -193,7 +206,7 @@
       gap: var(--nr-space-md);
       align-items: center;
       padding: var(--nr-space-sm);
-      background: var(--nr-bg-soft);
+      background: var(--nr-surface);
       border-radius: var(--nr-radius-md);
     }
 
@@ -267,6 +280,22 @@
       "id": "heading",
       "label": "Rubrik",
       "default": "Rätt produkt för rätt typ av smuts"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Ingress (valfri)"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Länktext (valfri)",
+      "info": "Pilen läggs till automatiskt."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Länk"
     }
   ],
   "blocks": [

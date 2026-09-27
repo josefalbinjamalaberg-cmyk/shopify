@@ -13,8 +13,8 @@
       "type": "nr-home-hero",
       "settings": {
         "eyebrow": "",
-        "heading": "Allt du behöver för en bil som glänser",
-        "text": "Från förtvätt till finish, utan krångel.",
+        "heading": "Bilvård byggd steg för steg",
+        "text": "Från förtvätt till finish, med en produkt för varje steg.",
         "primary_button_label": "Handla bilvård",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Hitta ditt tvättkit",
@@ -35,7 +35,7 @@
           "settings": {
             "icon": "check_box",
             "heading": "Nöjda bilvårdsentusiaster",
-            "text": "4.7/5 På Trustpilot."
+            "text": "4.7 av 5 på Trustpilot, 34 omdömen."
           }
         },
         "point_2": {
@@ -173,39 +173,13 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "cta": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Se produkt →</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 6,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "gallery",
             "title",
             "usecase",
-            "price",
-            "cta"
+            "price"
           ]
         },
         "product_3": {
@@ -315,39 +289,13 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "cta": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Se produkt →</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 6,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "gallery",
             "title",
             "usecase",
-            "price",
-            "cta"
+            "price"
           ]
         },
         "product_4": {
@@ -457,39 +405,13 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "cta": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Se produkt →</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 6,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "gallery",
             "title",
             "usecase",
-            "price",
-            "cta"
+            "price"
           ]
         },
         "product_2": {
@@ -599,39 +521,13 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "cta": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Se produkt →</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 6,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "gallery",
             "title",
             "usecase",
-            "price",
-            "cta"
+            "price"
           ]
         }
       },
@@ -744,10 +640,10 @@
             "subheading": "Utvalda omdömen från våra kunder på Trustpilot.",
             "trustpilot_url": "https://se.trustpilot.com/review/nordicreflection.se",
             "trustpilot_label": "Läs alla omdömen på Trustpilot",
-            "total_rating": "4.7/5",
-            "total_reviews": "34",
+            "total_rating": "",
+            "total_reviews": "",
             "desktop_width_percent": 100,
-            "background_color": "#F5F5F2",
+            "background_color": "#FFFFFF",
             "card_color": "#FFFFFF",
             "text_color": "#1C1C1C",
             "border_color": "#DFDFDF",
@@ -899,7 +795,7 @@
             "badge": "Skumtvätt",
             "featured": false,
             "subheading": "Foamtvätten du faktiskt vill använda.",
-            "text": "Foamtastic + Foam Cannon i ett färdigt paket. Produkterna är valda för att fungera tillsammans och ge dig ett tjockt, jämnt skumlager utan krångel.",
+            "text": "Foamtastic + Foam Cannon i ett färdigt paket. Produkterna är valda för att fungera tillsammans och ge dig ett tjockt, jämnt skumlager.",
             "points": "Foam Cannon + Foamtastic\nFärdigt att använda tillsammans\nSpara jämfört med separat köp",
             "button_label": "Välj Foam Wash Kit",
             "contents": "2 produkter"
@@ -968,7 +864,8 @@
         "text": "Rätt förtvätt hjälper dig att få bort mer smuts innan tvätthandsken rör lacken.",
         "button_label": "Se produkter för förtvätt",
         "button_link": "shopify://collections/exterior"
-      }
+      },
+      "disabled": true
     },
     "visual_proof": {
       "type": "nr-home-visual-proof",
@@ -1006,7 +903,10 @@
         "proof_3"
       ],
       "settings": {
-        "heading": "Rätt produkt för rätt typ av smuts"
+        "heading": "Rätt produkt för rätt typ av smuts",
+        "text": "Rätt förtvätt hjälper dig att få bort mer smuts innan tvätthandsken rör lacken.",
+        "link_label": "Se produkter för förtvätt",
+        "link": "shopify://collections/exterior"
       }
     },
     "brand_story": {
@@ -1030,7 +930,7 @@
           "type": "principle",
           "settings": {
             "heading": "En tydligare tvättprocess",
-            "text": "Från förtvätt till finish utan onödigt krångel."
+            "text": "Varje steg har sin produkt, i rätt ordning."
           }
         }
       },
@@ -1188,15 +1088,15 @@
   "order": [
     "hero",
     "benefits",
+    "bundle",
     "featured_products",
-    "shop_by_problem",
-    "1790010514dd646917",
+    "visual_proof",
     "17900112775de6b377",
     "categories",
-    "bundle",
-    "demo",
-    "visual_proof",
     "brand_story",
+    "shop_by_problem",
+    "1790010514dd646917",
+    "demo",
     "guides",
     "results",
     "newsletter"

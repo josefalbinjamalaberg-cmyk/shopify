@@ -141,6 +141,22 @@
                 </div>
               {%- endif -%}
 
+              {%- assign details_id = 'NrKitDetails-' | append: block.id -%}
+              {%- if block.settings.subheading != blank or block.settings.text != blank or block.settings.points != blank -%}
+              <button
+                type="button"
+                class="nr-kit__toggle"
+                aria-expanded="false"
+                aria-controls="{{ details_id }}"
+                data-nr-kit-toggle
+                hidden
+              >
+                <span data-nr-kit-toggle-label>Visa vad som ingår</span>
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              {%- endif -%}
+
+              <div class="nr-kit__details" id="{{ details_id }}">
               {%- if block.settings.subheading != blank -%}
                 <p class="nr-kit__lead">{{ block.settings.subheading | escape }}</p>
               {%- endif -%}
@@ -161,6 +177,7 @@
                   {%- endfor -%}
                 </ul>
               {%- endif -%}
+              </div>
 
               <a
                 href="{{ product.url }}"
@@ -389,7 +406,7 @@
   }
 
   .nr-kit__lead {
-    margin: var(--nr-space-md) 0 0;
+    margin: 0;
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.4;
@@ -451,11 +468,19 @@
     font-weight: 600;
   }
 
+  .nr-kit__toggle {
+    display: none;
+  }
+
+  .nr-kit__details > :first-child {
+    margin-top: var(--nr-space-md);
+  }
+
   /* ---------- Below 990px: compact stacked cards ---------- */
   @media screen and (max-width: 989px) {
     .nr-kits__list {
       grid-template-columns: minmax(0, 1fr);
-      gap: var(--nr-space-sm);
+      gap: 28px var(--nr-space-sm);
       max-width: 640px;
       margin-inline: auto;
     }
@@ -475,8 +500,46 @@
       width: 112px;
     }
 
-    .nr-kit__lead {
+    .nr-kit__details > :first-child {
       margin-top: var(--nr-space-sm);
+    }
+
+    /* Collapsible details (enabled by nr-homepage.js, so without JS
+       everything stays visible): name, price, saving and the button stay,
+       the description and points open on request. */
+    .nr-kit.is-collapsible .nr-kit__toggle:not([hidden]) {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      align-self: flex-start;
+      min-height: 44px;
+      margin-top: 4px;
+      padding: 0;
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--nr-text);
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .nr-kit__toggle svg {
+      width: 16px;
+      height: 16px;
+      transition: transform var(--nr-transition-fast);
+    }
+
+    .nr-kit.is-open .nr-kit__toggle svg {
+      transform: rotate(180deg);
+    }
+
+    .nr-kit.is-collapsible:not(.is-open) .nr-kit__details {
+      display: none;
+    }
+
+    .nr-kit.is-collapsible:not(.is-open) .nr-kit__toggle {
+      margin-bottom: 12px;
     }
 
     .nr-kits__more {
@@ -493,8 +556,27 @@
       padding: 18px 16px;
     }
 
+    /* Badge sits on the card's top edge instead of taking its own row. */
     .nr-kit__badge {
-      margin-bottom: 12px;
+      position: absolute;
+      top: 0;
+      left: 16px;
+      margin: 0;
+      transform: translateY(-50%);
+    }
+
+    .nr-kits__item--featured .nr-kit__badge,
+    .nr-kit__badge {
+      box-shadow: 0 0 0 3px var(--nr-bg-soft);
+    }
+
+    .nr-kit:has(.nr-kit__badge) {
+      padding-top: 24px;
+    }
+
+    .nr-kit__value {
+      margin-top: 12px;
+      padding: 10px 12px;
     }
 
     .nr-kit__media {

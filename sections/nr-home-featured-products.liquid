@@ -5,7 +5,7 @@
   NordicReflection heading/grid shell.
 {% endcomment %}
 
-<div data-nr-scope class="nr-section nr-section--soft nr-featured-products">
+<div data-nr-scope class="nr-section nr-featured-products">
   <div class="nr-container">
     <div class="nr-section-head" data-nr-reveal>
       {%- if section.settings.heading != blank -%}
@@ -25,6 +25,22 @@
 {% stylesheet %}
   .nr-featured-products__grid .product-card {
     --product-card-gap: 8px;
+  }
+
+  /* Equal-height cards with the price on the same line in every card,
+     whatever the name or use-case line wraps to. */
+  .nr-featured-products__grid > product-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nr-featured-products__grid .product-card__content {
+    flex: 1;
+  }
+
+  .nr-featured-products__grid .product-card__content > product-price {
+    margin-top: auto;
+    font-weight: 600;
   }
 
   .nr-featured-products__grid .card-gallery {
