@@ -4,8 +4,8 @@
   (image, name, what it does, price), and a promo card for the bundled kit
   with its price and what it saves versus buying the products separately.
 
-  Sized to fit a 1280×800 / 1366×768 laptop screen without scrolling: the
-  panel is two rows of four on wide screens and two columns below 1280px.
+  Sized to fit a 1280×800 / 1366×768 laptop screen without scrolling: two
+  rows of four cards, each with the whole product photo on top.
 
   Resource-type settings (product pickers) must be resolved by the caller
   and passed in as already-resolved objects — Shopify only auto-resolves
@@ -113,11 +113,11 @@
                   {%- if step_product.featured_image != blank -%}
                     {{
                       step_product.featured_image
-                      | image_url: width: 160
+                      | image_url: width: 400
                       | image_tag:
                         loading: 'lazy',
-                        widths: '80, 120, 160',
-                        sizes: '64px',
+                        widths: '200, 300, 400',
+                        sizes: '(min-width: 1280px) 180px, 150px',
                         class: 'nr-wash-card__image',
                         alt: ''
                     }}
@@ -310,12 +310,11 @@
   }
 
   .nr-wash-card {
-    display: grid;
-    grid-template-columns: 64px minmax(0, 1fr);
-    align-items: center;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     height: 100%;
-    padding: 10px 12px 10px 10px;
+    padding: 10px 10px 14px;
     color: inherit;
     text-decoration: none;
     border: 1px solid var(--nr-wash-line);
@@ -332,7 +331,6 @@
   @media (hover: hover) {
     .nr-wash-card:hover {
       border-color: rgb(var(--color-foreground-rgb, 17 17 17) / 0.35);
-      background: var(--nr-wash-soft);
     }
   }
 
@@ -344,20 +342,25 @@
     color: var(--nr-wash-muted);
   }
 
+  /* The whole product photo, never cropped or scaled up: `contain` inside
+     a fixed-height frame. */
   .nr-wash-card__media {
-    display: grid;
-    place-items: center;
-    width: 64px;
-    height: 64px;
+    position: relative;
+    display: block;
+    height: clamp(110px, 9.5vw, 150px);
     overflow: hidden;
     border-radius: 4px;
     background: var(--nr-wash-soft);
   }
 
+  /* Pinned to the frame (not sized by the image's own aspect ratio), so
+     `contain` fits the whole photo inside the frame's height. */
   .nr-wash-card__image {
+    position: absolute;
+    inset: 6px;
     display: block;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
     object-fit: contain;
   }
 
@@ -366,6 +369,7 @@
     flex-direction: column;
     gap: 1px;
     min-width: 0;
+    padding-inline: 4px;
   }
 
   .nr-wash-card__title {
@@ -418,6 +422,7 @@
   }
 
   .nr-wash-promo__media {
+    position: relative;
     display: block;
     width: 96px;
     height: 96px;
@@ -427,9 +432,11 @@
   }
 
   .nr-wash-promo__image {
+    position: absolute;
+    inset: 4px;
     display: block;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
     object-fit: contain;
   }
 
@@ -514,14 +521,6 @@
   /* ---------- Narrower desktops: two columns, still in order ----------
      Column-major flow keeps 1-4 in the first column and 5-8 in the second,
      so the order reads top to bottom. */
-  @media screen and (max-width: 1279px) {
-    .nr-wash-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: repeat(4, auto);
-      grid-auto-flow: column;
-    }
-  }
-
   @media screen and (max-width: 989px) {
     .nr-wash-menu-layout {
       grid-template-columns: 1fr;
