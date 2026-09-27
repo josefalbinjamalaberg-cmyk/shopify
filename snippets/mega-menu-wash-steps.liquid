@@ -1,8 +1,11 @@
 {%- doc -%}
-  Renders the premium "wash order" mega-menu panel for the Exteriör
-  navigation item: a left navigation column, an 8-step product grid
-  showing the recommended wash order, and a right-hand promo card for
-  the bundled kit.
+  Renders the "wash order" mega-menu panel for the Exteriör navigation item:
+  the eight products in the confirmed wash order as compact numbered rows
+  (image, name, what it does, price), and a promo card for the bundled kit
+  with its price and what it saves versus buying the products separately.
+
+  Sized to fit a 1280×800 / 1366×768 laptop screen without scrolling: the
+  panel is two rows of four on wide screens and two columns below 1280px.
 
   Resource-type settings (product pickers) must be resolved by the caller
   and passed in as already-resolved objects — Shopify only auto-resolves
@@ -11,19 +14,20 @@
 
   @param {string} [heading] - Panel heading.
   @param {string} [subheading] - Panel subheading.
-  @param {string} [all_products_url] - URL for the "Alla produkter" nav link.
-  @param {string} [all_products_label] - Label for the "Alla produkter" nav link.
+  @param {string} [all_products_url] - URL for the "all products" link.
+  @param {string} [all_products_label] - Label for the "all products" link.
   @param {object} [step_1_product..step_8_product] - Resolved product for each step.
-  @param {string} [step_1_name..step_8_name] - Display name for each step's card.
-  @param {string} [step_1_label..step_8_label] - Subtext for each step's card.
-  @param {string} [step_1_nav_label..step_8_nav_label] - Left-nav short label for each step.
+  @param {string} [step_1_name..step_8_name] - Display name for each step.
+  @param {string} [step_1_label..step_8_label] - What the step's product does.
+  @param {string} [step_1_nav_label..step_8_nav_label] - Unused since the left
+    navigation column was removed; still accepted so the caller needn't change.
   @param {string} [promo_badge] - Promo card badge text.
   @param {object} [promo_product] - Promo card's linked product.
   @param {string} [promo_heading] - Promo card heading.
   @param {string} [promo_text] - Promo card body text.
   @param {object} [promo_image] - Promo card image (falls back to promo_product's image).
   @param {string} [promo_button_label] - Promo card button label.
-  @param {number} [image_border_radius] - Border radius (px) applied to card images.
+  @param {number} [image_border_radius] - Unused; the panel follows the site's radius.
 {%- enddoc -%}
 
 {% liquid
@@ -31,80 +35,34 @@
   assign promo_button_label = promo_button_label | default: 'Se paketet'
 %}
 
-<div
-  class="nr-wash-menu"
-  style="--nr-wash-image-radius: {{ image_border_radius | default: 0 }}px;"
->
+<div class="nr-wash-menu">
   <div class="nr-wash-menu-layout">
-    <nav class="nr-wash-nav" aria-label="{{ heading }}">
-      <ul class="nr-wash-nav__list" role="list">
-        <li>
-          <span class="nr-wash-nav__link nr-wash-nav__link--active">
-            {{- heading -}}
-          </span>
-        </li>
-        {% if all_products_url != blank %}
-          <li>
-            <a
-              href="{{ all_products_url }}"
-              class="nr-wash-nav__link"
-            >
-              {{- all_products_label | default: 'Alla produkter' -}}
-            </a>
-          </li>
-        {% endif %}
-        {% for i in (1..8) %}
-          {% liquid
-            case i
-              when 1
-                assign step_product = step_1_product
-                assign nav_label = step_1_nav_label
-              when 2
-                assign step_product = step_2_product
-                assign nav_label = step_2_nav_label
-              when 3
-                assign step_product = step_3_product
-                assign nav_label = step_3_nav_label
-              when 4
-                assign step_product = step_4_product
-                assign nav_label = step_4_nav_label
-              when 5
-                assign step_product = step_5_product
-                assign nav_label = step_5_nav_label
-              when 6
-                assign step_product = step_6_product
-                assign nav_label = step_6_nav_label
-              when 7
-                assign step_product = step_7_product
-                assign nav_label = step_7_nav_label
-              when 8
-                assign step_product = step_8_product
-                assign nav_label = step_8_nav_label
-            endcase
-          %}
-          {% if step_product != blank and nav_label != blank %}
-            <li>
-              <a
-                href="{{ step_product.url }}"
-                class="nr-wash-nav__link"
-              >
-                {{- nav_label -}}
-              </a>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </nav>
-
     <div class="nr-wash-main">
       <div class="nr-wash-main__head">
-        <h3 class="nr-wash-main__heading">{{ heading }}</h3>
-        {% if subheading != blank %}
-          <p class="nr-wash-main__subheading">{{ subheading }}</p>
+        <div>
+          <p
+            class="nr-wash-main__heading"
+            role="heading"
+            aria-level="2"
+          >
+            {{ heading }}
+          </p>
+          {% if subheading != blank %}
+            <p class="nr-wash-main__subheading">{{ subheading }}</p>
+          {% endif %}
+        </div>
+        {% if all_products_url != blank %}
+          <a
+            href="{{ all_products_url }}"
+            class="nr-wash-main__all"
+          >
+            {{- all_products_label | default: 'Alla produkter' -}}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
         {% endif %}
       </div>
 
-      <ul class="nr-wash-grid" role="list">
+      <ol class="nr-wash-grid">
         {% for i in (1..8) %}
           {% liquid
             case i
@@ -141,49 +99,9 @@
                 assign step_name = step_8_name
                 assign step_label = step_8_label
             endcase
-            assign step_number = i | prepend: '0'
-            assign step_number = step_number | slice: -2, 2
-
-            # Per-image zoom so each bottle fills a similar, larger share of its
-            # square frame. The 8 source photos aren't shot to a consistent
-            # fill ratio (measured content height ranges ~76-98.5% of frame,
-            # width ~40-84%), so a single zoom for all of them would either
-            # barely move the small ones or clip the already-tight ones.
-            # Each factor is the largest that still leaves a real margin
-            # (~0.75 percentage points, measured against that photo's actual
-            # content box) between the bottle and the frame edge — i.e. the
-            # biggest safe zoom for that specific photo, not a shared number.
-            # Alkastrike, Pristine and PureShampoo cap out at ~1.0: those
-            # three source photos are already shot almost edge-to-edge
-            # (content fills ~87-98.5% of the frame height), so there's no
-            # more room to zoom into without cropping the bottle itself —
-            # getting them meaningfully bigger than this would need new
-            # source photos with a bit more visible bottle in frame, not a
-            # CSS change.
-            # Keyed to step position, same as step_1_name etc. above — if a
-            # step's product is ever swapped for a differently-cropped photo,
-            # re-measure and update its factor too.
-            case i
-              when 1
-                assign step_image_zoom = 1.09
-              when 2
-                assign step_image_zoom = 1.0
-              when 3
-                assign step_image_zoom = 1.27
-              when 4
-                assign step_image_zoom = 1.1
-              when 5
-                assign step_image_zoom = 1.04
-              when 6
-                assign step_image_zoom = 1.12
-              when 7
-                assign step_image_zoom = 1.05
-              when 8
-                assign step_image_zoom = 1.0
-            endcase
           %}
           {% if step_product != blank %}
-            <li class="nr-wash-card-wrap">
+            <li class="nr-wash-step">
               <a
                 href="{{ step_product.url }}"
                 class="nr-wash-card"
@@ -191,85 +109,98 @@
                 view-event-payload="{{ step_product | standard_event_data: 'view', context: 'dialog' | escape }}"
                 {% # theme-check-enable UnknownFilter %}
               >
-                <span
-                  class="nr-wash-card__eyebrow"
-                  aria-hidden="true"
-                >
-                  {{- 'Steg ' | append: step_number -}}
-                </span>
-                <span
-                  class="nr-wash-card__media"
-                  style="--nr-wash-zoom: {{ step_image_zoom | default: 1 }};"
-                >
+                <span class="nr-wash-card__media">
                   {%- if step_product.featured_image != blank -%}
                     {{
                       step_product.featured_image
-                      | image_url: width: 300
+                      | image_url: width: 160
                       | image_tag:
                         loading: 'lazy',
-                        widths: '150, 200, 300',
-                        sizes: '(min-width: 990px) 150px, (min-width: 750px) 120px, 40vw',
+                        widths: '80, 120, 160',
+                        sizes: '64px',
                         class: 'nr-wash-card__image',
-                        alt: step_product.featured_image.alt | default: step_product.title
+                        alt: ''
                     }}
-                  {%- else -%}
-                    <span
-                      class="nr-wash-card__image nr-wash-card__image--placeholder"
-                      aria-hidden="true"
-                    ></span>
                   {%- endif -%}
                 </span>
                 <span class="nr-wash-card__body">
-                  <span class="nr-wash-card__title">{{- step_name | default: step_product.title -}}</span>
+                  <span
+                    class="nr-wash-card__number"
+                    aria-hidden="true"
+                  >
+                    Steg {{ i -}}
+                  </span>
+                  <span class="nr-wash-card__title">
+                    <span class="visually-hidden">Steg {{ i }}: </span>
+                    {{- step_name | default: step_product.title -}}
+                  </span>
                   {%- if step_label != blank -%}
                     <span class="nr-wash-card__text">{{- step_label -}}</span>
                   {%- endif -%}
-                  <span
-                    class="nr-wash-card__cta"
-                    aria-hidden="true"
-                  >
-                    <span>{{- 'Se produkt' -}}</span>
-                    <span class="nr-wash-card__cta-arrow">&rarr;</span>
-                  </span>
+                  <span class="nr-wash-card__price">{{- step_product.price | money -}}</span>
                 </span>
               </a>
             </li>
           {% endif %}
         {% endfor %}
-      </ul>
+      </ol>
     </div>
 
     {% if promo_product != blank or promo_heading != blank %}
-      <aside class="nr-wash-promo">
+      {%- liquid
+        assign promo_saving = 0
+        if promo_product != blank
+          capture promo_separate
+            render 'nr-kit-separate-total', product: promo_product
+          endcapture
+          assign promo_separate = promo_separate | strip | plus: 0
+          if promo_separate > promo_product.price
+            assign promo_saving = promo_separate | minus: promo_product.price
+          endif
+        endif
+        assign promo_img = promo_image | default: promo_product.featured_image
+      -%}
+      <aside
+        class="nr-wash-promo"
+        aria-label="{{ promo_heading | default: promo_product.title | escape }}"
+      >
         {% if promo_badge != blank %}
           <span class="nr-wash-promo__badge">{{ promo_badge }}</span>
         {% endif %}
-        <div class="nr-wash-promo__body">
-          {% if promo_heading != blank %}
-            <h4 class="nr-wash-promo__heading">{{ promo_heading }}</h4>
+        <div class="nr-wash-promo__top">
+          {% if promo_img != blank %}
+            <span class="nr-wash-promo__media">
+              {{
+                promo_img
+                | image_url: width: 240
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '120, 180, 240',
+                  sizes: '96px',
+                  class: 'nr-wash-promo__image',
+                  alt: ''
+              }}
+            </span>
           {% endif %}
-          {% if promo_text != blank %}
-            <p class="nr-wash-promo__text">{{ promo_text }}</p>
-          {% endif %}
+          <div class="nr-wash-promo__body">
+            {% if promo_heading != blank %}
+              <p class="nr-wash-promo__heading">{{ promo_heading }}</p>
+            {% endif %}
+            {% if promo_text != blank %}
+              <p class="nr-wash-promo__text">{{ promo_text }}</p>
+            {% endif %}
+          </div>
         </div>
-        {% liquid
-          assign promo_img = promo_image | default: promo_product.featured_image
-        %}
-        {% if promo_img != blank %}
-          <span class="nr-wash-promo__media">
-            {{
-              promo_img
-              | image_url: width: 500
-              | image_tag:
-                loading: 'lazy',
-                widths: '300, 400, 500',
-                sizes: '(min-width: 990px) 260px, (min-width: 750px) 220px, 60vw',
-                class: 'nr-wash-promo__image',
-                alt: promo_img.alt | default: promo_heading
-            }}
-          </span>
-        {% endif %}
         {% if promo_product != blank %}
+          <p class="nr-wash-promo__price">
+            <span class="nr-wash-promo__price-now">{{ promo_product.price | money }}</span>
+            {%- if promo_saving > 0 -%}
+              <span class="nr-wash-promo__price-was">Köpta separat: {{ promo_separate | money }}</span>
+            {%- endif -%}
+          </p>
+          {%- if promo_saving > 0 -%}
+            <p class="nr-wash-promo__saving">Du sparar {{ promo_saving | money }}</p>
+          {%- endif -%}
           <a
             href="{{ promo_product.url }}"
             class="nr-wash-promo__button"
@@ -289,207 +220,138 @@
 {% stylesheet %}
   .nr-wash-menu {
     /* The ancestor `.section--page-width` is a grid with a fixed-width
-       center track (the theme's page-width setting), and this element
-       auto-places into that track — capping it well below the desktop
-       viewport regardless of how wide the screen actually is. Span the
-       full row instead and re-center with our own, wider cap so the
-       panel can use more of a large desktop screen without ever
-       touching the viewport edge. */
+       center track; span the full row and re-center with a wider cap so the
+       panel can use a large desktop screen without touching its edges. */
     grid-column: 1 / -1;
     width: calc(100% - 80px);
-    max-width: 1480px;
+    max-width: 1320px;
     margin-inline: auto;
 
-    /* Root-cause fix, not a per-card patch: the native `.menu-list__list-item`
-       (the top-level `<li>` this whole panel renders inside) sets
-       `white-space: nowrap` so the top nav LABEL never wraps — but that
-       property inherits, and every text node in this panel is its
-       descendant. The theme's other mega-menu card types (resource-card
-       title/subtext) each reset it back to `normal` themselves; this panel
-       never did, so long step labels and the promo text were being clipped
-       at the card edge instead of wrapping. Resetting it once here, where
-       the leak enters, fixes every descendant (headings, nav links, card
-       titles/text, promo) instead of chasing it class by class.
-       `overflow-wrap` is added defensively so a future long/unbroken word
-       breaks rather than overflowing, even though today's copy wraps fine
-       on spaces alone. */
+    /* The top-level nav <li> sets `white-space: nowrap` for its label and
+       it inherits into this panel; reset it once here. */
     white-space: normal;
     overflow-wrap: break-word;
+
+    --nr-wash-text: var(--color-foreground, #111111);
+    --nr-wash-muted: rgb(var(--color-foreground-rgb, 17 17 17) / 0.62);
+    --nr-wash-line: rgb(var(--color-foreground-rgb, 17 17 17) / 0.1);
+    --nr-wash-soft: #f5f5f2;
   }
 
   .nr-wash-menu-layout {
     display: grid;
-    grid-template-columns: clamp(190px, 15%, 220px) minmax(0, 1fr) clamp(280px, 22%, 320px);
+    grid-template-columns: minmax(0, 1fr) clamp(260px, 22%, 300px);
     gap: clamp(32px, 3vw, 56px);
     align-items: start;
-    width: 100%;
   }
 
-  /* ---------- Left column: step navigation ---------- */
-  .nr-wash-nav {
-    min-width: 0;
-  }
-
-  .nr-wash-nav__list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .nr-wash-nav__link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    width: 100%;
-    font-size: 14px;
-    line-height: 1.4;
-    color: rgb(var(--color-foreground-rgb, 17, 17, 17) / var(--opacity-subdued-text, 0.65));
-    text-decoration: none;
-  }
-
-  a.nr-wash-nav__link:focus-visible {
-    outline: 2px solid currentcolor;
-    outline-offset: 4px;
-  }
-
-  @media (hover: hover) {
-    a.nr-wash-nav__link:hover {
-      color: var(--color-foreground, inherit);
-    }
-  }
-
-  .nr-wash-nav__link--active {
-    color: var(--color-foreground, inherit);
-    font-weight: 600;
-  }
-
-  .nr-wash-nav__link--active::after {
-    content: '\203A';
-    font-weight: 400;
-    opacity: 0.45;
-  }
-
-  /* ---------- Main column: step-by-step grid ---------- */
+  /* ---------- Head ---------- */
   .nr-wash-main {
     min-width: 0;
+  }
+
+  .nr-wash-main__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
   }
 
   .nr-wash-main__heading {
     margin: 0;
     font-family: var(--font-heading--family, inherit);
-    font-size: clamp(1.375rem, 1rem + 1vw, 1.75rem);
+    font-size: 1.375rem;
     font-weight: 500;
+    line-height: 1.2;
     letter-spacing: -0.01em;
-    color: var(--color-foreground, inherit);
+    color: var(--nr-wash-text);
   }
 
   .nr-wash-main__subheading {
-    margin: 6px 0 0;
+    margin: 4px 0 0;
     font-size: 14px;
     line-height: 1.5;
-    max-width: 46ch;
-    color: rgb(var(--color-foreground-rgb, 17, 17, 17) / var(--opacity-subdued-text, 0.65));
+    color: var(--nr-wash-muted);
   }
 
+  .nr-wash-main__all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nr-wash-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .nr-wash-main__all:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 2px;
+  }
+
+  /* ---------- Steps: compact numbered rows, in wash order ---------- */
   .nr-wash-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 40px 32px;
-    list-style: none;
-    margin: 28px 0 0;
+    grid-auto-flow: row;
+    gap: 8px;
+    margin: 0;
     padding: 0;
-    width: 100%;
+    list-style: none;
   }
 
-  .nr-wash-card-wrap {
-    position: relative;
+  .nr-wash-step {
     min-width: 0;
   }
 
-  /* Connecting line + arrowhead: a pure-CSS "routine flow" indicator drawn
-     into the grid gap between consecutive steps, so 01→02→03→04 and
-     05→06→07→08 read as one sequence rather than eight separate cards.
-     Skipped after the last column (4th/8th item) and hidden once the
-     grid drops to 2 columns, where the adjacency no longer holds. */
-  .nr-wash-card-wrap:not(:nth-child(4n))::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    width: 18px;
-    height: 1px;
-    background: rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.15);
-    transform: translateY(-50%);
-    transition: background 260ms ease;
-  }
-
-  .nr-wash-card-wrap:not(:nth-child(4n))::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: calc(100% + 20px);
-    width: 6px;
-    height: 6px;
-    border-top: 1px solid rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.32);
-    border-right: 1px solid rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.32);
-    transform: translateY(-50%) rotate(45deg);
-    transition: border-color 260ms ease;
-  }
-
-  @media (hover: hover) {
-    .nr-wash-card-wrap:hover:not(:nth-child(4n))::after {
-      background: rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.32);
-    }
-
-    .nr-wash-card-wrap:hover:not(:nth-child(4n))::before {
-      border-color: rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.5);
-    }
-  }
-
   .nr-wash-card {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    text-decoration: none;
-    color: inherit;
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
     height: 100%;
-    padding: 18px 18px 20px;
+    padding: 10px 12px 10px 10px;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid var(--nr-wash-line);
+    border-radius: 8px;
     background: #fff;
-    border: 1px solid rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.08);
-    border-radius: 14px;
-    box-sizing: border-box;
-    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), border-color 260ms ease,
-      box-shadow 260ms ease;
+    transition: border-color 200ms ease, background-color 200ms ease;
   }
 
   .nr-wash-card:focus-visible {
-    outline: 2px solid currentcolor;
-    outline-offset: 4px;
+    outline: 2px solid var(--nr-wash-text);
+    outline-offset: 2px;
   }
 
-  .nr-wash-card__eyebrow {
-    font-size: 10.5px;
+  @media (hover: hover) {
+    .nr-wash-card:hover {
+      border-color: rgb(var(--color-foreground-rgb, 17 17 17) / 0.35);
+      background: var(--nr-wash-soft);
+    }
+  }
+
+  .nr-wash-card__number {
+    font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.45);
+    line-height: 1.3;
+    font-variant-numeric: tabular-nums;
+    color: var(--nr-wash-muted);
   }
 
   .nr-wash-card__media {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1 / 1;
-    background-color: #f7f7f6;
-    border-radius: var(--nr-wash-image-radius, 0);
-    padding: 12px;
-    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
     overflow: hidden;
+    border-radius: 4px;
+    background: var(--nr-wash-soft);
   }
 
   .nr-wash-card__image {
@@ -497,161 +359,120 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    object-position: center;
-    /* `--nr-wash-zoom` (set per card, see the Liquid above) scales past each
-       photo's own baked-in margin so the bottle reads as a similar, larger
-       size across all eight — the surrounding whitespace, not the bottle
-       itself, is what runs past the frame and gets clipped by this
-       element's `overflow: hidden`. Values were measured per image to stop
-       well short of the point where any bottle's cap or trigger would
-       clip. */
-    transform: scale(var(--nr-wash-zoom, 1));
-    transform-origin: center;
-    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .nr-wash-card__image--placeholder {
-    background-color: rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.05);
   }
 
   .nr-wash-card__body {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 1px;
+    min-width: 0;
   }
 
   .nr-wash-card__title {
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: var(--color-foreground, inherit);
+    line-height: 1.3;
+    color: var(--nr-wash-text);
   }
 
   .nr-wash-card__text {
-    font-size: 12.5px;
-    line-height: 1.4;
-    text-transform: none;
-    color: rgb(var(--color-foreground-rgb, 17, 17, 17) / var(--opacity-subdued-text, 0.6));
-  }
-
-  .nr-wash-card__cta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2px 5px;
-    margin-top: 2px;
     font-size: 12px;
+    line-height: 1.35;
+    color: var(--nr-wash-muted);
+  }
+
+  .nr-wash-card__price {
+    margin-top: 2px;
+    font-size: 13px;
     font-weight: 600;
-    text-transform: none;
-    color: var(--color-foreground, inherit);
-    opacity: 0;
-    transform: translateY(3px);
-    transition: opacity 260ms ease, transform 260ms ease;
+    color: var(--nr-wash-text);
   }
 
-  /* Same inherited-nowrap family of bug, one level deeper: this is itself a
-     row-direction flex container, and row-flex items default to
-     `min-width: auto`, which keeps them from shrinking below their own
-     unwrapped content width regardless of the panel-wide `white-space: normal`
-     above. At the narrowest 4-column desktop widths (~990-1100px, where the
-     fixed-width nav/promo side columns leave very little room for the
-     product grid) that kept "Se produkt →" from wrapping, pushing it past
-     the card edge. `min-width: 0` lets the label wrap internally, and
-     `flex-wrap: wrap` above is the guarantee for the rest: if "Se produkt"
-     and the arrow still don't both fit on one line at some width nobody's
-     tested yet, the arrow drops to its own line instead of overflowing —
-     there's no width this can spill past. */
-  .nr-wash-card__cta > span {
-    min-width: 0;
-  }
-
-  .nr-wash-card__cta-arrow {
-    display: inline-flex;
-    transition: transform 260ms ease;
-  }
-
-  @media (hover: hover) {
-    .nr-wash-card:hover {
-      transform: translateY(-3px);
-      border-color: rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.22);
-      box-shadow: 0 10px 24px -10px rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.18);
-    }
-
-    /* No extra hover scale on the image itself (dropped the previous
-       `* 1.035` pulse): that multiplier was stacking on top of
-       `--nr-wash-zoom` and eating into the margin computed for it, which
-       forced smaller, less noticeable zoom values everywhere just to stay
-       safe on hover too. The card's other hover cues (lift, border, shadow,
-       CTA reveal) still communicate interactivity without it. */
-
-    .nr-wash-card:hover .nr-wash-card__cta {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .nr-wash-card:hover .nr-wash-card__cta-arrow {
-      transform: translateX(2px);
-    }
-  }
-
-  /* ---------- Right column: promo card ---------- */
+  /* ---------- Promo: the kit, with price and saving ---------- */
   .nr-wash-promo {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: 20px;
-    background: #f7f7f5;
-    border-radius: 8px;
-    box-sizing: border-box;
+    gap: 12px;
     min-width: 0;
+    padding: 20px;
+    background: var(--nr-wash-soft);
+    border-radius: 8px;
   }
 
   .nr-wash-promo__badge {
     align-self: flex-start;
-    font-size: 10.5px;
+    padding: 5px 10px;
+    font-size: 12px;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgb(var(--color-foreground-rgb, 17, 17, 17) / 0.55);
-    background: #fff;
-    padding: 5px 9px;
+    line-height: 1.2;
+    color: #fff;
+    background: var(--nr-wash-text);
     border-radius: 4px;
   }
 
-  .nr-wash-promo__body {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .nr-wash-promo__heading {
-    margin: 0;
-    font-family: var(--font-heading--family, inherit);
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: var(--color-foreground, inherit);
-  }
-
-  .nr-wash-promo__text {
-    margin: 6px 0 0;
-    font-size: 13px;
-    line-height: 1.5;
-    color: rgb(var(--color-foreground-rgb, 17, 17, 17) / var(--opacity-subdued-text, 0.65));
+  .nr-wash-promo__top {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
   }
 
   .nr-wash-promo__media {
     display: block;
-    width: 100%;
-    border-radius: 6px;
+    width: 96px;
+    height: 96px;
     overflow: hidden;
+    border-radius: 4px;
     background: #fff;
   }
 
   .nr-wash-promo__image {
     display: block;
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .nr-wash-promo__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--nr-wash-text);
+  }
+
+  .nr-wash-promo__text {
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--nr-wash-muted);
+  }
+
+  .nr-wash-promo__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
+    margin: 0;
+  }
+
+  .nr-wash-promo__price-now {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--nr-wash-text);
+  }
+
+  .nr-wash-promo__price-was {
+    font-size: 13px;
+    color: var(--nr-wash-muted);
+  }
+
+  .nr-wash-promo__saving {
+    margin: -4px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nr-wash-text);
   }
 
   .nr-wash-promo__button {
@@ -661,18 +482,23 @@
     gap: 8px;
     height: 46px;
     padding-inline: 20px;
-    background: var(--color-foreground, #111111);
-    color: var(--color-background, #ffffff);
     font-size: 14px;
     font-weight: 600;
+    color: var(--color-background, #ffffff);
     text-decoration: none;
+    background: var(--nr-wash-text);
     border-radius: 4px;
-    transition: opacity 0.2s ease;
+    transition: opacity 200ms ease;
   }
 
   .nr-wash-promo__button:focus-visible {
-    outline: 2px solid var(--color-foreground, #111111);
+    outline: 2px solid var(--nr-wash-text);
     outline-offset: 3px;
+  }
+
+  .nr-wash-promo__button-arrow {
+    display: inline-flex;
+    transition: transform 200ms ease;
   }
 
   @media (hover: hover) {
@@ -685,98 +511,31 @@
     }
   }
 
-  .nr-wash-promo__button-arrow {
-    display: inline-flex;
-    transition: transform 0.2s ease;
-  }
-
-  /* ---------- Squeezed desktop: keep the 3-column layout, shrink the grid
-     to 2 columns ----------
-     From 989px (where the layout below stacks to one column) up through
-     ~1279px, nav (min 190px) and promo (min 280px) are both already pinned
-     to their floors while the middle column keeps shrinking — by ~1024px
-     that leaves so little room per product card that, once text is allowed
-     to wrap instead of overflow, titles like "DEEPDEGREASE" fragment into
-     single letters per line. Two columns instead of four gives each card
-     roughly double the width, enough for real words, same as the layout
-     already does below 989px. */
-  @media screen and (min-width: 990px) and (max-width: 1279px) {
+  /* ---------- Narrower desktops: two columns, still in order ----------
+     Column-major flow keeps 1-4 in the first column and 5-8 in the second,
+     so the order reads top to bottom. */
+  @media screen and (max-width: 1279px) {
     .nr-wash-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .nr-wash-card-wrap::after,
-    .nr-wash-card-wrap::before {
-      display: none;
+      grid-template-rows: repeat(4, auto);
+      grid-auto-flow: column;
     }
   }
 
-  /* ---------- Tablet / squeezed desktop: stack everything ---------- */
   @media screen and (max-width: 989px) {
     .nr-wash-menu-layout {
       grid-template-columns: 1fr;
-      gap: 28px;
-    }
-
-    .nr-wash-nav__list {
-      flex-direction: row;
-      flex-wrap: wrap;
-      column-gap: 22px;
-      row-gap: 10px;
-    }
-
-    .nr-wash-nav__link {
-      width: auto;
-    }
-
-    .nr-wash-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    /* The routine-flow connector assumes a 4-column row; at 2 columns the
-       "next" DOM sibling wraps to a new row, so the connector would point
-       at the wrong card. Hide it rather than show a misleading line. */
-    .nr-wash-card-wrap::after,
-    .nr-wash-card-wrap::before {
-      display: none;
-    }
-
-    .nr-wash-promo {
-      flex-direction: row;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .nr-wash-promo__body,
-    .nr-wash-promo__badge {
-      flex: 1 1 100%;
-    }
-
-    .nr-wash-promo__media {
-      flex: 0 0 140px;
-      width: 140px;
-    }
-
-    .nr-wash-promo__button {
-      flex: 1 1 auto;
+      gap: 24px;
     }
   }
 
-  /* Mobile drawer renders raw navigation links only and never calls this
-     snippet, so this only applies if it's ever surfaced below 750px. */
+  /* The mobile drawer has its own navigation and never renders this panel,
+     so this only matters if it is ever surfaced below 750px. */
   @media screen and (max-width: 749px) {
     .nr-wash-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px 16px;
-    }
-
-    .nr-wash-promo {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .nr-wash-promo__media {
-      width: 100%;
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      grid-auto-flow: row;
     }
   }
 {% endstylesheet %}
