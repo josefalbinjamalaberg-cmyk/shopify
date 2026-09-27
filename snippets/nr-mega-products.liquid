@@ -1,0 +1,176 @@
+{%- doc -%}
+  Mega-menu panel for a product category (Interiör, Tillbehör): every
+  product linked under the menu item as a card (whole photo, name, optional
+  short description, price), links that aren't products as plain links, and
+  an optional aside listing related kits with price and saving.
+
+  Products come from the menu itself, so adding a product to the menu in
+  Shopify admin adds it here. Styling is shared (snippets/nr-mega-styles).
+
+  @param {string} heading - Panel heading (usually the menu item title).
+  @param {string} [subheading] - Short line under the heading.
+  @param {object} links - The menu item's child links (link.links).
+  @param {string} [view_all_url] - URL for the "view all" link.
+  @param {string} [view_all_label] - Label for the "view all" link.
+  @param {string} [aside_title] - Aside heading.
+  @param {string} [aside_text] - Aside body text.
+  @param {object} [aside_products] - Products listed in the aside (product_list).
+  @param {string} [aside_link_url] - Aside link URL.
+  @param {string} [aside_link_label] - Aside link label.
+{%- enddoc -%}
+
+{% render 'nr-mega-styles' %}
+
+{%- liquid
+  assign product_count = 0
+  assign other_count = 0
+  for child in links
+    if child.type == 'product_link' and child.object != blank
+      assign product_count = product_count | plus: 1
+    else
+      assign other_count = other_count | plus: 1
+    endif
+  endfor
+
+  assign column_count = 4
+  if product_count > 8
+    assign column_count = 5
+  endif
+
+  assign aside_count = aside_products.size | default: 0
+  assign has_aside = false
+  if aside_count > 0
+    assign has_aside = true
+  endif
+-%}
+
+<div class="nr-mm nr-mm--products">
+  <div class="nr-mm__layout{% if has_aside %} nr-mm__layout--aside{% endif %}">
+    <div class="nr-mm__main">
+      <div class="nr-mm__head">
+        <div>
+          <p
+            class="nr-mm__heading"
+            role="heading"
+            aria-level="2"
+          >
+            {{ heading }}
+          </p>
+          {% if subheading != blank %}
+            <p class="nr-mm__subheading">{{ subheading }}</p>
+          {% endif %}
+        </div>
+        {% if view_all_url != blank %}
+          <a
+            href="{{ view_all_url }}"
+            class="nr-mm__all"
+          >
+            {{- view_all_label | default: 'Visa alla' -}}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        {% endif %}
+      </div>
+
+      {% if product_count > 0 %}
+        <ul
+          class="nr-mm__grid"
+          style="--nr-mm-cols: {{ column_count }};{% if column_count == 5 %} --nr-mm-media-height: clamp(96px, 7.5vw, 120px);{% endif %}"
+          role="list"
+        >
+          {% for child in links %}
+            {% if child.type == 'product_link' and child.object != blank %}
+              {% assign item = child.object %}
+              <li>
+                <a
+                  href="{{ child.url }}"
+                  class="nr-mm-card"
+                >
+                  <span class="nr-mm-card__media">
+                    {%- if item.featured_image != blank -%}
+                      {{
+                        item.featured_image
+                        | image_url: width: 400
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '200, 300, 400',
+                          sizes: '(min-width: 1280px) 180px, 150px',
+                          class: 'nr-mm-card__image',
+                          alt: ''
+                      }}
+                    {%- endif -%}
+                  </span>
+                  <span class="nr-mm-card__body">
+                    <span class="nr-mm-name">{{ child.title }}</span>
+                    <span class="nr-mm-price">{{ item.price | money }}</span>
+                  </span>
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if other_count > 0 %}
+        <ul
+          class="nr-mm__links"
+          role="list"
+        >
+          {% for child in links %}
+            {% unless child.type == 'product_link' and child.object != blank %}
+              <li>
+                <a
+                  href="{{ child.url }}"
+                  class="nr-mm__all"
+                >
+                  {{- child.title -}}
+                </a>
+              </li>
+            {% endunless %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    {% if has_aside %}
+      <aside
+        class="nr-mm-aside"
+        aria-label="{{ aside_title | default: heading | escape }}"
+      >
+        {% if aside_title != blank %}
+          <p class="nr-mm-aside__title">{{ aside_title }}</p>
+        {% endif %}
+        {% if aside_text != blank %}
+          <p class="nr-mm-aside__text">{{ aside_text }}</p>
+        {% endif %}
+        <ul
+          class="nr-mm__rows"
+          role="list"
+        >
+          {% for kit in aside_products %}
+            <li>{% render 'nr-mega-kit-row', kit: kit %}</li>
+          {% endfor %}
+        </ul>
+        {% if aside_link_url != blank and aside_link_label != blank %}
+          <a
+            href="{{ aside_link_url }}"
+            class="nr-mm__all"
+          >
+            {{- aside_link_label -}}
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        {% endif %}
+      </aside>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .nr-mm__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+{% endstylesheet %}

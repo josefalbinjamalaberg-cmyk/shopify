@@ -1,0 +1,380 @@
+{%- doc -%}
+  Shared design for the NordicReflection mega-menu panels (Exteriör wash
+  order, Interiör/Tillbehör product panels, Färdiga paket). Contains only a
+  stylesheet: every panel snippet renders it, and Shopify bundles it once.
+
+  One visual language for all panels: white panel, 8px cards, whole product
+  photos (contained, never cropped), small uppercase labels only for short
+  eyebrows, product names in normal case, price always visible.
+{%- enddoc -%}
+
+{% stylesheet %}
+  .nr-mm {
+    /* The ancestor `.section--page-width` is a grid with a fixed-width
+       center track; span the full row and re-center with a wider cap. */
+    grid-column: 1 / -1;
+    width: calc(100% - 80px);
+    max-width: 1320px;
+    margin-inline: auto;
+
+    /* The top-level nav <li> sets `white-space: nowrap` for its label and
+       nr-header.css uppercases dropdown content; both inherit into the
+       panel, so reset them once here. */
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+
+    --nr-mm-text: var(--color-foreground, #111111);
+    --nr-mm-muted: rgb(var(--color-foreground-rgb, 17 17 17) / 0.62);
+    --nr-mm-line: rgb(var(--color-foreground-rgb, 17 17 17) / 0.1);
+    --nr-mm-soft: #f5f5f2;
+  }
+
+  .nr-mm__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(32px, 3vw, 56px);
+    align-items: start;
+  }
+
+  .nr-mm__layout--aside {
+    grid-template-columns: minmax(0, 1fr) clamp(260px, 22%, 300px);
+  }
+
+  .nr-mm__main {
+    min-width: 0;
+  }
+
+  /* ---------- Head ---------- */
+  .nr-mm__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .nr-mm__heading {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--nr-mm-text);
+  }
+
+  .nr-mm__subheading {
+    margin: 4px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--nr-mm-muted);
+  }
+
+  .nr-mm__all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nr-mm-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .nr-mm__all span {
+    transition: transform 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .nr-mm__all:hover span {
+      transform: translateX(3px);
+    }
+  }
+
+  .nr-mm :focus-visible {
+    outline: 2px solid var(--nr-mm-text);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Card grid ---------- */
+  .nr-mm__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--nr-mm-cols, 4), minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nr-mm__grid > li {
+    min-width: 0;
+  }
+
+  .nr-mm-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    padding: 10px 10px 14px;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid var(--nr-mm-line);
+    border-radius: 8px;
+    background: #fff;
+    transition: border-color 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .nr-mm-card:hover {
+      border-color: rgb(var(--color-foreground-rgb, 17 17 17) / 0.35);
+    }
+  }
+
+  /* The whole product photo, never cropped or scaled up: pinned to a
+     fixed-height frame and fitted with `contain`. */
+  .nr-mm-card__media {
+    position: relative;
+    display: block;
+    height: var(--nr-mm-media-height, clamp(110px, 9.5vw, 150px));
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--nr-mm-soft);
+  }
+
+  .nr-mm-card__image,
+  .nr-mm-row__image {
+    position: absolute;
+    inset: 6px;
+    display: block;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
+    object-fit: contain;
+  }
+
+  .nr-mm-card__body,
+  .nr-mm-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  .nr-mm-card__body {
+    padding-inline: 4px;
+  }
+
+  .nr-mm-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    font-variant-numeric: tabular-nums;
+    color: var(--nr-mm-muted);
+  }
+
+  .nr-mm-name {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--nr-mm-text);
+  }
+
+  .nr-mm-text {
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--nr-mm-muted);
+  }
+
+  .nr-mm-price {
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--nr-mm-text);
+  }
+
+  .nr-mm-saving {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--nr-mm-text);
+  }
+
+  .nr-mm-badge {
+    align-self: flex-start;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+    background: var(--nr-mm-text);
+    border-radius: 4px;
+  }
+
+  /* ---------- Compact rows (kit lists) ---------- */
+  .nr-mm__rows {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nr-mm-row {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px 8px 8px;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid var(--nr-mm-line);
+    border-radius: 8px;
+    background: #fff;
+    transition: border-color 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .nr-mm-row:hover {
+      border-color: rgb(var(--color-foreground-rgb, 17 17 17) / 0.35);
+    }
+  }
+
+  .nr-mm-row__media {
+    position: relative;
+    display: block;
+    width: 72px;
+    height: 72px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--nr-mm-soft);
+  }
+
+  .nr-mm-row__image {
+    inset: 4px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+  }
+
+  .nr-mm-row__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
+  }
+
+  /* ---------- Columns of grouped rows (Färdiga paket) ---------- */
+  .nr-mm__groups {
+    display: grid;
+    grid-template-columns: repeat(var(--nr-mm-groups, 3), minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .nr-mm__group-title {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--nr-mm-muted);
+  }
+
+  /* ---------- Aside ---------- */
+  .nr-mm-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    padding: 20px;
+    background: var(--nr-mm-soft);
+    border-radius: 8px;
+  }
+
+  .nr-mm-aside__title {
+    margin: 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--nr-mm-text);
+  }
+
+  .nr-mm-aside__text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--nr-mm-muted);
+  }
+
+  .nr-mm-aside .nr-mm-row {
+    border-color: transparent;
+  }
+
+  .nr-mm-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 46px;
+    padding-inline: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-background, #ffffff);
+    text-decoration: none;
+    background: var(--nr-mm-text);
+    border-radius: 4px;
+    transition: opacity 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .nr-mm-button:hover {
+      opacity: 0.85;
+    }
+  }
+
+  /* ---------- Opening motion ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .nr-mm {
+      animation: nr-mm-in 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes nr-mm-in {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1199px) {
+    .nr-mm__grid {
+      grid-template-columns: repeat(min(var(--nr-mm-cols, 4), 4), minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .nr-mm__layout--aside {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .nr-mm__groups {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* The mobile drawer has its own navigation and never renders these
+     panels; this only matters if one is ever surfaced below 750px. */
+  @media screen and (max-width: 749px) {
+    .nr-mm__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}

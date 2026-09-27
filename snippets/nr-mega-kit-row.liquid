@@ -1,0 +1,51 @@
+{%- doc -%}
+  One kit as a compact mega-menu row: whole photo, name, price, and what it
+  saves versus buying its products separately (nr-kit-separate-total).
+  The saving line only appears when the kit really is cheaper.
+
+  @param {object} kit - The kit product.
+  @param {string} [badge] - Optional badge text (e.g. "Bästsäljande kit").
+{%- enddoc -%}
+
+{%- liquid
+  capture kit_separate
+    render 'nr-kit-separate-total', product: kit
+  endcapture
+  assign kit_separate = kit_separate | strip | plus: 0
+  assign kit_saving = 0
+  if kit_separate > kit.price
+    assign kit_saving = kit_separate | minus: kit.price
+  endif
+-%}
+
+<a
+  href="{{ kit.url }}"
+  class="nr-mm-row"
+>
+  <span class="nr-mm-row__media">
+    {%- if kit.featured_image != blank -%}
+      {{
+        kit.featured_image
+        | image_url: width: 200
+        | image_tag:
+          loading: 'lazy',
+          widths: '100, 150, 200',
+          sizes: '72px',
+          class: 'nr-mm-row__image',
+          alt: ''
+      }}
+    {%- endif -%}
+  </span>
+  <span class="nr-mm-row__body">
+    {%- if badge != blank -%}
+      <span class="nr-mm-eyebrow nr-mm-row__badge">{{ badge }}</span>
+    {%- endif -%}
+    <span class="nr-mm-name">{{ kit.title }}</span>
+    <span class="nr-mm-row__price">
+      <span class="nr-mm-price">{{ kit.price | money }}</span>
+      {%- if kit_saving > 0 -%}
+        <span class="nr-mm-saving">Du sparar {{ kit_saving | money }}</span>
+      {%- endif -%}
+    </span>
+  </span>
+</a>

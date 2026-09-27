@@ -95,7 +95,7 @@
       {% for link in block_settings.menu.links %}
         <li
           role="presentation"
-          class="menu-list__list-item"
+          class="menu-list__list-item{% if link.links == blank %} menu-list__list-item--plain{% endif %}"
           on:focus="/activate"
           on:blur="/deactivate"
           on:pointerenter="/activate"
@@ -125,12 +125,15 @@
                 assign exterior_title_key = block_settings.exterior_menu_title | strip | downcase
                 assign interior_title_key = block_settings.interior_menu_title | strip | downcase
                 assign accessory_title_key = block_settings.accessory_menu_title | strip | downcase
+                assign kits_title_key = block_settings.kits_menu_title | strip | downcase
                 if block_settings.exterior_menu_title != blank and link_title_key == exterior_title_key
                   assign curated_category = 'exterior'
                 elsif block_settings.interior_menu_title != blank and link_title_key == interior_title_key
                   assign curated_category = 'interior'
                 elsif block_settings.accessory_menu_title != blank and link_title_key == accessory_title_key
                   assign curated_category = 'accessory'
+                elsif block_settings.kits_menu_title != blank and link_title_key == kits_title_key
+                  assign curated_category = 'kits'
                 endif
               endif
             %}
@@ -191,32 +194,44 @@
                     </div>
                   {% when 'interior' %}
                     <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                      {% render 'mega-menu-curated-products',
-                        nav_links: link.links,
-                        nav_label: link.title,
-                        product_1: block_settings.interior_product_1,
-                        product_1_tag: block_settings.interior_product_1_tag,
-                        product_2: block_settings.interior_product_2,
-                        product_2_tag: block_settings.interior_product_2_tag,
+                      {% render 'nr-mega-products',
+                        heading: link.title,
+                        subheading: block_settings.interior_subheading,
+                        links: link.links,
                         view_all_url: block_settings.interior_view_all_url,
                         view_all_label: block_settings.interior_view_all_label,
-                        image_border_radius: image_border_radius
+                        aside_title: block_settings.interior_aside_title,
+                        aside_text: block_settings.interior_aside_text,
+                        aside_products: block_settings.interior_aside_products,
+                        aside_link_url: block_settings.interior_aside_link_url,
+                        aside_link_label: block_settings.interior_aside_link_label
                       %}
                     </div>
                   {% when 'accessory' %}
                     <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                      {% render 'mega-menu-curated-products',
-                        nav_links: link.links,
-                        nav_label: link.title,
-                        product_1: block_settings.accessory_product_1,
-                        product_1_tag: block_settings.accessory_product_1_tag,
-                        product_2: block_settings.accessory_product_2,
-                        product_2_tag: block_settings.accessory_product_2_tag,
-                        product_3: block_settings.accessory_product_3,
-                        product_3_tag: block_settings.accessory_product_3_tag,
+                      {% render 'nr-mega-products',
+                        heading: link.title,
+                        subheading: block_settings.accessory_subheading,
+                        links: link.links,
                         view_all_url: block_settings.accessory_view_all_url,
-                        view_all_label: block_settings.accessory_view_all_label,
-                        image_border_radius: image_border_radius
+                        view_all_label: block_settings.accessory_view_all_label
+                      %}
+                    </div>
+                  {% when 'kits' %}
+                    <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                      {% render 'nr-mega-kits',
+                        heading: link.title,
+                        subheading: block_settings.kits_subheading,
+                        view_all_url: block_settings.kits_view_all_url,
+                        view_all_label: block_settings.kits_view_all_label,
+                        group_1_title: block_settings.kits_group_1_title,
+                        group_1_products: block_settings.kits_group_1_products,
+                        group_2_title: block_settings.kits_group_2_title,
+                        group_2_products: block_settings.kits_group_2_products,
+                        group_3_title: block_settings.kits_group_3_title,
+                        group_3_products: block_settings.kits_group_3_products,
+                        badge_product: block_settings.kits_badge_product,
+                        badge_text: block_settings.kits_badge_text
                       %}
                     </div>
                   {% else %}
@@ -1639,6 +1654,136 @@
       "id": "accessory_view_all_label",
       "label": "Text – \"Visa alla\"-länk",
       "default": "Visa alla tillbehör",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "accessory_subheading",
+      "label": "Tillbehör – kort text under rubriken",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "header",
+      "content": "Interiör – panel",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "interior_subheading",
+      "label": "Kort text under rubriken",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "interior_aside_title",
+      "label": "Sidokolumn – rubrik",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "interior_aside_text",
+      "label": "Sidokolumn – text",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "product_list",
+      "id": "interior_aside_products",
+      "label": "Sidokolumn – paket",
+      "info": "Pris och \"Du sparar\" räknas ut från paketets produkter.",
+      "limit": 4,
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "url",
+      "id": "interior_aside_link_url",
+      "label": "Sidokolumn – länk",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "interior_aside_link_label",
+      "label": "Sidokolumn – länktext",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "header",
+      "content": "Färdiga paket – panel",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "kits_menu_title",
+      "label": "Menyrad som öppnar panelen",
+      "info": "Måste matcha menyradens titel exakt, t.ex. \"Färdiga paket\".",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "kits_subheading",
+      "label": "Kort text under rubriken",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "url",
+      "id": "kits_view_all_url",
+      "label": "\"Se alla\"-länk",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "kits_view_all_label",
+      "label": "Text – \"Se alla\"-länk",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "kits_group_1_title",
+      "label": "Grupp 1 – rubrik",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "product_list",
+      "id": "kits_group_1_products",
+      "label": "Grupp 1 – paket",
+      "limit": 4,
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "kits_group_2_title",
+      "label": "Grupp 2 – rubrik",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "product_list",
+      "id": "kits_group_2_products",
+      "label": "Grupp 2 – paket",
+      "limit": 4,
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "kits_group_3_title",
+      "label": "Grupp 3 – rubrik",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "product_list",
+      "id": "kits_group_3_products",
+      "label": "Grupp 3 – paket",
+      "limit": 4,
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "product",
+      "id": "kits_badge_product",
+      "label": "Paket med etikett",
+      "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
+    },
+    {
+      "type": "text",
+      "id": "kits_badge_text",
+      "label": "Etikett",
       "visible_if": "{{ block.settings.menu_style == 'curated_products' }}"
     },
     {

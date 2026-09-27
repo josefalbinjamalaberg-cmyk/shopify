@@ -459,3 +459,47 @@
     transition: none !important;
   }
 }
+
+/* ---------- Primary navigation: category links first, utility links
+   (menu items without a dropdown, e.g. Om oss / Spåra din order) quieter
+   and set apart by a hairline. The class comes from _header-menu.liquid. */
+.menu-list__link-title {
+  font-weight: 500;
+}
+
+.menu-list__list-item--plain .menu-list__link {
+  opacity: 0.72;
+  transition: opacity var(--nr-header-transition);
+}
+
+.menu-list__list-item--plain .menu-list__link-title {
+  font-size: 0.9em;
+}
+
+@media (hover: hover) {
+  .menu-list__list-item--plain .menu-list__link:hover {
+    opacity: 1;
+  }
+}
+
+.menu-list__list-item--plain .menu-list__link[aria-current='page'] {
+  opacity: 1;
+}
+
+.menu-list__list-item:not(.menu-list__list-item--plain) + .menu-list__list-item--plain {
+  position: relative;
+  margin-inline-start: 8px;
+  padding-inline-start: 8px;
+}
+
+.menu-list__list-item:not(.menu-list__list-item--plain) + .menu-list__list-item--plain::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 16px;
+  background: currentcolor;
+  opacity: 0.18;
+  transform: translateY(-50%);
+}

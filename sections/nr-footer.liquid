@@ -1,0 +1,911 @@
+{%- doc -%}
+  NordicReflection footer. One self-contained section:
+
+  1. Brand + newsletter (Shopify customer form, tagged "newsletter").
+  2. Up to four link columns from Shopify menus (editable in Navigation);
+     on mobile each column folds behind its heading (enhanced by the small
+     script below, so without JS every column is simply open).
+  3. Trust row (free shipping, dispatch, rating) from section settings.
+  4. A full-width "NordicReflection" wordmark as the footer's signature
+     (decorative, hidden from screen readers).
+  5. Bottom bar: © year + company details, accepted payment methods from
+     the store's own payment settings, and a back-to-top link.
+
+  No social links are rendered unless a URL is filled in, and nothing here
+  states a figure that isn't taken from the settings below.
+{%- enddoc -%}
+
+{%- liquid
+  assign wordmark = section.settings.wordmark | default: shop.name
+  assign company_parts = section.settings.company_text | split: ' · '
+-%}
+
+<div
+  class="nr-ft"
+  data-nr-footer
+>
+  <div class="nr-ft__inner">
+    <div class="nr-ft__top">
+      <div class="nr-ft__brand">
+        {%- if section.settings.tagline != blank -%}
+          <p class="nr-ft__tagline">{{ section.settings.tagline | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.show_newsletter -%}
+          <div class="nr-ft-news">
+            {%- if section.settings.newsletter_heading != blank -%}
+              <p
+                class="nr-ft-news__heading"
+                id="NrFooterNewsHeading"
+              >
+                {{ section.settings.newsletter_heading | escape }}
+              </p>
+            {%- endif -%}
+            {%- if section.settings.newsletter_text != blank -%}
+              <p class="nr-ft-news__text">{{ section.settings.newsletter_text | escape }}</p>
+            {%- endif -%}
+
+            {%- form 'customer', id: 'NrFooterNewsletter', class: 'nr-ft-news__form' -%}
+              <input
+                type="hidden"
+                name="contact[tags]"
+                value="newsletter"
+              >
+              {%- if form.posted_successfully? -%}
+                <p
+                  class="nr-ft-news__status"
+                  role="status"
+                >
+                  Tack! Du prenumererar nu på vårt nyhetsbrev.
+                </p>
+              {%- else -%}
+                <div class="nr-ft-news__field">
+                  <label
+                    class="visually-hidden"
+                    for="NrFooterNewsletterEmail"
+                  >
+                    E-postadress
+                  </label>
+                  <input
+                    class="nr-ft-news__input"
+                    id="NrFooterNewsletterEmail"
+                    type="email"
+                    name="contact[email]"
+                    autocomplete="email"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    placeholder="Din e-postadress"
+                    required
+                    {% if form.errors %}
+                      aria-invalid="true" aria-describedby="NrFooterNewsletterError"
+                    {% endif %}
+                  >
+                  <button
+                    class="nr-ft-news__submit"
+                    type="submit"
+                  >
+                    <span>Prenumerera</span>
+                    <svg
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+                {%- if form.errors -%}
+                  <p
+                    class="nr-ft-news__error"
+                    id="NrFooterNewsletterError"
+                    role="alert"
+                  >
+                    Kontrollera e-postadressen och försök igen.
+                  </p>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endform -%}
+
+            {%- if section.settings.privacy_text != blank -%}
+              <p class="nr-ft-news__privacy">
+                {{ section.settings.privacy_text | escape }}
+                {%- if section.settings.privacy_link != blank -%}
+                  {{ ' ' }}<a href="{{ section.settings.privacy_link }}">{{ section.settings.privacy_link_label | default: 'Integritetspolicy' | escape }}</a>.
+                {%- endif -%}
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <nav
+        class="nr-ft__nav"
+        aria-label="Sidfot"
+      >
+        {%- for i in (1..4) -%}
+          {%- liquid
+            assign menu_key = 'menu_' | append: i
+            assign heading_key = 'menu_' | append: i | append: '_heading'
+            assign menu = section.settings[menu_key]
+            assign col_heading = section.settings[heading_key] | default: menu.title
+            assign col_id = 'NrFooterCol-' | append: i
+          -%}
+          {%- if menu != blank and menu.links.size > 0 -%}
+            <div
+              class="nr-ft-col"
+              data-nr-footer-col
+            >
+              <p class="nr-ft-col__heading">
+                <span class="nr-ft-col__heading-text">{{ col_heading | escape }}</span>
+                <button
+                  class="nr-ft-col__toggle"
+                  type="button"
+                  aria-expanded="true"
+                  aria-controls="{{ col_id }}"
+                  data-nr-footer-toggle
+                  hidden
+                >
+                  <span>{{ col_heading | escape }}</span>
+                  <svg
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </p>
+              <ul
+                class="nr-ft-col__list"
+                id="{{ col_id }}"
+                role="list"
+              >
+                {%- for link in menu.links -%}
+                  <li>
+                    <a
+                      href="{{ link.url }}"
+                      class="nr-ft-col__link"
+                      {% if link.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{- link.title | escape -}}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </div>
+
+    {%- if section.settings.trust_1 != blank or section.settings.trust_2 != blank or section.settings.trust_3 != blank -%}
+      <ul
+        class="nr-ft__trust"
+        role="list"
+      >
+        {%- for i in (1..3) -%}
+          {%- liquid
+            assign trust_key = 'trust_' | append: i
+            assign trust_icon_key = 'trust_' | append: i | append: '_icon'
+            assign trust_link_key = 'trust_' | append: i | append: '_link'
+            assign trust_text = section.settings[trust_key]
+          -%}
+          {%- if trust_text != blank -%}
+            <li class="nr-ft__trust-item">
+              <span
+                class="nr-ft__trust-icon"
+                aria-hidden="true"
+              >
+                {%- render 'icon-or-image', icon: section.settings[trust_icon_key], width: 20, class_name: 'nr-ft__trust-svg' -%}
+              </span>
+              {%- if section.settings[trust_link_key] != blank -%}
+                <a
+                  href="{{ section.settings[trust_link_key] }}"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {{- trust_text | escape -}}
+                  <span class="visually-hidden"> (öppnas i nytt fönster)</span>
+                </a>
+              {%- else -%}
+                <span>{{ trust_text | escape }}</span>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.show_wordmark and wordmark != blank -%}
+      <p
+        class="nr-ft__wordmark"
+        aria-hidden="true"
+      >
+        {{ wordmark | escape }}
+      </p>
+    {%- endif -%}
+
+    <div class="nr-ft__bottom">
+      <p class="nr-ft__company">
+        <span class="nr-ft__company-part">&copy; {{ 'now' | date: '%Y' }}</span>
+        {%- for part in company_parts -%}
+          <span class="nr-ft__company-part">{{ part | escape }}</span>
+        {%- endfor -%}
+      </p>
+
+      {%- if shop.enabled_payment_types.size > 0 -%}
+        <ul
+          class="nr-ft__payments"
+          role="list"
+          aria-label="Betalsätt"
+        >
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'nr-ft__payment' }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <a
+        href="#MainContent"
+        class="nr-ft__top-link"
+        data-nr-footer-top
+      >
+        Till toppen
+        <svg
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M8 13V3M4 7l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  // Mobile: fold each link column behind its heading. Desktop and no-JS:
+  // every column stays open. Back-to-top scrolls smoothly unless the
+  // visitor prefers reduced motion.
+  const root = document.querySelector('[data-nr-footer]');
+  if (root && !root.dataset.nrReady) {
+    root.dataset.nrReady = 'true';
+    const mobile = window.matchMedia('(max-width: 749px)');
+    const cols = [...root.querySelectorAll('[data-nr-footer-col]')];
+
+    const apply = () => {
+      cols.forEach((col) => {
+        const toggle = col.querySelector('[data-nr-footer-toggle]');
+        if (!toggle) return;
+        const open = mobile.matches ? col.classList.contains('is-open') : true;
+        toggle.hidden = !mobile.matches;
+        toggle.setAttribute('aria-expanded', String(open));
+        col.classList.toggle('is-collapsed', !open);
+      });
+    };
+
+    cols.forEach((col) => {
+      const toggle = col.querySelector('[data-nr-footer-toggle]');
+      toggle?.addEventListener('click', () => {
+        col.classList.toggle('is-open');
+        apply();
+      });
+    });
+
+    mobile.addEventListener('change', apply);
+    apply();
+
+    root.querySelector('[data-nr-footer-top]')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      document.querySelector('#MainContent, main')?.focus?.({ preventScroll: true });
+    });
+  }
+</script>
+
+{% stylesheet %}
+  .nr-ft {
+    --nr-ft-bg: #0f0f0f;
+    --nr-ft-text: #f3f3f0;
+    --nr-ft-muted: rgb(243 243 240 / 0.62);
+    --nr-ft-line: rgb(255 255 255 / 0.12);
+
+    background: var(--nr-ft-bg);
+    color: var(--nr-ft-text);
+    overflow: hidden;
+  }
+
+  .nr-ft *,
+  .nr-ft *::before,
+  .nr-ft *::after {
+    box-sizing: border-box;
+  }
+
+  .nr-ft__inner {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: clamp(56px, 6vw, 96px) clamp(16px, 4vw, 56px) 0;
+  }
+
+  .nr-ft a {
+    color: inherit;
+  }
+
+  .nr-ft :focus-visible {
+    outline: 2px solid var(--nr-ft-text);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Top: brand + newsletter | link columns ---------- */
+  .nr-ft__top {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 112px);
+    align-items: start;
+  }
+
+  .nr-ft__tagline {
+    margin: 0 0 clamp(28px, 3vw, 40px);
+    max-width: 18ch;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .nr-ft-news {
+    max-width: 440px;
+  }
+
+  .nr-ft-news__heading {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+
+  .nr-ft-news__text {
+    margin: 6px 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--nr-ft-muted);
+  }
+
+  .nr-ft-news__form {
+    margin-top: 18px;
+  }
+
+  .nr-ft-news__field {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid rgb(243 243 240 / 0.45);
+    transition: border-color 200ms ease;
+  }
+
+  .nr-ft-news__field:focus-within {
+    border-bottom-color: var(--nr-ft-text);
+  }
+
+  .nr-ft-news__input {
+    flex: 1;
+    min-width: 0;
+    min-height: 52px;
+    padding: 0;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--nr-ft-text);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    appearance: none;
+  }
+
+  .nr-ft-news__input::placeholder {
+    color: rgb(243 243 240 / 0.55);
+  }
+
+  .nr-ft-news__input:focus-visible {
+    outline: none;
+  }
+
+  .nr-ft-news__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 0 0 16px;
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--nr-ft-text);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .nr-ft-news__submit svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .nr-ft-news__submit:hover svg {
+      transform: translateX(3px);
+    }
+  }
+
+  .nr-ft-news__status,
+  .nr-ft-news__error {
+    margin: 12px 0 0;
+    font-size: 0.9375rem;
+  }
+
+  .nr-ft-news__error {
+    color: #ffb4ab;
+  }
+
+  .nr-ft-news__privacy {
+    margin: 14px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--nr-ft-muted);
+  }
+
+  .nr-ft-news__privacy a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ---------- Link columns ---------- */
+  .nr-ft__nav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .nr-ft-col__heading {
+    margin: 0 0 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--nr-ft-muted);
+  }
+
+  .nr-ft-col__list {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nr-ft-col__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    background-image: linear-gradient(currentcolor, currentcolor);
+    background-size: 0% 1px;
+    background-position: 0 calc(50% + 0.75em);
+    background-repeat: no-repeat;
+    transition: background-size 260ms ease;
+  }
+
+  @media (hover: hover) {
+    .nr-ft-col__link:hover {
+      background-size: 100% 1px;
+    }
+  }
+
+  .nr-ft-col__link[aria-current='page'] {
+    background-size: 100% 1px;
+  }
+
+  .nr-ft-col__toggle {
+    display: none;
+  }
+
+  /* ---------- Trust row ---------- */
+  .nr-ft__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    margin: clamp(48px, 5vw, 72px) 0 0;
+    padding: 24px 0;
+    list-style: none;
+    border-top: 1px solid var(--nr-ft-line);
+    border-bottom: 1px solid var(--nr-ft-line);
+  }
+
+  .nr-ft__trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9375rem;
+  }
+
+  .nr-ft__trust-item a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgb(243 243 240 / 0.4);
+  }
+
+  .nr-ft__trust-icon {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    color: var(--nr-ft-text);
+  }
+
+  .nr-ft__trust-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---------- Wordmark ---------- */
+  .nr-ft__wordmark {
+    margin: clamp(32px, 4vw, 56px) 0 0;
+    font-family: var(--font-heading--family, inherit);
+    font-size: clamp(2rem, 10.1vw, 9.5rem);
+    font-weight: 600;
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    color: rgb(243 243 240 / 0.08);
+    user-select: none;
+  }
+
+  /* ---------- Bottom bar ---------- */
+  .nr-ft__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding: 24px 0 28px;
+    border-top: 1px solid var(--nr-ft-line);
+  }
+
+  .nr-ft__company {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 16px;
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--nr-ft-muted);
+  }
+
+  .nr-ft__payments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nr-ft__payment {
+    display: block;
+    width: 38px;
+    height: 24px;
+  }
+
+  .nr-ft__top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .nr-ft__top-link svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .nr-ft__top-link:hover svg {
+      transform: translateY(-2px);
+    }
+  }
+
+  /* ---------- Tablet ---------- */
+  @media screen and (max-width: 1099px) {
+    .nr-ft__top {
+      grid-template-columns: 1fr;
+    }
+
+    .nr-ft__tagline {
+      max-width: 22ch;
+    }
+  }
+
+  /* ---------- Mobile ---------- */
+  @media screen and (max-width: 749px) {
+    .nr-ft__nav {
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-top: 1px solid var(--nr-ft-line);
+    }
+
+    .nr-ft-col {
+      border-bottom: 1px solid var(--nr-ft-line);
+    }
+
+    .nr-ft-col__heading {
+      margin: 0;
+    }
+
+    /* With JS the heading becomes a full-width toggle; without JS the
+       plain heading text stays and every list is open. */
+    .nr-ft-col__toggle:not([hidden]) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 56px;
+      padding: 0;
+      font: inherit;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--nr-ft-text);
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .nr-ft-col__heading:has(.nr-ft-col__toggle:not([hidden])) .nr-ft-col__heading-text {
+      display: none;
+    }
+
+    .nr-ft-col__heading:not(:has(.nr-ft-col__toggle:not([hidden]))) {
+      padding: 18px 0 12px;
+    }
+
+    .nr-ft-col__toggle svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 200ms ease;
+    }
+
+    .nr-ft-col__toggle[aria-expanded='true'] svg {
+      transform: rotate(180deg);
+    }
+
+    .nr-ft-col.is-collapsed .nr-ft-col__list {
+      display: none;
+    }
+
+    .nr-ft-col__list {
+      padding-bottom: 16px;
+    }
+
+    .nr-ft-col__link {
+      min-height: 44px;
+    }
+
+    .nr-ft__trust {
+      flex-direction: column;
+      margin-top: 40px;
+      border-top: 0;
+    }
+
+    .nr-ft__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .nr-ft__company {
+      flex-direction: column;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Footer",
+  "tag": "footer",
+  "class": "nr-footer-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Bilvård utan kompromisser, från första steg till sista finish."
+    },
+    {
+      "type": "header",
+      "content": "Nyhetsbrev"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Visa nyhetsbrev",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Rubrik"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "privacy_text",
+      "label": "Integritetstext"
+    },
+    {
+      "type": "url",
+      "id": "privacy_link",
+      "label": "Länk till integritetspolicy"
+    },
+    {
+      "type": "text",
+      "id": "privacy_link_label",
+      "label": "Länktext",
+      "default": "Integritetspolicy"
+    },
+    {
+      "type": "header",
+      "content": "Länkkolumner"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Kolumn 1 – meny"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_heading",
+      "label": "Kolumn 1 – rubrik"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Kolumn 2 – meny"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_heading",
+      "label": "Kolumn 2 – rubrik"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Kolumn 3 – meny"
+    },
+    {
+      "type": "text",
+      "id": "menu_3_heading",
+      "label": "Kolumn 3 – rubrik"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_4",
+      "label": "Kolumn 4 – meny"
+    },
+    {
+      "type": "text",
+      "id": "menu_4_heading",
+      "label": "Kolumn 4 – rubrik"
+    },
+    {
+      "type": "header",
+      "content": "Förtroenderad"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Punkt 1"
+    },
+    {
+      "type": "select",
+      "id": "trust_1_icon",
+      "label": "Punkt 1 – ikon",
+      "options": [
+        { "value": "truck", "label": "Leverans" },
+        { "value": "stopwatch", "label": "Snabb" },
+        { "value": "star", "label": "Stjärna" },
+        { "value": "check_box", "label": "Bock" }
+      ],
+      "default": "truck"
+    },
+    {
+      "type": "url",
+      "id": "trust_1_link",
+      "label": "Punkt 1 – länk (valfri)"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Punkt 2"
+    },
+    {
+      "type": "select",
+      "id": "trust_2_icon",
+      "label": "Punkt 2 – ikon",
+      "options": [
+        { "value": "truck", "label": "Leverans" },
+        { "value": "stopwatch", "label": "Snabb" },
+        { "value": "star", "label": "Stjärna" },
+        { "value": "check_box", "label": "Bock" }
+      ],
+      "default": "stopwatch"
+    },
+    {
+      "type": "url",
+      "id": "trust_2_link",
+      "label": "Punkt 2 – länk (valfri)"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Punkt 3"
+    },
+    {
+      "type": "select",
+      "id": "trust_3_icon",
+      "label": "Punkt 3 – ikon",
+      "options": [
+        { "value": "truck", "label": "Leverans" },
+        { "value": "stopwatch", "label": "Snabb" },
+        { "value": "star", "label": "Stjärna" },
+        { "value": "check_box", "label": "Bock" }
+      ],
+      "default": "star"
+    },
+    {
+      "type": "url",
+      "id": "trust_3_link",
+      "label": "Punkt 3 – länk (valfri)"
+    },
+    {
+      "type": "header",
+      "content": "Signatur och bottenrad"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wordmark",
+      "label": "Visa stort varumärkesnamn",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "wordmark",
+      "label": "Varumärkesnamn",
+      "info": "Lämnas tomt används butikens namn."
+    },
+    {
+      "type": "text",
+      "id": "company_text",
+      "label": "Företagsuppgifter",
+      "info": "Delar separerade med \" · \" visas som egna delar."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NR: Footer"
+    }
+  ]
+}
+{% endschema %}

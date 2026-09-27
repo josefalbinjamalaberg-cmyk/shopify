@@ -1,0 +1,48 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "nr_footer": {
+      "type": "nr-footer",
+      "settings": {
+        "tagline": "Bilvård utan kompromisser, från första steg till sista finish.",
+        "show_newsletter": true,
+        "newsletter_heading": "Få 10% på ditt första köp",
+        "newsletter_text": "Produktnyheter, guider och exklusiva erbjudanden direkt i inkorgen.",
+        "privacy_text": "Genom att registrera dig godkänner du att ta emot marknadsföring via e-post från NordicReflection. Du kan avsluta prenumerationen när som helst.",
+        "privacy_link": "shopify://pages/integritetspolicy",
+        "privacy_link_label": "Läs vår integritetspolicy",
+        "menu_1": "nr-footer-handla",
+        "menu_1_heading": "Handla",
+        "menu_2": "footer-wash-steps",
+        "menu_2_heading": "Tvättsteg",
+        "menu_3": "nr-footer-hjalp",
+        "menu_3_heading": "Hjälp",
+        "menu_4": "nr-footer-foretaget",
+        "menu_4_heading": "Företaget",
+        "trust_1": "Fri frakt över 799 kr",
+        "trust_1_icon": "truck",
+        "trust_2": "Skickas normalt senast nästa vardag",
+        "trust_2_icon": "stopwatch",
+        "trust_3": "4.7 av 5 på Trustpilot",
+        "trust_3_icon": "star",
+        "trust_3_link": "https://se.trustpilot.com/review/nordicreflection.se",
+        "show_wordmark": true,
+        "wordmark": "",
+        "company_text": "NordicReflection · HyperGloss Scandinavia AB · Org.nr 559523-6976"
+      }
+    }
+  },
+  "order": [
+    "nr_footer"
+  ]
+}

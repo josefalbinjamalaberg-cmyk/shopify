@@ -36,7 +36,7 @@
         "announcement_1": {
           "type": "_announcement",
           "settings": {
-            "text": "Fri frakt över 799kr",
+            "text": "Fri frakt över 799 kr",
             "link": "",
             "font": "var(--font-body--family)",
             "font_size": "0.75rem",
@@ -51,7 +51,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "4.7 / 5 på Trustpilot",
+            "text": "4.7 av 5 på Trustpilot",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
@@ -173,7 +173,41 @@
             "text_color_navigation_bar": "",
             "drawer_accordion": true,
             "drawer_accordion_expand_first": false,
-            "drawer_dividers": true
+            "drawer_dividers": true,
+            "accessory_subheading": "Dukar, borstar och tvättutrustning.",
+            "interior_subheading": "Rengöring för bilens insida.",
+            "interior_aside_title": "Färdiga interiörpaket",
+            "interior_aside_text": "Rätt produkter tillsammans, till ett bättre paketpris.",
+            "interior_aside_products": [
+              "interiorpaket-grundlaggande-interiorvard",
+              "mellan-interior-startkit",
+              "stort-interior-startkit"
+            ],
+            "interior_aside_link_url": "shopify://collections/fardiga-paket",
+            "interior_aside_link_label": "Se alla färdiga paket",
+            "kits_menu_title": "Färdiga paket",
+            "kits_subheading": "Rätt produkter tillsammans, till ett bättre paketpris.",
+            "kits_view_all_url": "shopify://collections/fardiga-paket",
+            "kits_view_all_label": "Se alla färdiga paket",
+            "kits_group_1_title": "Exteriör",
+            "kits_group_1_products": [
+              "litet-exterior-startkit",
+              "foam-wash-kit",
+              "exterior-komplett-kit"
+            ],
+            "kits_group_2_title": "Fälg & däck",
+            "kits_group_2_products": [
+              "falg-startkit",
+              "falg-och-dack-komplett-kit"
+            ],
+            "kits_group_3_title": "Interiör",
+            "kits_group_3_products": [
+              "interiorpaket-grundlaggande-interiorvard",
+              "mellan-interior-startkit",
+              "stort-interior-startkit"
+            ],
+            "kits_badge_product": "exterior-komplett-kit",
+            "kits_badge_text": "Bästsäljande kit"
           },
           "blocks": {}
         }
