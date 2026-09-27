@@ -880,5 +880,11 @@
     "seen": 1790519232.5092335,
     "ast_hash": "0a1670fc49edd1bb8cce430c2c26491a",
     "semantic_hash": ""
+  },
+  "docs/pdp/architecture.md": {
+    "mtime": 1790519396.9727309,
+    "seen": 1790519404.2503526,
+    "ast_hash": "b46222d395d24664c84cbf22ac761ad6",
+    "semantic_hash": ""
   }
 }
