@@ -111,6 +111,16 @@
             id="NrPdpWhenHeading"
           {% endif %}
         >
+          {%- comment -%}
+            Stable deep-link targets for collection pages: generic #jamfor on every
+            comparison, plus one derived from the heading ("Vilken avfettning
+            behöver du?" → #vilken-avfettning).
+          {%- endcomment -%}
+          {%- assign compare_anchor = compare_heading | handleize | remove: '-behover-du' -%}
+          <span class="nr-pdp-anchor" id="jamfor" aria-hidden="true"></span>
+          {%- if compare_anchor != blank and compare_anchor != 'jamfor' -%}
+            <span class="nr-pdp-anchor" id="{{ compare_anchor }}" aria-hidden="true"></span>
+          {%- endif -%}
           <h2 class="nr-pdp-compare__heading">{{ compare_heading | escape }}</h2>
           <div class="nr-pdp-compare__grid">
             <div class="nr-pdp-compare__col is-current">

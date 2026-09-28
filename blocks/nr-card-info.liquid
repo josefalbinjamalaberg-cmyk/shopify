@@ -1,0 +1,72 @@
+{%- comment -%}
+  NordicReflection – product card text for collection pages.
+  Hierarchy: use-case label → short name → what it does → price → add.
+  All copy comes from product data:
+    label  = nrc.card_label, else first value of the section's nrc.intent_* list
+    name   = nrc.card_name, else product title
+    line   = nrc.card_line, else pdp.value_line
+  Single-variant products add straight to the cart (Horizon quick add → cart
+  drawer); products with options get "Välj alternativ" (Horizon quick-add modal).
+{%- endcomment -%}
+{%- liquid
+  assign product = closest.product
+  assign intent_key = section.settings.card_intent | default: 'intent_exterior'
+
+  assign label = product.metafields.nrc.card_label.value
+  if label == blank
+    assign intents = product.metafields.nrc[intent_key].value
+    if intents != blank
+      assign label = intents.first.label.value
+    endif
+  endif
+  if label == blank
+    assign label = product.metafields.pdp.type_label.value
+  endif
+
+  assign name = product.metafields.nrc.card_name.value | default: product.title
+  assign line = product.metafields.nrc.card_line.value | default: product.metafields.pdp.value_line.value
+-%}
+{%- if product != blank -%}
+  <div class="nr-card" {{ block.shopify_attributes }}>
+    {%- if label != blank -%}
+      <p class="nr-card__label">{{ label | escape }}</p>
+    {%- endif -%}
+    <h3 class="nr-card__name">
+      <a href="{{ product.url }}" class="nr-card__link" data-nr-card-link>{{ name | escape }}</a>
+    </h3>
+    {%- if line != blank -%}
+      <p class="nr-card__line">{{ line | escape }}</p>
+    {%- endif -%}
+    <p class="nr-card__price">
+      {%- if product.price_varies -%}<span class="nr-card__from">fr.</span> {% endif -%}
+      {%- if product.compare_at_price > product.price -%}
+        <span class="visually-hidden">Nu</span>
+        <span class="nr-card__price-now">{{ product.price | money }}</span>
+        <span class="visually-hidden">Ordinarie pris</span>
+        <s class="nr-card__price-was">{{ product.compare_at_price | money }}</s>
+      {%- else -%}
+        {{ product.price | money }}
+      {%- endif -%}
+    </p>
+    <div class="nr-card__add">
+      {%- if product.available -%}
+        {% render 'quick-add', product: product, section_id: section.id, block: block %}
+      {%- else -%}
+        <button type="button" class="nr-card__soldout" disabled>Slutsåld</button>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Produktkort – text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Etikett, kort namn, en mening och pris hämtas från produktens metafält (nrc.*). Knappen lägger enkla produkter direkt i varukorgen; produkter med val visar Välj alternativ."
+    }
+  ]
+}
+{% endschema %}

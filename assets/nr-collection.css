@@ -1,0 +1,540 @@
+/*
+  NordicReflection – collection pages (sections/nr-collection.liquid).
+  Calm, editorial, product-first: compact intro, chip row, thin dividers,
+  no card boxes, no shadows. Neutral palette; colour is never the only signal.
+*/
+
+.nr-coll {
+  --nr-ink: var(--color-foreground, #000);
+  --nr-muted: rgb(var(--color-foreground-rgb, 0 0 0) / 0.62);
+  --nr-line: rgb(var(--color-foreground-rgb, 0 0 0) / 0.12);
+  --nr-surface: #f5f5f2;
+  --nr-radius: 999px;
+  --nr-focus: 2px solid var(--nr-ink);
+}
+
+/* ---------- 1. Intro ---------- */
+.nr-coll__head {
+  padding-block: 28px 4px;
+}
+
+.nr-coll-intro {
+  max-width: 44rem;
+}
+
+.nr-coll-intro__eyebrow {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--nr-muted);
+}
+
+.nr-coll-intro__title {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+
+.nr-coll-intro__copy {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--nr-muted);
+  max-width: 38rem;
+}
+
+.nr-coll-intro__trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--nr-ink);
+  text-decoration: none;
+}
+
+.nr-coll-intro__trust:hover span:last-child {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nr-coll-intro__stars {
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+/* ---------- 2. Intent chips ---------- */
+.nr-coll-intents {
+  margin-top: 24px;
+}
+
+.nr-coll-intents__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  margin-bottom: 12px;
+}
+
+.nr-coll-intents__heading {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nr-coll-help {
+  margin: 0;
+  font-size: 13px;
+  color: var(--nr-muted);
+}
+
+.nr-coll-help a,
+.nr-coll-tip a,
+.nr-coll-cross a {
+  color: var(--nr-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.nr-coll-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--nr-line);
+  border-radius: var(--nr-radius);
+  background: #fff;
+  color: var(--nr-ink);
+  font-size: 13.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.nr-chip:hover {
+  border-color: var(--nr-ink);
+}
+
+.nr-chip:focus-visible,
+.nr-coll-active a:focus-visible,
+.nr-coll-cta:focus-visible,
+.nr-card__link:focus-visible {
+  outline: var(--nr-focus);
+  outline-offset: 2px;
+}
+
+.nr-chip__check {
+  display: none;
+  flex: none;
+}
+
+.nr-chip[aria-current='true'] {
+  background: var(--nr-ink);
+  border-color: var(--nr-ink);
+  color: #fff;
+}
+
+.nr-chip[aria-current='true'] .nr-chip__check {
+  display: block;
+}
+
+/* Mobile: one swipeable row so the products stay close to the top */
+@media screen and (max-width: 749px) {
+  .nr-coll-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--page-margin, 16px));
+    padding-inline: var(--page-margin, 16px);
+    scroll-padding-inline: var(--page-margin, 16px);
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+
+  .nr-coll-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nr-coll-chips > li {
+    scroll-snap-align: start;
+  }
+
+  .nr-coll-chips > li:last-child {
+    padding-inline-end: 32px;
+  }
+}
+
+.nr-coll-admin-note {
+  margin: 20px 0 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--nr-line);
+  font-size: 13px;
+  color: var(--nr-muted);
+}
+
+/* ---------- Tip line (e.g. Interiör) ---------- */
+.nr-coll-tip {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--nr-muted);
+}
+
+.nr-coll-tip strong {
+  color: var(--nr-ink);
+  font-weight: 600;
+}
+
+/* ---------- 3–4. Count + active filters ---------- */
+.nr-coll-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 20px;
+}
+
+.nr-coll-status__count {
+  margin: 0;
+  font-size: 13px;
+  color: var(--nr-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-coll-active {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-coll-active__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: var(--nr-radius);
+  background: var(--nr-surface);
+  color: var(--nr-ink);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.nr-coll-active__pill span {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.nr-coll-active__pill:hover {
+  background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.1);
+}
+
+.nr-coll-active__clear {
+  font-size: 13px;
+  color: var(--nr-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 6px 0;
+}
+
+/* Horizon's own count, clear-all and pills would duplicate the row above */
+.nr-coll .products-count-wrapper,
+.nr-coll .facets-remove,
+.nr-coll .facets-horizontal-remove {
+  display: none;
+}
+
+/* ---------- Toolbar (Horizon filters block) ---------- */
+.nr-coll .facets--horizontal {
+  border-top: 1px solid var(--nr-line);
+  border-bottom: 1px solid var(--nr-line);
+}
+
+@media screen and (max-width: 749px) {
+  .nr-coll .facets-toggle {
+    margin-top: 12px;
+    border-top: 1px solid var(--nr-line);
+    border-bottom: 1px solid var(--nr-line);
+  }
+
+  .nr-coll .facets-toggle__button {
+    min-height: 44px;
+    font-weight: 500;
+  }
+}
+
+/* ---------- 5. Product cards ---------- */
+.nr-coll .card-gallery {
+  background: var(--nr-surface);
+}
+
+.nr-coll .card-gallery img {
+  object-fit: contain;
+}
+
+/* The card text block carries the add button; hide the image-overlay duplicate */
+.nr-coll .card-gallery quick-add-component,
+.nr-coll .card-gallery slideshow-arrows {
+  display: none;
+}
+
+.nr-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 100%;
+  padding-top: 2px;
+}
+
+.nr-card__label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nr-muted);
+}
+
+.nr-card__name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+
+.nr-card__link {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  z-index: 2;
+}
+
+.nr-card__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nr-card__line {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--nr-muted);
+}
+
+.nr-card__price {
+  margin: 4px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-card__from {
+  font-weight: 400;
+  color: var(--nr-muted);
+}
+
+.nr-card__price-was {
+  margin-left: 6px;
+  font-weight: 400;
+  color: var(--nr-muted);
+}
+
+.nr-card__add {
+  margin-top: auto;
+  padding-top: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Horizon quick add, re-seated as a quiet full-width text button */
+.nr-card__add .quick-add {
+  position: static;
+  inset: auto;
+  pointer-events: auto;
+}
+
+.nr-card__add .quick-add__product-form-component,
+.nr-card__add .quick-add__product-form-component .shopify-product-form {
+  display: block;
+  height: auto;
+}
+
+.nr-card__add .quick-add__button,
+.nr-card__soldout {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 44px;
+  height: 44px;
+  padding: 0 12px;
+  max-inline-size: none;
+  opacity: 1;
+  border: 1px solid var(--nr-ink);
+  border-radius: var(--nr-radius);
+  background: transparent;
+  color: var(--nr-ink);
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: none;
+  scale: 1;
+  cursor: pointer;
+}
+
+.nr-card__add .quick-add__button:hover {
+  background: var(--nr-ink);
+  color: #fff;
+  scale: 1;
+}
+
+.nr-card__add .quick-add__button > .add-to-cart-icon {
+  display: none;
+}
+
+.nr-card__add .quick-add__button[data-added='true'] {
+  width: 100%;
+  color: var(--nr-ink);
+}
+
+.nr-card__soldout {
+  border-color: var(--nr-line);
+  color: var(--nr-muted);
+  cursor: not-allowed;
+}
+
+/* 2-column mobile grid: label + name + price; the sentence would not fit */
+@media screen and (max-width: 749px) {
+  .nr-card__line {
+    display: none;
+  }
+
+  .nr-card__name {
+    font-size: 15px;
+  }
+
+  .nr-card__label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .nr-card__add .quick-add__button,
+  .nr-card__soldout {
+    font-size: 13px;
+  }
+}
+
+/* ---------- 6. Empty state ---------- */
+.nr-coll-empty {
+  grid-column: 1 / -1;
+  padding: 48px 0 32px;
+  text-align: center;
+}
+
+.nr-coll-empty__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.nr-coll-empty__text {
+  margin: 8px 0 20px;
+  color: var(--nr-muted);
+}
+
+.nr-coll-empty__button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: var(--nr-radius);
+  background: var(--nr-ink);
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* ---------- 7. CTA + cross-links ---------- */
+.nr-coll__foot {
+  display: grid;
+  gap: 20px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--nr-line);
+}
+
+.nr-coll-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--nr-line);
+  color: var(--nr-ink);
+  text-decoration: none;
+}
+
+.nr-coll-cta__eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nr-coll-cta__link {
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.nr-coll-cta:hover .nr-coll-cta__link {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.nr-coll-cross {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--nr-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nr-chip {
+    transition: none;
+  }
+}

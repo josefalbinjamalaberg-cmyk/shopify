@@ -1,0 +1,441 @@
+{%- comment -%}
+  NordicReflection – collection page ("shopping hub").
+
+  One section for Exteriör, Interiör and Tillbehör; the shopping logic is set
+  per template through settings, never hardcoded per product:
+    - primary_filter: native Search & Discovery filter (e.g.
+      filter.p.m.nrc.intent_exterior) rendered as "Vad vill du lösa?" chips.
+      Chips are plain links to Shopify's own filter URLs, so reload, sharing
+      and the back button work; nr-collection.js upgrades them to the theme's
+      in-place (section rendering) update.
+    - secondary_filters: extra native filters shown in the toolbar/drawer.
+      Every other storefront filter is left out on this page.
+    - card_intent: which nrc.intent_* list gives the small use-case label on
+      each product card (first value = primary job).
+
+  Filtering, sorting, the mobile drawer, pagination and the product card are
+  Horizon's own blocks (filters, _product-card); this section only adds the
+  intro, chips, active-filter row, count, empty state and small links.
+{%- endcomment -%}
+
+<script
+  src="{{ 'results-list.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'nr-collection.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+{{ 'nr-collection.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign ss = section.settings
+  assign primary_param = ss.primary_filter | strip
+
+  # --- Filters allowed on this page (native Shopify filter objects) ---
+  assign primary = nil
+  assign nr_filters = collection.filters | where: 'param_name', primary_param
+  if nr_filters.size > 0
+    assign primary = nr_filters.first
+  endif
+  assign secondary_params = ss.secondary_filters | split: ','
+  for p in secondary_params
+    assign secondary_param = p | strip
+    if secondary_param != blank and secondary_param != primary_param
+      assign extra = collection.filters | where: 'param_name', secondary_param
+      assign nr_filters = nr_filters | concat: extra
+    endif
+  endfor
+
+  assign active_count = 0
+  for f in nr_filters
+    assign n = f.active_values | size
+    assign active_count = active_count | plus: n
+  endfor
+
+  # --- Base URLs ---
+  assign sort_suffix = ''
+  if collection.sort_by != blank
+    assign sort_suffix = '?sort_by=' | append: collection.sort_by
+  endif
+  assign clear_all_url = collection.url | append: sort_suffix
+
+  assign count = collection.products_count
+  if count == 1
+    assign count_label = '1 produkt'
+  else
+    assign count_label = count | append: ' produkter'
+  endif
+
+  assign heading = ss.heading | default: collection.title
+  assign eyebrow = ss.eyebrow | default: collection.title
+%}
+
+{% render 'collection-wrapper-styles' %}
+
+<div class="section-background"></div>
+{% # theme-check-disable-next-line UnknownFilter %}
+<collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
+  <results-list
+    class="section product-grid-container nr-coll"
+    style="--padding-block-start: {{ ss.padding-block-start }}px; --padding-block-end: {{ ss.padding-block-end }}px;"
+    section-id="{{ section.id }}"
+    infinite-scroll="{{ ss.enable_infinite_scroll }}"
+    data-nr-collection="{{ collection.handle }}"
+    data-nr-collection-title="{{ collection.title | escape }}"
+  >
+    {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
+
+    <div class="nr-coll__head page-width">
+      {%- comment -%} 1. Compact intro {%- endcomment -%}
+      <header class="nr-coll-intro">
+        {%- if eyebrow != blank -%}
+          <p class="nr-coll-intro__eyebrow">{{ eyebrow | escape }}</p>
+        {%- endif -%}
+        <h1 class="nr-coll-intro__title">{{ heading | escape }}</h1>
+        {%- liquid
+          assign intro = ss.intro
+          if intro == blank
+            assign intro = collection.description | strip_html | strip
+          endif
+        -%}
+        {%- if intro != blank -%}
+          <p class="nr-coll-intro__copy">{{ intro }}</p>
+        {%- endif -%}
+        {%- if ss.show_trust and settings.nr_trustpilot_rating != blank -%}
+          <a
+            class="nr-coll-intro__trust"
+            href="{{ settings.nr_trustpilot_url | default: '#' }}"
+            target="_blank"
+            rel="noopener"
+            data-nr-event="trustpilot_click"
+          >
+            <span class="nr-coll-intro__stars" aria-hidden="true">★★★★★</span>
+            <span>NordicReflection {{ settings.nr_trustpilot_rating | replace: '.', ',' }}/5 på Trustpilot</span>
+          </a>
+        {%- endif -%}
+      </header>
+
+      {%- comment -%} 2. Quick shopping intents (native filter values as chips) {%- endcomment -%}
+      {%- if primary != nil and primary.values.size > 0 -%}
+        {%- liquid
+          assign base_url = primary.url_to_remove
+          if base_url contains '?'
+            assign joiner = '&'
+          else
+            assign joiner = '?'
+          endif
+
+          # Curated chip order by metaobject handle; values not listed follow in Shopify's order.
+          assign ordered_str = '||'
+          assign handles = ss.chip_order | split: ','
+          for h in handles
+            assign chip_handle = h | strip
+            assign mo = shop.metaobjects.nr_filter_value[chip_handle]
+            if mo != blank
+              assign ordered_str = ordered_str | append: mo.label.value | append: '||'
+            endif
+          endfor
+          for v in primary.values
+            assign needle = '||' | append: v.label | append: '||'
+            unless ordered_str contains needle
+              assign ordered_str = ordered_str | append: v.label | append: '||'
+            endunless
+          endfor
+          assign ordered_labels = ordered_str | split: '||'
+          assign intent_heading = ss.intent_heading | default: primary.label
+        -%}
+        <nav class="nr-coll-intents" aria-labelledby="NrIntents-{{ section.id }}">
+          <div class="nr-coll-intents__top">
+            <h2 class="nr-coll-intents__heading" id="NrIntents-{{ section.id }}">{{ intent_heading | escape }}</h2>
+            {%- if ss.help_label != blank and ss.help_url != blank -%}
+              <p class="nr-coll-help">
+                {%- if ss.help_question != blank -%}<span>{{ ss.help_question | escape }}</span> {% endif -%}
+                <a href="{{ ss.help_url }}" data-nr-event="collection_help_click">{{ ss.help_label | escape }} <span aria-hidden="true">→</span></a>
+              </p>
+            {%- endif -%}
+          </div>
+          <ul class="nr-coll-chips" role="list">
+            <li>
+              <a
+                class="nr-chip"
+                href="{{ base_url }}"
+                data-nr-filter-link
+                data-nr-filter="{{ primary.param_name | escape }}"
+                data-nr-value="all"
+                {% if primary.active_values.size == 0 %}
+                  aria-current="true"
+                {% endif %}
+              >
+                {%- render 'nr-chip-check' -%}
+                Visa alla
+              </a>
+            </li>
+            {%- for label in ordered_labels -%}
+              {%- if label == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign value = primary.values | where: 'label', label | first -%}
+              {%- if value == blank -%}{%- continue -%}{%- endif -%}
+              {%- liquid
+                if value.active
+                  if primary.active_values.size > 1
+                    assign chip_url = value.url_to_remove
+                  else
+                    assign chip_url = base_url
+                  endif
+                else
+                  # Single choice per chip row: drop this filter's current value, then add this one.
+                  assign encoded_value = value.value | url_encode
+                  assign chip_url = base_url | append: joiner | append: value.param_name | append: '=' | append: encoded_value
+                endif
+              -%}
+              <li>
+                <a
+                  class="nr-chip"
+                  href="{{ chip_url }}"
+                  data-nr-filter-link
+                  data-nr-filter="{{ primary.param_name | escape }}"
+                  data-nr-value="{{ value.label | escape }}"
+                  {% if value.active %}
+                    aria-current="true"
+                  {% endif %}
+                >
+                  {%- render 'nr-chip-check' -%}
+                  {{ value.label | escape }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- elsif request.design_mode -%}
+        <p class="nr-coll-admin-note">
+          Snabbvalen visas när filtret <code>{{ primary_param }}</code> är aktiverat i Search &amp; Discovery → Filter.
+        </p>
+      {%- endif -%}
+
+      {%- comment -%} Optional small guidance line (e.g. Interiör starter tip) – only in the unfiltered view {%- endcomment -%}
+      {%- if ss.tip_text != blank and active_count == 0 -%}
+        <p class="nr-coll-tip">
+          {%- if ss.tip_heading != blank -%}<strong>{{ ss.tip_heading | escape }}</strong> {% endif -%}
+          <span>{{ ss.tip_text | escape }}</span>
+          {%- if ss.tip_label != blank and ss.tip_url != blank %}
+            <a href="{{ ss.tip_url }}" data-nr-event="collection_tip_click">{{ ss.tip_label | escape }} <span aria-hidden="true">→</span></a>
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+
+      {%- comment -%} 3–4. Count + active filters (the filter/sort controls follow in Horizon's toolbar) {%- endcomment -%}
+      <div class="nr-coll-status">
+        <p class="nr-coll-status__count" role="status" aria-live="polite">{{ count_label }}</p>
+        {%- if active_count > 0 -%}
+          <ul class="nr-coll-active" role="list" aria-label="Aktiva filter">
+            {%- for f in nr_filters -%}
+              {%- for v in f.active_values -%}
+                <li>
+                  <a
+                    class="nr-coll-active__pill"
+                    href="{{ v.url_to_remove }}"
+                    data-nr-filter-link
+                    data-nr-filter="{{ f.param_name | escape }}"
+                    data-nr-value="{{ v.label | escape }}"
+                    data-nr-remove
+                    aria-label="Ta bort filter: {{ v.label | escape }}"
+                  >
+                    {{- v.label | escape -}}
+                    <span aria-hidden="true">×</span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            {%- endfor -%}
+            <li>
+              <a
+                class="nr-coll-active__clear"
+                href="{{ clear_all_url }}"
+                data-nr-filter-link
+                data-nr-clear
+              >
+                Rensa alla
+              </a>
+            </li>
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div
+      class="collection-wrapper grid gap-style{% if ss.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+    >
+      {% content_for 'block',
+        type: 'filters',
+        id: 'filters',
+        results: collection,
+        results_size: collection.products_count,
+        filters: nr_filters
+      %}
+
+      {% assign products_per_page = 24 %}
+      {% if ss.enable_infinite_scroll == false %}
+        {% assign products_per_page = ss.products_per_page %}
+      {% endif %}
+
+      {% paginate collection.products by products_per_page %}
+        {%- if collection.products.size == 0 -%}
+          {%- comment -%} 6. Empty state – explain and offer a way out {%- endcomment -%}
+          <div class="nr-coll-empty" id="ResultsList">
+            <h2 class="nr-coll-empty__title">Inga produkter matchar alla val</h2>
+            <p class="nr-coll-empty__text">Prova att ta bort ett filter.</p>
+            <a class="nr-coll-empty__button" href="{{ clear_all_url }}" data-nr-filter-link data-nr-clear>Rensa filter</a>
+          </div>
+        {%- else -%}
+          {% capture children %}
+            {% for product in collection.products %}
+              <li
+                id="{{ section.id }}-{{ product.id }}"
+                class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+                data-page="{{ paginate.current_page }}"
+                data-product-id="{{ product.id }}"
+                data-nr-product="{{ product.handle }}"
+                ref="cards[]"
+              >
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'product-card',
+                  closest.product: product,
+                  product_view_context: 'collection'
+                %}
+              </li>
+            {% endfor %}
+          {% endcapture %}
+
+          {% render 'product-grid',
+            section: section,
+            children: children,
+            products: collection.products,
+            paginate: paginate,
+            enable_infinite_scroll: ss.enable_infinite_scroll
+          %}
+        {%- endif -%}
+      {% endpaginate %}
+    </div>
+
+    {%- comment -%} 7. Small editorial CTA + cross-links {%- endcomment -%}
+    {%- liquid
+      assign has_cta = false
+      if ss.cta_heading != blank and ss.cta_url != blank
+        assign has_cta = true
+      endif
+      assign has_foot = has_cta
+      if ss.cross_text != blank
+        assign has_foot = true
+      endif
+    -%}
+    {%- if has_foot -%}
+      <div class="nr-coll__foot page-width">
+        {%- if has_cta -%}
+          <a class="nr-coll-cta" href="{{ ss.cta_url }}" data-nr-event="collection_cta_click">
+            <span class="nr-coll-cta__eyebrow">{{ ss.cta_heading | escape }}</span>
+            <span class="nr-coll-cta__link">{{ ss.cta_label | escape }} <span aria-hidden="true">→</span></span>
+          </a>
+        {%- endif -%}
+        {%- if ss.cross_text != blank -%}
+          <p class="nr-coll-cross">
+            <span>{{ ss.cross_text | escape }}</span>
+            {%- if ss.cross_label_1 != blank and ss.cross_url_1 != blank %}
+              <a href="{{ ss.cross_url_1 }}" data-nr-event="collection_crosslink_click">{{ ss.cross_label_1 | escape }} <span aria-hidden="true">→</span></a>
+            {%- endif -%}
+            {%- if ss.cross_label_2 != blank and ss.cross_url_2 != blank %}
+              <a href="{{ ss.cross_url_2 }}" data-nr-event="collection_crosslink_click">{{ ss.cross_label_2 | escape }} <span aria-hidden="true">→</span></a>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </results-list>
+</collection-component>
+
+{%- comment -%}
+  The primary filter is already on screen as chips, so its desktop dropdown in
+  the toolbar is hidden (it stays in the mobile drawer for multi-select).
+{%- endcomment -%}
+{%- if primary_param != blank -%}
+  {%- assign primary_dom = primary_param | escape | replace: '.', '-' -%}
+  <style>
+    @media screen and (min-width: 750px) {
+      #shopify-section-{{ section.id }} .facets--horizontal [id$="-{{ primary_dom }}"] { display: none; }
+    }
+  </style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kollektion",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    { "type": "header", "content": "Intro" },
+    { "type": "text", "id": "eyebrow", "label": "Överrubrik", "info": "Tomt = kollektionens namn." },
+    { "type": "text", "id": "heading", "label": "Rubrik (H1)", "info": "Tomt = kollektionens namn." },
+    { "type": "textarea", "id": "intro", "label": "Ingress (en–två meningar)", "info": "Tomt = kollektionens beskrivning." },
+    { "type": "checkbox", "id": "show_trust", "label": "Visa Trustpilot-rad (en gång på sidan)", "default": true },
+    { "type": "header", "content": "Snabbval (filterchips)" },
+    { "type": "text", "id": "intent_heading", "label": "Fråga ovanför snabbvalen", "default": "Vad vill du lösa?" },
+    { "type": "text", "id": "primary_filter", "label": "Primärt filter (parameter)", "default": "filter.p.m.nrc.intent_exterior", "info": "Search & Discovery-filtrets parameter, t.ex. filter.p.m.nrc.intent_exterior." },
+    { "type": "text", "id": "chip_order", "label": "Ordning på snabbval (handles)", "info": "Kommaseparerade handles för NR – Filtervärde, t.ex. traffic-film, tar, iron." },
+    { "type": "text", "id": "secondary_filters", "label": "Sekundära filter (parametrar)", "info": "Kommaseparerat. Tomt = inga fler filter. Övriga butiksfilter visas inte på den här sidan." },
+    { "type": "select", "id": "card_intent", "label": "Etikett på produktkort från", "default": "intent_exterior", "options": [
+      { "value": "intent_exterior", "label": "Exteriör – problem" },
+      { "value": "intent_interior", "label": "Interiör – behov" },
+      { "value": "intent_accessories", "label": "Tillbehör – jobb" }
+    ] },
+    { "type": "header", "content": "Hjälplänk vid snabbvalen" },
+    { "type": "text", "id": "help_question", "label": "Fråga" },
+    { "type": "text", "id": "help_label", "label": "Länktext" },
+    { "type": "url", "id": "help_url", "label": "Länk" },
+    { "type": "header", "content": "Tips (visas bara utan aktiva filter)" },
+    { "type": "text", "id": "tip_heading", "label": "Rubrik" },
+    { "type": "text", "id": "tip_text", "label": "Text" },
+    { "type": "text", "id": "tip_label", "label": "Länktext" },
+    { "type": "url", "id": "tip_url", "label": "Länk" },
+    { "type": "header", "content": "Under produkterna" },
+    { "type": "text", "id": "cta_heading", "label": "Liten CTA – överrubrik" },
+    { "type": "text", "id": "cta_label", "label": "Liten CTA – länktext" },
+    { "type": "url", "id": "cta_url", "label": "Liten CTA – länk" },
+    { "type": "text", "id": "cross_text", "label": "Korslänk – fråga" },
+    { "type": "text", "id": "cross_label_1", "label": "Korslänk 1 – text" },
+    { "type": "url", "id": "cross_url_1", "label": "Korslänk 1 – länk" },
+    { "type": "text", "id": "cross_label_2", "label": "Korslänk 2 – text" },
+    { "type": "url", "id": "cross_url_2", "label": "Korslänk 2 – länk" },
+    { "type": "header", "content": "Produktrutnät" },
+    { "type": "select", "id": "layout_type", "label": "t:settings.type", "options": [
+      { "value": "grid", "label": "t:options.grid" },
+      { "value": "organic", "label": "t:options.editorial" }
+    ], "default": "grid" },
+    { "type": "select", "id": "product_card_size", "label": "t:settings.card_size", "options": [
+      { "value": "small", "label": "t:options.small" },
+      { "value": "medium", "label": "t:options.medium" },
+      { "value": "large", "label": "t:options.large" },
+      { "value": "extra-large", "label": "t:options.extra_large" }
+    ], "default": "medium" },
+    { "type": "select", "id": "mobile_product_card_size", "label": "t:settings.mobile_card_size", "options": [
+      { "value": "small", "label": "t:options.small" },
+      { "value": "large", "label": "t:options.large" }
+    ], "default": "small" },
+    { "type": "checkbox", "id": "enable_infinite_scroll", "label": "t:settings.auto_load_products", "default": true },
+    { "type": "range", "id": "products_per_page", "label": "t:settings.products_per_page", "min": 8, "max": 36, "step": 4, "default": 24 },
+    { "type": "select", "id": "product_grid_width", "label": "t:settings.width", "options": [
+      { "value": "centered", "label": "t:options.page" },
+      { "value": "full-width", "label": "t:options.full" }
+    ], "default": "centered" },
+    { "type": "checkbox", "id": "full_width_on_mobile", "label": "t:settings.full_width_on_mobile", "default": false },
+    { "type": "range", "id": "columns_gap_horizontal", "label": "t:settings.horizontal_gap", "min": 0, "max": 50, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "columns_gap_vertical", "label": "t:settings.vertical_gap", "min": 0, "max": 50, "step": 1, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding-inline-start", "label": "t:settings.left_padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end", "label": "t:settings.right_padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-start", "label": "t:settings.top_padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-block-end", "label": "t:settings.bottom_padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 48 }
+  ],
+  "presets": []
+}
+{% endschema %}

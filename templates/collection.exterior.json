@@ -1,0 +1,118 @@
+{
+  "sections": {
+    "main": {
+      "type": "nr-collection",
+      "blocks": {
+        "filters": {
+          "type": "filters",
+          "static": true,
+          "settings": {
+            "enable_filtering": true,
+            "filter_style": "horizontal",
+            "filter_width": "centered",
+            "text_label_case": "default",
+            "show_swatch_label": false,
+            "show_filter_label": false,
+            "enable_sorting": true,
+            "enable_grid_density": false,
+            "background_color": "",
+            "text_color": "",
+            "padding-block-start": 8,
+            "padding-block-end": 8,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0,
+            "facets_margin_bottom": 8,
+            "facets_margin_right": 20
+          },
+          "blocks": {}
+        },
+        "product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 10,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "nr-card-info": {
+              "type": "nr-card-info",
+              "settings": {},
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "nr-card-info"
+          ]
+        }
+      },
+      "settings": {
+        "layout_type": "grid",
+        "product_card_size": "medium",
+        "mobile_product_card_size": "small",
+        "enable_infinite_scroll": true,
+        "products_per_page": 24,
+        "product_grid_width": "centered",
+        "full_width_on_mobile": false,
+        "columns_gap_horizontal": 20,
+        "columns_gap_vertical": 36,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 48,
+        "show_trust": true,
+        "eyebrow": "Exteriör",
+        "heading": "Allt för bilens utsida",
+        "intro": "Från grovsmuts och förtvätt till handtvätt, glas och finish. Välj vad du vill lösa så visar vi rätt produkter.",
+        "intent_heading": "Vad vill du lösa?",
+        "primary_filter": "filter.p.m.nrc.intent_exterior",
+        "chip_order": "traffic-film, tar, iron, foam, contact-wash, protection, glass, tyres-trim",
+        "secondary_filters": "",
+        "card_intent": "intent_exterior",
+        "help_question": "Osäker på vilken avfettning du behöver?",
+        "help_label": "Jämför Alkastrike och DeepDegrease",
+        "help_url": "/products/alkastrike-alkalisk-avfettning#vilken-avfettning",
+        "tip_heading": "",
+        "tip_text": "",
+        "tip_label": "",
+        "tip_url": "",
+        "cta_heading": "Vill du slippa välja?",
+        "cta_label": "Se våra färdiga tvättpaket",
+        "cta_url": "shopify://collections/fardiga-paket",
+        "cross_text": "Behöver du rätt verktyg?",
+        "cross_label_1": "Tillbehör",
+        "cross_url_1": "shopify://collections/accessories",
+        "cross_label_2": "",
+        "cross_url_2": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1374,3 +1374,13 @@ body:has(cart-drawer-component dialog[open]) .sticky-add-to-cart__bar {
     display: none;
   }
 }
+
+/* Deep-link anchors (e.g. /products/alkastrike…#vilken-avfettning from collection pages):
+   land below the sticky header instead of under it. */
+.nr-pdp-anchor {
+  display: block;
+  position: relative;
+  top: calc(-1 * (var(--header-height, 64px) + 16px));
+  height: 0;
+  visibility: hidden;
+}
