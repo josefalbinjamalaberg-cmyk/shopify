@@ -4,6 +4,8 @@
   for components without one, and the whole section hides when none have a
   video, so no media is ever invented. Videos load lazily (preload none,
   poster image) and never autoplay.
+  Source per component: custom.result_video, else the first VIDEO in its
+  standard-PDP demo media (pdp.demo_media) – both real NordicReflection clips.
 {%- enddoc -%}
 
 {%- liquid
@@ -12,6 +14,12 @@
   assign video_count = 0
   for component in components
     assign component_video = component.variant.value.product.metafields.custom.result_video.value
+    if component_video == blank
+      assign demo_first = component.variant.value.product.metafields.pdp.demo_media.value | first
+      if demo_first.media_type == 'video'
+        assign component_video = demo_first
+      endif
+    endif
     if component_video != blank
       assign video_count = video_count | plus: 1
     endif
@@ -38,6 +46,14 @@
           {%- liquid
             assign component_product = component.variant.value.product
             assign component_video = component_product.metafields.custom.result_video.value
+            if component_video == blank
+              assign demo_first = component_product.metafields.pdp.demo_media.value | first
+              if demo_first.media_type == 'video'
+                assign component_video = demo_first
+              else
+                assign component_video = nil
+              endif
+            endif
             assign short_name = component_product.title | split: ' – ' | first | split: ' - ' | first
             assign role = component.role.value | default: component_product.metafields.custom.product_category.value
           -%}

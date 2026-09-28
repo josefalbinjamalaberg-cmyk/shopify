@@ -29,6 +29,7 @@
 
   assign points = kit.metafields.custom.kit_value_points.value
   assign notice = kit.metafields.custom.kit_notice.value
+  assign notice_heading = kit.metafields.custom.kit_notice_heading.value | default: 'Viktigt att veta'
 -%}
 
 <div
@@ -62,10 +63,10 @@
   {%- endif -%}
 
   {%- if notice != blank -%}
-    <p class="nr-kit-notice">
-      <strong>Viktigt att veta:</strong>
-      {{ notice | escape | newline_to_br }}
-    </p>
+    <div class="nr-kit-notice">
+      <p class="nr-kit-notice__heading">{{ notice_heading | escape }}</p>
+      <p class="nr-kit-notice__text">{{ notice | escape | newline_to_br }}</p>
+    </div>
   {%- endif -%}
 </div>
 

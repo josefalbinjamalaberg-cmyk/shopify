@@ -120,10 +120,27 @@
                       <a
                         href="{{ family_kit.url }}"
                         class="nr-kit-link"
+                        data-nr-event="kit_family_click"
+                        data-nr-product="{{ family_kit.handle }}"
+                        data-nr-source="fit"
                       >
-                        {{- family_kit.title | escape -}}
+                        {{- family_kit.title | escape }} · {{ family_kit.price | money -}}
                         <span aria-hidden="true">→</span>
                       </a>
+                      {%- assign alt_points = family_kit.metafields.custom.kit_fit_points.value -%}
+                      {%- if alt_points != blank -%}
+                        <ul
+                          class="nr-kit-checklist nr-kit-checklist--quiet"
+                          role="list"
+                        >
+                          {%- for point in alt_points limit: 3 -%}
+                            <li>
+                              {%- render 'nr-kit-check' -%}
+                              <span>{{ point | escape }}</span>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
                     </li>
                   {%- endif -%}
                 {%- endfor -%}

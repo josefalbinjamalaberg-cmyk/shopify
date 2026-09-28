@@ -66,10 +66,10 @@
     "semantic_hash": "c951806aa8e9bad8e7493a8ba55347e7"
   },
   "templates/product.kit-exteriorstart.json": {
-    "mtime": 1790434549.850007,
-    "seen": 1790500988.7050378,
-    "ast_hash": "c951806aa8e9bad8e7493a8ba55347e7",
-    "semantic_hash": "c951806aa8e9bad8e7493a8ba55347e7"
+    "mtime": 1790615635.9729507,
+    "seen": 1790617073.6198502,
+    "ast_hash": "859c97c68215575d5eb9ec1a73366c3a",
+    "semantic_hash": ""
   },
   "templates/product.kit-falgdack.json": {
     "mtime": 1790434549.8531413,
@@ -108,10 +108,10 @@
     "semantic_hash": "3da2345a4de3b812a01b24991dd055c2"
   },
   "templates/product.kit.json": {
-    "mtime": 1790434549.848166,
-    "seen": 1790500988.7050436,
-    "ast_hash": "c951806aa8e9bad8e7493a8ba55347e7",
-    "semantic_hash": "c951806aa8e9bad8e7493a8ba55347e7"
+    "mtime": 1790615635.9727457,
+    "seen": 1790617073.6198668,
+    "ast_hash": "859c97c68215575d5eb9ec1a73366c3a",
+    "semantic_hash": ""
   },
   ".agents/skills/design-taste-frontend/SKILL.md": {
     "mtime": 1790499557.805384,

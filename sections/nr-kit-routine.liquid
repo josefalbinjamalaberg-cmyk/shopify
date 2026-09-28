@@ -9,11 +9,112 @@
            chronological routine. Only use when the order is confirmed.
   - false: "Vad varje del löser" — the same groups WITHOUT numbers or arrows,
            so no usage order is implied that hasn't been verified.
+
+  Preferred mode – custom.kit_routine (JSON), written per kit from verified
+  product instructions:
+    { "heading": "Din exteriörrutin", "lead": "…",
+      "stages": [ { "label": "Före handtvätten",
+                    "tasks": [ { "title": "Asfalt & tjära", "items": [1],
+                                 "text": "…" } ] } ] }
+  "items" are positions in custom.kit_components (1 = first component), so
+  images, names and links always come from the same product references.
+  Stages are joined with ↓ (a verified before/after relation); several tasks
+  inside one stage sit side by side (no order implied between them). Several
+  items inside one task are joined with "+" (used together, e.g. Foam
+  Cannon + Foamtastic). Without the JSON the section falls back to grouping
+  by component group (below).
 {%- enddoc -%}
 
 {%- liquid
   assign kit = product
   assign components = kit.metafields.custom.kit_components.value
+  assign routine = kit.metafields.custom.kit_routine.value
+-%}
+
+{%- if components != blank and routine != blank and routine.stages.size > 0 -%}
+  <div class="nr-kit-section nr-kit-section--soft nr-kit-routine nr-kit-routine--story">
+    <div class="nr-kit-container">
+      <header class="nr-kit-head">
+        <h2 class="nr-kit-h2">{{ routine.heading | default: section.settings.heading_tasks | escape }}</h2>
+        {%- if routine.lead != blank -%}
+          <p class="nr-kit-lead">{{ routine.lead | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ol
+        class="nr-kit-story"
+        role="list"
+      >
+        {%- for stage in routine.stages -%}
+          <li class="nr-kit-story__stage">
+            {%- if stage.label != blank -%}
+              <p class="nr-kit-story__label">
+                {%- if routine.numbered -%}
+                  <span aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }} </span>
+                {%- endif -%}
+                {{- stage.label | escape -}}
+              </p>
+            {%- endif -%}
+            <ul
+              class="nr-kit-story__tasks"
+              role="list"
+              style="--nr-kit-tasks: {{ stage.tasks.size }};"
+            >
+              {%- for task in stage.tasks -%}
+                <li class="nr-kit-story__task">
+                  <div class="nr-kit-story__items">
+                    {%- for n in task.items -%}
+                      {%- liquid
+                        assign position = n | minus: 1
+                        assign component = components[position]
+                        assign component_variant = component.variant.value
+                        assign component_product = component_variant.product
+                        assign component_image = component_variant.image | default: component_product.featured_image
+                        assign short_name = component_product.title | split: ' – ' | first | split: ' - ' | first
+                      -%}
+                      {%- if component_variant != blank -%}
+                        {%- unless forloop.first -%}
+                          <span
+                            class="nr-kit-story__plus"
+                            aria-hidden="true"
+                            >+</span
+                          >
+                        {%- endunless -%}
+                        <a
+                          class="nr-kit-story__item"
+                          href="{{ component_product.url }}"
+                        >
+                          <span class="nr-kit-media nr-kit-story__media">
+                            {%- if component_image != blank -%}
+                              {{
+                                component_image
+                                | image_url: width: 240
+                                | image_tag: loading: 'lazy', alt: '', widths: '120, 180, 240', sizes: '96px'
+                              }}
+                            {%- endif -%}
+                          </span>
+                          <span class="nr-kit-story__name">{{ short_name | escape }}</span>
+                        </a>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  <h3 class="nr-kit-story__title">{{ task.title | escape }}</h3>
+                  {%- if task.text != blank -%}
+                    <p class="nr-kit-story__text">{{ task.text | escape }}</p>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </li>
+        {%- endfor -%}
+      </ol>
+      {%- if routine.note != blank -%}
+        <p class="nr-kit-story__note">{{ routine.note | escape }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- else -%}
+{%- liquid
   assign verified = kit.metafields.custom.kit_routine_verified.value
 
   # Ordered, de-duplicated list of groups (a group appears once, at the
@@ -113,6 +214,7 @@
       </ol>
     </div>
   </div>
+{%- endif -%}
 {%- endif -%}
 
 {% schema %}

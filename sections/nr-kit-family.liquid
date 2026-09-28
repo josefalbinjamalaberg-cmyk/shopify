@@ -4,6 +4,12 @@
   on mobile. Each kit describes itself through its own metafields
   (custom.kit_eyebrow, custom.kit_card_line); the current kit is marked
   "Ditt val" and isn't linked. Prices are each kit's own price.
+
+  Per kit: product count (sum of component quantities), price, and – when a
+  smaller kit in the same family is fully contained in it – "Allt i <kit>,
+  plus:" followed by exactly the components it adds. The additions are
+  computed from the component variant references, never typed by hand, so
+  Litet → Mellan → Stort always shows the real difference.
 {%- enddoc -%}
 
 {%- liquid
@@ -23,9 +29,10 @@
         {%- endif -%}
       </header>
 
-      <ul
+      <ol
         class="nr-kit-family__list"
         role="list"
+        style="--nr-kit-family: {{ family.size | at_most: 3 }};"
       >
         {%- for family_kit in family limit: 3 -%}
           {%- liquid
@@ -35,6 +42,35 @@
             endif
             assign family_eyebrow = family_kit.metafields.custom.kit_eyebrow.value
             assign family_line = family_kit.metafields.custom.kit_card_line.value
+            assign fk_components = family_kit.metafields.custom.kit_components.value
+
+            assign fk_count = 0
+            assign fk_ids = '|'
+            for c in fk_components
+              assign q = c.quantity.value | default: 1
+              assign fk_count = fk_count | plus: q
+              assign fk_ids = fk_ids | append: c.variant.value.id | append: '|'
+            endfor
+
+            # Largest other kit in the family that is fully contained in this one
+            assign base_kit = nil
+            assign base_size = 0
+            for other in family
+              if other.id != family_kit.id
+                assign other_components = other.metafields.custom.kit_components.value
+                assign contained = true
+                for oc in other_components
+                  assign needle = '|' | append: oc.variant.value.id | append: '|'
+                  unless fk_ids contains needle
+                    assign contained = false
+                  endunless
+                endfor
+                if contained and other_components.size > base_size and other_components.size < fk_components.size
+                  assign base_kit = other
+                  assign base_size = other_components.size
+                endif
+              endif
+            endfor
           -%}
           <li class="nr-kit-family__item{% if is_current %} nr-kit-family__item--current{% endif %}">
             {%- if is_current -%}
@@ -46,24 +82,53 @@
               {%- if is_current -%}
                 {{- family_kit.title | escape -}}
               {%- else -%}
-                <a href="{{ family_kit.url }}">{{ family_kit.title | escape }}</a>
+                <a
+                  href="{{ family_kit.url }}"
+                  data-nr-event="kit_family_click"
+                  data-nr-product="{{ family_kit.handle }}"
+                  data-nr-source="family"
+                  >{{ family_kit.title | escape }}</a
+                >
               {%- endif -%}
             </h3>
             {%- if family_line != blank -%}
               <p class="nr-kit-family__line">{{ family_line | escape }}</p>
             {%- endif -%}
-            <p class="nr-kit-family__price">{{ family_kit.price | money }}</p>
-            {%- unless is_current -%}
-              <span
-                class="nr-kit-link"
-                aria-hidden="true"
+            <p class="nr-kit-family__facts">
+              <span>{{ fk_count }} produkter</span>
+              <span class="nr-kit-family__price">{{ family_kit.price | money }}</span>
+            </p>
+            {%- if base_kit != nil -%}
+              <div class="nr-kit-family__adds">
+                <p class="nr-kit-family__adds-label">Allt i {{ base_kit.title | escape }}, plus:</p>
+                <ul role="list">
+                  {%- assign base_ids = '|' -%}
+                  {%- for bc in base_kit.metafields.custom.kit_components.value -%}
+                    {%- assign base_ids = base_ids | append: bc.variant.value.id | append: '|' -%}
+                  {%- endfor -%}
+                  {%- for c in fk_components -%}
+                    {%- assign needle = '|' | append: c.variant.value.id | append: '|' -%}
+                    {%- unless base_ids contains needle -%}
+                      {%- assign add_name = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first -%}
+                      <li><span aria-hidden="true">+</span> {{ add_name | escape }}</li>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- else -%}
+              <ul
+                class="nr-kit-family__contents"
+                role="list"
               >
-                {{- section.settings.link_label | escape }} →</span
-              >
-            {%- endunless -%}
+                {%- for c in fk_components -%}
+                  {%- assign c_name = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first -%}
+                  <li>{{ c_name | escape }}</li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
           </li>
         {%- endfor -%}
-      </ul>
+      </ol>
     </div>
   </div>
 {%- endif -%}

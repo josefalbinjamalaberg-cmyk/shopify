@@ -3,8 +3,8 @@
   top of the purchase column. Eyebrow and value line come from the kit's own
   metafields (custom.kit_eyebrow, custom.kit_tagline) and hide when empty.
 
-  The rating is the store's Trustpilot rating and is labelled as such — it is
-  never presented as a product-specific review count.
+  The rating is the store's Trustpilot rating (theme settings → NordicReflection
+  – Trustpilot), labelled "NordicReflection …" – never a kit-specific rating.
 
   Also loads assets/nr-kit.css, the shared stylesheet for every kit section,
   so the kit styles only ship on kit pages.
@@ -16,24 +16,28 @@
   assign kit = closest.product
   assign eyebrow = kit.metafields.custom.kit_eyebrow.value
   assign tagline = kit.metafields.custom.kit_tagline.value
+  assign rating = settings.nr_trustpilot_rating
+  if rating == blank
+    assign rating = block.settings.rating_text | split: '/' | first
+  endif
 -%}
 
 <div
   class="nr-kit-intro"
   {{ block.shopify_attributes }}
 >
-  {%- if eyebrow != blank -%}
-    <p class="nr-kit-eyebrow">{{ eyebrow | escape }}</p>
-  {%- endif -%}
-
-  <h1 class="nr-kit-intro__title">{{ kit.title | escape }}</h1>
-
-  {%- if tagline != blank -%}
-    <p class="nr-kit-intro__tagline">{{ tagline | escape }}</p>
-  {%- endif -%}
-
-  {%- if block.settings.rating_text != blank -%}
-    <p class="nr-kit-intro__rating">
+  {%- comment -%}
+    Brand-level proof first (mobile: directly under the gallery). It is the
+    store's Trustpilot rating – never presented as a rating of this kit.
+  {%- endcomment -%}
+  {%- if rating != blank -%}
+    <a
+      class="nr-kit-intro__rating"
+      href="#NrPdpTrust"
+      data-nr-event="trustpilot_click"
+      data-nr-source="kit_hero"
+    >
+      <span>NordicReflection</span>
       <span
         class="nr-kit-stars"
         aria-hidden="true"
@@ -47,20 +51,18 @@
           </svg>
         {%- endfor -%}
       </span>
-      <span>{{ block.settings.rating_text | escape }}</span>
-      {%- if block.settings.rating_url != blank and block.settings.rating_link_label != blank -%}
-        <span aria-hidden="true">·</span>
-        <a
-          href="{{ block.settings.rating_url }}"
-          class="nr-kit-intro__rating-link"
-          {% if block.settings.rating_url contains 'http' %}
-            target="_blank" rel="noopener"
-          {% endif %}
-        >
-          {{- block.settings.rating_link_label | escape -}}
-        </a>
-      {%- endif -%}
-    </p>
+      <span>{{ rating | replace: '.', ',' | escape }}/5 på Trustpilot</span>
+    </a>
+  {%- endif -%}
+
+  {%- if eyebrow != blank -%}
+    <p class="nr-kit-eyebrow">{{ eyebrow | escape }}</p>
+  {%- endif -%}
+
+  <h1 class="nr-kit-intro__title">{{ kit.title | escape }}</h1>
+
+  {%- if tagline != blank -%}
+    <p class="nr-kit-intro__tagline">{{ tagline | escape }}</p>
   {%- endif -%}
 </div>
 
@@ -77,7 +79,7 @@
       "type": "text",
       "id": "rating_text",
       "label": "Betyg",
-      "info": "Butikens betyg, t.ex. \"4.7/5 på Trustpilot\". Lämna tomt för att dölja.",
+      "info": "Används bara om temainställningen NordicReflection – Trustpilot saknar betyg.",
       "default": "4.7/5 på Trustpilot"
     },
     {

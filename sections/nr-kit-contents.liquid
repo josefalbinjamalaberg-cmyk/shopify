@@ -1,21 +1,35 @@
 {%- doc -%}
-  Kit PDP "Det här får du": every component of the kit, in order.
+  Kit PDP 02 "Det här får du": every component of the kit as an editorial row.
 
-  Each row is built from ONE nr_kit_component metaobject: its variant gives the
-  name, image, unit price and link (all from the same Shopify product), and
-  the metaobject adds quantity, verified size, short category and why it's in
-  this kit. There are no parallel lists of names/images/links to get out of
-  sync. Names link to the component's own product page; there are no
-  per-component add-to-cart buttons — the kit is what's being sold.
+  Each row is built from ONE nr_kit_component metaobject; name, image, type and
+  link all come from its variant's product (a single Shopify reference – no
+  manually maintained arrays):
+    number        position in custom.kit_components
+    image / link  variant image, else product featured image → product page
+    type          product's pdp.type_label, else the component's role
+    quantity/size component quantity + verified size
+    why           custom.kit_component_notes[n] (per kit: why it is in THIS kit),
+                  else the component's generic purpose
+  No per-component price or add-to-cart: the customer is buying the kit.
+  ≤ 4 components: a horizontal sequence on desktop; more: two columns of rows.
 {%- enddoc -%}
 
 {%- liquid
   assign kit = product
   assign components = kit.metafields.custom.kit_components.value
+  assign notes = kit.metafields.custom.kit_component_notes.value
+  assign count = components.size
+  assign layout = 'rows'
+  if count <= 4
+    assign layout = 'sequence'
+  endif
 -%}
 
 {%- if components != blank -%}
-  <div class="nr-kit-section nr-kit-contents section-wrapper">
+  <div
+    class="nr-kit-section nr-kit-contents nr-kit-contents--{{ layout }}"
+    style="--nr-kit-count: {{ count }};"
+  >
     <div class="nr-kit-container">
       <header class="nr-kit-head">
         {%- if section.settings.heading != blank -%}
@@ -40,55 +54,54 @@
             endif
             assign component_image = component_variant.image | default: component_product.featured_image
             assign short_name = component_product.title | split: ' – ' | first | split: ' - ' | first
-            assign role = component.role.value | default: component_product.metafields.custom.product_category.value
+            assign type = component_product.metafields.pdp.type_label.value | default: component.role.value
             assign quantity = component.quantity.value | default: 1
             assign index = forloop.index | prepend: '0' | slice: -2, 2
+            assign note_index = forloop.index0
+            assign why = notes[note_index] | default: component.purpose.value
           -%}
           {%- if component_variant != blank -%}
-          <li class="nr-kit-contents__item">
-            <span
-              class="nr-kit-contents__index"
-              aria-hidden="true"
-            >
-              {{- index -}}
-            </span>
-            <a
-              href="{{ component_url }}"
-              class="nr-kit-media nr-kit-contents__media"
-              tabindex="-1"
-              aria-hidden="true"
-            >
-              {%- if component_image != blank -%}
-                {{
-                  component_image
-                  | image_url: width: 360
-                  | image_tag:
-                    loading: 'lazy',
-                    alt: '',
-                    widths: '120, 180, 240, 360',
-                    sizes: '(min-width: 990px) 120px, 96px'
-                }}
-              {%- endif -%}
-            </a>
-            <div class="nr-kit-contents__body">
-              <h3 class="nr-kit-contents__name">
-                <a href="{{ component_url }}">{{ short_name | escape }}</a>
-              </h3>
-              {%- if role != blank -%}
-                <p class="nr-kit-contents__role">{{ role | escape }}</p>
-              {%- endif -%}
-              {%- if component.purpose != blank -%}
-                <p class="nr-kit-contents__purpose">{{ component.purpose.value | escape }}</p>
-              {%- endif -%}
-              <p class="nr-kit-contents__meta">
-                <span>
+            <li class="nr-kit-contents__item">
+              <a
+                href="{{ component_url }}"
+                class="nr-kit-media nr-kit-contents__media"
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                {%- if component_image != blank -%}
+                  {{
+                    component_image
+                    | image_url: width: 640
+                    | image_tag:
+                      loading: 'lazy',
+                      alt: '',
+                      widths: '160, 240, 320, 480, 640',
+                      sizes: '(min-width: 990px) 280px, (min-width: 750px) 30vw, 120px'
+                  }}
+                {%- endif -%}
+              </a>
+              <div class="nr-kit-contents__body">
+                <p
+                  class="nr-kit-contents__index"
+                  aria-hidden="true"
+                >
+                  {{- index -}}
+                </p>
+                <h3 class="nr-kit-contents__name">
+                  <a href="{{ component_url }}">{{ short_name | escape }}</a>
+                </h3>
+                {%- if type != blank -%}
+                  <p class="nr-kit-contents__role">{{ type | escape }}</p>
+                {%- endif -%}
+                <p class="nr-kit-contents__meta">
                   {{- quantity }} st
                   {%- if component.size != blank %} · {{ component.size.value | escape }}{% endif -%}
-                </span>
-                <span class="nr-kit-contents__unit-price">Styckpris {{ component_variant.price | money }}</span>
-              </p>
-            </div>
-          </li>
+                </p>
+                {%- if why != blank -%}
+                  <p class="nr-kit-contents__purpose">{{ why | escape }}</p>
+                {%- endif -%}
+              </div>
+            </li>
           {%- endif -%}
         {%- endfor -%}
       </ol>

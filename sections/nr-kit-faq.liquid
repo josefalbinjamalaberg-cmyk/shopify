@@ -74,6 +74,58 @@
         </details>
       {%- endif -%}
 
+      {%- comment -%} Kit-specific questions: custom.kit_faq, one "Fråga | Svar" per line {%- endcomment -%}
+      {%- assign kit_faq = kit.metafields.custom.kit_faq.value | newline_to_br | split: '<br />' -%}
+      {%- for line in kit_faq -%}
+        {%- assign parts = line | strip | split: ' | ' -%}
+        {%- if parts.size >= 2 -%}
+          <details class="nr-kit-faq__item">
+            <summary class="nr-kit-faq__question">{{ parts[0] | strip | escape }}</summary>
+            <div class="nr-kit-faq__answer"><p>{{ parts[1] | strip | escape }}</p></div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Safety: each component's own most important warning (pdp.safety_note) {%- endcomment -%}
+      {%- assign safety_count = 0 -%}
+      {%- capture safety_items -%}
+        {%- for component in components -%}
+          {%- assign component_product = component.variant.value.product -%}
+          {%- assign safety = component_product.metafields.pdp.safety_note.value -%}
+          {%- if safety != blank -%}
+            {%- assign safety_count = safety_count | plus: 1 -%}
+            {%- assign safety_name = component_product.title | split: ' – ' | first | split: ' - ' | first -%}
+            <li><strong>{{ safety_name | escape }}:</strong> {{ safety | escape }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if safety_count > 0 -%}
+        <details class="nr-kit-faq__item">
+          <summary class="nr-kit-faq__question">Säkerhetsinformation</summary>
+          <div class="nr-kit-faq__answer">
+            <ul role="list">{{ safety_items }}</ul>
+            <p>Läs alltid produktetiketten och säkerhetsdatabladet före användning.</p>
+          </div>
+        </details>
+      {%- endif -%}
+
+      {%- comment -%} Delivery from the global Frakt & leverans settings {%- endcomment -%}
+      {%- if settings.delivery_time_text != blank or settings.free_shipping_threshold > 0 -%}
+        <details class="nr-kit-faq__item">
+          <summary class="nr-kit-faq__question">Leverans</summary>
+          <div class="nr-kit-faq__answer">
+            <p>
+              {%- if settings.delivery_time_text != blank -%}{{ settings.delivery_time_text | escape }}.{% endif %}
+              {% if settings.free_shipping_threshold > 0 -%}
+                Fri frakt över {{ settings.free_shipping_threshold }} kr
+                {%- assign threshold_cents = settings.free_shipping_threshold | times: 100 -%}
+                {%- if kit_price >= threshold_cents %} – gäller det här paketet{% endif -%}.
+              {%- endif -%}
+            </p>
+          </div>
+        </details>
+      {%- endif -%}
+
       {%- for block in section.blocks -%}
         {%- if block.settings.question != blank and block.settings.answer != blank -%}
           <details

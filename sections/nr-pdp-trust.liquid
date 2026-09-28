@@ -18,6 +18,14 @@
   assign trustpilot_url = settings.nr_trustpilot_url
   assign all_reviews = shop.metaobjects.nr_trustpilot_review.values
   assign max_reviews = section.settings.max_reviews
+
+  # Only on kit pages (products with custom.kit_components): ids of the kit's
+  # component products, so reviews mentioning them are shown first. Standard
+  # PDPs have no kit components and behave exactly as before.
+  assign kit_product_ids = ''
+  for component in product.metafields.custom.kit_components.value
+    assign kit_product_ids = kit_product_ids | append: '|' | append: component.variant.value.product.id | append: '|'
+  endfor
 -%}
 
 {%- if rating != blank or all_reviews.size > 0 -%}
@@ -77,6 +85,11 @@
                 assign mentions_product = false
                 for mentioned in review.mentions.value
                   if mentioned.id == product.id
+                    assign mentions_product = true
+                  endif
+                  # Kit pages: a review that mentions one of the kit's products is relevant too
+                  assign mentioned_needle = '|' | append: mentioned.id | append: '|'
+                  if kit_product_ids contains mentioned_needle
                     assign mentions_product = true
                   endif
                 endfor

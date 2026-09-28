@@ -4,20 +4,39 @@
   kept small so they never compete with the CTA.
 {%- enddoc -%}
 
+{%- liquid
+  # Delivery facts come from the global theme settings (Frakt & leverans), never
+  # from per-kit text, so a changed threshold updates every kit page at once.
+  assign kit = closest.product
+  assign threshold = settings.free_shipping_threshold
+  assign delivery_text = settings.delivery_time_text | default: block.settings.text
+  assign shipping_text = ''
+  if threshold > 0
+    assign threshold_cents = threshold | times: 100
+    if kit.price >= threshold_cents
+      assign shipping_text = 'Fri frakt på paketet'
+    else
+      assign shipping_text = 'Fri frakt över ' | append: threshold | append: '&nbsp;kr'
+    endif
+  endif
+-%}
 <div
   class="nr-kit-trust"
   {{ block.shopify_attributes }}
 >
-  {%- if block.settings.text != blank -%}
-    <p class="nr-kit-trust__text">{{ block.settings.text | escape }}</p>
+  {%- if delivery_text != blank or shipping_text != blank -%}
+    <p class="nr-kit-trust__text">
+      {{- delivery_text | escape -}}
+      {%- if delivery_text != blank and shipping_text != blank %} · {% endif -%}
+      {{- shipping_text -}}
+    </p>
   {%- endif -%}
-
   {%- if block.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
     <ul
       class="nr-kit-trust__payments"
       role="list"
     >
-      {%- for type in shop.enabled_payment_types -%}
+      {%- for type in shop.enabled_payment_types limit: 6 -%}
         <li>{{ type | payment_type_svg_tag: class: 'nr-kit-trust__payment-icon' }}</li>
       {%- endfor -%}
     </ul>
@@ -33,7 +52,7 @@
       "type": "text",
       "id": "text",
       "label": "Text",
-      "info": "Använd bara aktuella, korrekta leveransvillkor.",
+      "info": "Används bara om temainställningen Leveranstext är tom. Fri frakt-gränsen hämtas från Frakt & leverans.",
       "default": "Leverans inom 1–3 arbetsdagar · Säker betalning"
     },
     {

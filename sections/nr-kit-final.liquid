@@ -1,0 +1,76 @@
+{%- doc -%}
+  Kit PDP 11: final buying reminder at the end of the page – kit name, price,
+  "Köpta separat / Du sparar" (same source as the hero) and one button.
+  The button submits the page's own Horizon product form (the main
+  "Lägg paketet i varukorgen" button), so the existing cart and cart drawer are
+  used – there is no second cart. Hidden when the kit is sold out.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign kit_price = kit.selected_or_first_available_variant.price
+  capture separate_total
+    render 'nr-kit-separate-total', product: kit
+  endcapture
+  assign separate_total = separate_total | strip | plus: 0
+  assign saving = 0
+  if separate_total > kit_price
+    assign saving = separate_total | minus: kit_price
+  endif
+  assign tagline = kit.metafields.custom.kit_tagline.value
+-%}
+
+{%- if kit.available -%}
+  <div class="nr-kit-section nr-kit-final">
+    <div class="nr-kit-container nr-kit-container--narrow">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="nr-kit-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 class="nr-kit-h2 nr-kit-final__title">{{ kit.title | escape }}</h2>
+      {%- if tagline != blank -%}
+        <p class="nr-kit-lead">{{ tagline | escape }}</p>
+      {%- endif -%}
+      <p class="nr-kit-final__price">
+        {{ kit_price | money }}
+        {%- if saving > 0 -%}
+          <span class="nr-kit-final__compare">Köpta separat {{ separate_total | money }} · <span class="nr-kit-pricing__saving">Du sparar {{ saving | money }}</span></span>
+        {%- endif -%}
+      </p>
+      <button
+        type="button"
+        class="button nr-kit-final__button"
+        data-nr-kit-buy
+        data-nr-event="kit_final_cta"
+        data-nr-product="{{ kit.handle }}"
+      >
+        {{ section.settings.button_label | escape }}
+      </button>
+    </div>
+  </div>
+
+  <script type="module">
+    document.addEventListener('click', (event) => {
+      const trigger = event.target instanceof Element ? event.target.closest('[data-nr-kit-buy]') : null;
+      if (!trigger) return;
+      const main = document.querySelector('.product-information .product-details .add-to-cart-button:not([disabled])');
+      if (main) {
+        main.click();
+      } else {
+        document.querySelector('.product-information')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR: Paket – slutlig CTA",
+  "tag": "section",
+  "class": "nr-kit-section-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Överrubrik", "default": "Klart att beställa" },
+    { "type": "text", "id": "button_label", "label": "Knapptext", "default": "Lägg paketet i varukorgen" }
+  ],
+  "presets": [{ "name": "NR: Paket – slutlig CTA", "category": "Product" }]
+}
+{% endschema %}
