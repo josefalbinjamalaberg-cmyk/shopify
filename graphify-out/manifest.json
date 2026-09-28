@@ -940,5 +940,11 @@
     "seen": 1790615133.2147586,
     "ast_hash": "68359fed3272177c3c68deb03c75368d",
     "semantic_hash": ""
+  },
+  "docs/kits/architecture.md": {
+    "mtime": 1790617235.8729362,
+    "seen": 1790617252.8168716,
+    "ast_hash": "904cef013ce4eed638201420e10f2770",
+    "semantic_hash": ""
   }
 }
