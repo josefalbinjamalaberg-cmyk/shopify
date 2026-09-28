@@ -61,7 +61,8 @@
               style="--nr-kit-tasks: {{ stage.tasks.size }};"
             >
               {%- for task in stage.tasks -%}
-                <li class="nr-kit-story__task">
+                <li class="nr-kit-story__task{% if task.items.size == 0 %} nr-kit-story__task--result{% endif %}">
+                  {%- if task.items.size > 0 -%}
                   <div class="nr-kit-story__items">
                     {%- for n in task.items -%}
                       {%- liquid
@@ -98,6 +99,7 @@
                       {%- endif -%}
                     {%- endfor -%}
                   </div>
+                  {%- endif -%}
                   <h3 class="nr-kit-story__title">{{ task.title | escape }}</h3>
                   {%- if task.text != blank -%}
                     <p class="nr-kit-story__text">{{ task.text | escape }}</p>

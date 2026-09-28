@@ -367,6 +367,7 @@
   .nr-kit-contents--sequence .nr-kit-contents__list {
     grid-template-columns: repeat(var(--nr-kit-count), minmax(0, 1fr));
     column-gap: 32px;
+    max-width: calc(var(--nr-kit-count) * 340px);
     border-bottom: 0;
   }
 
@@ -1233,4 +1234,10 @@ a.nr-kit-tiers__summary-title {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+/* A result stage (no products): the outcome of the steps above, set larger */
+.nr-kit-story__task--result .nr-kit-story__title {
+  margin-top: 0;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
 }

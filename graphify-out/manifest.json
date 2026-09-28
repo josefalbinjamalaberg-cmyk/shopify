@@ -84,10 +84,10 @@
     "semantic_hash": "b0e5c9fb604019797b7a38fc74d5b5cc"
   },
   "templates/product.kit-foamwash.json": {
-    "mtime": 1790434549.8508325,
-    "seen": 1790500988.7050405,
-    "ast_hash": "d1e3ddd8863d2af744fea235e3cb35a5",
-    "semantic_hash": "d1e3ddd8863d2af744fea235e3cb35a5"
+    "mtime": 1790619111.2837162,
+    "seen": 1790619147.8814023,
+    "ast_hash": "859c97c68215575d5eb9ec1a73366c3a",
+    "semantic_hash": ""
   },
   "templates/product.kit-interiorlitet.json": {
     "mtime": 1790434549.8540416,
