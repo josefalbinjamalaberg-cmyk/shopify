@@ -102,9 +102,9 @@
     "semantic_hash": "3da2345a4de3b812a01b24991dd055c2"
   },
   "templates/product.kit-interiorstort.json": {
-    "mtime": 1790878919.3327792,
-    "seen": 1790878971.6108935,
-    "ast_hash": "74d647a326eb755401801a7dd12b8470",
+    "mtime": 1790880397.7274523,
+    "seen": 1790880432.598975,
+    "ast_hash": "1263a0a85588ed26732c66b2963e64dc",
     "semantic_hash": ""
   },
   "templates/product.kit.json": {
@@ -1035,6 +1035,24 @@
     "mtime": 1790879898.0371592,
     "seen": 1790879900.7628229,
     "ast_hash": "c5e9e8a2fd0af06ad7a3e62ffa0e41c1",
+    "semantic_hash": ""
+  },
+  "docs/kits/stort-v4-screens/usage-desktop-1366.png": {
+    "mtime": 1790880430.1021624,
+    "seen": 1790880432.5990593,
+    "ast_hash": "512b598c254ddb252e9f37ae5aba398b",
+    "semantic_hash": ""
+  },
+  "docs/kits/stort-v4-screens/usage-mobile-375.png": {
+    "mtime": 1790880430.1060362,
+    "seen": 1790880432.5990608,
+    "ast_hash": "4c8b8d62c11d77789b4127c489ad20c6",
+    "semantic_hash": ""
+  },
+  "docs/kits/stort-v4-screens/usage-mobile-390.png": {
+    "mtime": 1790880430.1041296,
+    "seen": 1790880432.5990615,
+    "ast_hash": "6c02bde0f38eeddb0345c1718b355855",
     "semantic_hash": ""
   }
 }

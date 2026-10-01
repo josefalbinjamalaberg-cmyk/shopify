@@ -5,7 +5,8 @@
   instructions) and the kit products it uses (product_list) – shown as small
   real packshots so the customer sees WHICH products belong to the step.
   Optional real clip: the first VIDEO in the chosen product's pdp.demo_media
-  (the same clip used on that product's own page), with its caption.
+  (the same clip used on that product's own page), shown as a separate
+  product introduction with its own heading above the player.
   No clip is shown when none exists – never a placeholder or a stock image.
 {%- enddoc -%}
 
@@ -82,7 +83,25 @@
         </ol>
 
         {%- if clip != nil -%}
-          <figure class="nr-kp-clip">
+          {%- comment -%}
+            A product introduction that complements the steps – not a usage
+            demonstration. Its heading sits above the player so the customer
+            knows what the clip contains before pressing play.
+          {%- endcomment -%}
+          <figure
+            class="nr-kp-clip"
+            {% if section.settings.video_heading != blank %}
+              aria-labelledby="NrKpClip-{{ section.id }}"
+            {% endif %}
+          >
+            {%- if section.settings.video_heading != blank -%}
+              <h3
+                class="nr-kp-clip__heading"
+                id="NrKpClip-{{ section.id }}"
+              >
+                {{ section.settings.video_heading | escape }}
+              </h3>
+            {%- endif -%}
             <div class="nr-kp-clip__media">
               {{
                 clip
@@ -115,7 +134,8 @@
     { "type": "text", "id": "heading", "label": "Rubrik", "default": "Så använder du kitet" },
     { "type": "text", "id": "lead", "label": "Ingress" },
     { "type": "product", "id": "video_product", "label": "Visa riktig film från produkt", "info": "Första filmen i produktens PDP-demo (pdp.demo_media). Inget visas om film saknas." },
-    { "type": "text", "id": "video_caption", "label": "Filmtext" },
+    { "type": "text", "id": "video_heading", "label": "Rubrik ovanför filmen", "info": "Beskriv vad filmen innehåller, t.ex. Lär känna Core APC." },
+    { "type": "text", "id": "video_caption", "label": "Filmtext under filmen (valfri)" },
     { "type": "text", "id": "note", "label": "Notering under stegen" }
   ],
   "blocks": [

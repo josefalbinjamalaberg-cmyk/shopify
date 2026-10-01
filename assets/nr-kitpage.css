@@ -451,8 +451,27 @@
   box-sizing: border-box;
 }
 
+/* The clip is a product introduction next to the steps, not a step itself:
+   own heading above the player; on mobile it follows the steps' closing line,
+   on desktop it sits in its own column behind a divider. */
 .nr-kp-clip {
   margin: 0;
+  padding-top: 8px;
+}
+
+.nr-kp-clip__heading {
+  margin: 0 0 12px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+@media screen and (min-width: 990px) {
+  .nr-kp-clip {
+    padding: 22px 0 0 32px;
+    border-top: 0;
+    border-left: 1px solid var(--nr-kp-line);
+  }
 }
 
 .nr-kp-clip__media {

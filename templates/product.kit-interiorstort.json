@@ -113,8 +113,9 @@
         "heading": "Så använder du kitet",
         "lead": "",
         "video_product": "core-apc-allrengoring",
-        "video_caption": "Core APC i användning.",
-        "note": "Arbeta inte på varma ytor eller i direkt solljus, och låt aldrig Core APC torka in."
+        "video_caption": "",
+        "note": "Arbeta inte på varma ytor eller i direkt solljus, och låt aldrig Core APC torka in.",
+        "video_heading": "Lär känna Core APC"
       },
       "blocks": {
         "s1": {
