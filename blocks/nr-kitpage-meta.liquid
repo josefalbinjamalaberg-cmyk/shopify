@@ -36,35 +36,28 @@
     </p>
   {%- endif -%}
 
-  {%- if rating != blank -%}
+  {%- comment -%}
+    Brand rating (never a product rating). The figure comes only from the
+    existing theme setting NordicReflection – Trustpilot, and is shown only when
+    the block setting "rating_verified" confirms it is current. Otherwise a plain
+    link to the real Trustpilot profile.
+  {%- endcomment -%}
+  {%- if rating_url != blank -%}
     <p class="nr-kp-meta__rating">
-      <span
-        class="nr-kp-stars"
-        aria-hidden="true"
+      <a
+        href="{{ rating_url }}"
+        target="_blank"
+        rel="noopener"
+        data-nr-event="trustpilot_click"
+        data-nr-source="kit_buybox"
       >
-        {%- for i in (1..5) -%}
-          <svg
-            viewBox="0 0 12 12"
-            focusable="false"
-          >
-            <path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/>
-          </svg>
-        {%- endfor -%}
-      </span>
-      <span>
-        {{ rating | replace: '.', ',' | escape }}/5 på Trustpilot – omdömen om NordicReflection, inte om kitet.
-        {%- if rating_url != blank %}
-          <a
-            href="{{ rating_url }}"
-            target="_blank"
-            rel="noopener"
-            data-nr-event="trustpilot_click"
-            data-nr-source="kit_buybox"
-          >
-            Läs omdömena<span class="visually-hidden"> (öppnas i ny flik)</span>
-          </a>
+        {%- if rating != blank and block.settings.rating_verified -%}
+          NordicReflection på Trustpilot · {{ rating | replace: '.', ',' | escape }}/5 · <span class="nr-kp-meta__cta">Läs omdömen</span>
+        {%- else -%}
+          Läs omdömen om NordicReflection på Trustpilot
         {%- endif -%}
-      </span>
+        <span class="visually-hidden"> (öppnas i ny flik)</span>
+      </a>
     </p>
   {%- endif -%}
 </div>
@@ -76,7 +69,14 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Leverans och fri frakt hämtas från temainställningen Frakt & leverans. Betyget från NordicReflection – Trustpilot och märks som omdömen om butiken."
+      "content": "Leverans och fri frakt hämtas från temainställningen Frakt & leverans. Länk och betyg från temainställningen NordicReflection – Trustpilot."
+    },
+    {
+      "type": "checkbox",
+      "id": "rating_verified",
+      "label": "Visa betyget (bekräftat)",
+      "info": "Kryssa i först när betyget i temainställningen NordicReflection – Trustpilot är kontrollerat mot Trustpilot. Annars visas bara en länk.",
+      "default": false
     }
   ],
   "presets": [{ "name": "NR Kit: leverans", "category": "Product" }]

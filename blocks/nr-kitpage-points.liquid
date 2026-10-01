@@ -1,22 +1,19 @@
 {%- doc -%}
-  Kit page (v3): contents line (custom.kit_descriptor) and up to three short
-  points (custom.kit_value_points), placed directly under the buy buttons.
+  Kit page (v3): up to three short contents points (custom.kit_value_points),
+  directly under the buy buttons. The one-line contents summary
+  (custom.kit_descriptor) is shown once, above the button, by nr-kitpage-summary.
 {%- enddoc -%}
 
 {%- liquid
   assign kit = closest.product
-  assign descriptor = kit.metafields.custom.kit_descriptor.value
   assign points = kit.metafields.custom.kit_value_points.value
 -%}
 
-{%- if descriptor != blank or points != blank -%}
+{%- if points != blank -%}
   <div
     class="nr-kp-summary nr-kp-summary--points"
     {{ block.shopify_attributes }}
   >
-    {%- if descriptor != blank -%}
-      <p class="nr-kp-summary__descriptor">{{ descriptor | escape }}</p>
-    {%- endif -%}
     {%- if points != blank -%}
       <ul
         class="nr-kp-points"
@@ -38,7 +35,7 @@
   "name": "NR Kit: fördelar",
   "tag": null,
   "settings": [
-    { "type": "paragraph", "content": "Hämtas från paketets metafält Paket – innehållsrad och Paket – snabba fördelar (max tre)." }
+    { "type": "paragraph", "content": "Hämtas från paketets metafält Paket – snabba fördelar (max tre)." }
   ],
   "presets": [{ "name": "NR Kit: fördelar", "category": "Product" }]
 }

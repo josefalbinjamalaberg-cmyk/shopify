@@ -2,8 +2,8 @@
   Kit page (v3, used by product.kit-interiorstort only): purchase summary.
 
   Order: eyebrow → display title → who it is for → price → köpt separat / du
-  sparar. The contents line and the three points follow the buy button
-  (blocks/nr-kitpage-points), so price and CTA both come early on mobile. All copy comes from the kit's
+  sparar → contents line (custom.kit_descriptor), directly above the buy
+  button. The three detailed points follow the button (blocks/nr-kitpage-points). All copy comes from the kit's
   metafields; the product title stays the administrative name (cart, order,
   SEO) and is only replaced visually by custom.kit_display_title.
 
@@ -21,6 +21,7 @@
   assign display_title = kit.metafields.custom.kit_display_title.value | default: kit.title
   assign eyebrow = kit.metafields.custom.kit_eyebrow.value
   assign tagline = kit.metafields.custom.kit_tagline.value
+  assign descriptor = kit.metafields.custom.kit_descriptor.value
 
   capture separate_total
     render 'nr-kit-separate-total', product: kit
@@ -60,6 +61,9 @@
     {%- endif -%}
   </div>
 
+  {%- if descriptor != blank -%}
+    <p class="nr-kp-summary__descriptor">{{ descriptor | escape }}</p>
+  {%- endif -%}
 </div>
 
 {% schema %}

@@ -1006,5 +1006,35 @@
     "seen": 1790878971.6109776,
     "ast_hash": "8a165505882e4fcd4379517d7fdf5c69",
     "semantic_hash": ""
+  },
+  "docs/kits/stort-v3-screens/desktop-1366-first-screen.png": {
+    "mtime": 1790879898.0319543,
+    "seen": 1790879900.7628112,
+    "ast_hash": "0cde495c561736c94ed78f715b48c760",
+    "semantic_hash": ""
+  },
+  "docs/kits/stort-v3-screens/desktop-1366-full.png": {
+    "mtime": 1790879898.0301855,
+    "seen": 1790879900.7628143,
+    "ast_hash": "781a11de031061c2d85c165625922e79",
+    "semantic_hash": ""
+  },
+  "docs/kits/stort-v3-screens/mobile-375-first-screen.png": {
+    "mtime": 1790879898.0337331,
+    "seen": 1790879900.7628164,
+    "ast_hash": "9889f51c5a579014a9a2f6f4a9779e1f",
+    "semantic_hash": ""
+  },
+  "docs/kits/stort-v3-screens/mobile-390-first-screen.png": {
+    "mtime": 1790879898.0356166,
+    "seen": 1790879900.7628214,
+    "ast_hash": "7b1ff611a911e266899f34526e040a97",
+    "semantic_hash": ""
+  },
+  "docs/kits/stort-v3-screens/mobile-390-full.png": {
+    "mtime": 1790879898.0371592,
+    "seen": 1790879900.7628229,
+    "ast_hash": "c5e9e8a2fd0af06ad7a3e62ffa0e41c1",
+    "semantic_hash": ""
   }
 }

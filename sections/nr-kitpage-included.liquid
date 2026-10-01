@@ -53,6 +53,19 @@
             elsif quantity > 1
               assign amount = quantity | append: ' × ' | append: amount
             endif
+            # Type without repeating the amount ("Detaljborstar, 2-pack" → "Detaljborstar")
+            # and hidden when it only repeats the product name ("Mikrofiberduk").
+            if type != blank and component.size.value != blank
+              assign type = type | remove: component.size.value | strip
+              assign type_end = type | slice: -1, 1
+              if type_end == ','
+                assign type_cut = type.size | minus: 1
+                assign type = type | slice: 0, type_cut | strip
+              endif
+            endif
+            if type == short_name
+              assign type = ''
+            endif
             assign note_index = forloop.index0
             assign why = notes[note_index] | default: component.purpose.value
           -%}

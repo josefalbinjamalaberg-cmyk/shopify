@@ -73,12 +73,22 @@
   color: var(--nr-kp-accent);
 }
 
+/* Contents summary: one line between price and the buy button */
 .nr-kp-summary__descriptor {
-  margin: 0;
-  padding-top: 16px;
-  border-top: 1px solid var(--nr-kp-line);
+  margin: 12px 0 0;
   font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.4;
+}
+
+/* The three detailed points under the buy button */
+.nr-kp-summary--points {
+  padding-top: 16px;
+  border-top: 1px solid var(--nr-kp-line);
+}
+
+.nr-kp-summary--points .nr-kp-points {
+  margin-top: 0;
 }
 
 .nr-kp-points {
@@ -129,14 +139,18 @@
   color: var(--nr-kp-muted);
 }
 
-.nr-kp-meta__rating {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
 .nr-kp-meta__rating a {
   color: var(--nr-kp-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.nr-kp-meta__rating a:has(.nr-kp-meta__cta) {
+  text-decoration: none;
+}
+
+.nr-kp-meta__cta {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -242,7 +256,7 @@
 
 .nr-kp-item {
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
+  grid-template-columns: 84px minmax(0, 1fr);
   align-items: start;
   align-content: start; /* cards stretch to the row height; keep that space below the text */
   gap: 16px;
@@ -263,7 +277,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 8%;
+  padding: 6%;
   box-sizing: border-box;
 }
 
@@ -316,23 +330,23 @@
 
   .nr-kp-included {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px 28px;
+    gap: 32px 28px;
     border-top: 0;
   }
 
   .nr-kp-item {
     grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+    gap: 14px;
     padding: 0;
     border-bottom: 0;
   }
 
   .nr-kp-item__media {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 10;
   }
 
   .nr-kp-item__media img {
-    padding: 10%;
+    padding: 6%;
   }
 }
 
@@ -340,7 +354,7 @@
 @media screen and (min-width: 990px) {
   .nr-kp-included {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 48px 32px;
+    gap: 36px 32px;
   }
 }
 
