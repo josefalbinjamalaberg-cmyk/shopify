@@ -1,0 +1,163 @@
+{%- doc -%}
+  Kit page (v3): compare with the next-smaller kit (e.g. Mellan → Stort).
+
+  Everything is calculated from product data, nothing typed twice:
+    - price difference  = this kit's price − the alternative's price
+    - what you get extra = components in this kit whose variant is not in the
+                           alternative (custom.kit_components)
+    - alternative's contents = its own components (short names + pack size)
+  Shows "För 180 kr extra får du Clarity + Glass Towel." only when the
+  alternative is fully contained in this kit and cheaper.
+  Card titles use custom.kit_display_title (fallback: product title).
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign alt = section.settings.alternative
+  assign kit_components = kit.metafields.custom.kit_components.value
+  assign alt_components = alt.metafields.custom.kit_components.value
+
+  assign alt_ids = '|'
+  for c in alt_components
+    assign alt_ids = alt_ids | append: c.variant.value.id | append: '|'
+  endfor
+  assign kit_ids = '|'
+  for c in kit_components
+    assign kit_ids = kit_ids | append: c.variant.value.id | append: '|'
+  endfor
+
+  assign contained = true
+  for c in alt_components
+    assign needle = '|' | append: c.variant.value.id | append: '|'
+    unless kit_ids contains needle
+      assign contained = false
+    endunless
+  endfor
+
+  assign extra_names = ''
+  for c in kit_components
+    assign needle = '|' | append: c.variant.value.id | append: '|'
+    unless alt_ids contains needle
+      assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
+      if extra_names == blank
+        assign extra_names = n
+      else
+        assign extra_names = extra_names | append: ' + ' | append: n
+      endif
+    endunless
+  endfor
+
+  assign diff = kit.price | minus: alt.price
+  assign kit_title = kit.metafields.custom.kit_display_title.value | default: kit.title
+  assign alt_title = alt.metafields.custom.kit_display_title.value | default: alt.title
+-%}
+
+{%- if alt != blank and alt_components != blank -%}
+  <div class="section section--page-width nr-kp-section">
+    <div class="nr-kp-inner">
+      <header class="nr-kp-head">
+        <h2 class="nr-kp-h2">{{ section.settings.heading | escape }}</h2>
+        {%- if contained and diff > 0 and extra_names != blank -%}
+          <p class="nr-kp-compare__delta">
+            För {{ diff | money }} extra får du {{ extra_names | escape }}.
+          </p>
+        {%- endif -%}
+      </header>
+
+      <ul
+        class="nr-kp-compare"
+        role="list"
+      >
+        <li class="nr-kp-tier">
+          <a
+            class="nr-kp-tier__media"
+            href="{{ alt.url }}"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            {%- if alt.featured_image != blank -%}
+              {{
+                alt.featured_image
+                | image_url: width: 480
+                | image_tag: loading: 'lazy', alt: '', widths: '160, 240, 360, 480', sizes: '(min-width: 750px) 200px, 112px'
+              }}
+            {%- endif -%}
+          </a>
+          <div class="nr-kp-tier__body">
+            <p class="nr-kp-tier__label">Alternativ</p>
+            <h3 class="nr-kp-tier__title">{{ alt_title | escape }}</h3>
+            {%- if section.settings.alt_audience != blank -%}
+              <p class="nr-kp-tier__audience">{{ section.settings.alt_audience | escape }}</p>
+            {%- endif -%}
+            <p class="nr-kp-tier__contents">
+              {%- for c in alt_components -%}
+                {%- liquid
+                  assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
+                  assign s = c.size.value
+                  if s contains 'pack'
+                    assign n = n | append: ' ' | append: s
+                  endif
+                -%}
+                {{- n | escape -}}
+                {%- unless forloop.last -%}
+                  {%- if forloop.rindex == 2 %} och {% else %}, {% endif -%}
+                {%- endunless -%}
+              {%- endfor -%}
+            </p>
+            <p class="nr-kp-tier__price">{{ alt.price | money }}</p>
+            <a
+              class="nr-kp-link"
+              href="{{ alt.url }}"
+              data-nr-event="kit_family_click"
+              data-nr-product="{{ alt.handle }}"
+              data-nr-source="compare"
+            >
+              Se {{ alt_title | escape }} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </li>
+
+        <li
+          class="nr-kp-tier nr-kp-tier--current"
+          aria-current="page"
+        >
+          <span class="nr-kp-tier__media">
+            {%- if kit.featured_image != blank -%}
+              {{
+                kit.featured_image
+                | image_url: width: 480
+                | image_tag: loading: 'lazy', alt: '', widths: '160, 240, 360, 480', sizes: '(min-width: 750px) 200px, 112px'
+              }}
+            {%- endif -%}
+          </span>
+          <div class="nr-kp-tier__body">
+            <p class="nr-kp-tier__label nr-kp-tier__label--current">Du tittar på</p>
+            <h3 class="nr-kp-tier__title">{{ kit_title | escape }}</h3>
+            {%- if section.settings.current_audience != blank -%}
+              <p class="nr-kp-tier__audience">{{ section.settings.current_audience | escape }}</p>
+            {%- endif -%}
+            {%- if contained and extra_names != blank -%}
+              <p class="nr-kp-tier__contents">
+                Allt i {{ alt_title | escape }}, plus <strong>{{ extra_names | replace: ' + ', ' och ' | escape }}</strong>
+              </p>
+            {%- endif -%}
+            <p class="nr-kp-tier__price">{{ kit.price | money }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: jämför nivå",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Välj rätt nivå" },
+    { "type": "product", "id": "alternative", "label": "Jämför med (mindre paket)" },
+    { "type": "text", "id": "alt_audience", "label": "Alternativet passar dig som…" },
+    { "type": "text", "id": "current_audience", "label": "Det här paketet passar dig som…" }
+  ],
+  "presets": [{ "name": "NR Kit: jämför nivå", "category": "Product" }]
+}
+{% endschema %}

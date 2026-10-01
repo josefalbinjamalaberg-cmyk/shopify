@@ -1,0 +1,84 @@
+{%- doc -%}
+  Kit page (v3): the quiet lines directly under the buy buttons.
+    1. Delivery + free-shipping threshold from the global theme settings
+       (Frakt & leverans) – never typed per kit.
+    2. The store's Trustpilot rating from theme settings (NordicReflection –
+       Trustpilot), explicitly labelled as reviews of NordicReflection, not
+       of this kit.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = closest.product
+  assign threshold = settings.free_shipping_threshold
+  assign delivery_text = settings.delivery_time_text
+  assign shipping_text = ''
+  if threshold > 0
+    assign threshold_cents = threshold | times: 100
+    if kit.price >= threshold_cents
+      assign shipping_text = 'Fri frakt på kitet'
+    else
+      assign shipping_text = 'Fri frakt över ' | append: threshold | append: '&nbsp;kr'
+    endif
+  endif
+  assign rating = settings.nr_trustpilot_rating
+  assign rating_url = settings.nr_trustpilot_url
+-%}
+
+<div
+  class="nr-kp-meta"
+  {{ block.shopify_attributes }}
+>
+  {%- if delivery_text != blank or shipping_text != blank -%}
+    <p class="nr-kp-meta__delivery">
+      {{- delivery_text | escape -}}
+      {%- if delivery_text != blank and shipping_text != blank %} · {% endif -%}
+      {{- shipping_text -}}
+    </p>
+  {%- endif -%}
+
+  {%- if rating != blank -%}
+    <p class="nr-kp-meta__rating">
+      <span
+        class="nr-kp-stars"
+        aria-hidden="true"
+      >
+        {%- for i in (1..5) -%}
+          <svg
+            viewBox="0 0 12 12"
+            focusable="false"
+          >
+            <path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/>
+          </svg>
+        {%- endfor -%}
+      </span>
+      <span>
+        {{ rating | replace: '.', ',' | escape }}/5 på Trustpilot – omdömen om NordicReflection, inte om kitet.
+        {%- if rating_url != blank %}
+          <a
+            href="{{ rating_url }}"
+            target="_blank"
+            rel="noopener"
+            data-nr-event="trustpilot_click"
+            data-nr-source="kit_buybox"
+          >
+            Läs omdömena<span class="visually-hidden"> (öppnas i ny flik)</span>
+          </a>
+        {%- endif -%}
+      </span>
+    </p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "NR Kit: leverans & omdömen",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Leverans och fri frakt hämtas från temainställningen Frakt & leverans. Betyget från NordicReflection – Trustpilot och märks som omdömen om butiken."
+    }
+  ],
+  "presets": [{ "name": "NR Kit: leverans & omdömen", "category": "Product" }]
+}
+{% endschema %}

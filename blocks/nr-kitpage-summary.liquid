@@ -1,0 +1,77 @@
+{%- doc -%}
+  Kit page (v3, used by product.kit-interiorstort only): purchase summary.
+
+  Order: eyebrow → display title → who it is for → price → köpt separat / du
+  sparar. The contents line and the three points follow the buy button
+  (blocks/nr-kitpage-points), so price and CTA both come early on mobile. All copy comes from the kit's
+  metafields; the product title stays the administrative name (cart, order,
+  SEO) and is only replaced visually by custom.kit_display_title.
+
+  "Köpt separat" = current price of every component variant × quantity
+  (snippets/nr-kit-separate-total) – never compare-at, never a sale.
+
+  Also loads assets/nr-kitpage.css for every nr-kitpage section/block.
+{%- enddoc -%}
+
+{{ 'nr-kitpage.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign kit = closest.product
+  assign kit_price = kit.selected_or_first_available_variant.price
+  assign display_title = kit.metafields.custom.kit_display_title.value | default: kit.title
+  assign eyebrow = kit.metafields.custom.kit_eyebrow.value
+  assign tagline = kit.metafields.custom.kit_tagline.value
+
+  capture separate_total
+    render 'nr-kit-separate-total', product: kit
+  endcapture
+  assign separate_total = separate_total | strip | plus: 0
+  assign saving = 0
+  if separate_total > kit_price
+    assign saving = separate_total | minus: kit_price
+  endif
+-%}
+
+<div
+  class="nr-kp-summary"
+  {{ block.shopify_attributes }}
+>
+  {%- if eyebrow != blank -%}
+    <p class="nr-kp-eyebrow">{{ eyebrow | escape }}</p>
+  {%- endif -%}
+
+  <h1 class="nr-kp-summary__title">{{ display_title | escape }}</h1>
+
+  {%- if tagline != blank -%}
+    <p class="nr-kp-summary__tagline">{{ tagline | escape }}</p>
+  {%- endif -%}
+
+  <div class="nr-kp-summary__price-block">
+    <p class="nr-kp-summary__price">
+      <span class="visually-hidden">Pris för kitet</span>
+      {{- kit_price | money -}}
+    </p>
+    {%- if saving > 0 -%}
+      <p class="nr-kp-summary__value">
+        Köpt separat {{ separate_total | money }}
+        <span aria-hidden="true">·</span>
+        <span class="nr-kp-summary__saving">du sparar {{ saving | money }}</span>
+      </p>
+    {%- endif -%}
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "NR Kit: köpsammanfattning",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Hämtas från paketets metafält: Paket – visningsrubrik, överrubrik, värdemening, innehållsrad och snabba fördelar. \"Köpt separat\" räknas från paketets komponenter."
+    }
+  ],
+  "presets": [{ "name": "NR Kit: köpsammanfattning", "category": "Product" }]
+}
+{% endschema %}

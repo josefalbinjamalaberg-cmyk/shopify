@@ -1,0 +1,319 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": { "type": "_product-media-gallery", "static": true, "settings": {} },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "custom", "custom_width": 100, "gap": 4,
+            "video_position": "cover", "background_image_position": "cover",
+            "border": "none", "border_width": 1, "border_opacity": 100,
+            "padding-block-start": 0, "padding-block-end": 0,
+            "padding-inline-start": 0, "padding-inline-end": 0
+          },
+          "blocks": {
+            "eyebrow": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Färdigt paket · Interiör</strong></p>",
+                "width": "100%", "max_width": "normal", "alignment": "left",
+                "type_preset": "custom", "font": "var(--font-body--family)",
+                "font_size": "0.75rem", "line_height": "normal", "letter_spacing": "normal",
+                "case": "uppercase", "wrap": "pretty", "text_color": "#6b6b6b"
+              }
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h1>{{ closest.product.title }}</h1>",
+                "width": "100%", "alignment": "left", "type_preset": "h2"
+              }
+            },
+            "value_line": {
+              "type": "text",
+              "settings": {
+                "text": "<p>För dig som vill rengöra hela kupén själv – från större ytor och ingrodd smuts till ventiler, detaljer och glas.</p>",
+                "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#4a4a4a"
+              }
+            },
+            "bundle_descriptor": {
+              "type": "text",
+              "settings": {
+                "text": "<p>6 produkter · rengöring, detaljer och glas</p>",
+                "width": "100%", "alignment": "left", "type_preset": "custom",
+                "font": "var(--font-body--family)", "font_size": "0.8125rem",
+                "line_height": "normal", "letter_spacing": "normal", "case": "none",
+                "wrap": "pretty", "text_color": "#6b6b6b"
+              }
+            },
+            "price_row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row", "vertical_on_mobile": false,
+                "horizontal_alignment": "flex-start", "vertical_alignment": "center",
+                "gap": 12, "width": "100%",
+                "padding-block-start": 4, "padding-block-end": 0,
+                "padding-inline-start": 0, "padding-inline-end": 0
+              },
+              "blocks": {
+                "price": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true, "show_installments": false, "show_tax_info": true,
+                    "type_preset": "custom", "width": "fit-content", "alignment": "left",
+                    "font": "var(--font-body--family)", "font_size": "2rem",
+                    "line_height": "tight", "letter_spacing": "normal", "case": "none"
+                  }
+                }
+              },
+              "block_order": ["price"]
+            },
+            "value_compare": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{%- assign kit = closest.product -%}\n{%- assign apc = all_products['core-apc-allrengoring'] -%}\n{%- assign scrub = all_products['scrub-pad-interior'] -%}\n{%- assign duk = all_products['mikrofiberduk'] -%}\n{%- assign brush = all_products['detail-brush'] -%}\n{%- assign clarity = all_products['clarity-glasrengoring'] -%}\n{%- assign towel = all_products['glass-towel-glasduk'] -%}\n{%- assign duk5 = 0 -%}\n{%- for v in duk.variants -%}{%- if v.title == '5' -%}{%- assign duk5 = v.price -%}{%- endif -%}{%- endfor -%}\n{%- if apc.id and scrub.id and brush.id and clarity.id and towel.id and duk5 > 0 -%}\n{%- assign sep = apc.price | plus: scrub.price | plus: brush.price | plus: clarity.price | plus: towel.price | plus: duk5 -%}\n{%- assign save = sep | minus: kit.price -%}\n{%- if save > 0 -%}\n<p style=\"margin:2px 0 0;font-size:0.875rem;color:#4a4a4a;\">Köpt separat {{ sep | money }} · <strong>du sparar {{ save | money }}</strong></p>\n{%- endif -%}\n{%- endif -%}"
+              }
+            },
+            "benefits": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column", "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8, "width": "100%",
+                "padding-block-start": 10, "padding-block-end": 0,
+                "padding-inline-start": 0, "padding-inline-end": 0
+              },
+              "blocks": {
+                "benefit_0": {
+                  "type": "group",
+                  "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 8, "width": "100%", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+                  "blocks": {
+                    "icon": { "type": "icon", "settings": { "icon": "check_box", "width": 16 } },
+                    "text": { "type": "text", "settings": { "text": "<p>Räcker till hela kupén – inklusive glas</p>", "width": "fill", "alignment": "left", "type_preset": "paragraph" } }
+                  },
+                  "block_order": ["icon", "text"]
+                },
+                "benefit_1": {
+                  "type": "group",
+                  "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 8, "width": "100%", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+                  "blocks": {
+                    "icon": { "type": "icon", "settings": { "icon": "check_box", "width": 16 } },
+                    "text": { "type": "text", "settings": { "text": "<p>Rengöringsverktygen ingår – inget att komplettera med</p>", "width": "fill", "alignment": "left", "type_preset": "paragraph" } }
+                  },
+                  "block_order": ["icon", "text"]
+                },
+                "benefit_2": {
+                  "type": "group",
+                  "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 8, "width": "100%", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+                  "blocks": {
+                    "icon": { "type": "icon", "settings": { "icon": "check_box", "width": 16 } },
+                    "text": { "type": "text", "settings": { "text": "<p>Core APC späds efter behov och räcker länge</p>", "width": "fill", "alignment": "left", "type_preset": "paragraph" } }
+                  },
+                  "block_order": ["icon", "text"]
+                }
+              },
+              "block_order": ["benefit_0", "benefit_1", "benefit_2"]
+            },
+            "contents_summary": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Innehåller Core APC, Scrub Pad, Mikrofiberduk 5-pack, Detail Brush Duo 2-pack, Clarity glasrengöring och Glass Towel. Full specifikation längre ned.</p>",
+                "width": "100%", "alignment": "left", "type_preset": "custom",
+                "font": "var(--font-body--family)", "font_size": "0.8125rem",
+                "line_height": "normal", "letter_spacing": "normal", "case": "none",
+                "wrap": "pretty", "text_color": "#6b6b6b"
+              }
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "settings": { "padding-block-start": 16, "padding-block-end": 8, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": {
+                "quantity": { "type": "quantity", "static": true, "settings": {} },
+                "add-to-cart": { "type": "add-to-cart", "static": true, "settings": { "style_class": "button" } },
+                "accelerated-checkout": { "type": "accelerated-checkout", "static": true, "settings": {} }
+              },
+              "block_order": []
+            },
+            "cta_relabel": {
+              "type": "custom-liquid",
+              "settings": { "custom_liquid": "<script src=\"{{ 'nr-kit-cta.js' | asset_url }}\" defer=\"defer\"></script>" }
+            },
+            "trust_row": {
+              "type": "group",
+              "settings": { "content_direction": "row", "vertical_on_mobile": true, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 16, "width": "100%", "padding-block-start": 12, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": {
+                "shipping": { "type": "text", "settings": { "text": "<p>Fri frakt över 799 kr</p>", "width": "fit-content", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } },
+                "delivery": { "type": "text", "settings": { "text": "<p>Leverans inom 1–3 arbetsdagar</p>", "width": "fit-content", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } },
+                "secure": { "type": "text", "settings": { "text": "<p>Säker betalning</p>", "width": "fit-content", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } }
+              },
+              "block_order": ["shipping", "delivery", "secure"]
+            },
+            "accordion": {
+              "type": "accordion",
+              "settings": {},
+              "blocks": {
+                "row_shipping": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "Frakt & leverans", "open_by_default": false },
+                  "blocks": { "text": { "type": "text", "settings": { "text": "<p>Fri frakt över 799 kr. Leverans sker normalt inom 1–3 arbetsdagar.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph" } } },
+                  "block_order": ["text"]
+                },
+                "row_return": {
+                  "type": "_accordion-row",
+                  "settings": { "heading": "Retur", "open_by_default": false },
+                  "blocks": { "text": { "type": "text", "settings": { "text": "<p>Har du frågor om retur eller reklamation? Kontakta vår kundtjänst så hjälper vi dig.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph" } } },
+                  "block_order": ["text"]
+                }
+              },
+              "block_order": ["row_shipping", "row_return"]
+            }
+          },
+          "block_order": [
+            "eyebrow", "heading", "value_line", "bundle_descriptor",
+            "price_row", "value_compare", "benefits", "contents_summary",
+            "buy_buttons", "cta_relabel", "trust_row", "accordion"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": true,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "included": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Det här ingår</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "grid": {
+          "type": "custom-liquid",
+          "settings": {
+            "custom_liquid": "{%- assign handles = 'core-apc-allrengoring,scrub-pad-interior,mikrofiberduk,detail-brush,clarity-glasrengoring,glass-towel-glasduk' | split: ',' -%}\n{%- assign qtys = '1 st|1 st|5-pack|2-pack|1 st|1 st' | split: '|' -%}\n{%- assign jobs = 'Koncentrerad allrengöring som späds efter behov.|Bearbetar ingrodd smuts på plast, vinyl, läder och textil.|För avtorkning, rengöring och finish.|Två storlekar – når ventiler, knappar och andra detaljer.|Streckfri rengöring av glas, säker på tonade rutor.|Slät glasduk för en streckfri finish.' | split: '|' -%}\n<div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:20px;\">\n{%- for h in handles -%}\n{%- assign p = all_products[h] -%}\n{%- if p.id -%}\n<a href=\"{{ p.url }}\" style=\"text-decoration:none;color:inherit;background:#fafafa;border-radius:10px;padding:10px;display:block;box-sizing:border-box;\">\n{%- if p.featured_image -%}<img src=\"{{ p.featured_image | image_url: width: 300 }}\" alt=\"{{ p.title | escape }}\" loading=\"lazy\" style=\"width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;display:block;\">{%- endif -%}\n<div style=\"font-size:0.875rem;font-weight:600;margin-top:8px;\">{{ p.title }}</div>\n<div style=\"display:inline-block;margin-top:4px;background:#00000010;border-radius:50px;padding:2px 8px;font-size:0.75rem;\">{{ qtys[forloop.index0] }}</div>\n<div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:6px;line-height:1.4;\">{{ jobs[forloop.index0] }}</div>\n</a>\n{%- endif -%}\n{%- endfor -%}\n</div>\n<p style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:14px;\">Mikrofiberduk ingår som 5-pack och Detail Brush Duo som 2-pack. Dammsugare ingår inte.</p>"
+          }
+        }
+      },
+      "block_order": ["heading", "grid"],
+      "settings": {
+        "content_direction": "column", "vertical_on_mobile": true,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "gap": 8, "section_width": "page-width", "section_height": "",
+        "background_media": "none", "background_color": "",
+        "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0,
+        "padding-block-start": 56, "padding-block-end": 56
+      }
+    },
+    "how_to_use": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Så använder du paketet</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "steps": {
+          "type": "group",
+          "settings": { "content_direction": "row", "vertical_on_mobile": true, "horizontal_alignment": "flex-start", "vertical_alignment": "flex-start", "gap": 32, "width": "100%", "padding-block-start": 24, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+          "blocks": {
+            "step_0": {
+              "type": "group",
+              "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "width": "fill", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": {
+                "number": { "type": "text", "settings": { "text": "<p>01</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-heading--family)", "font_size": "1.5rem", "line_height": "tight", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#b0b0b0" } },
+                "heading": { "type": "text", "settings": { "text": "<h4>Applicera</h4>", "width": "100%", "alignment": "left", "type_preset": "h6" } },
+                "text": { "type": "text", "settings": { "text": "<p>Applicera Core APC på ytorna enligt spädning och anvisningar på produktens etikett.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#6b6b6b" } }
+              },
+              "block_order": ["number", "heading", "text"]
+            },
+            "step_1": {
+              "type": "group",
+              "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "width": "fill", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": {
+                "number": { "type": "text", "settings": { "text": "<p>02</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-heading--family)", "font_size": "1.5rem", "line_height": "tight", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#b0b0b0" } },
+                "heading": { "type": "text", "settings": { "text": "<h4>Bearbeta</h4>", "width": "100%", "alignment": "left", "type_preset": "h6" } },
+                "text": { "type": "text", "settings": { "text": "<p>Arbeta in med Scrub Pad på större ytor och Detail Brush Duo där du inte kommer åt.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#6b6b6b" } }
+              },
+              "block_order": ["number", "heading", "text"]
+            },
+            "step_2": {
+              "type": "group",
+              "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "width": "fill", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": {
+                "number": { "type": "text", "settings": { "text": "<p>03</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-heading--family)", "font_size": "1.5rem", "line_height": "tight", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#b0b0b0" } },
+                "heading": { "type": "text", "settings": { "text": "<h4>Torka av</h4>", "width": "100%", "alignment": "left", "type_preset": "h6" } },
+                "text": { "type": "text", "settings": { "text": "<p>Torka av med mikrofiberduk. Avsluta med Clarity och Glass Towel på rutor och speglar.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#6b6b6b" } }
+              },
+              "block_order": ["number", "heading", "text"]
+            }
+          },
+          "block_order": ["step_0", "step_1", "step_2"]
+        },
+        "note": { "type": "text", "settings": { "text": "<p>Vid en snabbare interiörtvätt kan du hoppa över glassteget – alla produkter behöver inte användas varje gång.</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } }
+      },
+      "block_order": ["heading", "steps", "note"],
+      "settings": {
+        "content_direction": "column", "vertical_on_mobile": true,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "gap": 8, "section_width": "page-width", "section_height": "",
+        "background_media": "none", "background_color": "#fafafa",
+        "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0,
+        "padding-block-start": 56, "padding-block-end": 56
+      }
+    },
+    "right_level": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Är detta rätt nivå?</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "compare": {
+          "type": "custom-liquid",
+          "settings": {
+            "custom_liquid": "{%- assign mellan = all_products['mellan-interior-startkit'] -%}\n{%- assign stort = product -%}\n<div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:20px;\">\n{%- if mellan.id -%}\n<a href=\"{{ mellan.url }}\" style=\"text-decoration:none;color:inherit;border:1px solid #e3e3e3;border-radius:12px;padding:16px;display:block;box-sizing:border-box;\">\n<div style=\"font-size:0.875rem;font-weight:600;\">{{ mellan.title }}</div>\n<div style=\"font-size:1.25rem;margin-top:6px;\">{{ mellan.price | money }}</div>\n<div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:8px;line-height:1.5;\">För dig som inte behöver rengöra glas. Innehåller Core APC, Scrub Pad, Mikrofiberduk 5-pack och Detail Brush Duo 2-pack.</div>\n</a>\n{%- endif -%}\n<div style=\"border:2px solid #1a1a1a;border-radius:12px;padding:16px;box-sizing:border-box;\">\n<div style=\"display:inline-block;background:#1a1a1a;color:#fff;border-radius:50px;padding:2px 10px;font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.04em;\">Du tittar på denna</div>\n<div style=\"font-size:0.875rem;font-weight:600;margin-top:8px;\">{{ stort.title }}</div>\n<div style=\"font-size:1.25rem;margin-top:6px;\">{{ stort.price | money }}</div>\n<div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:8px;line-height:1.5;\">Allt i Mellan interiör{%- if mellan.id -%}{%- assign diff = stort.price | minus: mellan.price -%} plus Clarity glasrengöring och Glass Towel, för {{ diff | money }} mer{%- endif -%}. Välj denna om du också vill ha rena rutor och speglar.</div>\n</div>\n</div>"
+          }
+        }
+      },
+      "block_order": ["heading", "compare"],
+      "settings": {
+        "content_direction": "column", "vertical_on_mobile": true,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "gap": 8, "section_width": "page-width", "section_height": "",
+        "background_media": "none", "background_color": "",
+        "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0,
+        "padding-block-start": 56, "padding-block-end": 56
+      }
+    },
+    "faq": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Vanliga frågor</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "items": {
+          "type": "custom-liquid",
+          "settings": {
+            "custom_liquid": "<div style=\"margin-top:20px;max-width:720px;\">\n<details style=\"border-bottom:1px solid #e3e3e3;padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Ingår verktygen, eller bara kemin?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Verktygen ingår. Du får Scrub Pad, Detail Brush Duo 2-pack, Mikrofiberduk 5-pack och Glass Towel utöver Core APC och Clarity. Dammsugare ingår inte.</p></details>\n<details style=\"border-bottom:1px solid #e3e3e3;padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Vilka mängder ingår?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Core APC 1 st, Scrub Pad 1 st, Mikrofiberduk 5-pack, Detail Brush Duo 2-pack, Clarity 1 st och Glass Towel 1 st. Core APC är koncentrerad och späds efter behov.</p></details>\n<details style=\"border-bottom:1px solid #e3e3e3;padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Vad behöver jag redan ha hemma?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Vatten för spädning av Core APC, och en dammsugare för lös smuts innan du börjar. Allt annat finns i paketet.</p></details>\n<details style=\"border-bottom:1px solid #e3e3e3;padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Hur skiljer sig detta från Mellan interiör?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Skillnaden är glasdelen: Stort interiör innehåller även Clarity glasrengöring och Glass Towel. I övrigt är innehållet detsamma.</p></details>\n<details style=\"padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Var kan Core APC användas?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Core APC är avsedd för plast, vinyl, textil, gummi och andra tvättbara ytor. Följ spädning och anvisningar på etiketten, och testa på en dold yta om du är osäker.</p></details>\n</div>"
+          }
+        }
+      },
+      "block_order": ["heading", "items"],
+      "settings": {
+        "content_direction": "column", "vertical_on_mobile": true,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "gap": 8, "section_width": "page-width", "section_height": "",
+        "background_media": "none", "background_color": "",
+        "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0,
+        "padding-block-start": 56, "padding-block-end": 56
+      }
+    }
+  },
+  "order": ["main", "included", "how_to_use", "right_level", "faq"]
+}

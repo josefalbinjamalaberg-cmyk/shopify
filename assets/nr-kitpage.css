@@ -1,0 +1,670 @@
+/*
+  NordicReflection kit page v3 (templates/product.kit-interiorstort.json).
+  Loaded from blocks/nr-kitpage-summary.liquid, so only on kit v3 pages.
+
+  Width system: every section uses Horizon's page grid (.section.section--page-width),
+  so content shares the product section's centre column and edges. Inside it:
+    .nr-kp-inner          full content width (cards, steps, comparison)
+    .nr-kp-inner--text    same left edge, readable max width (FAQ)
+  Quiet palette: ink, muted grey, thin lines, one soft surface. No shadows,
+  no badges; hierarchy comes from type size, weight and spacing.
+*/
+
+.nr-kp-summary,
+.nr-kp-meta,
+.nr-kp-section {
+  --nr-kp-ink: #111111;
+  --nr-kp-muted: #5f5f5f;
+  --nr-kp-line: rgba(17, 17, 17, 0.12);
+  --nr-kp-soft: #f5f5f2;
+  --nr-kp-accent: #2c5f45;
+  --nr-kp-radius: 8px;
+  color: var(--nr-kp-ink);
+}
+
+/* ---------- Purchase summary ---------- */
+.nr-kp-eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-summary__title {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-size: clamp(1.875rem, 1.45rem + 1.5vw, 2.75rem);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.nr-kp-summary__tagline {
+  margin: 10px 0 0;
+  max-width: 32em;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-summary__price-block {
+  margin-top: 20px;
+}
+
+.nr-kp-summary__price {
+  margin: 0;
+  font-size: clamp(1.625rem, 1.45rem + 0.6vw, 2rem);
+  font-weight: 500;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-kp-summary__value {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-summary__saving {
+  font-weight: 600;
+  color: var(--nr-kp-accent);
+}
+
+.nr-kp-summary__descriptor {
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--nr-kp-line);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.nr-kp-points {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-kp-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.nr-kp-points .nr-kit-check {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+/* Main CTA: the strongest element; express checkout (native) follows below it */
+.product-details:has(.nr-kp-summary) .product-form-buttons .add-to-cart-button {
+  width: 100%;
+  min-height: 54px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.product-details:has(.nr-kp-summary) .product-form-buttons {
+  gap: 10px;
+}
+
+/* ---------- Under the buttons ---------- */
+.nr-kp-meta {
+  display: grid;
+  gap: 8px;
+}
+
+.nr-kp-meta p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-meta__rating {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.nr-kp-meta__rating a {
+  color: var(--nr-kp-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nr-kp-stars {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 1px;
+  color: var(--nr-kp-ink);
+  transform: translateY(1px);
+}
+
+.nr-kp-stars svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* ---------- Sections ---------- */
+.nr-kp-section {
+  padding-block: 56px;
+}
+
+.nr-kp-section--tight {
+  padding-block: 40px 56px;
+}
+
+/* Soft band: on the .section itself, which spans the full page grid (Horizon
+   sets .section backgrounds transparent at equal specificity; this file loads later). */
+.shopify-section .section.nr-kp-section--soft {
+  background-color: var(--nr-kp-soft);
+}
+
+.nr-kp-inner {
+  min-width: 0;
+}
+
+.nr-kp-inner--text {
+  max-width: 760px;
+}
+
+.nr-kp-head {
+  margin-bottom: 28px;
+}
+
+.nr-kp-h2 {
+  margin: 0;
+  font-family: var(--font-heading--family);
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.nr-kp-lead {
+  margin: 8px 0 0;
+  max-width: 40em;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-note {
+  margin: 24px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-note strong {
+  color: var(--nr-kp-ink);
+  font-weight: 600;
+}
+
+.nr-kp-link {
+  display: inline-flex;
+  gap: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--nr-kp-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.nr-kp-section a:focus-visible,
+.nr-kp-meta a:focus-visible,
+.nr-kp-faq__q:focus-visible {
+  outline: 2px solid var(--nr-kp-ink);
+  outline-offset: 3px;
+}
+
+/* ---------- Det här ingår ---------- */
+/* Mobile: one compact row per product (image left, text right) */
+.nr-kp-included {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--nr-kp-line);
+}
+
+.nr-kp-item {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: start;
+  align-content: start; /* cards stretch to the row height; keep that space below the text */
+  gap: 16px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--nr-kp-line);
+}
+
+.nr-kp-item__media {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--nr-kp-radius);
+  background: var(--nr-kp-soft);
+}
+
+.nr-kp-item__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8%;
+  box-sizing: border-box;
+}
+
+.nr-kp-item__name {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.nr-kp-item__name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nr-kp-item__name a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nr-kp-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  margin: 3px 0 0;
+  font-size: 0.8125rem;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-item__amount {
+  font-weight: 600;
+  color: var(--nr-kp-ink);
+}
+
+.nr-kp-item__why {
+  margin: 8px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Tablet: two per row, image on top */
+@media screen and (min-width: 750px) {
+  .nr-kp-section {
+    padding-block: 72px;
+  }
+
+  .nr-kp-section--tight {
+    padding-block: 56px 72px;
+  }
+
+  .nr-kp-included {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 28px;
+    border-top: 0;
+  }
+
+  .nr-kp-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .nr-kp-item__media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .nr-kp-item__media img {
+    padding: 10%;
+  }
+}
+
+/* Desktop: three balanced cards per row */
+@media screen and (min-width: 990px) {
+  .nr-kp-included {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 48px 32px;
+  }
+}
+
+/* ---------- Användning ---------- */
+.nr-kp-usage {
+  display: grid;
+  gap: 32px;
+}
+
+.nr-kp-steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--nr-kp-line);
+}
+
+.nr-kp-step {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 14px;
+  padding-block: 18px;
+  border-bottom: 1px solid var(--nr-kp-line);
+}
+
+.nr-kp-step__index {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--nr-kp-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-kp-step__title {
+  margin: 2px 0 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.nr-kp-step__text {
+  margin: 6px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-step__products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-kp-step__products a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--nr-kp-ink);
+  text-decoration: none;
+}
+
+.nr-kp-step__products a:hover span:last-child {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nr-kp-step__thumb {
+  display: block;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.nr-kp-step__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.nr-kp-clip {
+  margin: 0;
+}
+
+.nr-kp-clip__media {
+  overflow: hidden;
+  border-radius: var(--nr-kp-radius);
+  background: #000000;
+}
+
+.nr-kp-clip__media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.nr-kp-clip__caption {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  color: var(--nr-kp-muted);
+}
+
+@media screen and (min-width: 990px) {
+  .nr-kp-usage--with-clip {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: start;
+    gap: 56px;
+  }
+
+  .nr-kp-step {
+    padding-block: 22px;
+  }
+}
+
+/* ---------- Jämför nivå ---------- */
+.nr-kp-compare__delta {
+  margin: 10px 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+.nr-kp-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-kp-tier {
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 18px;
+  border: 1px solid var(--nr-kp-line);
+  border-radius: var(--nr-kp-radius);
+}
+
+.nr-kp-tier--current {
+  border: 2px solid var(--nr-kp-ink);
+  padding: 17px;
+}
+
+.nr-kp-tier__media {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--nr-kp-soft);
+}
+
+.nr-kp-tier__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nr-kp-tier__label {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-tier__label--current {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--nr-kp-ink);
+}
+
+.nr-kp-tier__label--current::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--nr-kp-ink);
+}
+
+.nr-kp-tier__title {
+  margin: 0;
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.nr-kp-tier__audience {
+  margin: 4px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-tier__contents {
+  margin: 10px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.nr-kp-tier__contents strong {
+  font-weight: 600;
+}
+
+.nr-kp-tier__price {
+  margin: 10px 0 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-kp-tier .nr-kp-link {
+  margin-top: 10px;
+}
+
+@media screen and (min-width: 750px) {
+  .nr-kp-compare {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .nr-kp-tier {
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .nr-kp-tier--current {
+    padding: 23px;
+  }
+}
+
+/* ---------- Vanliga frågor ---------- */
+.nr-kp-faq {
+  margin-top: 20px;
+  border-top: 1px solid var(--nr-kp-line);
+}
+
+.nr-kp-faq__item {
+  border-bottom: 1px solid var(--nr-kp-line);
+}
+
+.nr-kp-faq__q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 52px;
+  padding-block: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nr-kp-faq__q::-webkit-details-marker {
+  display: none;
+}
+
+.nr-kp-faq__q::after {
+  content: '+';
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.nr-kp-faq__item[open] > .nr-kp-faq__q::after {
+  content: '–';
+}
+
+.nr-kp-faq__a {
+  padding-bottom: 16px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--nr-kp-muted);
+}
+
+.nr-kp-faq__a p {
+  margin: 0;
+}
+
+/* ---------- Product reviews (Judge.me) at the end of the page ----------
+   Kept – customers must still be able to write real product reviews – but an
+   empty widget is compacted and aligned with the page instead of dominating it. */
+.jdgm-widget.jdgm-review-widget,
+.jdgm-rev-widg {
+  max-width: 760px;
+}
+
+.jdgm-rev-widg[data-number-of-reviews='0'],
+.jdgm-widget.jdgm-review-widget:has(.jdgm-rev-widg[data-number-of-reviews='0']) {
+  padding-block: 8px 24px;
+}
+
+.jdgm-rev-widg[data-number-of-reviews='0'] .jdgm-rev-widg__title {
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+}
+
+.jdgm-rev-widg[data-number-of-reviews='0'] .jdgm-rev-widg__summary {
+  margin-bottom: 0;
+}

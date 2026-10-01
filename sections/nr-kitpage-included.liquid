@@ -1,0 +1,117 @@
+{%- doc -%}
+  Kit page (v3): "Det här ingår".
+
+  Root-cause fix for the earlier layout: the content sits in Horizon's own
+  page grid (.section.section--page-width → centre column), so it always has
+  the same width and edges as the product section above – no inner flex
+  container that shrinks to its content.
+
+  One card per custom.kit_components entry (nr_kit_component):
+    image, link, name  → the component's variant/product (same reference)
+    type               → product pdp.type_label, else component role
+    amount             → component size (e.g. 500 ml, 5-pack, 2-pack), else "<qty> st"
+    why                → custom.kit_component_notes[n], else component purpose
+  Desktop: three cards per row. Tablet: two. Mobile: one compact row per
+  product (image left, text right) – readable without squeezing two columns.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign components = kit.metafields.custom.kit_components.value
+  assign notes = kit.metafields.custom.kit_component_notes.value
+-%}
+
+{%- if components != blank -%}
+  <div class="section section--page-width nr-kp-section">
+    <div class="nr-kp-inner">
+      <header class="nr-kp-head">
+        <h2 class="nr-kp-h2">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.lead != blank -%}
+          <p class="nr-kp-lead">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ul
+        class="nr-kp-included"
+        role="list"
+      >
+        {%- for component in components -%}
+          {%- liquid
+            assign component_variant = component.variant.value
+            assign component_product = component_variant.product
+            assign component_url = component_product.url
+            if component_product.variants.size > 1
+              assign component_url = component_variant.url
+            endif
+            assign component_image = component_variant.image | default: component_product.featured_image
+            assign short_name = component_product.title | split: ' – ' | first | split: ' - ' | first
+            assign type = component_product.metafields.pdp.type_label.value | default: component.role.value
+            assign quantity = component.quantity.value | default: 1
+            assign amount = component.size.value
+            if amount == blank
+              assign amount = quantity | append: ' st'
+            elsif quantity > 1
+              assign amount = quantity | append: ' × ' | append: amount
+            endif
+            assign note_index = forloop.index0
+            assign why = notes[note_index] | default: component.purpose.value
+          -%}
+          {%- if component_variant != blank -%}
+            <li class="nr-kp-item">
+              <a
+                class="nr-kp-item__media"
+                href="{{ component_url }}"
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                {%- if component_image != blank -%}
+                  {{
+                    component_image
+                    | image_url: width: 600
+                    | image_tag:
+                      loading: 'lazy',
+                      alt: '',
+                      widths: '120, 200, 300, 400, 600',
+                      sizes: '(min-width: 990px) 300px, (min-width: 750px) 45vw, 96px'
+                  }}
+                {%- endif -%}
+              </a>
+              <div class="nr-kp-item__body">
+                <h3 class="nr-kp-item__name">
+                  <a href="{{ component_url }}">{{ short_name | escape }}</a>
+                </h3>
+                <p class="nr-kp-item__meta">
+                  {%- if type != blank -%}<span>{{ type | escape }}</span>{%- endif -%}
+                  <span class="nr-kp-item__amount">{{ amount | escape }}</span>
+                </p>
+                {%- if why != blank -%}
+                  <p class="nr-kp-item__why">{{ why | escape }}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.not_included != blank -%}
+        <p class="nr-kp-note">
+          <strong>{{ section.settings.not_included_label | escape }}</strong>
+          {{ section.settings.not_included | escape }}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: det här ingår",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Det här ingår" },
+    { "type": "text", "id": "lead", "label": "Ingress" },
+    { "type": "text", "id": "not_included_label", "label": "Etikett – ingår inte", "default": "Ingår inte:" },
+    { "type": "text", "id": "not_included", "label": "Ingår inte / behöver du hemma", "info": "Endast verifierade uppgifter." }
+  ],
+  "presets": [{ "name": "NR Kit: det här ingår", "category": "Product" }]
+}
+{% endschema %}
