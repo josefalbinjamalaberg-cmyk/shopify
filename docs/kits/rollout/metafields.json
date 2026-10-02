@@ -1,0 +1,289 @@
+[
+ {
+  "ownerId": "gid://shopify/Product/15996560376142",
+  "namespace": "custom",
+  "key": "kit_display_title",
+  "type": "single_line_text_field",
+  "value": "Litet interiörkit"
+ },
+ {
+  "ownerId": "gid://shopify/Product/15996560376142",
+  "namespace": "custom",
+  "key": "kit_audience",
+  "type": "single_line_text_field",
+  "value": "För dig som vill grundrengöra kupén – plast, vinyl, textil och gummi."
+ },
+ {
+  "ownerId": "gid://shopify/Product/15996560376142",
+  "namespace": "custom",
+  "key": "kit_descriptor",
+  "type": "single_line_text_field",
+  "value": "3 produktgrupper, inklusive 5 mikrofiberdukar"
+ },
+ {
+  "ownerId": "gid://shopify/Product/15996560376142",
+  "namespace": "custom",
+  "key": "kit_points",
+  "type": "list.single_line_text_field",
+  "value": "[\"Core APC 500 ml – koncentrat som späds efter behov\", \"Scrub Pad för ingrodd smuts på plast, vinyl, gummi och textil\", \"5 mikrofiberdukar för avtorkning\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/15996560376142",
+  "namespace": "custom",
+  "key": "kit_component_notes",
+  "type": "list.single_line_text_field",
+  "value": "[\"För plast, vinyl, textil och gummi. Späds efter smutsgrad enligt etiketten.\", \"Bearbetar ingrodd smuts på plast, vinyl, gummi och textil.\", \"För avtorkning efter rengöringen.\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/15996560376142",
+  "namespace": "custom",
+  "key": "kit_faq",
+  "type": "multi_line_text_field",
+  "value": "Vad behöver jag ha hemma? | En tom sprayflaska och vatten för att späda Core APC efter smutsgrad enligt etiketten.\nHur späder jag Core APC? | Efter smutsgrad och yta enligt produktetiketten – svagare för underhåll, starkare för kraftig smuts.\nVilka ytor kan jag rengöra? | Core APC är avsedd för plast, vinyl, textil och gummi. Testa alltid på en liten, mindre synlig yta först och följ produktetiketten.\nVad skiljer Litet från Mellan interiörkit? | Mellan innehåller även Detail Brush Duo – två mjuka borstar för luftventiler, knappar och trånga detaljer. Övrigt innehåll är detsamma."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16015851487566",
+  "namespace": "custom",
+  "key": "kit_display_title",
+  "type": "single_line_text_field",
+  "value": "Mellan interiörkit"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16015851487566",
+  "namespace": "custom",
+  "key": "kit_audience",
+  "type": "single_line_text_field",
+  "value": "För dig som vill rengöra både ytor och detaljer i kupén – som ventiler och knappar."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16015851487566",
+  "namespace": "custom",
+  "key": "kit_descriptor",
+  "type": "single_line_text_field",
+  "value": "4 produktgrupper, inklusive 5 mikrofiberdukar och 2 detaljborstar"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16015851487566",
+  "namespace": "custom",
+  "key": "kit_points",
+  "type": "list.single_line_text_field",
+  "value": "[\"Core APC 500 ml – koncentrat som späds efter behov\", \"Scrub Pad och 2 detaljborstar för ytor och trånga detaljer\", \"5 mikrofiberdukar för avtorkning\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16015851487566",
+  "namespace": "custom",
+  "key": "kit_component_notes",
+  "type": "list.single_line_text_field",
+  "value": "[\"För plast, vinyl, textil och gummi. Späds efter smutsgrad enligt etiketten.\", \"Bearbetar ingrodd smuts på plast, vinyl, gummi och textil.\", \"För avtorkning efter rengöringen.\", \"Mjuka borstar för luftventiler, knappar och trånga detaljer.\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16015851487566",
+  "namespace": "custom",
+  "key": "kit_faq",
+  "type": "multi_line_text_field",
+  "value": "Vad behöver jag ha hemma? | En tom sprayflaska och vatten för att späda Core APC efter smutsgrad enligt etiketten.\nHur späder jag Core APC? | Efter smutsgrad och yta enligt produktetiketten – svagare för underhåll, starkare för kraftig smuts.\nVilka ytor kan jag rengöra? | Core APC är avsedd för plast, vinyl, textil och gummi. Testa alltid på en liten, mindre synlig yta först och följ produktetiketten.\nVad skiljer Mellan från Litet och Stort interiörkit? | Jämfört med Litet innehåller Mellan även Detail Brush Duo. Stort innehåller dessutom Clarity glasrengöring och Glass Towel."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016364077390",
+  "namespace": "custom",
+  "key": "kit_display_title",
+  "type": "single_line_text_field",
+  "value": "Fälg startkit"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016364077390",
+  "namespace": "custom",
+  "key": "kit_audience",
+  "type": "single_line_text_field",
+  "value": "För dig som vill få bort bromsdamm och flygrost från fälgarna."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016364077390",
+  "namespace": "custom",
+  "key": "kit_descriptor",
+  "type": "single_line_text_field",
+  "value": "2 produkter: Revolt 500 ml och Mikrofiber Fälgborste"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016364077390",
+  "namespace": "custom",
+  "key": "kit_points",
+  "type": "list.single_line_text_field",
+  "value": "[\"Revolt 500 ml löser upp flygrost och bromsdamm\", \"Blir lila när den arbetar – du ser reaktionen\", \"Fälgborste, 36 cm – når mellan ekrarna\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016364077390",
+  "namespace": "custom",
+  "key": "kit_component_notes",
+  "type": "list.single_line_text_field",
+  "value": "[\"Löser upp flygrost och bromsdamm så att det kan spolas bort. Blir lila när den arbetar.\", \"Mjukt mikrofiberhuvud som når mellan ekrarna och in bakom fälgen. 36 × 4,5 cm.\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016364077390",
+  "namespace": "custom",
+  "key": "kit_faq",
+  "type": "multi_line_text_field",
+  "value": "Hur länge ska Revolt verka? | Följ verkningstiden på produktetiketten. Låt aldrig produkten torka in på fälgen.\nBehöver jag borsta fälgen? | Vid lätt smuts räcker det ofta att låta Revolt verka och sedan spola av. Vid fastbränd bromsdamm kan du arbeta in produkten med fälgborsten.\nVarför blir Revolt lila? | Färgen visar att produkten reagerar med järnpartiklar och bromsdamm under verkningstiden – så ser du var den arbetar.\nKan jag använda Revolt på alla fälgar? | Följ produktetiketten och testa först på en liten, mindre synlig yta om du är osäker på materialet.\nKan borsten användas på lackade fälgar? | Ja, mikrofiberhuvudet är gjort för att vara skonsamt. Testa på en mindre synlig yta först om du är osäker.\nVad skiljer Fälg startkit från Fälg & däck komplett kit? | Fälg & däck innehåller även Pristine däck- och plastförnyare och en däckapplikator."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016378134862",
+  "namespace": "custom",
+  "key": "kit_display_title",
+  "type": "single_line_text_field",
+  "value": "Fälg & däck komplett kit"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016378134862",
+  "namespace": "custom",
+  "key": "kit_audience",
+  "type": "single_line_text_field",
+  "value": "För dig som vill göra hela hjulet – rena fälgar och däck med finish."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016378134862",
+  "namespace": "custom",
+  "key": "kit_descriptor",
+  "type": "single_line_text_field",
+  "value": "4 produkter: Revolt, fälgborste, Pristine och däckapplikator"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016378134862",
+  "namespace": "custom",
+  "key": "kit_points",
+  "type": "list.single_line_text_field",
+  "value": "[\"Revolt 500 ml för flygrost och bromsdamm på fälgen\", \"Fälgborste som når mellan ekrarna\", \"Pristine 500 ml och applikator för däckens finish\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016378134862",
+  "namespace": "custom",
+  "key": "kit_component_notes",
+  "type": "list.single_line_text_field",
+  "value": "[\"Löser upp flygrost och bromsdamm så att det kan spolas bort. Blir lila när den arbetar.\", \"Mjukt mikrofiberhuvud som når mellan ekrarna och in bakom fälgen. 36 × 4,5 cm.\", \"Ger däck och utvändig plast en djup, naturlig finish – inte blöt och blank.\", \"Fördelar Pristine jämnt runt hela däcket. Kan rengöras och återanvändas.\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016378134862",
+  "namespace": "custom",
+  "key": "kit_faq",
+  "type": "multi_line_text_field",
+  "value": "Hur länge ska Revolt verka? | Följ verkningstiden på produktetiketten. Låt aldrig produkten torka in på fälgen.\nBehöver jag borsta fälgen? | Vid lätt smuts räcker det ofta att låta Revolt verka och sedan spola av. Vid fastbränd bromsdamm kan du arbeta in produkten med fälgborsten.\nKan jag använda Revolt på alla fälgar? | Följ produktetiketten och testa först på en liten, mindre synlig yta om du är osäker på materialet.\nHur applicerar jag Pristine på däck? | Med däckapplikatorn, jämnt runt hela däcket. Torka bort överskott med en ren mikrofiberduk och låt torka innan bilen körs.\nBlir däcken blöta och blanka? | Nej, målet är en naturlig, jämn finish. Applicera tunna lager och torka bort överskott.\nVad skiljer Fälg & däck från Fälg startkit? | Fälg & däck innehåller även Pristine däck- och plastförnyare och en däckapplikator. Revolt och fälgborsten ingår i båda."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018450940238",
+  "namespace": "custom",
+  "key": "kit_display_title",
+  "type": "single_line_text_field",
+  "value": "Exteriör startkit"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018450940238",
+  "namespace": "custom",
+  "key": "kit_descriptor",
+  "type": "single_line_text_field",
+  "value": "3 produkter: DeepDegrease 1000 ml, Alkastrike 500 ml och Pure Shampoo 500 ml"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018450940238",
+  "namespace": "custom",
+  "key": "kit_points",
+  "type": "list.single_line_text_field",
+  "value": "[\"DeepDegrease 1000 ml för asfalt, tjära och oljerester\", \"Alkastrike 500 ml för trafikfilm, insekter och vägsmuts\", \"Pure Shampoo 500 ml – skonsamt mot vax och keramiska lackskydd\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018450940238",
+  "namespace": "custom",
+  "key": "kit_component_notes",
+  "type": "list.single_line_text_field",
+  "value": "[\"För asfalt, tjära och oljebaserad smuts. Används outspädd.\", \"För trafikfilm, insekter och vägsmuts. Koncentrat som späds efter smutsgrad.\", \"För själva handtvätten – skonsamt mot vax och keramiska lackskydd.\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018450940238",
+  "namespace": "custom",
+  "key": "kit_faq",
+  "type": "multi_line_text_field",
+  "value": "Vad är skillnaden mellan DeepDegrease och Alkastrike? | DeepDegrease är en kallavfettning för asfalt, tjära och oljebaserad smuts. Alkastrike är en alkalisk förtvätt för trafikfilm, insekter och organisk smuts. Har bilen båda typerna av smuts kan båda behövas.\nHur späder jag Alkastrike? | Alkastrike är koncentrerad och kan spädas upp till 1:25. Blanda efter smutsgrad och följ produktetiketten.\nÄr DeepDegrease brandfarlig? | Ja, den är klassificerad som brandfarlig (H226). Använd den aldrig nära öppen låga, gnistor eller värmekällor och arbeta i ett väl ventilerat utrymme.\nVad ingår inte? | Verktyg ingår inte: tryckspruta för Alkastrike, tvätthinkar och washpad eller tvätthandske för handtvätten, och duk för att torka bort DeepDegrease.\nVad får jag mer i Exteriör komplett kit? | Komplett innehåller även Foamtastic, Revolt, Clarity, Pristine och GlossCoat – för skumförtvätt, fälgar, glas, däck och lackskydd."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016437608782",
+  "namespace": "custom",
+  "key": "kit_display_title",
+  "type": "single_line_text_field",
+  "value": "Foam Wash Kit"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016437608782",
+  "namespace": "custom",
+  "key": "kit_audience",
+  "type": "single_line_text_field",
+  "value": "För dig med högtryckstvätt som vill skumtvätta bilen före handtvätten."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016437608782",
+  "namespace": "custom",
+  "key": "kit_descriptor",
+  "type": "single_line_text_field",
+  "value": "2 produkter: Foamtastic 1000 ml och Foam Cannon"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016437608782",
+  "namespace": "custom",
+  "key": "kit_points",
+  "type": "list.single_line_text_field",
+  "value": "[\"Foamtastic 1000 ml – tjockt, vidhäftande skum\", \"Foam Cannon med justerbar dosering och spraybild\", \"Skummet löser upp smuts innan handtvätten\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016437608782",
+  "namespace": "custom",
+  "key": "kit_component_notes",
+  "type": "list.single_line_text_field",
+  "value": "[\"Ger det tjocka, vidhäftande skummet för förtvätten.\", \"Sprider skummet med din högtryckstvätt – justerbar dosering och spraybild.\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16016437608782",
+  "namespace": "custom",
+  "key": "kit_faq",
+  "type": "multi_line_text_field",
+  "value": "Behöver jag en högtryckstvätt? | Ja. Foam Cannon monteras på en högtryckstvätt, som inte ingår i paketet.\nPassar Foam Cannon min högtryckstvätt? | Anslutningen varierar mellan märken och modeller, och vi säljer i dag inga adaptrar. Kontrollera anslutningen på din högtryckstvätt innan köp, eller kontakta oss om du är osäker.\nHur blandar jag Foamtastic? | Följ doseringen på produktetiketten och din Foam Cannons inställning.\nÄr Foamtastic ett schampo? | Nej. Foamtastic är en förtvätt som löser smuts innan handtvätten. Efter avspolning fortsätter tvätten med ett bilschampo, till exempel Pure Shampoo, som inte ingår.\nVad ingår inte? | Högtryckstvätt och eventuell adapter ingår inte."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018547671374",
+  "namespace": "custom",
+  "key": "kit_display_title",
+  "type": "single_line_text_field",
+  "value": "Exteriör komplett kit"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018547671374",
+  "namespace": "custom",
+  "key": "kit_audience",
+  "type": "single_line_text_field",
+  "value": "För dig som vill ha kemikalierna för hela utvändiga tvätten – från förtvätt till finish och lackskydd."
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018547671374",
+  "namespace": "custom",
+  "key": "kit_descriptor",
+  "type": "single_line_text_field",
+  "value": "8 produkter – från avfettning och förtvätt till fälgar, glas, däck och lackskydd"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018547671374",
+  "namespace": "custom",
+  "key": "kit_points",
+  "type": "list.single_line_text_field",
+  "value": "[\"Förtvätt: DeepDegrease, Alkastrike och Foamtastic\", \"Handtvätt och fälgar: Pure Shampoo och Revolt\", \"Finish: Clarity, Pristine och GlossCoat\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018547671374",
+  "namespace": "custom",
+  "key": "kit_component_notes",
+  "type": "list.single_line_text_field",
+  "value": "[\"För asfalt, tjära och oljebaserad smuts. Används outspädd.\", \"För trafikfilm, insekter och vägsmuts. Koncentrat som späds efter smutsgrad.\", \"För skumförtvätten – används med Foam Cannon och högtryckstvätt, som inte ingår.\", \"För handtvätten – skonsamt mot vax och keramiska lackskydd.\", \"Löser upp flygrost och bromsdamm på fälgarna. Blir lila när den arbetar.\", \"För in- och utvändigt glas. Invändigt sprayar du på duken, inte på rutan.\", \"Ger däck och utvändig plast en djup, naturlig finish.\", \"För glans och vattenavrinning – sista steget efter tvätten.\"]"
+ },
+ {
+  "ownerId": "gid://shopify/Product/16018547671374",
+  "namespace": "custom",
+  "key": "kit_faq",
+  "type": "multi_line_text_field",
+  "value": "Ingår verktyg? | Nej. Paketet innehåller endast kemikalier. Foam Cannon och högtryckstvätt för Foamtastic, tryckspruta för Alkastrike, tvätthinkar, washpad, fälgborste, däckapplikator och mikrofiberdukar köps separat.\nVad är skillnaden mellan DeepDegrease och Alkastrike? | DeepDegrease är en kallavfettning för asfalt, tjära och oljebaserad smuts. Alkastrike är en alkalisk förtvätt för trafikfilm, insekter och organisk smuts. Har bilen båda typerna av smuts kan båda behövas.\nBehöver jag en Foam Cannon? | Ja, för Foamtastic. Foam Cannon monteras på en högtryckstvätt – ingen av dem ingår i paketet.\nÄr DeepDegrease brandfarlig? | Ja, den är klassificerad som brandfarlig (H226). Använd den aldrig nära öppen låga, gnistor eller värmekällor och arbeta i ett väl ventilerat utrymme.\nVad skiljer Komplett från Exteriör startkit? | Komplett innehåller även Foamtastic, Revolt, Clarity, Pristine och GlossCoat. DeepDegrease, Alkastrike och Pure Shampoo ingår i båda."
+ }
+]

@@ -1,0 +1,16 @@
+{
+  "_note": "Values of the kit-page (v3) metafields on the seven kits before the 2026-10-02 rollout. Keys not listed for a kit were unset. Live-read keys (kit_eyebrow, kit_tagline, kit_value_points, kit_card_line, kit_fit_points, kit_alt_question) were NOT changed by the rollout. kit_audience and kit_points were new (unset everywhere).",
+  "interiorpaket-grundlaggande-interiorvard": {},
+  "mellan-interior-startkit": {"kit_display_title": "Mellan interiörkit"},
+  "falg-startkit": {},
+  "falg-och-dack-komplett-kit": {},
+  "litet-exterior-startkit": {
+    "kit_component_notes": ["För asfalt, tjära och oljebaserad smuts.", "För trafikfilm, insekter och vägsmuts.", "För själva handtvätten – skonsamt mot vax och keramiska lackskydd."],
+    "kit_faq": "Passar paketet nybörjare? | Ja. Tre produkter med var sin tydlig uppgift, och varje produkt har en steg-för-steg-guide på sin produktsida.\nVad är skillnaden mellan DeepDegrease och Alkastrike? | DeepDegrease är en kallavfettning för asfalt, tjära och oljebaserad smuts. Alkastrike är en alkalisk förtvätt för trafikfilm, insekter och organisk smuts. Har bilen båda typerna av smuts kan båda behövas.\nVad får jag mer i Exteriör Komplett Kit? | Komplett innehåller även Foamtastic, Revolt, Clarity, Pristine och GlossCoat – för skumförtvätt, fälgar, glas, däck och lackskydd."
+  },
+  "foam-wash-kit": {
+    "kit_component_notes": ["Snow foam som ger det tjocka, vidhäftande skummet.", "Skumkanonen som sprider skummet med din högtryckstvätt – justerbar dosering och spraybild."],
+    "kit_faq": "Behöver jag en högtryckstvätt? | Ja. Foam Cannon monteras på en högtryckstvätt, som inte ingår i paketet.\nPassar Foam Cannon min högtryckstvätt? | Anslutningen varierar mellan märken och modeller, och vi säljer i dag inga adaptrar. Kontrollera anslutningen på din högtryckstvätt innan köp, eller kontakta oss om du är osäker.\nVilket skum ska jag använda? | Vi rekommenderar Foamtastic för ett tjockt, effektivt skum – det ingår i paketet.\nVad ingår inte? | Högtryckstvätt och eventuell adapter ingår inte."
+  },
+  "exterior-komplett-kit": {}
+}

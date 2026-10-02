@@ -15,30 +15,7 @@
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
-          "settings": {
-            "media_presentation": "carousel",
-            "media_columns": "one",
-            "image_gap": 0,
-            "large_first_image": false,
-            "icons_style": "arrow",
-            "slideshow_controls_style": "thumbnails",
-            "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "bottom",
-            "thumbnail_width": 56,
-            "thumbnail_radius": 0,
-            "aspect_ratio": "adapt",
-            "constrain_to_viewport": true,
-            "media_fit": "contain",
-            "media_radius": 0,
-            "extend_media": false,
-            "zoom": true,
-            "video_loop": true,
-            "hide_variants": true,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          }
+          "settings": {}
         },
         "product-details": {
           "type": "_product-details",
@@ -55,30 +32,23 @@
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
-            "padding-inline-end": 0,
-            "sticky_details_desktop": true
+            "padding-inline-end": 0
           },
           "blocks": {
-            "kit_intro": {
-              "type": "nr-kit-intro",
+            "summary": {
+              "type": "nr-kitpage-summary",
               "settings": {
-                "rating_text": "4.7/5 på Trustpilot",
-                "rating_link_label": "Läs omdömen",
-                "rating_url": "https://se.trustpilot.com/review/nordicreflection.se"
+                "note": "Paketet innehåller endast kemikalier. Verktyg som Foam Cannon, tryckspruta, tvätthinkar, washpad, fälgborste, applikator och dukar köps separat."
               }
-            },
-            "kit_pricing": {
-              "type": "nr-kit-pricing",
-              "settings": {}
             },
             "buy_buttons": {
               "type": "buy-buttons",
               "settings": {
-                "padding-block-start": 8,
+                "padding-block-start": 4,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0,
-                "add_to_cart_label": "Lägg paketet i varukorgen",
+                "add_to_cart_label": "Lägg kitet i varukorgen",
                 "stacking": true
               },
               "blocks": {
@@ -102,192 +72,122 @@
               },
               "block_order": []
             },
-            "kit_trust": {
-              "type": "nr-kit-trust",
-              "settings": {
-                "text": "Leverans inom 1–3 arbetsdagar · Säker betalning",
-                "show_payment_icons": true
-              }
+            "meta": {
+              "type": "nr-kitpage-meta",
+              "settings": {}
+            },
+            "points": {
+              "type": "nr-kitpage-points",
+              "settings": {}
             }
           },
           "block_order": [
-            "kit_intro",
-            "kit_pricing",
+            "summary",
             "buy_buttons",
-            "kit_trust"
+            "points",
+            "meta"
           ]
         }
       },
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
         "gap": 48,
         "enable_sticky_add_to_cart": true,
         "padding-block-start": 24,
-        "padding-block-end": 40
+        "padding-block-end": 8
       }
     },
-    "contents": {
-      "type": "nr-kit-contents",
+    "included": {
+      "type": "nr-kitpage-included",
       "settings": {
-        "heading": "Det här får du",
-        "subheading": "Varje produkt har en tydlig uppgift i paketet."
+        "heading": "Det här ingår",
+        "lead": "Åtta kemprodukter för hela utvändiga tvätten – varje produkt har en egen uppgift.",
+        "not_included_label": "Ingår inte:",
+        "not_included": "verktyg – t.ex. Foam Cannon och högtryckstvätt för Foamtastic, tryckspruta för Alkastrike, tvätthinkar och washpad, fälgborste, däckapplikator och mikrofiberdukar."
       }
     },
-    "routine": {
-      "type": "nr-kit-routine",
+    "usage": {
+      "type": "nr-kitpage-usage",
       "settings": {
-        "heading_tasks": "Vad varje del löser",
-        "subheading_tasks": "Paketet täcker [antal] uppgifter i en utvändig tvätt.",
-        "heading_sequence": "Din tvättrutin",
-        "subheading_sequence": "Så används produkterna i paketet, steg för steg."
-      }
-    },
-    "value": {
-      "type": "nr-kit-value",
-      "settings": {
-        "heading": "Paket eller styckköp?",
-        "separate_label": "Köp produkterna separat",
-        "separate_note": "Du väljer varje produkt själv",
-        "kit_note": "Färdig kombination",
-        "fit_heading": "Passar dig som",
-        "alternatives_heading": "Behöver du inte allt?",
-        "alternatives_heading_larger": "Vill du ha mer?",
-        "alternatives_heading_mixed": "Andra alternativ",
-        "show_alternatives": true
-      }
-    },
-    "family": {
-      "type": "nr-kit-family",
-      "settings": {
-        "heading": "Vilket paket passar dig?",
-        "subheading": "",
-        "current_label": "Ditt val",
-        "link_label": "Se paketet"
-      }
-    },
-    "proof": {
-      "type": "nr-kit-proof",
-      "settings": {
-        "heading": "Se resultatet",
-        "subheading": "Produkterna i paketet, filmade i riktig användning."
-      }
-    },
-    "reviews": {
-      "type": "_blocks",
+        "heading": "Så använder du kitet",
+        "lead": "",
+        "video_product": "glosscoat-hydrofobisk-sprayforsegling",
+        "video_heading": "Lär känna GlossCoat",
+        "video_caption": "",
+        "note": "Arbeta inte på varma ytor eller i direkt solljus, och låt aldrig produkterna torka in. DeepDegrease är brandfarlig – använd den aldrig nära öppen låga, gnistor eller värmekällor."
+      },
       "blocks": {
-        "ai_gen_block_f9f7e7d_gRy4wf": {
-          "type": "ai_gen_block_f9f7e7d",
+        "s1": {
+          "type": "step",
           "settings": {
-            "heading": "Vad våra kunder säger",
-            "subheading": "Utvalda omdömen från våra kunder på Trustpilot.",
-            "trustpilot_url": "https://se.trustpilot.com/review/nordicreflection.se",
-            "trustpilot_label": "Läs alla omdömen på Trustpilot",
-            "total_rating": "4.7/5",
-            "total_reviews": "34",
-            "desktop_width_percent": 100,
-            "background_color": "#F8F7F3",
-            "card_color": "#FFFFFF",
-            "text_color": "#1C1C1C",
-            "border_color": "#DFDFDF",
-            "star_color": "#287A45",
-            "review_1_enabled": true,
-            "review_1_rating": 5,
-            "review_1_title": "Jobbat med med Rekond i 3 år och…",
-            "review_1_text": "Jobbat med med Rekond i 3 år och tvättar mina bilar flera gånger i veckan så testat en hel del produkter. Testade deras fälgrent, schampo och wet coat. Grym djup glans och otroligt bra rengöring. Avrinningen från wet coaten va helt brutal\nOtroligt nöjd med min beställning!",
-            "review_1_name": "VP",
-            "review_1_date": "11 september 2026",
-            "review_1_url": "",
-            "review_1_verified": false,
-            "review_2_enabled": true,
-            "review_2_rating": 5,
-            "review_2_title": "Riktigt nöjd med produkterna!",
-            "review_2_text": "Fantastiska produkter! Fälg rengöringen är helt otrolig, fälgarna var extremt smutsiga, sprayade på och lät de bara sitta en stund, spolade av och allt var borta! Avfettning och Schampo var också underbart. Gör definitivt sitt jobb ordentligt. Glosscoat gjorde bilen otroligt glansig🥰 Kommer definitivt fortsätta med dessa produkter❤️",
-            "review_2_name": "My Segerstedt",
-            "review_2_date": "8 september 2026",
-            "review_2_url": "",
-            "review_2_verified": false,
-            "review_3_enabled": true,
-            "review_3_rating": 5,
-            "review_3_title": "Produkterna gav ett resultat över min…",
-            "review_3_text": "Produkterna gav ett resultat över min förväntan. Fungerade utmärkt och simpelt att använda, samt sköna att hålla i när dem används. Beställde på en måndag vid 17 fick hem sakerna på onsdagen vid 12. Extremt bra produkter som är väldigt prisvärda.",
-            "review_3_name": "Filip Am",
-            "review_3_date": "7 september 2026",
-            "review_3_url": "",
-            "review_3_verified": false,
-            "review_4_enabled": true,
-            "review_4_rating": 4,
-            "review_4_title": "Fantastisk",
-            "review_4_text": "Snabb leverans till Gotland, en riktigt bra flygrostborttagare som gav ett fantastiskt resultat. Även en riktigt bra alkalisk avfättning. Grymma dofter som ger en bra känsla när man lägger på medlet. Slutresultatet på bil som hoj blir otroligt bra!",
-            "review_4_name": "streamnight",
-            "review_4_date": "11 september 2026",
-            "review_4_url": "",
-            "review_4_verified": false,
-            "review_5_enabled": true,
-            "review_5_rating": 5,
-            "review_5_title": "Produkterna var riktigt bra och lätta…",
-            "review_5_text": "Produkterna var riktigt bra och lätta att använda, kall- och alkaliska avfettningarna var riktigt bra för att få bort 150mils smuts från bilen, schampot gjorde bilen riktigt fin o blank med som dessutom skummade på bra och luktade riktigt gott! Rekommenderar starkt dessa produkter!",
-            "review_5_name": "Hyseni",
-            "review_5_date": "9 september 2026",
-            "review_5_url": "",
-            "review_5_verified": false,
-            "review_6_enabled": false,
-            "review_6_rating": 5,
-            "review_6_title": "",
-            "review_6_text": "",
-            "review_6_name": "",
-            "review_6_date": "",
-            "review_6_url": "",
-            "review_6_verified": false
-          },
-          "blocks": {}
+            "title": "Fälgar",
+            "text": "Spraya Revolt på svala fälgar, låt verka enligt etiketten och spola av noggrant.",
+            "products": [
+              "revolt-flygrostborttagare"
+            ]
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Förtvätt",
+            "text": "Torka bort asfalt och tjära med DeepDegrease. Spraya på Alkastrike och skumma sedan med Foamtastic – låt verka och spola av innan det torkar.",
+            "products": [
+              "deepdegrease-kallavfettning",
+              "alkastrike-alkalisk-avfettning",
+              "foamtastic-hogkoncentrerat-snow-foam"
+            ]
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Handtvätt",
+            "text": "Späd Pure Shampoo i tvätthinken och tvätta panel för panel med två hinkar. Spola av och torka bilen.",
+            "products": [
+              "pure-shampoo-ph-neutralt-bilschampo"
+            ]
+          }
+        },
+        "s4": {
+          "type": "step",
+          "settings": {
+            "title": "Finish",
+            "text": "På en ren, torr och sval yta: GlossCoat på lacken, Pristine på däck och plast och Clarity på glaset.",
+            "products": [
+              "glosscoat-hydrofobisk-sprayforsegling",
+              "pristine-dack-plastfornyare",
+              "clarity-glasrengoring"
+            ]
+          }
         }
       },
       "block_order": [
-        "ai_gen_block_f9f7e7d_gRy4wf"
-      ],
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ]
+    },
+    "compare": {
+      "type": "nr-kitpage-compare",
       "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "background_media": "none",
-        "background_color": "",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_color": "",
-        "border_radius": 0,
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "heading": "Välj rätt nivå",
+        "alternative": "litet-exterior-startkit",
+        "alt_audience": "För grunden – avfettning, förtvätt och handtvätt.",
+        "current_audience": "För hela tvätten – även skum, fälgar, glas, däck och lackskydd."
       }
     },
     "faq": {
-      "type": "nr-kit-faq",
+      "type": "nr-kitpage-faq",
+      "settings": {
+        "heading": "Vanliga frågor"
+      },
       "blocks": {
-        "shipping": {
-          "type": "question",
-          "settings": {
-            "question": "Frakt & leverans",
-            "answer": "<p>Fri frakt över 799 kr. Leverans sker normalt inom 1–3 arbetsdagar.</p>"
-          }
-        },
-        "returns": {
+        "retur": {
           "type": "question",
           "settings": {
             "question": "Retur",
@@ -296,22 +196,15 @@
         }
       },
       "block_order": [
-        "shipping",
-        "returns"
-      ],
-      "settings": {
-        "heading": "Vanliga frågor"
-      }
+        "retur"
+      ]
     }
   },
   "order": [
     "main",
-    "contents",
-    "routine",
-    "value",
-    "family",
-    "proof",
-    "reviews",
+    "included",
+    "usage",
+    "compare",
     "faq"
   ]
 }

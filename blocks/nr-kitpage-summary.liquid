@@ -8,7 +8,14 @@
   SEO) and is only replaced visually by custom.kit_display_title.
 
   "Köpt separat" = current price of every component variant × quantity
-  (snippets/nr-kit-separate-total) – never compare-at, never a sale.
+  (snippets/nr-kit-separate-total) – never compare-at, never a sale. When an
+  active automatic discount lowers what the same products cost bought one by
+  one (e.g. "revolt + mikrofiber"), the block setting separate_adjust (kr)
+  is subtracted so the saving is never overstated.
+
+  Who it is for: custom.kit_audience (kit-page only), else custom.kit_tagline
+  (also read by the menus). Optional block note under the contents line, e.g.
+  what is not included.
 
   Also loads assets/nr-kitpage.css for every nr-kitpage section/block.
 {%- enddoc -%}
@@ -20,13 +27,17 @@
   assign kit_price = kit.selected_or_first_available_variant.price
   assign display_title = kit.metafields.custom.kit_display_title.value | default: kit.title
   assign eyebrow = kit.metafields.custom.kit_eyebrow.value
-  assign tagline = kit.metafields.custom.kit_tagline.value
+  assign tagline = kit.metafields.custom.kit_audience.value | default: kit.metafields.custom.kit_tagline.value
   assign descriptor = kit.metafields.custom.kit_descriptor.value
 
   capture separate_total
     render 'nr-kit-separate-total', product: kit
   endcapture
   assign separate_total = separate_total | strip | plus: 0
+  if separate_total > 0 and block.settings.separate_adjust != blank
+    assign adjust_cents = block.settings.separate_adjust | replace: ',', '.' | times: 100 | round
+    assign separate_total = separate_total | minus: adjust_cents
+  endif
   assign saving = 0
   if separate_total > kit_price
     assign saving = separate_total | minus: kit_price
@@ -64,6 +75,10 @@
   {%- if descriptor != blank -%}
     <p class="nr-kp-summary__descriptor">{{ descriptor | escape }}</p>
   {%- endif -%}
+
+  {%- if block.settings.note != blank -%}
+    <p class="nr-kp-summary__note">{{ block.settings.note | escape }}</p>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -74,6 +89,18 @@
     {
       "type": "paragraph",
       "content": "Hämtas från paketets metafält: Paket – visningsrubrik, överrubrik, värdemening, innehållsrad och snabba fördelar. \"Köpt separat\" räknas från paketets komponenter."
+    },
+    {
+      "type": "text",
+      "id": "separate_adjust",
+      "label": "Avdrag automatisk rabatt (kr)",
+      "info": "Om en aktiv automatisk rabatt sänker styckpriset för paketets produkter: ange rabattbeloppet, t.ex. 56,70. Dras från Köpt separat."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Notering under innehållsraden",
+      "info": "Endast verifierade uppgifter, t.ex. vad som inte ingår."
     }
   ],
   "presets": [{ "name": "NR Kit: köpsammanfattning", "category": "Product" }]

@@ -1,149 +1,332 @@
 {%- doc -%}
-  Kit page (v3): compare with the next-smaller kit (e.g. Mellan → Stort).
+  Kit page (v3): compare this kit with one or two other kits in the same
+  family (e.g. Litet ↔ Mellan ↔ Stort).
 
   Everything is calculated from product data, nothing typed twice:
-    - price difference  = this kit's price − the alternative's price
-    - what you get extra = components in this kit whose variant is not in the
-                           alternative (custom.kit_components)
-    - alternative's contents = its own components (short names + pack size)
-  Shows "För 180 kr extra får du Clarity + Glass Towel." only when the
-  alternative is fully contained in this kit and cheaper.
+    - price difference   = alternative's price − this kit's price
+    - what differs       = components (exact variants, custom.kit_components)
+                           in one kit but not in the other
+    - each card's contents: "Allt i <next-smaller card>, plus …" when that
+      kit is fully contained in it, otherwise its own component list
+                           (short names + pack size)
+  Cards are ordered by price, cheapest first; this kit is marked
+  "Du tittar på". Header lines:
+    - one smaller kit contained in this one:
+        "För 180 kr extra får du Clarity + Glass Towel."
+    - with two alternatives, one line per alternative, naming it
+    - a bigger kit that contains this one:
+        "<Kit>: för 110 kr mer får du även Detail Brush Duo."
+    - kits that don't contain each other:
+        "<Kit>: 40 kr mer – innehåller i stället X och Y."
   Card titles use custom.kit_display_title (fallback: product title).
 {%- enddoc -%}
 
 {%- liquid
   assign kit = product
-  assign alt = section.settings.alternative
-  assign kit_components = kit.metafields.custom.kit_components.value
-  assign alt_components = alt.metafields.custom.kit_components.value
+  assign alt_a = section.settings.alternative
+  assign alt_b = section.settings.alternative_2
+  assign alt_a_audience = section.settings.alt_audience
+  assign alt_b_audience = section.settings.alt_2_audience
 
-  assign alt_ids = '|'
-  for c in alt_components
-    assign alt_ids = alt_ids | append: c.variant.value.id | append: '|'
-  endfor
+  # An alternative counts only if it is another kit with registered components.
+  assign has_a = false
+  if alt_a != blank and alt_a.id != kit.id and alt_a.metafields.custom.kit_components.value != blank
+    assign has_a = true
+  endif
+  assign has_b = false
+  if alt_b != blank and alt_b.id != kit.id and alt_b.metafields.custom.kit_components.value != blank
+    assign has_b = true
+    if has_a and alt_b.id == alt_a.id
+      assign has_b = false
+    endif
+  endif
+  if has_b and has_a == false
+    assign alt_a = alt_b
+    assign alt_a_audience = alt_b_audience
+    assign has_a = true
+    assign has_b = false
+  endif
+
+  assign alt_count = 0
+  if has_a
+    assign alt_count = 1
+  endif
+  if has_b
+    assign alt_count = 2
+  endif
+
+  # Price-ordered card keys: zero-padded price + key, sorted as strings.
+  assign entries = kit.price | plus: 10000000000 | append: ':k'
+  if has_a
+    assign e = alt_a.price | plus: 10000000000 | append: ':a'
+    assign entries = entries | append: ',' | append: e
+  endif
+  if has_b
+    assign e = alt_b.price | plus: 10000000000 | append: ':b'
+    assign entries = entries | append: ',' | append: e
+  endif
+  assign entries = entries | split: ',' | sort
+
   assign kit_ids = '|'
-  for c in kit_components
+  for c in kit.metafields.custom.kit_components.value
     assign kit_ids = kit_ids | append: c.variant.value.id | append: '|'
   endfor
-
-  assign contained = true
-  for c in alt_components
-    assign needle = '|' | append: c.variant.value.id | append: '|'
-    unless kit_ids contains needle
-      assign contained = false
-    endunless
-  endfor
-
-  assign extra_names = ''
-  for c in kit_components
-    assign needle = '|' | append: c.variant.value.id | append: '|'
-    unless alt_ids contains needle
-      assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
-      if extra_names == blank
-        assign extra_names = n
-      else
-        assign extra_names = extra_names | append: ' + ' | append: n
-      endif
-    endunless
-  endfor
-
-  assign diff = kit.price | minus: alt.price
-  assign kit_title = kit.metafields.custom.kit_display_title.value | default: kit.title
-  assign alt_title = alt.metafields.custom.kit_display_title.value | default: alt.title
 -%}
 
-{%- if alt != blank and alt_components != blank -%}
+{%- if alt_count > 0 -%}
   <div class="section section--page-width nr-kp-section">
     <div class="nr-kp-inner">
       <header class="nr-kp-head">
         <h2 class="nr-kp-h2">{{ section.settings.heading | escape }}</h2>
-        {%- if contained and diff > 0 and extra_names != blank -%}
-          <p class="nr-kp-compare__delta">
-            För {{ diff | money }} extra får du {{ extra_names | escape }}.
-          </p>
-        {%- endif -%}
-      </header>
+        {%- for entry in entries -%}
+          {%- liquid
+            assign key = entry | split: ':' | last
+            if key == 'k'
+              continue
+            elsif key == 'a'
+              assign alt = alt_a
+            else
+              assign alt = alt_b
+            endif
+            assign alt_title = alt.metafields.custom.kit_display_title.value | default: alt.title
+            assign alt_components = alt.metafields.custom.kit_components.value
 
-      <ul
-        class="nr-kp-compare"
-        role="list"
-      >
-        <li class="nr-kp-tier">
-          <a
-            class="nr-kp-tier__media"
-            href="{{ alt.url }}"
-            tabindex="-1"
-            aria-hidden="true"
-          >
-            {%- if alt.featured_image != blank -%}
-              {{
-                alt.featured_image
-                | image_url: width: 480
-                | image_tag: loading: 'lazy', alt: '', widths: '160, 240, 360, 480', sizes: '(min-width: 750px) 200px, 112px'
-              }}
-            {%- endif -%}
-          </a>
-          <div class="nr-kp-tier__body">
-            <p class="nr-kp-tier__label">Alternativ</p>
-            <h3 class="nr-kp-tier__title">{{ alt_title | escape }}</h3>
-            {%- if section.settings.alt_audience != blank -%}
-              <p class="nr-kp-tier__audience">{{ section.settings.alt_audience | escape }}</p>
-            {%- endif -%}
-            <p class="nr-kp-tier__contents">
-              {%- for c in alt_components -%}
-                {%- liquid
-                  assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
-                  assign s = c.size.value
-                  if s contains 'pack'
-                    assign n = n | append: ' ' | append: s
+            assign alt_ids = '|'
+            for c in alt_components
+              assign alt_ids = alt_ids | append: c.variant.value.id | append: '|'
+            endfor
+
+            # In this kit, not in the alternative
+            assign only_kit = ''
+            for c in kit.metafields.custom.kit_components.value
+              assign needle = '|' | append: c.variant.value.id | append: '|'
+              unless alt_ids contains needle
+                assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
+                if only_kit == ''
+                  assign only_kit = n
+                else
+                  assign only_kit = only_kit | append: '§' | append: n
+                endif
+              endunless
+            endfor
+            # In the alternative, not in this kit
+            assign only_alt = ''
+            for c in alt_components
+              assign needle = '|' | append: c.variant.value.id | append: '|'
+              unless kit_ids contains needle
+                assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
+                if only_alt == ''
+                  assign only_alt = n
+                else
+                  assign only_alt = only_alt | append: '§' | append: n
+                endif
+              endunless
+            endfor
+            assign only_kit = only_kit | split: '§'
+            assign only_alt = only_alt | split: '§'
+
+            assign diff = kit.price | minus: alt.price
+            assign diff_abs = diff | abs
+          -%}
+          {%- if only_alt.size == 0 and only_kit.size > 0 and diff > 0 -%}
+            {%- liquid
+              if only_kit.size > 2
+                assign extra_list = ''
+                for n in only_kit
+                  if forloop.first
+                    assign extra_list = n
+                  elsif forloop.last
+                    assign extra_list = extra_list | append: ' och ' | append: n
+                  else
+                    assign extra_list = extra_list | append: ', ' | append: n
                   endif
-                -%}
+                endfor
+              else
+                assign extra_list = only_kit | join: ' + '
+              endif
+            -%}
+            <p class="nr-kp-compare__delta">
+              {%- if alt_count > 1 -%}
+                Jämfört med {{ alt_title | escape }}: för {{ diff | money }} extra får du {{ extra_list | escape }}.
+              {%- else -%}
+                För {{ diff | money }} extra får du {{ extra_list | escape }}.
+              {%- endif -%}
+            </p>
+          {%- elsif only_kit.size == 0 and only_alt.size > 0 and diff < 0 -%}
+            <p class="nr-kp-compare__delta">
+              {{- alt_title | escape }}: för {{ diff_abs | money }} mer får du även
+              {% for n in only_alt -%}
                 {{- n | escape -}}
                 {%- unless forloop.last -%}
                   {%- if forloop.rindex == 2 %} och {% else %}, {% endif -%}
                 {%- endunless -%}
               {%- endfor -%}
+              .
             </p>
-            <p class="nr-kp-tier__price">{{ alt.price | money }}</p>
-            <a
-              class="nr-kp-link"
-              href="{{ alt.url }}"
-              data-nr-event="kit_family_click"
-              data-nr-product="{{ alt.handle }}"
-              data-nr-source="compare"
-            >
-              Se {{ alt_title | escape }} <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </li>
+          {%- elsif only_alt.size > 0 -%}
+            <p class="nr-kp-compare__delta">
+              {{- alt_title | escape }}:
+              {% if diff < 0 %}{{ diff_abs | money }} mer{% elsif diff > 0 %}{{ diff_abs | money }} mindre{% else %}samma pris{% endif %}
+              – innehåller i stället
+              {% for n in only_alt -%}
+                {{- n | escape -}}
+                {%- unless forloop.last -%}
+                  {%- if forloop.rindex == 2 %} och {% else %}, {% endif -%}
+                {%- endunless -%}
+              {%- endfor -%}
+              .
+            </p>
+          {%- endif -%}
+        {%- endfor -%}
+      </header>
 
-        <li
-          class="nr-kp-tier nr-kp-tier--current"
-          aria-current="page"
-        >
-          <span class="nr-kp-tier__media">
-            {%- if kit.featured_image != blank -%}
-              {{
-                kit.featured_image
-                | image_url: width: 480
-                | image_tag: loading: 'lazy', alt: '', widths: '160, 240, 360, 480', sizes: '(min-width: 750px) 200px, 112px'
-              }}
+      <ul
+        class="nr-kp-compare nr-kp-compare--count-{{ entries.size }}"
+        role="list"
+      >
+        {%- assign prev_ids = '' -%}
+        {%- assign prev_title = '' -%}
+        {%- for entry in entries -%}
+          {%- liquid
+            assign key = entry | split: ':' | last
+            if key == 'k'
+              assign card = kit
+              assign card_audience = section.settings.current_audience
+            elsif key == 'a'
+              assign card = alt_a
+              assign card_audience = alt_a_audience
+            else
+              assign card = alt_b
+              assign card_audience = alt_b_audience
+            endif
+            assign card_title = card.metafields.custom.kit_display_title.value | default: card.title
+            assign card_components = card.metafields.custom.kit_components.value
+
+            assign card_ids = '|'
+            for c in card_components
+              assign card_ids = card_ids | append: c.variant.value.id | append: '|'
+            endfor
+
+            # Is the next-smaller card fully contained in this one?
+            assign contains_prev = false
+            if prev_ids != blank
+              assign contains_prev = true
+              assign prev_list = prev_ids | remove_first: '|' | split: '|'
+              for id in prev_list
+                if id == ''
+                  continue
+                endif
+                assign needle = '|' | append: id | append: '|'
+                unless card_ids contains needle
+                  assign contains_prev = false
+                endunless
+              endfor
+            endif
+
+            assign extra_names = ''
+            if contains_prev
+              for c in card_components
+                assign needle = '|' | append: c.variant.value.id | append: '|'
+                unless prev_ids contains needle
+                  assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
+                  if extra_names == ''
+                    assign extra_names = n
+                  else
+                    assign extra_names = extra_names | append: '§' | append: n
+                  endif
+                endunless
+              endfor
+            endif
+            assign extra_names = extra_names | split: '§'
+          -%}
+          <li
+            class="nr-kp-tier{% if key == 'k' %} nr-kp-tier--current{% endif %}"
+            {% if key == 'k' %}
+              aria-current="page"
+            {% endif %}
+          >
+            {%- if key == 'k' -%}
+              <span class="nr-kp-tier__media">
+                {%- if card.featured_image != blank -%}
+                  {{
+                    card.featured_image
+                    | image_url: width: 480
+                    | image_tag: loading: 'lazy', alt: '', widths: '160, 240, 360, 480', sizes: '(min-width: 750px) 200px, 112px'
+                  }}
+                {%- endif -%}
+              </span>
+            {%- else -%}
+              <a
+                class="nr-kp-tier__media"
+                href="{{ card.url }}"
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                {%- if card.featured_image != blank -%}
+                  {{
+                    card.featured_image
+                    | image_url: width: 480
+                    | image_tag: loading: 'lazy', alt: '', widths: '160, 240, 360, 480', sizes: '(min-width: 750px) 200px, 112px'
+                  }}
+                {%- endif -%}
+              </a>
             {%- endif -%}
-          </span>
-          <div class="nr-kp-tier__body">
-            <p class="nr-kp-tier__label nr-kp-tier__label--current">Du tittar på</p>
-            <h3 class="nr-kp-tier__title">{{ kit_title | escape }}</h3>
-            {%- if section.settings.current_audience != blank -%}
-              <p class="nr-kp-tier__audience">{{ section.settings.current_audience | escape }}</p>
-            {%- endif -%}
-            {%- if contained and extra_names != blank -%}
-              <p class="nr-kp-tier__contents">
-                Allt i {{ alt_title | escape }}, plus <strong>{{ extra_names | replace: ' + ', ' och ' | escape }}</strong>
-              </p>
-            {%- endif -%}
-            <p class="nr-kp-tier__price">{{ kit.price | money }}</p>
-          </div>
-        </li>
+            <div class="nr-kp-tier__body">
+              {%- if key == 'k' -%}
+                <p class="nr-kp-tier__label nr-kp-tier__label--current">Du tittar på</p>
+              {%- else -%}
+                <p class="nr-kp-tier__label">Alternativ</p>
+              {%- endif -%}
+              <h3 class="nr-kp-tier__title">{{ card_title | escape }}</h3>
+              {%- if card_audience != blank -%}
+                <p class="nr-kp-tier__audience">{{ card_audience | escape }}</p>
+              {%- endif -%}
+              {%- if contains_prev and extra_names.size > 0 -%}
+                <p class="nr-kp-tier__contents">
+                  Allt i {{ prev_title | escape }}, plus
+                  <strong>
+                    {%- for n in extra_names -%}
+                      {{- n | escape -}}
+                      {%- unless forloop.last -%}
+                        {%- if forloop.rindex == 2 %} och {% else %}, {% endif -%}
+                      {%- endunless -%}
+                    {%- endfor -%}
+                  </strong>
+                </p>
+              {%- else -%}
+                <p class="nr-kp-tier__contents">
+                  {%- for c in card_components -%}
+                    {%- liquid
+                      assign n = c.variant.value.product.title | split: ' – ' | first | split: ' - ' | first
+                      assign s = c.size.value
+                      if s contains 'pack'
+                        assign n = n | append: ' ' | append: s
+                      endif
+                    -%}
+                    {{- n | escape -}}
+                    {%- unless forloop.last -%}
+                      {%- if forloop.rindex == 2 %} och {% else %}, {% endif -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                </p>
+              {%- endif -%}
+              <p class="nr-kp-tier__price">{{ card.price | money }}</p>
+              {%- if key != 'k' -%}
+                <a
+                  class="nr-kp-link"
+                  href="{{ card.url }}"
+                  data-nr-event="kit_family_click"
+                  data-nr-product="{{ card.handle }}"
+                  data-nr-source="compare"
+                >
+                  Se {{ card_title | escape }} <span aria-hidden="true">→</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </li>
+          {%- assign prev_ids = card_ids -%}
+          {%- assign prev_title = card_title -%}
+        {%- endfor -%}
       </ul>
     </div>
   </div>
@@ -154,8 +337,10 @@
   "name": "NR Kit: jämför nivå",
   "settings": [
     { "type": "text", "id": "heading", "label": "Rubrik", "default": "Välj rätt nivå" },
-    { "type": "product", "id": "alternative", "label": "Jämför med (mindre paket)" },
+    { "type": "product", "id": "alternative", "label": "Jämför med" },
     { "type": "text", "id": "alt_audience", "label": "Alternativet passar dig som…" },
+    { "type": "product", "id": "alternative_2", "label": "Jämför även med (valfritt)" },
+    { "type": "text", "id": "alt_2_audience", "label": "Alternativ 2 passar dig som…" },
     { "type": "text", "id": "current_audience", "label": "Det här paketet passar dig som…" }
   ],
   "presets": [{ "name": "NR Kit: jämför nivå", "category": "Product" }]

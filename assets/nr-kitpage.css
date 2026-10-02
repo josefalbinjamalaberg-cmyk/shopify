@@ -81,6 +81,13 @@
   line-height: 1.4;
 }
 
+.nr-kp-summary__note {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--nr-kp-muted);
+}
+
 /* The three detailed points under the buy button */
 .nr-kp-summary--points {
   padding-top: 16px;
@@ -358,6 +365,30 @@
   }
 }
 
+/* Column count by number of products – never an empty slot in a row */
+@media screen and (min-width: 750px) {
+  .nr-kp-included--count-2 {
+    max-width: 760px;
+  }
+
+  .nr-kp-included--count-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .nr-kp-included--count-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nr-kp-included--count-4,
+  .nr-kp-included--count-8 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 36px 24px;
+  }
+}
+
 /* ---------- Användning ---------- */
 .nr-kp-usage {
   display: grid;
@@ -626,6 +657,31 @@
 
   .nr-kp-tier--current {
     padding: 23px;
+  }
+}
+
+/* Three kits: stacked rows until there is room for three columns */
+@media screen and (min-width: 750px) {
+  .nr-kp-compare--count-3 {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 760px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .nr-kp-compare--count-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+  }
+
+  .nr-kp-compare--count-3 .nr-kp-tier {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .nr-kp-compare--count-3 .nr-kp-tier--current {
+    padding: 19px;
   }
 }
 

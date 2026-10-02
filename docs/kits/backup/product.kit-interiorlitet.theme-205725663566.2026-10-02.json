@@ -1,0 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": { "type": "_product-media-gallery", "static": true, "settings": {} },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": { "width": "custom", "custom_width": 100, "gap": 4, "video_position": "cover", "background_image_position": "cover", "border": "none", "border_width": 1, "border_opacity": 100, "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+          "blocks": {
+            "eyebrow": { "type": "text", "settings": { "text": "<p><strong>Färdigt paket · Interiör</strong></p>", "width": "100%", "max_width": "normal", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.75rem", "line_height": "normal", "letter_spacing": "normal", "case": "uppercase", "wrap": "pretty", "text_color": "#6b6b6b" } },
+            "heading": { "type": "text", "settings": { "text": "<h1>{{ closest.product.title }}</h1>", "width": "100%", "alignment": "left", "type_preset": "h2" } },
+            "value_line": { "type": "text", "settings": { "text": "<p>För dig som vill komma igång med interiörvård – det nödvändigaste för att rengöra plast, vinyl och textil i kupén.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#4a4a4a" } },
+            "bundle_descriptor": { "type": "text", "settings": { "text": "<p>3 produkter · rengöring och avtorkning</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } },
+            "price_row": {
+              "type": "group",
+              "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 12, "width": "100%", "padding-block-start": 4, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": { "price": { "type": "price", "settings": { "show_sale_price_first": true, "show_installments": false, "show_tax_info": true, "type_preset": "custom", "width": "fit-content", "alignment": "left", "font": "var(--font-body--family)", "font_size": "2rem", "line_height": "tight", "letter_spacing": "normal", "case": "none" } } },
+              "block_order": ["price"]
+            },
+            "value_compare": {
+              "type": "custom-liquid",
+              "settings": { "custom_liquid": "{%- assign kit = closest.product -%}\n{%- assign apc = all_products['core-apc-allrengoring'] -%}\n{%- assign scrub = all_products['scrub-pad-interior'] -%}\n{%- assign duk = all_products['mikrofiberduk'] -%}\n{%- assign duk5 = 0 -%}\n{%- for v in duk.variants -%}{%- if v.title == '5' -%}{%- assign duk5 = v.price -%}{%- endif -%}{%- endfor -%}\n{%- if apc.id and scrub.id and duk5 > 0 -%}\n{%- assign sep = apc.price | plus: scrub.price | plus: duk5 -%}\n{%- assign save = sep | minus: kit.price -%}\n{%- if save > 0 -%}\n<p style=\"margin:2px 0 0;font-size:0.875rem;color:#4a4a4a;\">Köpt separat {{ sep | money }} · <strong>du sparar {{ save | money }}</strong></p>\n{%- endif -%}\n{%- endif -%}" }
+            },
+            "benefits": {
+              "type": "group",
+              "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "width": "100%", "padding-block-start": 10, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": {
+                "b0": { "type": "group", "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 8, "width": "100%", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 }, "blocks": { "icon": { "type": "icon", "settings": { "icon": "check_box", "width": 16 } }, "text": { "type": "text", "settings": { "text": "<p>Det minsta du behöver för att komma igång</p>", "width": "fill", "alignment": "left", "type_preset": "paragraph" } } }, "block_order": ["icon", "text"] },
+                "b1": { "type": "group", "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 8, "width": "100%", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 }, "blocks": { "icon": { "type": "icon", "settings": { "icon": "check_box", "width": 16 } }, "text": { "type": "text", "settings": { "text": "<p>Fem dukar ingår – byt till en ren när den blir smutsig</p>", "width": "fill", "alignment": "left", "type_preset": "paragraph" } } }, "block_order": ["icon", "text"] },
+                "b2": { "type": "group", "settings": { "content_direction": "row", "vertical_on_mobile": false, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 8, "width": "100%", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 }, "blocks": { "icon": { "type": "icon", "settings": { "icon": "check_box", "width": 16 } }, "text": { "type": "text", "settings": { "text": "<p>Core APC är koncentrerad och späds efter behov</p>", "width": "fill", "alignment": "left", "type_preset": "paragraph" } } }, "block_order": ["icon", "text"] }
+              },
+              "block_order": ["b0", "b1", "b2"]
+            },
+            "contents_summary": { "type": "text", "settings": { "text": "<p>Innehåller Core APC, Scrub Pad och Mikrofiberduk 5-pack. Du behöver vatten och en egen spray-/blandningsflaska för den spädda lösningen.</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } },
+            "buy_buttons": { "type": "buy-buttons", "settings": { "padding-block-start": 16, "padding-block-end": 8, "padding-inline-start": 0, "padding-inline-end": 0 }, "blocks": { "quantity": { "type": "quantity", "static": true, "settings": {} }, "add-to-cart": { "type": "add-to-cart", "static": true, "settings": { "style_class": "button" } }, "accelerated-checkout": { "type": "accelerated-checkout", "static": true, "settings": {} } }, "block_order": [] },
+            "cta_relabel": { "type": "custom-liquid", "settings": { "custom_liquid": "<script src=\"{{ 'nr-kit-cta.js' | asset_url }}\" defer=\"defer\"></script>" } },
+            "trust_row": {
+              "type": "group",
+              "settings": { "content_direction": "row", "vertical_on_mobile": true, "horizontal_alignment": "flex-start", "vertical_alignment": "center", "gap": 16, "width": "100%", "padding-block-start": 12, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+              "blocks": {
+                "shipping": { "type": "text", "settings": { "text": "<p>Fri frakt över 799 kr</p>", "width": "fit-content", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } },
+                "delivery": { "type": "text", "settings": { "text": "<p>Leverans inom 1–3 arbetsdagar</p>", "width": "fit-content", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } },
+                "secure": { "type": "text", "settings": { "text": "<p>Säker betalning</p>", "width": "fit-content", "alignment": "left", "type_preset": "custom", "font": "var(--font-body--family)", "font_size": "0.8125rem", "line_height": "normal", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#6b6b6b" } }
+              },
+              "block_order": ["shipping", "delivery", "secure"]
+            },
+            "accordion": {
+              "type": "accordion", "settings": {},
+              "blocks": {
+                "row_shipping": { "type": "_accordion-row", "settings": { "heading": "Frakt & leverans", "open_by_default": false }, "blocks": { "text": { "type": "text", "settings": { "text": "<p>Fri frakt över 799 kr. Leverans sker normalt inom 1–3 arbetsdagar.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph" } } }, "block_order": ["text"] },
+                "row_return": { "type": "_accordion-row", "settings": { "heading": "Retur", "open_by_default": false }, "blocks": { "text": { "type": "text", "settings": { "text": "<p>Har du frågor om retur eller reklamation? Kontakta vår kundtjänst så hjälper vi dig.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph" } } }, "block_order": ["text"] }
+              },
+              "block_order": ["row_shipping", "row_return"]
+            }
+          },
+          "block_order": ["eyebrow", "heading", "value_line", "bundle_descriptor", "price_row", "value_compare", "benefits", "contents_summary", "buy_buttons", "cta_relabel", "trust_row", "accordion"]
+        }
+      },
+      "settings": { "content_width": "content-center-aligned", "desktop_media_position": "left", "equal_columns": true, "limit_details_width": false, "gap": 48, "enable_sticky_add_to_cart": true, "padding-block-start": 0, "padding-block-end": 0 }
+    },
+    "included": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Det här ingår</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "grid": { "type": "custom-liquid", "settings": { "custom_liquid": "{%- assign handles = 'core-apc-allrengoring,scrub-pad-interior,mikrofiberduk' | split: ',' -%}\n{%- assign qtys = '1 st|1 st|5-pack' | split: '|' -%}\n{%- assign jobs = 'Koncentrerad allrengöring som späds med vatten.|Bearbetar ingrodd smuts på plast, vinyl, läder och textil.|För avtorkning, rengöring och finish.' | split: '|' -%}\n<div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:20px;max-width:640px;\">\n{%- for h in handles -%}\n{%- assign p = all_products[h] -%}\n{%- if p.id -%}\n{%- assign link = p.url -%}\n{%- if h == 'mikrofiberduk' -%}{%- for v in p.variants -%}{%- if v.title == '5' -%}{%- assign link = v.url -%}{%- endif -%}{%- endfor -%}{%- endif -%}\n<a href=\"{{ link }}\" style=\"text-decoration:none;color:inherit;background:#fafafa;border-radius:10px;padding:10px;display:block;box-sizing:border-box;\">\n{%- if p.featured_image -%}<img src=\"{{ p.featured_image | image_url: width: 300 }}\" alt=\"{{ p.title | escape }}\" loading=\"lazy\" style=\"width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:6px;display:block;\">{%- endif -%}\n<div style=\"font-size:0.875rem;font-weight:600;margin-top:8px;\">{{ p.title }}</div>\n<div style=\"display:inline-block;margin-top:4px;background:#00000010;border-radius:50px;padding:2px 8px;font-size:0.75rem;\">{{ qtys[forloop.index0] }}</div>\n<div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:6px;line-height:1.4;\">{{ jobs[forloop.index0] }}</div>\n</a>\n{%- endif -%}\n{%- endfor -%}\n</div>\n<p style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:14px;\">Mikrofiberduk ingår som 5-pack. Dammsugare och sprayflaska ingår inte.</p>" } }
+      },
+      "block_order": ["heading", "grid"],
+      "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "section_width": "page-width", "section_height": "", "background_media": "none", "background_color": "", "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0, "padding-block-start": 56, "padding-block-end": 56 }
+    },
+    "how_to_use": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Så använder du kitet</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "steps": {
+          "type": "group",
+          "settings": { "content_direction": "row", "vertical_on_mobile": true, "horizontal_alignment": "flex-start", "vertical_alignment": "flex-start", "gap": 32, "width": "100%", "padding-block-start": 24, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 },
+          "blocks": {
+            "s0": { "type": "group", "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "width": "fill", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 }, "blocks": { "n": { "type": "text", "settings": { "text": "<p>01</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-heading--family)", "font_size": "1.5rem", "line_height": "tight", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#b0b0b0" } }, "h": { "type": "text", "settings": { "text": "<h4>Blanda och applicera</h4>", "width": "100%", "alignment": "left", "type_preset": "h6" } }, "t": { "type": "text", "settings": { "text": "<p>Späd Core APC med vatten enligt anvisningarna på etiketten och applicera på ytorna.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#6b6b6b" } } }, "block_order": ["n", "h", "t"] },
+            "s1": { "type": "group", "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "width": "fill", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 }, "blocks": { "n": { "type": "text", "settings": { "text": "<p>02</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-heading--family)", "font_size": "1.5rem", "line_height": "tight", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#b0b0b0" } }, "h": { "type": "text", "settings": { "text": "<h4>Bearbeta</h4>", "width": "100%", "alignment": "left", "type_preset": "h6" } }, "t": { "type": "text", "settings": { "text": "<p>Arbeta in med Scrub Pad där smutsen sitter hårdare, till exempel på mattor och slitytor.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#6b6b6b" } } }, "block_order": ["n", "h", "t"] },
+            "s2": { "type": "group", "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "width": "fill", "padding-block-start": 0, "padding-block-end": 0, "padding-inline-start": 0, "padding-inline-end": 0 }, "blocks": { "n": { "type": "text", "settings": { "text": "<p>03</p>", "width": "100%", "alignment": "left", "type_preset": "custom", "font": "var(--font-heading--family)", "font_size": "1.5rem", "line_height": "tight", "letter_spacing": "normal", "case": "none", "wrap": "pretty", "text_color": "#b0b0b0" } }, "h": { "type": "text", "settings": { "text": "<h4>Torka av</h4>", "width": "100%", "alignment": "left", "type_preset": "h6" } }, "t": { "type": "text", "settings": { "text": "<p>Torka av med en mikrofiberduk och byt till en ren duk när den blir mättad.</p>", "width": "100%", "alignment": "left", "type_preset": "paragraph", "text_color": "#6b6b6b" } } }, "block_order": ["n", "h", "t"] }
+          },
+          "block_order": ["s0", "s1", "s2"]
+        }
+      },
+      "block_order": ["heading", "steps"],
+      "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "section_width": "page-width", "section_height": "", "background_media": "none", "background_color": "#fafafa", "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0, "padding-block-start": 56, "padding-block-end": 56 }
+    },
+    "right_level": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Är detta rätt nivå?</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "compare": { "type": "custom-liquid", "settings": { "custom_liquid": "{%- assign this = product -%}\n{%- assign mellan = all_products['mellan-interior-startkit'] -%}\n<div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:20px;max-width:720px;\">\n<div style=\"border:2px solid #1a1a1a;border-radius:12px;padding:16px;box-sizing:border-box;\">\n<div style=\"display:inline-block;background:#1a1a1a;color:#fff;border-radius:50px;padding:2px 10px;font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.04em;\">Du tittar på denna</div>\n<div style=\"font-size:0.875rem;font-weight:600;margin-top:8px;\">{{ this.title }}</div>\n<div style=\"font-size:1.25rem;margin-top:6px;\">{{ this.price | money }}</div>\n<div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:8px;line-height:1.5;\">Räcker för ytor du kommer åt med hand och pad: säten, mattor, paneler och dörrsidor.</div>\n</div>\n{%- if mellan.id -%}\n{%- assign diff = mellan.price | minus: this.price -%}\n<a href=\"{{ mellan.url }}\" style=\"text-decoration:none;color:inherit;border:1px solid #e3e3e3;border-radius:12px;padding:16px;display:block;box-sizing:border-box;\">\n<div style=\"font-size:0.875rem;font-weight:600;\">{{ mellan.title }}</div>\n<div style=\"font-size:1.25rem;margin-top:6px;\">{{ mellan.price | money }}</div>\n<div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:8px;line-height:1.5;\">Samma innehåll plus Detail Brush Duo, för {{ diff | money }} mer. Välj den om du också vill komma åt ventiler, knappar och lister.</div>\n</a>\n{%- endif -%}\n</div>" } }
+      },
+      "block_order": ["heading", "compare"],
+      "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "section_width": "page-width", "section_height": "", "background_media": "none", "background_color": "", "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0, "padding-block-start": 56, "padding-block-end": 56 }
+    },
+    "faq": {
+      "type": "section",
+      "blocks": {
+        "heading": { "type": "text", "settings": { "text": "<h2>Vanliga frågor</h2>", "width": "100%", "alignment": "left", "type_preset": "h3" } },
+        "items": { "type": "custom-liquid", "settings": { "custom_liquid": "<div style=\"margin-top:20px;max-width:720px;\">\n<details style=\"border-bottom:1px solid #e3e3e3;padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Behöver jag en sprayflaska?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Ja. Core APC är koncentrerad och späds med vatten, så du behöver en egen spray- eller blandningsflaska. Någon sådan ingår inte i kitet.</p></details>\n<details style=\"border-bottom:1px solid #e3e3e3;padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Hur många dukar får jag?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Fem stycken – mikrofiberduken ingår som 5-pack. Core APC och Scrub Pad ingår med 1 st vardera.</p></details>\n<details style=\"border-bottom:1px solid #e3e3e3;padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Kommer jag åt ventiler och knappar?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Inte särskilt bra. Det här kitet innehåller ingen detailingborste – behöver du komma åt små utrymmen är Mellan interiör Startkit ett bättre val.</p></details>\n<details style=\"padding:14px 0;\"><summary style=\"cursor:pointer;font-size:0.9375rem;font-weight:600;\">Var kan Core APC användas?</summary><p style=\"font-size:0.875rem;color:#6b6b6b;margin:10px 0 0;line-height:1.6;\">Core APC är avsedd för plast, vinyl, textil, gummi och andra tvättbara ytor. Följ spädning och anvisningar på etiketten, och testa på en dold yta om du är osäker.</p></details>\n</div>" } }
+      },
+      "block_order": ["heading", "items"],
+      "settings": { "content_direction": "column", "vertical_on_mobile": true, "horizontal_alignment_flex_direction_column": "flex-start", "gap": 8, "section_width": "page-width", "section_height": "", "background_media": "none", "background_color": "", "border": "none", "border_width": 1, "border_opacity": 100, "border_radius": 0, "padding-block-start": 56, "padding-block-end": 56 }
+    }
+  },
+  "order": ["main", "included", "how_to_use", "right_level", "faq"]
+}

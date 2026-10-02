@@ -11,8 +11,10 @@
     type               → product pdp.type_label, else component role
     amount             → component size (e.g. 500 ml, 5-pack, 2-pack), else "<qty> st"
     why                → custom.kit_component_notes[n], else component purpose
-  Desktop: three cards per row. Tablet: two. Mobile: one compact row per
-  product (image left, text right) – readable without squeezing two columns.
+  Columns follow the number of products so no row has empty slots:
+  2 → two (narrower), 3 → three, 4 → two/four, 6 → two/three, 8 → two/four
+  (tablet/desktop). Mobile: one compact row per product (image left, text
+  right) – readable without squeezing two columns.
 {%- enddoc -%}
 
 {%- liquid
@@ -32,7 +34,7 @@
       </header>
 
       <ul
-        class="nr-kp-included"
+        class="nr-kp-included nr-kp-included--count-{{ components.size }}"
         role="list"
       >
         {%- for component in components -%}

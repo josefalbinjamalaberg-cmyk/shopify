@@ -1,0 +1,864 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "custom",
+            "custom_width": 100,
+            "gap": 4,
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "eyebrow": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Färdigt paket</strong></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "text_color": "#6b6b6b"
+              }
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h1>{{ closest.product.title }}</h1>",
+                "width": "100%",
+                "alignment": "left",
+                "type_preset": "h2"
+              }
+            },
+            "value_line": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Ett tjockt, jämnt skumlager för en skonsam förtvätt.</p>",
+                "width": "100%",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "text_color": "#4a4a4a"
+              }
+            },
+            "bundle_descriptor": {
+              "type": "text",
+              "settings": {
+                "text": "<p>2 produkter · För effektiv förtvätt med skum</p>",
+                "width": "100%",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.8125rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "#6b6b6b"
+              }
+            },
+            "price_row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "gap": 12,
+                "width": "100%",
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "price": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": true,
+                    "type_preset": "custom",
+                    "width": "fit-content",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "2rem",
+                    "line_height": "tight",
+                    "letter_spacing": "normal",
+                    "case": "none"
+                  }
+                },
+                "savings_pill": {
+                  "type": "custom-liquid",
+                  "settings": {
+                    "custom_liquid": "{% if closest.product.compare_at_price > closest.product.price %}<span style=\"display:inline-block;background:#00000010;border-radius:50px;padding:6px 12px;font-size:0.8125rem;line-height:normal;\">Spara {{ closest.product.compare_at_price | minus: closest.product.price | money }}</span>{% endif %}"
+                  }
+                }
+              },
+              "block_order": [
+                "price",
+                "savings_pill"
+              ]
+            },
+            "benefits": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "100%",
+                "padding-block-start": 8,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "benefit_0": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "center",
+                    "gap": 8,
+                    "width": "100%",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "icon": {
+                      "type": "icon",
+                      "settings": {
+                        "icon": "check_box",
+                        "width": 16
+                      }
+                    },
+                    "text": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>För en skonsam och effektiv förtvätt</p>",
+                        "width": "fill",
+                        "alignment": "left",
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "icon",
+                    "text"
+                  ]
+                },
+                "benefit_1": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "center",
+                    "gap": 8,
+                    "width": "100%",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "icon": {
+                      "type": "icon",
+                      "settings": {
+                        "icon": "check_box",
+                        "width": 16
+                      }
+                    },
+                    "text": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Rätt produkter i rätt kombination</p>",
+                        "width": "fill",
+                        "alignment": "left",
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "icon",
+                    "text"
+                  ]
+                },
+                "benefit_2": {
+                  "type": "group",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "center",
+                    "gap": 8,
+                    "width": "100%",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "icon": {
+                      "type": "icon",
+                      "settings": {
+                        "icon": "check_box",
+                        "width": 16
+                      }
+                    },
+                    "text": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Billigare än att köpa produkterna separat</p>",
+                        "width": "fill",
+                        "alignment": "left",
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "icon",
+                    "text"
+                  ]
+                }
+              },
+              "block_order": [
+                "benefit_0",
+                "benefit_1",
+                "benefit_2"
+              ]
+            },
+            "included_heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h5>I paketet ingår</h5>",
+                "width": "100%",
+                "alignment": "left",
+                "type_preset": "h5"
+              }
+            },
+            "included_products": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<div style=\"display:flex;flex-wrap:wrap;gap:12px;\">\n  <a href=\"{{ all_products['foamtastic-hogkoncentrerat-snow-foam'].url }}\" style=\"flex:1 1 140px;min-width:140px;text-decoration:none;color:inherit;background:#fafafa;border-radius:12px;padding:12px;display:block;box-sizing:border-box;\">\n    {% assign p = all_products['foamtastic-hogkoncentrerat-snow-foam'] %}\n    {% if p.featured_image %}<img src=\"{{ p.featured_image | image_url: width: 300 }}\" alt=\"{{ p.title | escape }}\" loading=\"lazy\" style=\"width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block;\">{% endif %}\n    <div style=\"font-size:0.875rem;margin-top:8px;color:inherit;\">{{ p.title }}</div>\n    <div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:2px;\">Rikt förtvättskum som löser upp smuts.</div>\n  </a>\n  <a href=\"{{ all_products['foam-lance-skumlans'].url }}\" style=\"flex:1 1 140px;min-width:140px;text-decoration:none;color:inherit;background:#fafafa;border-radius:12px;padding:12px;display:block;box-sizing:border-box;\">\n    {% assign p = all_products['foam-lance-skumlans'] %}\n    {% if p.featured_image %}<img src=\"{{ p.featured_image | image_url: width: 300 }}\" alt=\"{{ p.title | escape }}\" loading=\"lazy\" style=\"width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block;\">{% endif %}\n    <div style=\"font-size:0.875rem;margin-top:8px;color:inherit;\">{{ p.title }}</div>\n    <div style=\"font-size:0.8125rem;color:#6b6b6b;margin-top:2px;\">Applicerar skummet jämnt över bilen.</div>\n  </a>\n</div>"
+              }
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "settings": {
+                "padding-block-start": 16,
+                "padding-block-end": 8,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  }
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {}
+                }
+              },
+              "block_order": []
+            },
+            "cta_relabel": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<script src=\"{{ 'nr-kit-cta.js' | asset_url }}\" defer=\"defer\"></script>"
+              }
+            },
+            "trust_row": {
+              "type": "group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "gap": 16,
+                "width": "100%",
+                "padding-block-start": 12,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "shipping": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Fri frakt över 799 kr</p>",
+                    "width": "fit-content",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.8125rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#6b6b6b"
+                  }
+                },
+                "delivery": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Leverans inom 1–3 arbetsdagar</p>",
+                    "width": "fit-content",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.8125rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#6b6b6b"
+                  }
+                },
+                "secure": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Säker betalning</p>",
+                    "width": "fit-content",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.8125rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#6b6b6b"
+                  }
+                }
+              },
+              "block_order": [
+                "shipping",
+                "delivery",
+                "secure"
+              ]
+            },
+            "accordion": {
+              "type": "accordion",
+              "settings": {},
+              "blocks": {
+                "row_shipping": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Frakt & leverans",
+                    "open_by_default": false
+                  },
+                  "blocks": {
+                    "text": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Fri frakt över 799 kr. Leverans sker normalt inom 1–3 arbetsdagar.</p>",
+                        "width": "100%",
+                        "alignment": "left",
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "text"
+                  ]
+                },
+                "row_return": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Retur",
+                    "open_by_default": false
+                  },
+                  "blocks": {
+                    "text": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Har du frågor om retur eller reklamation? Kontakta vår kundtjänst så hjälper vi dig.</p>",
+                        "width": "100%",
+                        "alignment": "left",
+                        "type_preset": "paragraph"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "text"
+                  ]
+                }
+              },
+              "block_order": [
+                "row_shipping",
+                "row_return"
+              ]
+            }
+          },
+          "block_order": [
+            "eyebrow",
+            "heading",
+            "value_line",
+            "bundle_descriptor",
+            "price_row",
+            "benefits",
+            "included_heading",
+            "included_products",
+            "buy_buttons",
+            "cta_relabel",
+            "trust_row",
+            "accordion"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": true,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "how_to_use": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Så använder du kitet</h2>",
+            "width": "100%",
+            "alignment": "left",
+            "type_preset": "h3"
+          }
+        },
+        "steps": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "gap": 32,
+            "width": "100%",
+            "padding-block-start": 24,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "step_0": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "number": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>01</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "1.5rem",
+                    "line_height": "tight",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#b0b0b0"
+                  }
+                },
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Fyll</h4>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "h6"
+                  }
+                },
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Fyll Foam Cannon med Foamtastic enligt produktens instruktioner.</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "text_color": "#6b6b6b"
+                  }
+                }
+              },
+              "block_order": [
+                "number",
+                "heading",
+                "text"
+              ]
+            },
+            "step_1": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "number": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>02</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "1.5rem",
+                    "line_height": "tight",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#b0b0b0"
+                  }
+                },
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Applicera</h4>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "h6"
+                  }
+                },
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Applicera skummet jämnt över hela bilen.</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "text_color": "#6b6b6b"
+                  }
+                }
+              },
+              "block_order": [
+                "number",
+                "heading",
+                "text"
+              ]
+            },
+            "step_2": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "number": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>03</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "1.5rem",
+                    "line_height": "tight",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "#b0b0b0"
+                  }
+                },
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Skölj</h4>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "h6"
+                  }
+                },
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Låt verka en stund och skölj av innan fortsatt tvätt.</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "text_color": "#6b6b6b"
+                  }
+                }
+              },
+              "block_order": [
+                "number",
+                "heading",
+                "text"
+              ]
+            }
+          },
+          "block_order": [
+            "step_0",
+            "step_1",
+            "step_2"
+          ]
+        }
+      },
+      "block_order": [
+        "heading",
+        "steps"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "gap": 8,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_media": "none",
+        "background_color": "",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding-block-start": 56,
+        "padding-block-end": 56
+      }
+    },
+    "why_buy": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Varför välja ett färdigt paket?</h2>",
+            "width": "100%",
+            "alignment": "left",
+            "type_preset": "h3"
+          }
+        },
+        "columns": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "gap": 32,
+            "width": "100%",
+            "padding-block-start": 24,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "col1": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Rätt kombination</h4>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "h6"
+                  }
+                },
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Produkterna är valda för att användas tillsammans.</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "text_color": "#6b6b6b"
+                  }
+                }
+              },
+              "block_order": [
+                "heading",
+                "text"
+              ]
+            },
+            "col2": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Enklare att komma igång</h4>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "h6"
+                  }
+                },
+                "text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Du slipper själv kombinera rätt produkter och tillbehör.</p>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "text_color": "#6b6b6b"
+                  }
+                }
+              },
+              "block_order": [
+                "heading",
+                "text"
+              ]
+            },
+            "col3": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 8,
+                "width": "fill",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Bättre paketpris</h4>",
+                    "width": "100%",
+                    "alignment": "left",
+                    "type_preset": "h6"
+                  }
+                },
+                "text": {
+                  "type": "custom-liquid",
+                  "settings": {
+                    "custom_liquid": "<p style=\"color:#6b6b6b;\">{% if product.compare_at_price > product.price %}Du sparar {{ product.compare_at_price | minus: product.price | money }} jämfört med att köpa produkterna separat.{% else %}Ett samlat pris för hela paketet.{% endif %}</p>"
+                  }
+                }
+              },
+              "block_order": [
+                "heading",
+                "text"
+              ]
+            }
+          },
+          "block_order": [
+            "col1",
+            "col2",
+            "col3"
+          ]
+        }
+      },
+      "block_order": [
+        "heading",
+        "columns"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "gap": 8,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_media": "none",
+        "background_color": "#fafafa",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding-block-start": 56,
+        "padding-block-end": 56
+      }
+    }
+  },
+  "order": [
+    "main",
+    "how_to_use",
+    "why_buy"
+  ]
+}

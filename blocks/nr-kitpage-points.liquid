@@ -1,12 +1,13 @@
 {%- doc -%}
-  Kit page (v3): up to three short contents points (custom.kit_value_points),
+  Kit page (v3): up to three short contents points – custom.kit_points
+  (kit-page only), else custom.kit_value_points (also read by the menus) –
   directly under the buy buttons. The one-line contents summary
   (custom.kit_descriptor) is shown once, above the button, by nr-kitpage-summary.
 {%- enddoc -%}
 
 {%- liquid
   assign kit = closest.product
-  assign points = kit.metafields.custom.kit_value_points.value
+  assign points = kit.metafields.custom.kit_points.value | default: kit.metafields.custom.kit_value_points.value
 -%}
 
 {%- if points != blank -%}
