@@ -48,6 +48,32 @@
       "source_location": "L282"
     },
     {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts",
+      "label": "TestTextLayoutDataContracts",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "test_text_layout_resilience.py",
+      "file_type": "code",
+      "norm_label": "testtextlayoutdatacontracts",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L68"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval",
+      "label": "TestTextLayoutRetrieval",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "test_text_layout_resilience.py",
+      "file_type": "code",
+      "norm_label": "testtextlayoutretrieval",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L41"
+    },
+    {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testpaletteselection",
       "label": "TestPaletteSelection",
       "_callable": true,
@@ -85,19 +111,6 @@
       "norm_label": "testthresholdgate",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
       "source_location": "L77"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer",
-      "label": "TestTokenizer",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 126,
-      "community_name": "TestTokenizer",
-      "file_type": "code",
-      "norm_label": "testtokenizer",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L31"
     },
     {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_teststyleidentitycontract",
@@ -178,6 +191,19 @@
       "source_location": "L252"
     },
     {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer",
+      "label": "TestTokenizer",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 144,
+      "community_name": "test_core.py",
+      "file_type": "code",
+      "norm_label": "testtokenizer",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L31"
+    },
+    {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior",
       "label": "TestBm25CoreBehavior",
       "_callable": true,
@@ -191,30 +217,17 @@
       "source_location": "L65"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts",
-      "label": "TestTextLayoutDataContracts",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath",
+      "label": "TestMetricMath",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
-      "norm_label": "testtextlayoutdatacontracts",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L68"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval",
-      "label": "TestTextLayoutRetrieval",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "code",
-      "norm_label": "testtextlayoutretrieval",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L41"
+      "norm_label": "testmetricmath",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "source_location": "L17"
     },
     {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_data_quality_testaccessibilityguidance",
@@ -386,19 +399,6 @@
       "source_location": "L17"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath",
-      "label": "TestMetricMath",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 59,
-      "community_name": "TestMetricMath",
-      "file_type": "code",
-      "norm_label": "testmetricmath",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
-      "source_location": "L17"
-    },
-    {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_design_system_mode_testendtoendcoherence",
       "label": "TestEndToEndCoherence",
       "_callable": true,
@@ -535,7 +535,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "code",
       "norm_label": "testgeneratedconfigisvalidjs",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -1479,88 +1479,88 @@
       "source_location": "L73"
     },
     {
-      "id": "docs_kits_rollout_harness_blk",
-      "label": "blk()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_read_rows",
+      "label": "read_rows()",
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "blk()",
-      "source_file": "docs/kits/rollout/harness.py",
-      "source_location": "L93"
+      "norm_label": "read_rows()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L16"
     },
     {
-      "id": "docs_kits_rollout_harness_clean",
-      "label": "clean()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_setupclass",
+      "label": ".setUpClass()",
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "clean()",
-      "source_file": "docs/kits/rollout/harness.py",
-      "source_location": "L4"
+      "norm_label": ".setupclass()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L70"
     },
     {
-      "id": "docs_kits_rollout_harness_comp",
-      "label": "comp()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_new_tailwind_rows_are_unique_current_and_keep_required_utilities",
+      "label": ".test_new_tailwind_rows_are_unique_current_and_keep_required_utilities()",
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "comp()",
-      "source_file": "docs/kits/rollout/harness.py",
-      "source_location": "L35"
+      "norm_label": ".test_new_tailwind_rows_are_unique_current_and_keep_required_utilities()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L86"
     },
     {
-      "id": "docs_kits_rollout_harness_money",
-      "label": "money()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_new_ux_rows_are_unique_sequential_and_keep_critical_guidance",
+      "label": ".test_new_ux_rows_are_unique_sequential_and_keep_critical_guidance()",
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "money()",
-      "source_file": "docs/kits/rollout/harness.py",
-      "source_location": "L71"
+      "norm_label": ".test_new_ux_rows_are_unique_sequential_and_keep_critical_guidance()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L74"
     },
     {
-      "id": "docs_kits_rollout_harness_ph",
-      "label": "ph()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_refined_rows_are_context_sensitive_not_universal_recipes",
+      "label": ".test_refined_rows_are_context_sensitive_not_universal_recipes()",
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "ph()",
-      "source_file": "docs/kits/rollout/harness.py",
-      "source_location": "L9"
+      "norm_label": ".test_refined_rows_are_context_sensitive_not_universal_recipes()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L100"
     },
     {
-      "id": "docs_kits_rollout_harness_resolve",
-      "label": "resolve()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_locked_queries_return_the_canonical_identity_first",
+      "label": ".test_locked_queries_return_the_canonical_identity_first()",
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "resolve()",
-      "source_file": "docs/kits/rollout/harness.py",
-      "source_location": "L84"
+      "norm_label": ".test_locked_queries_return_the_canonical_identity_first()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L42"
     },
     {
-      "id": "docs_kits_rollout_harness_sec",
-      "label": "sec()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_tailwind_query_returns_compact_label_layout_first",
+      "label": ".test_tailwind_query_returns_compact_label_layout_first()",
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "sec()",
-      "source_file": "docs/kits/rollout/harness.py",
-      "source_location": "L95"
+      "norm_label": ".test_tailwind_query_returns_compact_label_layout_first()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L58"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_all_components_success",
@@ -1947,76 +1947,16 @@
       "source_location": "L972"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_apply_decision_rules",
-      "label": "apply_decision_rules()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_search_format_output",
+      "label": "format_output()",
       "_callable": true,
       "_origin": "ast",
       "community": 12,
       "community_name": "design_system.py",
       "file_type": "code",
-      "norm_label": "apply_decision_rules()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L101"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_object_without_duplicates",
-      "label": "_object_without_duplicates()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "_object_without_duplicates()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L58"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_parse_decision_rules",
-      "label": "parse_decision_rules()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "parse_decision_rules()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L67"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_validate_action",
-      "label": "_validate_action()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "_validate_action()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L87"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_unknown_keys_and_unknown_actions_fail_closed",
-      "label": ".test_duplicate_unknown_keys_and_unknown_actions_fail_closed()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": ".test_duplicate_unknown_keys_and_unknown_actions_fail_closed()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L107"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_must_have_and_explicit_signals_are_applied_and_reported",
-      "label": ".test_must_have_and_explicit_signals_are_applied_and_reported()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": ".test_must_have_and_explicit_signals_are_applied_and_reported()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L119"
+      "norm_label": "format_output()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
+      "source_location": "L44"
     },
     {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testthresholdgate_test_manifest_binds_oracle_and_validates_baseline_revision",
@@ -2089,66 +2029,6 @@
       "norm_label": ".test_runtime_fingerprint_binds_reasoning_contract()",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
       "source_location": "L78"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_boundary_safe_nav_normalization_preserves_existing_words",
-      "label": ".test_boundary_safe_nav_normalization_preserves_existing_words()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 126,
-      "community_name": "TestTokenizer",
-      "file_type": "code",
-      "norm_label": ".test_boundary_safe_nav_normalization_preserves_existing_words()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L50"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_punctuation_and_uk_variants_normalize_to_canonical_tokens",
-      "label": ".test_punctuation_and_uk_variants_normalize_to_canonical_tokens()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 126,
-      "community_name": "TestTokenizer",
-      "file_type": "code",
-      "norm_label": ".test_punctuation_and_uk_variants_normalize_to_canonical_tokens()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L58"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_short_domain_terms_are_kept",
-      "label": ".test_short_domain_terms_are_kept()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 126,
-      "community_name": "TestTokenizer",
-      "file_type": "code",
-      "norm_label": ".test_short_domain_terms_are_kept()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L32"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_stopwords_removed",
-      "label": ".test_stopwords_removed()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 126,
-      "community_name": "TestTokenizer",
-      "file_type": "code",
-      "norm_label": ".test_stopwords_removed()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L39"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_synonym_normalization",
-      "label": ".test_synonym_normalization()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 126,
-      "community_name": "TestTokenizer",
-      "file_type": "code",
-      "norm_label": ".test_synonym_normalization()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
-      "source_location": "L45"
     },
     {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_split_values",
@@ -2487,18 +2367,6 @@
       "source_location": "L919"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_search_format_output",
-      "label": "format_output()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 144,
-      "community_name": "test_core.py",
-      "file_type": "code",
-      "norm_label": "format_output()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
-      "source_location": "L44"
-    },
-    {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testdiagnosticscontracts_test_diagnostics_opt_in_is_additive_for_domain_search",
       "label": ".test_diagnostics_opt_in_is_additive_for_domain_search()",
       "_callable": true,
@@ -2557,6 +2425,66 @@
       "norm_label": ".test_persist_writes_only_under_output_dir()",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
       "source_location": "L306"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_boundary_safe_nav_normalization_preserves_existing_words",
+      "label": ".test_boundary_safe_nav_normalization_preserves_existing_words()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 144,
+      "community_name": "test_core.py",
+      "file_type": "code",
+      "norm_label": ".test_boundary_safe_nav_normalization_preserves_existing_words()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L50"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_punctuation_and_uk_variants_normalize_to_canonical_tokens",
+      "label": ".test_punctuation_and_uk_variants_normalize_to_canonical_tokens()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 144,
+      "community_name": "test_core.py",
+      "file_type": "code",
+      "norm_label": ".test_punctuation_and_uk_variants_normalize_to_canonical_tokens()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L58"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_short_domain_terms_are_kept",
+      "label": ".test_short_domain_terms_are_kept()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 144,
+      "community_name": "test_core.py",
+      "file_type": "code",
+      "norm_label": ".test_short_domain_terms_are_kept()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L32"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_stopwords_removed",
+      "label": ".test_stopwords_removed()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 144,
+      "community_name": "test_core.py",
+      "file_type": "code",
+      "norm_label": ".test_stopwords_removed()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L39"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testtokenizer_test_synonym_normalization",
+      "label": ".test_synonym_normalization()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 144,
+      "community_name": "test_core.py",
+      "file_type": "code",
+      "norm_label": ".test_synonym_normalization()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "source_location": "L45"
     },
     {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_testbm25corebehavior_test_bm25_cache_rebuilds_after_file_mtime_changes",
@@ -2619,88 +2547,52 @@
       "source_location": "L111"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_read_rows",
-      "label": "read_rows()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_ndcg_uses_graded_gain_and_handles_empty_ideal",
+      "label": ".test_ndcg_uses_graded_gain_and_handles_empty_ideal()",
       "_callable": true,
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
-      "norm_label": "read_rows()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L16"
+      "norm_label": ".test_ndcg_uses_graded_gain_and_handles_empty_ideal()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "source_location": "L29"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_setupclass",
-      "label": ".setUpClass()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_precision_counts_missing_ranks_as_non_relevant",
+      "label": ".test_precision_counts_missing_ranks_as_non_relevant()",
       "_callable": true,
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
-      "norm_label": ".setupclass()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L70"
+      "norm_label": ".test_precision_counts_missing_ranks_as_non_relevant()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "source_location": "L18"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_new_tailwind_rows_are_unique_current_and_keep_required_utilities",
-      "label": ".test_new_tailwind_rows_are_unique_current_and_keep_required_utilities()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_reciprocal_rank_stops_at_k",
+      "label": ".test_reciprocal_rank_stops_at_k()",
       "_callable": true,
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
-      "norm_label": ".test_new_tailwind_rows_are_unique_current_and_keep_required_utilities()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L86"
+      "norm_label": ".test_reciprocal_rank_stops_at_k()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "source_location": "L24"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_new_ux_rows_are_unique_sequential_and_keep_critical_guidance",
-      "label": ".test_new_ux_rows_are_unique_sequential_and_keep_critical_guidance()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_result_grades_match_identity_subsets",
+      "label": ".test_result_grades_match_identity_subsets()",
       "_callable": true,
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
-      "norm_label": ".test_new_ux_rows_are_unique_sequential_and_keep_critical_guidance()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L74"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutdatacontracts_test_refined_rows_are_context_sensitive_not_universal_recipes",
-      "label": ".test_refined_rows_are_context_sensitive_not_universal_recipes()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "code",
-      "norm_label": ".test_refined_rows_are_context_sensitive_not_universal_recipes()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L100"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_locked_queries_return_the_canonical_identity_first",
-      "label": ".test_locked_queries_return_the_canonical_identity_first()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "code",
-      "norm_label": ".test_locked_queries_return_the_canonical_identity_first()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L42"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_testtextlayoutretrieval_test_tailwind_query_returns_compact_label_layout_first",
-      "label": ".test_tailwind_query_returns_compact_label_layout_first()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "code",
-      "norm_label": ".test_tailwind_query_returns_compact_label_layout_first()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
-      "source_location": "L58"
+      "norm_label": ".test_result_grades_match_identity_subsets()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "source_location": "L34"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_list_installed_empty",
@@ -2751,28 +2643,52 @@
       "source_location": "L70"
     },
     {
-      "id": "docs_kits_rollout_build_main",
-      "label": "main()",
+      "id": "assets_nr_cart_next_add",
+      "label": "add()",
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "build.py",
+      "community_name": "nr-cart-next.js",
       "file_type": "code",
-      "norm_label": "main()",
-      "source_file": "docs/kits/rollout/build.py",
-      "source_location": "L398"
+      "norm_label": "add()",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L37"
     },
     {
-      "id": "docs_kits_rollout_build_template",
-      "label": "template()",
+      "id": "assets_nr_cart_next_announce",
+      "label": "announce()",
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "build.py",
+      "community_name": "nr-cart-next.js",
       "file_type": "code",
-      "norm_label": "template()",
-      "source_file": "docs/kits/rollout/build.py",
-      "source_location": "L357"
+      "norm_label": "announce()",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L32"
+    },
+    {
+      "id": "assets_nr_cart_next_publish",
+      "label": "publish()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 166,
+      "community_name": "nr-cart-next.js",
+      "file_type": "code",
+      "norm_label": "publish()",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L18"
+    },
+    {
+      "id": "assets_nr_cart_next_sectionids",
+      "label": "sectionIds()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 166,
+      "community_name": "nr-cart-next.js",
+      "file_type": "code",
+      "norm_label": "sectionids()",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L26"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_shadcn_add_testshadcninstaller_test_add_components_no_config",
@@ -2859,16 +2775,16 @@
       "source_location": "L44"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_recommend_plugins_nextjs",
-      "label": ".test_recommend_plugins_nextjs()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_default_typescript",
+      "label": ".test_init_default_typescript()",
       "_callable": true,
       "_origin": "ast",
       "community": 175,
-      "community_name": ".test_recommend_plugins_nextjs",
+      "community_name": ".test_init_default_typescript",
       "file_type": "code",
-      "norm_label": ".test_recommend_plugins_nextjs()",
+      "norm_label": ".test_init_default_typescript()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L189"
+      "source_location": "L19"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_breakpoints",
@@ -2895,28 +2811,28 @@
       "source_location": "L124"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_validate_config_valid",
-      "label": ".test_validate_config_valid()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_javascript",
+      "label": ".test_init_javascript()",
       "_callable": true,
       "_origin": "ast",
       "community": 178,
-      "community_name": ".test_validate_config_valid",
+      "community_name": ".test_init_javascript",
       "file_type": "code",
-      "norm_label": ".test_validate_config_valid()",
+      "norm_label": ".test_init_javascript()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L231"
+      "source_location": "L25"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_spacing",
-      "label": ".test_add_spacing()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config_creates_content",
+      "label": ".test_write_config_creates_content()",
       "_callable": true,
       "_origin": "ast",
       "community": 179,
-      "community_name": ".test_add_spacing",
+      "community_name": ".test_write_config_creates_content",
       "file_type": "code",
-      "norm_label": ".test_add_spacing()",
+      "norm_label": ".test_write_config_creates_content()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L137"
+      "source_location": "L269"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_recommend_plugins",
@@ -2931,16 +2847,16 @@
       "source_location": "L181"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_full_configuration_javascript",
-      "label": ".test_full_configuration_javascript()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_framework",
+      "label": ".test_init_framework()",
       "_callable": true,
       "_origin": "ast",
       "community": 181,
-      "community_name": ".test_full_configuration_javascript",
+      "community_name": ".test_init_framework",
       "file_type": "code",
-      "norm_label": ".test_full_configuration_javascript()",
+      "norm_label": ".test_init_framework()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L319"
+      "source_location": "L30"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_javascript_config",
@@ -2955,16 +2871,16 @@
       "source_location": "L205"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_config_with_colors",
-      "label": ".test_generate_config_with_colors()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_output_path_typescript",
+      "label": ".test_default_output_path_typescript()",
       "_callable": true,
       "_origin": "ast",
       "community": 183,
-      "community_name": ".test_generate_config_with_colors",
+      "community_name": ".test_default_output_path_typescript",
       "file_type": "code",
-      "norm_label": ".test_generate_config_with_colors()",
+      "norm_label": ".test_default_output_path_typescript()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L213"
+      "source_location": "L36"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_validate_config_no_content",
@@ -3008,7 +2924,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "test_sync_parses_bundled_starter_template()",
       "source_file": ".claude/skills/brand/scripts/tests/test_sync_brand_to_tokens.py",
@@ -3020,7 +2936,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "main()",
       "source_file": ".claude/skills/design-system/scripts/slide-token-validator.py",
@@ -3032,7 +2948,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "_run()",
       "source_file": ".claude/skills/design-system/scripts/tests/test_validate_tokens.py",
@@ -3044,7 +2960,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "test_flags_hardcoded_hex_sharing_line_with_token()",
       "source_file": ".claude/skills/design-system/scripts/tests/test_validate_tokens.py",
@@ -3056,11 +2972,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "test_token_only_line_reports_no_violation()",
       "source_file": ".claude/skills/design-system/scripts/tests/test_validate_tokens.py",
       "source_location": "L41"
+    },
+    {
+      "id": "docs_kits_rollout_build_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 187,
+      "community_name": "pathlib",
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "docs/kits/rollout/build.py",
+      "source_location": "L398"
+    },
+    {
+      "id": "docs_kits_rollout_build_template",
+      "label": "template()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 187,
+      "community_name": "pathlib",
+      "file_type": "code",
+      "norm_label": "template()",
+      "source_file": "docs/kits/rollout/build.py",
+      "source_location": "L357"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config_invalid_path",
@@ -3123,16 +3063,16 @@
       "source_location": "L27"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_full_configuration_typescript",
-      "label": ".test_full_configuration_typescript()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_vue",
+      "label": ".test_default_content_paths_vue()",
       "_callable": true,
       "_origin": "ast",
       "community": 190,
-      "community_name": ".test_full_configuration_typescript",
+      "community_name": ".test_default_content_paths_vue",
       "file_type": "code",
-      "norm_label": ".test_full_configuration_typescript()",
+      "norm_label": ".test_default_content_paths_vue()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L290"
+      "source_location": "L80"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_react",
@@ -3145,18 +3085,6 @@
       "norm_label": ".test_default_content_paths_react()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
       "source_location": "L63"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_nextjs",
-      "label": ".test_default_content_paths_nextjs()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 192,
-      "community_name": ".test_default_content_paths_nextjs",
-      "file_type": "code",
-      "norm_label": ".test_default_content_paths_nextjs()",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L71"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_colors",
@@ -3819,16 +3747,16 @@
       "source_location": "L172"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_base_config_structure",
-      "label": ".test_base_config_structure()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_add_spacing",
+      "label": ".test_add_spacing()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "TestTailwindConfigGenerator",
       "file_type": "code",
-      "norm_label": ".test_base_config_structure()",
+      "norm_label": ".test_add_spacing()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L52"
+      "source_location": "L137"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_custom_output_path",
@@ -3843,16 +3771,16 @@
       "source_location": "L46"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_vue",
-      "label": ".test_default_content_paths_vue()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_content_paths_nextjs",
+      "label": ".test_default_content_paths_nextjs()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "TestTailwindConfigGenerator",
       "file_type": "code",
-      "norm_label": ".test_default_content_paths_vue()",
+      "norm_label": ".test_default_content_paths_nextjs()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L80"
+      "source_location": "L71"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_output_path_javascript",
@@ -3867,16 +3795,28 @@
       "source_location": "L41"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_default_output_path_typescript",
-      "label": ".test_default_output_path_typescript()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_full_configuration_javascript",
+      "label": ".test_full_configuration_javascript()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "TestTailwindConfigGenerator",
       "file_type": "code",
-      "norm_label": ".test_default_output_path_typescript()",
+      "norm_label": ".test_full_configuration_javascript()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L36"
+      "source_location": "L319"
+    },
+    {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_config_with_colors",
+      "label": ".test_generate_config_with_colors()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "TestTailwindConfigGenerator",
+      "file_type": "code",
+      "norm_label": ".test_generate_config_with_colors()",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L213"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_generate_config_with_plugins",
@@ -3891,28 +3831,28 @@
       "source_location": "L222"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_framework",
-      "label": ".test_init_framework()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_recommend_plugins_nextjs",
+      "label": ".test_recommend_plugins_nextjs()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "TestTailwindConfigGenerator",
       "file_type": "code",
-      "norm_label": ".test_init_framework()",
+      "norm_label": ".test_recommend_plugins_nextjs()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L30"
+      "source_location": "L189"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_javascript",
-      "label": ".test_init_javascript()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_validate_config_valid",
+      "label": ".test_validate_config_valid()",
       "_callable": true,
       "_origin": "ast",
       "community": 23,
       "community_name": "TestTailwindConfigGenerator",
       "file_type": "code",
-      "norm_label": ".test_init_javascript()",
+      "norm_label": ".test_validate_config_valid()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L25"
+      "source_location": "L231"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config",
@@ -3925,18 +3865,6 @@
       "norm_label": ".test_write_config()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
       "source_location": "L258"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_write_config_creates_content",
-      "label": ".test_write_config_creates_content()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "TestTailwindConfigGenerator",
-      "file_type": "code",
-      "norm_label": ".test_write_config_creates_content()",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L269"
     },
     {
       "id": "claude_skills_design_system_scripts_html_token_validator_get_context",
@@ -4419,16 +4347,28 @@
       "source_location": "L284"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_init_default_typescript",
-      "label": ".test_init_default_typescript()",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_base_config_structure",
+      "label": ".test_base_config_structure()",
       "_callable": true,
       "_origin": "ast",
       "community": 35,
       "community_name": "TailwindConfigGenerator",
       "file_type": "code",
-      "norm_label": ".test_init_default_typescript()",
+      "norm_label": ".test_base_config_structure()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L19"
+      "source_location": "L52"
+    },
+    {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_testtailwindconfiggenerator_test_full_configuration_typescript",
+      "label": ".test_full_configuration_typescript()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "TailwindConfigGenerator",
+      "file_type": "code",
+      "norm_label": ".test_full_configuration_typescript()",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L290"
     },
     {
       "id": "claude_skills_design_system_scripts_generate_slide_e",
@@ -4561,6 +4501,174 @@
       "norm_label": "_safe_url()",
       "source_file": ".claude/skills/design-system/scripts/generate-slide.py",
       "source_location": "L21"
+    },
+    {
+      "id": "docs_cart_scenario_harness_cart",
+      "label": "cart()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "cart()",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L44"
+    },
+    {
+      "id": "docs_cart_scenario_harness_kit",
+      "label": "kit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "kit()",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L33"
+    },
+    {
+      "id": "docs_cart_scenario_harness_money",
+      "label": "money()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "money()",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L9"
+    },
+    {
+      "id": "docs_cart_scenario_harness_ph",
+      "label": "ph()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "ph()",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L14"
+    },
+    {
+      "id": "docs_cart_scenario_harness_prod",
+      "label": "prod()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "prod()",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L20"
+    },
+    {
+      "id": "docs_cart_scenario_harness_render",
+      "label": "render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "render()",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L51"
+    },
+    {
+      "id": "docs_cart_scenario_harness_summary",
+      "label": "summary()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "summary()",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L55"
+    },
+    {
+      "id": "docs_kits_rollout_harness_blk",
+      "label": "blk()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "blk()",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L93"
+    },
+    {
+      "id": "docs_kits_rollout_harness_clean",
+      "label": "clean()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "clean()",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L4"
+    },
+    {
+      "id": "docs_kits_rollout_harness_comp",
+      "label": "comp()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "comp()",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L35"
+    },
+    {
+      "id": "docs_kits_rollout_harness_money",
+      "label": "money()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "money()",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L71"
+    },
+    {
+      "id": "docs_kits_rollout_harness_ph",
+      "label": "ph()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "ph()",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L9"
+    },
+    {
+      "id": "docs_kits_rollout_harness_resolve",
+      "label": "resolve()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "resolve()",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L84"
+    },
+    {
+      "id": "docs_kits_rollout_harness_sec",
+      "label": "sec()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "sec()",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L95"
     },
     {
       "id": "claude_skills_ui_ux_pro_max_scripts_design_system_filter_anti_patterns_for_mode",
@@ -5451,52 +5559,76 @@
       "source_location": "L97"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_ndcg_uses_graded_gain_and_handles_empty_ideal",
-      "label": ".test_ndcg_uses_graded_gain_and_handles_empty_ideal()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_apply_decision_rules",
+      "label": "apply_decision_rules()",
       "_callable": true,
       "_origin": "ast",
       "community": 59,
-      "community_name": "TestMetricMath",
+      "community_name": "test_data_contracts.py",
       "file_type": "code",
-      "norm_label": ".test_ndcg_uses_graded_gain_and_handles_empty_ideal()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
-      "source_location": "L29"
+      "norm_label": "apply_decision_rules()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L101"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_precision_counts_missing_ranks_as_non_relevant",
-      "label": ".test_precision_counts_missing_ranks_as_non_relevant()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_object_without_duplicates",
+      "label": "_object_without_duplicates()",
       "_callable": true,
       "_origin": "ast",
       "community": 59,
-      "community_name": "TestMetricMath",
+      "community_name": "test_data_contracts.py",
       "file_type": "code",
-      "norm_label": ".test_precision_counts_missing_ranks_as_non_relevant()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
-      "source_location": "L18"
+      "norm_label": "_object_without_duplicates()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L58"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_reciprocal_rank_stops_at_k",
-      "label": ".test_reciprocal_rank_stops_at_k()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_parse_decision_rules",
+      "label": "parse_decision_rules()",
       "_callable": true,
       "_origin": "ast",
       "community": 59,
-      "community_name": "TestMetricMath",
+      "community_name": "test_data_contracts.py",
       "file_type": "code",
-      "norm_label": ".test_reciprocal_rank_stops_at_k()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
-      "source_location": "L24"
+      "norm_label": "parse_decision_rules()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L67"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_relevance_evaluator_testmetricmath_test_result_grades_match_identity_subsets",
-      "label": ".test_result_grades_match_identity_subsets()",
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_validate_action",
+      "label": "_validate_action()",
       "_callable": true,
       "_origin": "ast",
       "community": 59,
-      "community_name": "TestMetricMath",
+      "community_name": "test_data_contracts.py",
       "file_type": "code",
-      "norm_label": ".test_result_grades_match_identity_subsets()",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
-      "source_location": "L34"
+      "norm_label": "_validate_action()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L87"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_duplicate_unknown_keys_and_unknown_actions_fail_closed",
+      "label": ".test_duplicate_unknown_keys_and_unknown_actions_fail_closed()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_duplicate_unknown_keys_and_unknown_actions_fail_closed()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L107"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_testreasoningcontract_test_must_have_and_explicit_signals_are_applied_and_reported",
+      "label": ".test_must_have_and_explicit_signals_are_applied_and_reported()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": ".test_must_have_and_explicit_signals_are_applied_and_reported()",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L119"
     },
     {
       "id": "assets_nr_homepage_init",
@@ -7448,7 +7580,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "code",
       "norm_label": "_strip_to_object()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -7460,7 +7592,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "code",
       "norm_label": ".test_node_check_parses_generated_config()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -7472,7 +7604,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "code",
       "norm_label": ".test_property_before_plugins_is_comma_terminated()",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -9305,15 +9437,26 @@
       "source_location": "L26"
     },
     {
-      "id": "docs_kits_rollout_harness",
-      "label": "harness.py",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience",
+      "label": "test_text_layout_resilience.py",
       "_origin": "ast",
       "community": 107,
-      "community_name": "harness.py",
+      "community_name": "test_text_layout_resilience.py",
       "file_type": "code",
-      "norm_label": "harness.py",
-      "source_file": "docs/kits/rollout/harness.py",
+      "norm_label": "test_text_layout_resilience.py",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
       "source_location": "L1"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_rationale_2",
+      "label": "Canonical regression contracts for resilient UI text layouts.",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "test_text_layout_resilience.py",
+      "file_type": "rationale",
+      "norm_label": "canonical regression contracts for resilient ui text layouts.",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "source_location": "L2"
     },
     {
       "id": "patch",
@@ -10402,36 +10545,14 @@
       "source_location": ""
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract",
-      "label": "reasoning_contract.py",
+      "id": "claude_skills_ui_ux_pro_max_scripts_search",
+      "label": "scripts/search.py",
       "_origin": "ast",
       "community": 12,
       "community_name": "design_system.py",
       "file_type": "code",
-      "norm_label": "reasoning_contract.py",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts",
-      "label": "test_data_contracts.py",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "test_data_contracts.py",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_pdp_content_source",
-      "label": "pdp/content-source.py",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "code",
-      "norm_label": "pdp/content-source.py",
-      "source_file": "docs/pdp/content-source.py",
+      "norm_label": "scripts/search.py",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
       "source_location": "L1"
     },
     {
@@ -10567,48 +10688,26 @@
       "source_location": "L997"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_102",
-      "label": "Return deterministic mutations and an audit trail; never execute data.",
+      "id": "claude_skills_ui_ux_pro_max_scripts_search_rationale_3",
+      "label": "UI/UX Pro Max Search - BM25 search engine for UI/UX style guides Usage: python\u2026",
       "_origin": "ast",
       "community": 12,
       "community_name": "design_system.py",
       "file_type": "rationale",
-      "norm_label": "return deterministic mutations and an audit trail; never execute data.",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L102"
+      "norm_label": "ui/ux pro max search - bm25 search engine for ui/ux style guides usage: python...",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
+      "source_location": "L3"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_2",
-      "label": "Closed, non-executable grammar for design-system decision rules.",
+      "id": "claude_skills_ui_ux_pro_max_scripts_search_rationale_45",
+      "label": "Format results for Claude consumption (token-optimized)",
       "_origin": "ast",
       "community": 12,
       "community_name": "design_system.py",
       "file_type": "rationale",
-      "norm_label": "closed, non-executable grammar for design-system decision rules.",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L2"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_68",
-      "label": "Parse the canonical condition -> action-array representation.",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "rationale",
-      "norm_label": "parse the canonical condition -> action-array representation.",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
-      "source_location": "L68"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_rationale_2",
-      "label": "Cross-file semantic contracts for curated design data.",
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "design_system.py",
-      "file_type": "rationale",
-      "norm_label": "cross-file semantic contracts for curated design data.",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
-      "source_location": "L2"
+      "norm_label": "format results for claude consumption (token-optimized)",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
+      "source_location": "L45"
     },
     {
       "id": "claude_skills_design_references_slides_html_template",
@@ -11008,6 +11107,102 @@
       "norm_label": "when to use",
       "source_file": ".claude/skills/slides/SKILL.md",
       "source_location": "L14"
+    },
+    {
+      "id": "docs_cart_readme",
+      "label": "cart/README.md",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "cart/readme.md",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_cart_readme_change_minimal",
+      "label": "Change (minimal)",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "change (minimal)",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "docs_cart_readme_open_items",
+      "label": "Open items",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "open items",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L57"
+    },
+    {
+      "id": "docs_cart_readme_relations_theme_local_ranked",
+      "label": "Relations (theme-local, ranked)",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "relations (theme-local, ranked)",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L30"
+    },
+    {
+      "id": "docs_cart_readme_restore",
+      "label": "Restore",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "restore",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L66"
+    },
+    {
+      "id": "docs_cart_readme_revolt_borste_price",
+      "label": "Revolt + borste price",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "revolt + borste price",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L47"
+    },
+    {
+      "id": "docs_cart_readme_varukorg_ett_tydligt_n\u00e4sta_steg_2026_10_02",
+      "label": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "varukorg \u2013 ett tydligt nasta steg (2026-10-02)",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_cart_readme_what_existed",
+      "label": "What existed",
+      "_origin": "ast",
+      "community": 126,
+      "community_name": "Varukorg \u2013 ett tydligt n\u00e4sta steg (2026-10-02)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "what existed",
+      "source_file": "docs/cart/README.md",
+      "source_location": "L10"
     },
     {
       "id": "claude_skills_brand_templates_brand_guidelines_starter",
@@ -12769,17 +12964,6 @@
       "source_location": "L565"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_search",
-      "label": "scripts/search.py",
-      "_origin": "ast",
-      "community": 144,
-      "community_name": "test_core.py",
-      "file_type": "code",
-      "norm_label": "scripts/search.py",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
-      "source_location": "L1"
-    },
-    {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core",
       "label": "test_core.py",
       "_origin": "ast",
@@ -12811,28 +12995,6 @@
       "norm_label": "main entry point for design system generation. args: query: search query (e.g.,...",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/design_system.py",
       "source_location": "L923"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_search_rationale_3",
-      "label": "UI/UX Pro Max Search - BM25 search engine for UI/UX style guides Usage: python\u2026",
-      "_origin": "ast",
-      "community": 144,
-      "community_name": "test_core.py",
-      "file_type": "rationale",
-      "norm_label": "ui/ux pro max search - bm25 search engine for ui/ux style guides usage: python...",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
-      "source_location": "L3"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_search_rationale_45",
-      "label": "Format results for Claude consumption (token-optimized)",
-      "_origin": "ast",
-      "community": 144,
-      "community_name": "test_core.py",
-      "file_type": "rationale",
-      "norm_label": "format results for claude consumption (token-optimized)",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/search.py",
-      "source_location": "L45"
     },
     {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_core_rationale_3",
@@ -14265,22 +14427,11 @@
       "source_location": "L54"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh",
-      "label": "test_catalog_refresh.py",
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "code",
-      "norm_label": "test_catalog_refresh.py",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py",
-      "source_location": "L1"
-    },
-    {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness",
       "label": "test_native_desktop_stack_freshness.py",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
       "norm_label": "test_native_desktop_stack_freshness.py",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py",
@@ -14291,7 +14442,7 @@
       "label": "test_relevance_evaluator.py",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
       "norm_label": "test_relevance_evaluator.py",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
@@ -14302,21 +14453,10 @@
       "label": "test_style_taxonomy.py",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
       "norm_label": "test_style_taxonomy.py",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience",
-      "label": "test_text_layout_resilience.py",
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "code",
-      "norm_label": "test_text_layout_resilience.py",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
       "source_location": "L1"
     },
     {
@@ -14324,29 +14464,18 @@
       "label": "test_web_stack_freshness.py",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "code",
       "norm_label": "test_web_stack_freshness.py",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py",
       "source_location": "L1"
     },
     {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_rationale_2",
-      "label": "Offline contract tests for deterministic upstream catalog refreshes.",
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "rationale",
-      "norm_label": "offline contract tests for deterministic upstream catalog refreshes.",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py",
-      "source_location": "L2"
-    },
-    {
       "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_native_desktop_stack_freshness_rationale_2",
       "label": "Freshness and migration contracts for native, desktop, and 3D stacks.",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "rationale",
       "norm_label": "freshness and migration contracts for native, desktop, and 3d stacks.",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py",
@@ -14357,7 +14486,7 @@
       "label": "Unit tests for metric math and relevance fixture validation.",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "rationale",
       "norm_label": "unit tests for metric math and relevance fixture validation.",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
@@ -14368,21 +14497,10 @@
       "label": "Regression tests for the public style taxonomy and search contract.",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "rationale",
       "norm_label": "regression tests for the public style taxonomy and search contract.",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
-      "source_location": "L2"
-    },
-    {
-      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_text_layout_resilience_rationale_2",
-      "label": "Canonical regression contracts for resilient UI text layouts.",
-      "_origin": "ast",
-      "community": 162,
-      "community_name": "pathlib",
-      "file_type": "rationale",
-      "norm_label": "canonical regression contracts for resilient ui text layouts.",
-      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
       "source_location": "L2"
     },
     {
@@ -14390,7 +14508,7 @@
       "label": "Freshness and generation-isolation contracts for web stack guidance.",
       "_origin": "ast",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "file_type": "rationale",
       "norm_label": "freshness and generation-isolation contracts for web stack guidance.",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py",
@@ -14441,25 +14559,14 @@
       "source_location": "L71"
     },
     {
-      "id": "docs_kits_rollout_build",
-      "label": "build.py",
+      "id": "assets_nr_cart_next",
+      "label": "nr-cart-next.js",
       "_origin": "ast",
       "community": 166,
-      "community_name": "build.py",
+      "community_name": "nr-cart-next.js",
       "file_type": "code",
-      "norm_label": "build.py",
-      "source_file": "docs/kits/rollout/build.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_kits_rollout_build_rationale_1",
-      "label": "Kit page v3 rollout (2026-10-02): the seven remaining kits. Generates, from one\u2026",
-      "_origin": "ast",
-      "community": 166,
-      "community_name": "build.py",
-      "file_type": "rationale",
-      "norm_label": "kit page v3 rollout (2026-10-02): the seven remaining kits. generates, from one...",
-      "source_file": "docs/kits/rollout/build.py",
+      "norm_label": "nr-cart-next.js",
+      "source_file": "assets/nr-cart-next.js",
       "source_location": "L1"
     },
     {
@@ -15019,15 +15126,15 @@
       "source_location": "L45"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_190",
-      "label": "Test plugin recommendations for Next.js.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_20",
+      "label": "Test initialization with default settings.",
       "_origin": "ast",
       "community": 175,
-      "community_name": ".test_recommend_plugins_nextjs",
+      "community_name": ".test_init_default_typescript",
       "file_type": "rationale",
-      "norm_label": "test plugin recommendations for next.js.",
+      "norm_label": "test initialization with default settings.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L190"
+      "source_location": "L20"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_151",
@@ -15052,26 +15159,26 @@
       "source_location": "L125"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_232",
-      "label": "Test validating valid configuration.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_26",
+      "label": "Test initialization for JavaScript config.",
       "_origin": "ast",
       "community": 178,
-      "community_name": ".test_validate_config_valid",
+      "community_name": ".test_init_javascript",
       "file_type": "rationale",
-      "norm_label": "test validating valid configuration.",
+      "norm_label": "test initialization for javascript config.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L232"
+      "source_location": "L26"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_138",
-      "label": "Test adding custom spacing.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_270",
+      "label": "Test that written config contains expected content.",
       "_origin": "ast",
       "community": 179,
-      "community_name": ".test_add_spacing",
+      "community_name": ".test_write_config_creates_content",
       "file_type": "rationale",
-      "norm_label": "test adding custom spacing.",
+      "norm_label": "test that written config contains expected content.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L138"
+      "source_location": "L270"
     },
     {
       "id": "claude_skills_ui_styling_references_tailwind_responsive",
@@ -15481,15 +15588,15 @@
       "source_location": "L182"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_320",
-      "label": "Test generating complete JavaScript configuration.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_31",
+      "label": "Test initialization with different frameworks.",
       "_origin": "ast",
       "community": 181,
-      "community_name": ".test_full_configuration_javascript",
+      "community_name": ".test_init_framework",
       "file_type": "rationale",
-      "norm_label": "test generating complete javascript configuration.",
+      "norm_label": "test initialization with different frameworks.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L320"
+      "source_location": "L31"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_206",
@@ -15503,15 +15610,15 @@
       "source_location": "L206"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_214",
-      "label": "Test generating config with custom colors.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_37",
+      "label": "Test default output path for TypeScript.",
       "_origin": "ast",
       "community": 183,
-      "community_name": ".test_generate_config_with_colors",
+      "community_name": ".test_default_output_path_typescript",
       "file_type": "rationale",
-      "norm_label": "test generating config with custom colors.",
+      "norm_label": "test default output path for typescript.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L214"
+      "source_location": "L37"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_239",
@@ -15562,7 +15669,7 @@
       "label": "test_sync_brand_to_tokens.py",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "test_sync_brand_to_tokens.py",
       "source_file": ".claude/skills/brand/scripts/tests/test_sync_brand_to_tokens.py",
@@ -15573,7 +15680,7 @@
       "label": "slide-token-validator.py",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "slide-token-validator.py",
       "source_file": ".claude/skills/design-system/scripts/slide-token-validator.py",
@@ -15584,7 +15691,7 @@
       "label": "test_validate_tokens.py",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "test_validate_tokens.py",
       "source_file": ".claude/skills/design-system/scripts/tests/test_validate_tokens.py",
@@ -15595,7 +15702,7 @@
       "label": "Path",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
@@ -15606,21 +15713,10 @@
       "label": "shadcn_add.py",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "shadcn_add.py",
       "source_file": ".claude/skills/ui-styling/scripts/shadcn_add.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tailwind_config_gen",
-      "label": "tailwind_config_gen.py",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "sys",
-      "file_type": "code",
-      "norm_label": "tailwind_config_gen.py",
-      "source_file": ".claude/skills/ui-styling/scripts/tailwind_config_gen.py",
       "source_location": "L1"
     },
     {
@@ -15628,21 +15724,21 @@
       "label": "test_shadcn_add.py",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "test_shadcn_add.py",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_shadcn_add.py",
       "source_location": "L1"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen",
-      "label": "test_tailwind_config_gen.py",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh",
+      "label": "test_catalog_refresh.py",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
-      "norm_label": "test_tailwind_config_gen.py",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "norm_label": "test_catalog_refresh.py",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py",
       "source_location": "L1"
     },
     {
@@ -15650,18 +15746,40 @@
       "label": "CompletedProcess",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "code",
       "norm_label": "completedprocess",
       "source_file": "",
       "source_location": ""
     },
     {
+      "id": "docs_kits_rollout_build",
+      "label": "build.py",
+      "_origin": "ast",
+      "community": 187,
+      "community_name": "pathlib",
+      "file_type": "code",
+      "norm_label": "build.py",
+      "source_file": "docs/kits/rollout/build.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_pdp_content_source",
+      "label": "pdp/content-source.py",
+      "_origin": "ast",
+      "community": 187,
+      "community_name": "pathlib",
+      "file_type": "code",
+      "norm_label": "pdp/content-source.py",
+      "source_file": "docs/pdp/content-source.py",
+      "source_location": "L1"
+    },
+    {
       "id": "claude_skills_brand_scripts_tests_test_sync_brand_to_tokens_rationale_1",
       "label": "Regression test for sync-brand-to-tokens.cjs. The color parser required a\u2026",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "regression test for sync-brand-to-tokens.cjs. the color parser required a...",
       "source_file": ".claude/skills/brand/scripts/tests/test_sync_brand_to_tokens.py",
@@ -15672,7 +15790,7 @@
       "label": "Slide Token Validator (Legacy Wrapper) Now delegates to html-token-validator.py\u2026",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "slide token validator (legacy wrapper) now delegates to html-token-validator.py...",
       "source_file": ".claude/skills/design-system/scripts/slide-token-validator.py",
@@ -15683,7 +15801,7 @@
       "label": "Delegate to unified html-token-validator.py with --type slides.",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "delegate to unified html-token-validator.py with --type slides.",
       "source_file": ".claude/skills/design-system/scripts/slide-token-validator.py",
@@ -15694,7 +15812,7 @@
       "label": "Regression tests for validate-tokens.cjs. The validator used to skip any line\u2026",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "regression tests for validate-tokens.cjs. the validator used to skip any line...",
       "source_file": ".claude/skills/design-system/scripts/tests/test_validate_tokens.py",
@@ -15705,7 +15823,7 @@
       "label": "A hardcoded hex on the same line as a var() token is still a violation.",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "a hardcoded hex on the same line as a var() token is still a violation.",
       "source_file": ".claude/skills/design-system/scripts/tests/test_validate_tokens.py",
@@ -15716,7 +15834,7 @@
       "label": "A line that references only tokens produces no false positives.",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "a line that references only tokens produces no false positives.",
       "source_file": ".claude/skills/design-system/scripts/tests/test_validate_tokens.py",
@@ -15727,21 +15845,10 @@
       "label": "shadcn/ui Component Installer Add shadcn/ui components to project with\u2026",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "shadcn/ui component installer add shadcn/ui components to project with...",
       "source_file": ".claude/skills/ui-styling/scripts/shadcn_add.py",
-      "source_location": "L2"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tailwind_config_gen_rationale_2",
-      "label": "Tailwind CSS Configuration Generator Generate tailwind.config.js/ts with custom\u2026",
-      "_origin": "ast",
-      "community": 187,
-      "community_name": "sys",
-      "file_type": "rationale",
-      "norm_label": "tailwind css configuration generator generate tailwind.config.js/ts with custom...",
-      "source_file": ".claude/skills/ui-styling/scripts/tailwind_config_gen.py",
       "source_location": "L2"
     },
     {
@@ -15749,21 +15856,32 @@
       "label": "Tests for shadcn_add.py",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
       "norm_label": "tests for shadcn_add.py",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_shadcn_add.py",
       "source_location": "L1"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_1",
-      "label": "Tests for tailwind_config_gen.py",
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_catalog_refresh_rationale_2",
+      "label": "Offline contract tests for deterministic upstream catalog refreshes.",
       "_origin": "ast",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "file_type": "rationale",
-      "norm_label": "tests for tailwind_config_gen.py",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "norm_label": "offline contract tests for deterministic upstream catalog refreshes.",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py",
+      "source_location": "L2"
+    },
+    {
+      "id": "docs_kits_rollout_build_rationale_1",
+      "label": "Kit page v3 rollout (2026-10-02): the seven remaining kits. Generates, from one\u2026",
+      "_origin": "ast",
+      "community": 187,
+      "community_name": "pathlib",
+      "file_type": "rationale",
+      "norm_label": "kit page v3 rollout (2026-10-02): the seven remaining kits. generates, from one...",
+      "source_file": "docs/kits/rollout/build.py",
       "source_location": "L1"
     },
     {
@@ -16172,15 +16290,15 @@
       "source_location": "L63"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_291",
-      "label": "Test generating complete TypeScript configuration.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_81",
+      "label": "Test default content paths for Vue.",
       "_origin": "ast",
       "community": 190,
-      "community_name": ".test_full_configuration_typescript",
+      "community_name": ".test_default_content_paths_vue",
       "file_type": "rationale",
-      "norm_label": "test generating complete typescript configuration.",
+      "norm_label": "test default content paths for vue.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L291"
+      "source_location": "L81"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_64",
@@ -16192,17 +16310,6 @@
       "norm_label": "test default content paths for react.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
       "source_location": "L64"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_72",
-      "label": "Test default content paths for Next.js.",
-      "_origin": "ast",
-      "community": 192,
-      "community_name": ".test_default_content_paths_nextjs",
-      "file_type": "rationale",
-      "norm_label": "test default content paths for next.js.",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L72"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_88",
@@ -17359,6 +17466,17 @@
       "source_location": "L112"
     },
     {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_138",
+      "label": "Test adding custom spacing.",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "TestTailwindConfigGenerator",
+      "file_type": "rationale",
+      "norm_label": "test adding custom spacing.",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L138"
+    },
+    {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_17",
       "label": "Test TailwindConfigGenerator class.",
       "_origin": "ast",
@@ -17381,6 +17499,28 @@
       "source_location": "L173"
     },
     {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_190",
+      "label": "Test plugin recommendations for Next.js.",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "TestTailwindConfigGenerator",
+      "file_type": "rationale",
+      "norm_label": "test plugin recommendations for next.js.",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L190"
+    },
+    {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_214",
+      "label": "Test generating config with custom colors.",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "TestTailwindConfigGenerator",
+      "file_type": "rationale",
+      "norm_label": "test generating config with custom colors.",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L214"
+    },
+    {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_223",
       "label": "Test generating config with plugins.",
       "_origin": "ast",
@@ -17390,6 +17530,17 @@
       "norm_label": "test generating config with plugins.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
       "source_location": "L223"
+    },
+    {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_232",
+      "label": "Test validating valid configuration.",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "TestTailwindConfigGenerator",
+      "file_type": "rationale",
+      "norm_label": "test validating valid configuration.",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L232"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_259",
@@ -17403,48 +17554,15 @@
       "source_location": "L259"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_26",
-      "label": "Test initialization for JavaScript config.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_320",
+      "label": "Test generating complete JavaScript configuration.",
       "_origin": "ast",
       "community": 23,
       "community_name": "TestTailwindConfigGenerator",
       "file_type": "rationale",
-      "norm_label": "test initialization for javascript config.",
+      "norm_label": "test generating complete javascript configuration.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L26"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_270",
-      "label": "Test that written config contains expected content.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "TestTailwindConfigGenerator",
-      "file_type": "rationale",
-      "norm_label": "test that written config contains expected content.",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L270"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_31",
-      "label": "Test initialization with different frameworks.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "TestTailwindConfigGenerator",
-      "file_type": "rationale",
-      "norm_label": "test initialization with different frameworks.",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L31"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_37",
-      "label": "Test default output path for TypeScript.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "TestTailwindConfigGenerator",
-      "file_type": "rationale",
-      "norm_label": "test default output path for typescript.",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L37"
+      "source_location": "L320"
     },
     {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_42",
@@ -17469,26 +17587,15 @@
       "source_location": "L47"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_53",
-      "label": "Test base configuration structure.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_72",
+      "label": "Test default content paths for Next.js.",
       "_origin": "ast",
       "community": 23,
       "community_name": "TestTailwindConfigGenerator",
       "file_type": "rationale",
-      "norm_label": "test base configuration structure.",
+      "norm_label": "test default content paths for next.js.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L53"
-    },
-    {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_81",
-      "label": "Test default content paths for Vue.",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "TestTailwindConfigGenerator",
-      "file_type": "rationale",
-      "norm_label": "test default content paths for vue.",
-      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L81"
+      "source_location": "L72"
     },
     {
       "id": "claude_skills_design_system_scripts_html_token_validator",
@@ -21110,15 +21217,26 @@
       "source_location": "L97"
     },
     {
-      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_20",
-      "label": "Test initialization with default settings.",
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_291",
+      "label": "Test generating complete TypeScript configuration.",
       "_origin": "ast",
       "community": 35,
       "community_name": "TailwindConfigGenerator",
       "file_type": "rationale",
-      "norm_label": "test initialization with default settings.",
+      "norm_label": "test generating complete typescript configuration.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
-      "source_location": "L20"
+      "source_location": "L291"
+    },
+    {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_53",
+      "label": "Test base configuration structure.",
+      "_origin": "ast",
+      "community": 35,
+      "community_name": "TailwindConfigGenerator",
+      "file_type": "rationale",
+      "norm_label": "test base configuration structure.",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L53"
     },
     {
       "id": "agents_skills_design_taste_frontend_skill",
@@ -21397,6 +21515,28 @@
       "file_type": "code",
       "norm_label": "generate-slide.py",
       "source_file": ".claude/skills/design-system/scripts/generate-slide.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_cart_scenario_harness",
+      "label": "scenario-harness.py",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "scenario-harness.py",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_kits_rollout_harness",
+      "label": "harness.py",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "file_type": "code",
+      "norm_label": "harness.py",
+      "source_file": "docs/kits/rollout/harness.py",
       "source_location": "L1"
     },
     {
@@ -25253,6 +25393,94 @@
       "source_location": "L60"
     },
     {
+      "id": "claude_skills_ui_styling_scripts_tailwind_config_gen",
+      "label": "tailwind_config_gen.py",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "tailwind_config_gen.py",
+      "source_file": ".claude/skills/ui-styling/scripts/tailwind_config_gen.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract",
+      "label": "reasoning_contract.py",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "reasoning_contract.py",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts",
+      "label": "test_data_contracts.py",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "code",
+      "norm_label": "test_data_contracts.py",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "claude_skills_ui_styling_scripts_tailwind_config_gen_rationale_2",
+      "label": "Tailwind CSS Configuration Generator Generate tailwind.config.js/ts with custom\u2026",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "rationale",
+      "norm_label": "tailwind css configuration generator generate tailwind.config.js/ts with custom...",
+      "source_file": ".claude/skills/ui-styling/scripts/tailwind_config_gen.py",
+      "source_location": "L2"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_102",
+      "label": "Return deterministic mutations and an audit trail; never execute data.",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "rationale",
+      "norm_label": "return deterministic mutations and an audit trail; never execute data.",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L102"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_2",
+      "label": "Closed, non-executable grammar for design-system decision rules.",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "rationale",
+      "norm_label": "closed, non-executable grammar for design-system decision rules.",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L2"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_reasoning_contract_rationale_68",
+      "label": "Parse the canonical condition -> action-array representation.",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "rationale",
+      "norm_label": "parse the canonical condition -> action-array representation.",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "source_location": "L68"
+    },
+    {
+      "id": "claude_skills_ui_ux_pro_max_scripts_tests_test_data_contracts_rationale_2",
+      "label": "Cross-file semantic contracts for curated design data.",
+      "_origin": "ast",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "file_type": "rationale",
+      "norm_label": "cross-file semantic contracts for curated design data.",
+      "source_file": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "source_location": "L2"
+    },
+    {
       "id": "assets_nr_homepage",
       "label": "nr-homepage.js",
       "_origin": "ast",
@@ -29084,22 +29312,44 @@
       "source_location": "L81"
     },
     {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen",
+      "label": "test_tailwind_config_gen.py",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "test_tailwind_config_gen.py",
+      "file_type": "code",
+      "norm_label": "test_tailwind_config_gen.py",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L1"
+    },
+    {
       "id": "parametrize",
       "label": "parametrize",
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "code",
       "norm_label": "parametrize",
       "source_file": "",
       "source_location": ""
     },
     {
+      "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_1",
+      "label": "Tests for tailwind_config_gen.py",
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "test_tailwind_config_gen.py",
+      "file_type": "rationale",
+      "norm_label": "tests for tailwind_config_gen.py",
+      "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
+      "source_location": "L1"
+    },
+    {
       "id": "claude_skills_ui_styling_scripts_tests_test_tailwind_config_gen_rationale_342",
       "label": "Reduce a generated TS/JS config to a bare assignable object so it can be handed\u2026",
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "rationale",
       "norm_label": "reduce a generated ts/js config to a bare assignable object so it can be handed...",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -29110,7 +29360,7 @@
       "label": "Regression guard for the missing-comma bug between the ``theme`` block and\u2026",
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "rationale",
       "norm_label": "regression guard for the missing-comma bug between the ``theme`` block and...",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -29121,7 +29371,7 @@
       "label": "The property preceding ``plugins`` must end with a comma (pure-Python check, so\u2026",
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "rationale",
       "norm_label": "the property preceding ``plugins`` must end with a comma (pure-python check, so...",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -29132,7 +29382,7 @@
       "label": "The emitted config parses as valid JS via ``node --check``.",
       "_origin": "ast",
       "community": 92,
-      "community_name": "TestGeneratedConfigIsValidJs",
+      "community_name": "test_tailwind_config_gen.py",
       "file_type": "rationale",
       "norm_label": "the emitted config parses as valid js via ``node --check``.",
       "source_file": ".claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py",
@@ -29997,6 +30247,18 @@
       "type": "external"
     },
     {
+      "id": "ambiguous_python_import_bfd22ae4b7aa",
+      "label": "ambiguous_python_import_bfd22ae4b7aa",
+      "_origin": "semantic",
+      "community": 107,
+      "community_name": "test_text_layout_resilience.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ambiguous_python_import_bfd22ae4b7aa",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ambiguous_python_import_e82323b3f9ad",
       "label": "ambiguous_python_import_e82323b3f9ad",
       "_origin": "semantic",
@@ -30021,62 +30283,26 @@
       "type": "external"
     },
     {
-      "id": "ambiguous_python_import_b9171ee6cb4c",
-      "label": "ambiguous_python_import_b9171ee6cb4c",
+      "id": "ambiguous_python_import_fcb3bee7b643",
+      "label": "ambiguous_python_import_fcb3bee7b643",
       "_origin": "semantic",
       "community": 12,
       "community_name": "design_system.py",
       "external": true,
       "file_type": "concept",
-      "norm_label": "ambiguous_python_import_b9171ee6cb4c",
+      "norm_label": "ambiguous_python_import_fcb3bee7b643",
       "source_file": "",
       "type": "external"
     },
     {
-      "id": "copy",
-      "label": "copy",
+      "id": "io",
+      "label": "io",
       "_origin": "semantic",
       "community": 12,
       "community_name": "design_system.py",
       "external": true,
       "file_type": "concept",
-      "norm_label": "copy",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "json",
-      "label": "json",
-      "_origin": "semantic",
-      "community": 12,
-      "community_name": "design_system.py",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "json",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "re",
-      "label": "re",
-      "_origin": "semantic",
-      "community": 12,
-      "community_name": "design_system.py",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "re",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "tempfile",
-      "label": "tempfile",
-      "_origin": "semantic",
-      "community": 12,
-      "community_name": "design_system.py",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "tempfile",
+      "norm_label": "io",
       "source_file": "",
       "type": "external"
     },
@@ -30105,35 +30331,11 @@
       "type": "external"
     },
     {
-      "id": "ambiguous_python_import_fcb3bee7b643",
-      "label": "ambiguous_python_import_fcb3bee7b643",
-      "_origin": "semantic",
-      "community": 144,
-      "community_name": "test_core.py",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ambiguous_python_import_fcb3bee7b643",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "io",
-      "label": "io",
-      "_origin": "semantic",
-      "community": 144,
-      "community_name": "test_core.py",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "io",
-      "source_file": "",
-      "type": "external"
-    },
-    {
       "id": "ambiguous_python_import_4aa1a5da4b7d",
       "label": "ambiguous_python_import_4aa1a5da4b7d",
       "_origin": "semantic",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "external": true,
       "file_type": "concept",
       "norm_label": "ambiguous_python_import_4aa1a5da4b7d",
@@ -30145,22 +30347,10 @@
       "label": "ambiguous_python_import_9c9aff68267f",
       "_origin": "semantic",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "external": true,
       "file_type": "concept",
       "norm_label": "ambiguous_python_import_9c9aff68267f",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ambiguous_python_import_bfd22ae4b7aa",
-      "label": "ambiguous_python_import_bfd22ae4b7aa",
-      "_origin": "semantic",
-      "community": 162,
-      "community_name": "pathlib",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ambiguous_python_import_bfd22ae4b7aa",
       "source_file": "",
       "type": "external"
     },
@@ -30169,7 +30359,7 @@
       "label": "ambiguous_python_import_c894f1325619",
       "_origin": "semantic",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "external": true,
       "file_type": "concept",
       "norm_label": "ambiguous_python_import_c894f1325619",
@@ -30181,7 +30371,7 @@
       "label": "csv",
       "_origin": "semantic",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "external": true,
       "file_type": "concept",
       "norm_label": "csv",
@@ -30193,34 +30383,10 @@
       "label": "importlib_util",
       "_origin": "semantic",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "external": true,
       "file_type": "concept",
       "norm_label": "importlib_util",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "os",
-      "label": "os",
-      "_origin": "semantic",
-      "community": 162,
-      "community_name": "pathlib",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "os",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "pathlib",
-      "label": "pathlib",
-      "_origin": "semantic",
-      "community": 162,
-      "community_name": "pathlib",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "pathlib",
       "source_file": "",
       "type": "external"
     },
@@ -30229,7 +30395,7 @@
       "label": "unittest",
       "_origin": "semantic",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "external": true,
       "file_type": "concept",
       "norm_label": "unittest",
@@ -30241,10 +30407,46 @@
       "label": "urllib_parse",
       "_origin": "semantic",
       "community": 162,
-      "community_name": "pathlib",
+      "community_name": "csv",
       "external": true,
       "file_type": "concept",
       "norm_label": "urllib_parse",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "json",
+      "label": "json",
+      "_origin": "semantic",
+      "community": 187,
+      "community_name": "pathlib",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "json",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "os",
+      "label": "os",
+      "_origin": "semantic",
+      "community": 187,
+      "community_name": "pathlib",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "os",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "pathlib",
+      "label": "pathlib",
+      "_origin": "semantic",
+      "community": 187,
+      "community_name": "pathlib",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "pathlib",
       "source_file": "",
       "type": "external"
     },
@@ -30253,7 +30455,7 @@
       "label": "pytest",
       "_origin": "semantic",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "external": true,
       "file_type": "concept",
       "norm_label": "pytest",
@@ -30265,7 +30467,7 @@
       "label": "shutil",
       "_origin": "semantic",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "external": true,
       "file_type": "concept",
       "norm_label": "shutil",
@@ -30277,7 +30479,7 @@
       "label": "subprocess",
       "_origin": "semantic",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "external": true,
       "file_type": "concept",
       "norm_label": "subprocess",
@@ -30289,22 +30491,10 @@
       "label": "sys",
       "_origin": "semantic",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "external": true,
       "file_type": "concept",
       "norm_label": "sys",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "typing",
-      "label": "typing",
-      "_origin": "semantic",
-      "community": 187,
-      "community_name": "sys",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "typing",
       "source_file": "",
       "type": "external"
     },
@@ -30313,7 +30503,7 @@
       "label": "unittest_mock",
       "_origin": "semantic",
       "community": 187,
-      "community_name": "sys",
+      "community_name": "pathlib",
       "external": true,
       "file_type": "concept",
       "norm_label": "unittest_mock",
@@ -30381,6 +30571,18 @@
       "type": "external"
     },
     {
+      "id": "copy",
+      "label": "copy",
+      "_origin": "semantic",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "copy",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "html",
       "label": "html",
       "_origin": "semantic",
@@ -30389,6 +30591,18 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "html",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "liquid",
+      "label": "liquid",
+      "_origin": "semantic",
+      "community": 37,
+      "community_name": "generate-slide.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "liquid",
       "source_file": "",
       "type": "external"
     },
@@ -30429,6 +30643,54 @@
       "type": "external"
     },
     {
+      "id": "ambiguous_python_import_b9171ee6cb4c",
+      "label": "ambiguous_python_import_b9171ee6cb4c",
+      "_origin": "semantic",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ambiguous_python_import_b9171ee6cb4c",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "re",
+      "label": "re",
+      "_origin": "semantic",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "re",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "tempfile",
+      "label": "tempfile",
+      "_origin": "semantic",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "tempfile",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "typing",
+      "label": "typing",
+      "_origin": "semantic",
+      "community": 59,
+      "community_name": "test_data_contracts.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "typing",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ambiguous_python_import_766077957567",
       "label": "ambiguous_python_import_766077957567",
       "_origin": "semantic",
@@ -30444,8 +30706,8 @@
       "id": "datetime",
       "label": "datetime",
       "_origin": "semantic",
-      "community": 70,
-      "community_name": "cip/generate.py",
+      "community": 8,
+      "community_name": "icon/generate.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "datetime",
@@ -30561,18 +30823,66 @@
       "type": "external"
     },
     {
-      "id": "liquid",
-      "label": "liquid",
-      "community": 107,
-      "community_name": "harness.py",
+      "id": "ref_shopify_events",
+      "label": "ref_shopify_events",
+      "community": 166,
+      "community_name": "nr-cart-next.js",
       "external": true,
       "file_type": "concept",
-      "norm_label": "liquid",
+      "norm_label": "ref_shopify_events",
       "source_file": "",
       "type": "external"
     }
   ],
   "links": [
+    {
+      "source": "assets_nr_cart_next_add",
+      "target": "assets_nr_cart_next_sectionids",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next_add",
+      "target": "assets_nr_cart_next_announce",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next_add",
+      "target": "assets_nr_cart_next_publish",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next_publish",
+      "target": "assets_nr_cart_next_publish",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L20",
+      "weight": 1.0
+    },
     {
       "source": "assets_nr_collection_collectionof",
       "target": "assets_nr_collection_rootof",
@@ -37162,6 +37472,30 @@
       "weight": 1.0
     },
     {
+      "source": "docs_cart_scenario_harness_kit",
+      "target": "docs_cart_scenario_harness_prod",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness_prod",
+      "target": "docs_cart_scenario_harness_ph",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
       "source": "docs_collections_content_source_build",
       "target": "docs_collections_content_source_mf",
       "relation": "calls",
@@ -37267,6 +37601,30 @@
       "context": "call",
       "source_file": "docs/tracking/reference-normalizer.js",
       "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next",
+      "target": "assets_nr_cart_next_publish",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next",
+      "target": "assets_nr_cart_next_add",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -39550,6 +39908,54 @@
       "weight": 1.0
     },
     {
+      "source": "docs_cart_scenario_harness",
+      "target": "html",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "json",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "re",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "copy",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
       "source": "docs_collections_content_source",
       "target": "json",
       "relation": "imports",
@@ -39643,6 +40049,18 @@
       "context": "import",
       "source_file": "docs/pdp/content-source.py",
       "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next",
+      "target": "ref_shopify_events",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -40903,6 +41321,18 @@
       "context": "import",
       "source_file": ".claude/skills/ui-ux-pro-max/scripts/validate_data.py",
       "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "liquid",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -42189,6 +42619,28 @@
       "confidence_score": 1.0,
       "source_file": ".agents/skills/design-taste-frontend/SKILL.md",
       "source_location": "L910",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next",
+      "target": "assets_nr_cart_next_sectionids",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_nr_cart_next",
+      "target": "assets_nr_cart_next_announce",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "assets/nr-cart-next.js",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -60485,6 +60937,149 @@
       "weight": 1.0
     },
     {
+      "source": "docs_cart_readme",
+      "target": "docs_cart_readme_varukorg_ett_tydligt_n\u00e4sta_steg_2026_10_02",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_readme_change_minimal",
+      "target": "docs_cart_readme_relations_theme_local_ranked",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/README.md",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_readme_change_minimal",
+      "target": "docs_cart_readme_revolt_borste_price",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/README.md",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_readme_varukorg_ett_tydligt_n\u00e4sta_steg_2026_10_02",
+      "target": "docs_cart_readme_what_existed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/README.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_readme_varukorg_ett_tydligt_n\u00e4sta_steg_2026_10_02",
+      "target": "docs_cart_readme_change_minimal",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/README.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_readme_varukorg_ett_tydligt_n\u00e4sta_steg_2026_10_02",
+      "target": "docs_cart_readme_open_items",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/README.md",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_readme_varukorg_ett_tydligt_n\u00e4sta_steg_2026_10_02",
+      "target": "docs_cart_readme_restore",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/README.md",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "docs_cart_scenario_harness_ph",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "docs_cart_scenario_harness_prod",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "docs_cart_scenario_harness_kit",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "docs_cart_scenario_harness_cart",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "docs_cart_scenario_harness_render",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "docs_cart_scenario_harness_summary",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
       "source": "docs_collections_architecture",
       "target": "docs_collections_architecture_collection_pages_architecture_exteri\u00f6r_first",
       "relation": "contains",
@@ -67683,6 +68278,42 @@
       "weight": 1.0
     },
     {
+      "source": "docs_kits_rollout_harness_blk",
+      "target": "docs_cart_scenario_harness_kit",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_kits_rollout_harness_sec",
+      "target": "docs_cart_scenario_harness_kit",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "docs/kits/rollout/harness.py",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_cart_scenario_harness",
+      "target": "docs_cart_scenario_harness_money",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "assignment",
+      "source_file": "docs/cart/scenario-harness.py",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
       "source": "docs_kits_rollout_harness",
       "target": "docs_kits_rollout_harness_money",
       "relation": "indirect_call",
@@ -68337,5 +68968,5 @@
       "source_file": "docs/NordicReflection-prisanalys-paket.pdf"
     }
   ],
-  "built_at_commit": "7397b693e868acc798000112921ea49362870669"
+  "built_at_commit": "92413873439090fb7f162dbf370b4b9dff45cedf"
 }
