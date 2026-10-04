@@ -1,0 +1,179 @@
+{%- doc -%}
+  Routine builder: "the next logical part of the job" after one product.
+  At most two options:
+    1. one add-on (the tool or next product the job needs) with an inline
+       "Lägg till" (AJAX, single line, quantity 1), and
+    2. one complete solution (a real kit) with its live price, what its
+       contents cost one by one (snippets/nr-ks-separate – includes active
+       automatic discounts, never compare-at) and the saving. The saving line
+       only appears when the kit really is cheaper.
+
+  Cart-aware (assets/nr-homepage.js, initRoutines): the cart is read once
+  (/cart.js) and after every add.
+    - an add-on already in the cart is not offered again;
+    - a kit already in the cart hides the block's kit row (and the add-on);
+    - when the main product and the add-on are both in the cart and the kit
+      is exactly those two, the kit row says so ("De här två finns redan som
+      färdigt kit") instead of being a generic offer;
+    - when the main product is already in the cart, the kit row notes that
+      the kit contains it, so nobody buys it twice by accident.
+  Nothing is removed from or swapped in the cart automatically.
+
+  @param {product} main - The product the customer is looking at.
+  @param {string} [heading] - E.g. "Bygg vidare på fälgtvätten".
+  @param {product} [addon] - The add-on product (first available variant is added).
+  @param {string} [addon_text] - One line: why it belongs to the job.
+  @param {product} [kit] - A kit that contains the main product.
+  @param {string} [kit_label] - E.g. "Gör fälgtvätten komplett".
+  @param {string} [kit_text] - One line: what the kit is.
+  @param {string} [source] - Analytics source, e.g. "dirt_advisor".
+{%- enddoc -%}
+
+{%- liquid
+  assign main_name = main.title | split: ' – ' | first | split: ' - ' | first
+  if addon != blank
+    assign addon_variant = addon.selected_or_first_available_variant
+    unless addon_variant.available
+      assign addon = blank
+    endunless
+  endif
+  if kit != blank
+    unless kit.available
+      assign kit = blank
+    endunless
+  endif
+-%}
+
+{%- if addon != blank or kit != blank -%}
+  <div
+    class="nr-routine"
+    data-nr-routine
+    data-main="{{ main.id }}"
+  >
+    {%- if heading != blank -%}
+      <p class="nr-routine__head">{{ heading | escape }}</p>
+    {%- endif -%}
+
+    {%- if addon != blank -%}
+      {%- liquid
+        assign addon_name = addon.title | split: ' – ' | first | split: ' - ' | first
+        assign pack = addon_variant.title | plus: 0
+        if addon.has_only_default_variant == false and pack > 0
+          assign addon_name = addon_name | append: ', ' | append: addon_variant.title | append: ' st'
+        endif
+      -%}
+      <div
+        class="nr-routine__opt nr-routine__opt--addon"
+        data-nr-routine-addon
+        data-product="{{ addon.id }}"
+      >
+        <a
+          class="nr-routine__media"
+          href="{{ addon.url }}"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          {%- if addon.featured_image != blank -%}
+            {{
+              addon.featured_image
+              | image_url: width: 160
+              | image_tag: loading: 'lazy', alt: '', widths: '80, 120, 160', sizes: '52px'
+            }}
+          {%- endif -%}
+        </a>
+        <div class="nr-routine__body">
+          <a
+            class="nr-routine__name"
+            href="{{ addon.url }}"
+            data-nr-event="routine_addon_click"
+            data-nr-product="{{ addon.handle }}"
+            data-nr-source="{{ source | default: 'routine' }}"
+          >
+            {{- addon_name | escape -}}
+          </a>
+          {%- if addon_text != blank -%}
+            <span class="nr-routine__text">{{ addon_text | escape }}</span>
+          {%- endif -%}
+        </div>
+        <span class="nr-routine__price">{{ addon_variant.price | money }}</span>
+        <button
+          type="button"
+          class="nr-routine__add"
+          data-nr-routine-add="{{ addon_variant.id }}"
+          data-nr-event="routine_addon_click"
+          data-nr-product="{{ addon.handle }}"
+          data-nr-source="{{ source | default: 'routine' }}_add"
+          aria-label="Lägg {{ addon_name | escape }} i varukorgen"
+        >
+          <span data-nr-routine-add-label>Lägg till</span>
+        </button>
+        <p
+          class="nr-routine__status"
+          data-nr-routine-status
+          role="status"
+          aria-live="polite"
+        ></p>
+      </div>
+    {%- endif -%}
+
+    {%- if kit != blank -%}
+      {%- liquid
+        capture kit_separate
+          render 'nr-ks-separate', product: kit
+        endcapture
+        assign kit_separate = kit_separate | strip | plus: 0
+        assign kit_saving = 0
+        if kit_separate > kit.price
+          assign kit_saving = kit_separate | minus: kit.price
+        endif
+        assign kit_name = kit.metafields.custom.kit_name.value | default: kit.title
+        assign component_ids = ''
+        for c in kit.metafields.custom.kit_components.value
+          assign component_ids = component_ids | append: c.variant.value.product.id | append: ','
+        endfor
+      -%}
+      <a
+        class="nr-routine__opt nr-routine__opt--kit"
+        href="{{ kit.url }}"
+        data-nr-routine-kit
+        data-product="{{ kit.id }}"
+        data-components="{{ component_ids }}"
+        data-nr-event="routine_kit_click"
+        data-nr-product="{{ kit.handle }}"
+        data-nr-source="{{ source | default: 'routine' }}"
+      >
+        {%- if kit_label != blank -%}
+          <span class="nr-routine__kit-label">{{ kit_label | escape }}</span>
+        {%- endif -%}
+        <span class="nr-routine__kit-row">
+          <span class="nr-routine__kit-name">{{ kit_name | escape }}</span>
+          <span class="nr-routine__kit-price">{{ kit.price | money }}</span>
+        </span>
+        <span
+          class="nr-routine__kit-match"
+          data-nr-routine-match
+          hidden
+        >
+          De här två finns redan som färdigt kit.
+        </span>
+        {%- if kit_text != blank -%}
+          <span class="nr-routine__text" data-nr-routine-kit-text>{{ kit_text | escape }}</span>
+        {%- endif -%}
+        <span
+          class="nr-routine__text"
+          data-nr-routine-has-main
+          hidden
+        >
+          Innehåller {{ main_name | escape }}, som redan ligger i varukorgen.
+        </span>
+        {%- if kit_saving > 0 -%}
+          <span class="nr-routine__kit-value">
+            Köpta separat {{ kit_separate | money }}
+            <strong>Du sparar {{ kit_saving | money }}</strong>
+          </span>
+        {%- endif -%}
+        <span class="nr-routine__kit-cta">Välj kitet <span aria-hidden="true">&rarr;</span></span>
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

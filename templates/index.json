@@ -741,13 +741,17 @@
         "trafikfilm": {
           "type": "product",
           "settings": {
-            "label": "Trafikfilm & vägsmuts",
+            "label": "Trafikfilm",
             "product": "alkastrike-alkalisk-avfettning",
-            "problem": "Trafikfilm, insekter och vägsmuts",
+            "problem": "Trafikfilm & vägsmuts",
+            "text": "Löser trafikfilm, insekter och vägsmuts innan du rör lacken.",
             "points": "Späds efter hur smutsig bilen är\nSprayas på och spolas av med högtryck\nMindre smuts kvar när handtvätten börjar",
-            "next_product": "litet-exterior-startkit",
-            "next_label": "Eller ta hela förtvätten",
-            "next_text": "Alkastrike, DeepDegrease och Pure Shampoo i ett kit.",
+            "routine_heading": "Behöver bilen mer?",
+            "addon_product": "deepdegrease-kallavfettning",
+            "addon_text": "Om bilen också har asfalt- eller tjärstänk.",
+            "kit_product": "litet-exterior-startkit",
+            "kit_label": "Ta hela kombinationen",
+            "kit_text": "Alkastrike, DeepDegrease och Pure Shampoo. Grunden från förtvätt till handtvätt.",
             "helper_label": "Osäker på vilken avfettning du behöver?",
             "helper_link": "/products/alkastrike-alkalisk-avfettning#vilken-avfettning"
           }
@@ -755,13 +759,17 @@
         "asfalt": {
           "type": "product",
           "settings": {
-            "label": "Asfalt & tjära",
+            "label": "Asfalt",
             "product": "deepdegrease-kallavfettning",
-            "problem": "Asfalt, tjära och oljerester",
-            "points": "Tar det som vanligt bilschampo inte klarar\nAppliceras direkt på stänk och fläckar\nAnvänds före handtvätten",
-            "next_product": "litet-exterior-startkit",
-            "next_label": "Eller ta hela förtvätten",
-            "next_text": "DeepDegrease, Alkastrike och Pure Shampoo i ett kit.",
+            "problem": "Asfalt & tjära",
+            "text": "Löser asfalt, tjära och oljerester som vanligt bilschampo inte tar.",
+            "points": "Appliceras direkt på stänk och fläckar\nAnvänds före handtvätten\nArbeta i skugga och låt aldrig torka in",
+            "routine_heading": "Behöver bilen mer?",
+            "addon_product": "alkastrike-alkalisk-avfettning",
+            "addon_text": "Om bilen också har trafikfilm och vägsmuts.",
+            "kit_product": "litet-exterior-startkit",
+            "kit_label": "Ta hela kombinationen",
+            "kit_text": "DeepDegrease, Alkastrike och Pure Shampoo. Grunden från förtvätt till handtvätt.",
             "helper_label": "Osäker på vilken avfettning du behöver?",
             "helper_link": "/products/deepdegrease-kallavfettning#vilken-avfettning"
           }
@@ -769,26 +777,34 @@
         "flygrost": {
           "type": "product",
           "settings": {
-            "label": "Flygrost & bromsdamm",
+            "label": "Flygrost",
             "product": "revolt-flygrostborttagare",
-            "problem": "Flygrost och bromsdamm på fälgarna",
-            "points": "Blir lila när den arbetar – du ser reaktionen\nSpraya på en sval fälg, låt verka, spola av\nBorsta in den vid fastbränd bromsdamm",
-            "next_product": "falg-startkit",
-            "next_label": "Eller ta kitet",
-            "next_text": "Revolt och Mikrofiber Fälgborste i ett kit.",
+            "problem": "Flygrost & bromsdamm",
+            "text": "Löser järnpartiklar och bromsdamm där vanlig tvätt inte räcker.",
+            "points": "För fälgar och lack\nSynlig reaktion när produkten arbetar\nFör ingrodd metallsmuts",
+            "routine_heading": "Bygg vidare på fälgtvätten",
+            "addon_product": "mikrofiber-falgborste",
+            "addon_text": "Arbetar in Revolt där bromsdammet sitter hårt.",
+            "kit_product": "falg-startkit",
+            "kit_label": "Gör fälgtvätten komplett",
+            "kit_text": "Revolt och Mikrofiber Fälgborste som färdigt kit.",
             "video": "shopify://files/videos/revoltförstavideo.mov"
           }
         },
         "foam": {
           "type": "product",
           "settings": {
-            "label": "Foam / förtvätt",
+            "label": "Foam",
             "product": "foamtastic-hogkoncentrerat-snow-foam",
-            "problem": "Förtvätt med snow foam",
-            "points": "Tjockt skum som stannar kvar och arbetar\nLöser upp smuts innan du rör lacken\nMinskar risken för tvättrepor",
-            "next_product": "foam-wash-kit",
-            "next_label": "Eller ta kitet",
-            "next_text": "Foamtastic och Foam Cannon – det du skummar med.",
+            "problem": "Foam & förtvätt",
+            "text": "Tjockt skum som löser smutsen innan handtvätten börjar.",
+            "points": "Stannar kvar på lacken och arbetar\nLöser upp smuts innan du rör lacken\nMinskar risken för tvättrepor",
+            "routine_heading": "Komplettera skumtvätten",
+            "addon_product": "foam-lance-skumlans",
+            "addon_text": "Det du skummar med. Kräver högtryckstvätt.",
+            "kit_product": "foam-wash-kit",
+            "kit_label": "Ta hela Foam Wash Kit istället",
+            "kit_text": "Foamtastic och Foam Cannon som färdigt kit.",
             "video": "shopify://files/videos/foambanner1.mov"
           }
         },
@@ -797,23 +813,31 @@
           "settings": {
             "label": "Handtvätt",
             "product": "pure-shampoo-ph-neutralt-bilschampo",
-            "problem": "Handtvätt av lacken",
-            "points": "Högkoncentrerat – en liten mängd räcker långt\nFör tvåhinksmetoden, panel för panel\nRent, blankt resultat efter sköljning",
-            "next_product": "wash-pad-mikrofiber",
-            "next_label": "Komplettera med",
-            "next_text": "Tvättpad i mikrofiber för själva handtvätten."
+            "problem": "Handtvätt",
+            "text": "Skonsamt mot vax och keramiska lackskydd, ändå kraftfullt mot vägfilm.",
+            "points": "Högkoncentrerat, en liten mängd räcker långt\nFör tvåhinksmetoden, panel för panel\nRent, blankt resultat efter sköljning",
+            "routine_heading": "Komplettera handtvätten",
+            "addon_product": "wash-pad-mikrofiber",
+            "addon_text": "Mikrofibern som tvättar lacken.",
+            "kit_product": "litet-exterior-startkit",
+            "kit_label": "Ta hela grunden",
+            "kit_text": "Pure Shampoo, Alkastrike och DeepDegrease. Förtvätt och handtvätt i ett kit."
           }
         },
-        "glans": {
+        "skydd": {
           "type": "product",
           "settings": {
-            "label": "Skydd & glans",
+            "label": "Skydd",
             "product": "glosscoat-hydrofobisk-sprayforsegling",
-            "problem": "Glans och skydd efter tvätten",
-            "points": "Djupare glans direkt efter tvätten\nVattnet rinner av – bilen är enklare att hålla ren\nSpraya på, fördela, torka av",
-            "next_product": "mikrofiberduk",
-            "next_label": "Komplettera med",
-            "next_text": "En ren mikrofiberduk att fördela och torka av med."
+            "problem": "Skydd & glans",
+            "text": "Glans och vattenavrinning på några minuter, sista steget efter tvätten.",
+            "points": "Djupare glans direkt efter tvätten\nVattnet rinner av och bilen håller sig renare\nSpraya på, fördela, torka av",
+            "routine_heading": "Komplettera jobbet",
+            "addon_product": "mikrofiberduk",
+            "addon_text": "En ren duk att fördela och torka av med.",
+            "kit_product": "exterior-komplett-kit",
+            "kit_label": "Om du ska köpa flera steg",
+            "kit_text": "Alla åtta exteriörprodukter, från förtvätt till GlossCoat."
           }
         },
         "glas": {
@@ -821,23 +845,31 @@
           "settings": {
             "label": "Glas",
             "product": "clarity-glasrengoring",
-            "problem": "Glas och speglar, in- och utvändigt",
+            "problem": "Glas & speglar",
+            "text": "Klart glas utan ränder, in- och utvändigt.",
             "points": "Löser fett, fingeravtryck och trafikfilm\nInvändigt: spraya på duken, inte på glaset\nEftertorka med en torr glasduk",
-            "next_product": "glass-towel-glasduk",
-            "next_label": "Komplettera med",
-            "next_text": "Glasduk för eftertorkningen."
+            "routine_heading": "Komplettera glasjobbet",
+            "addon_product": "glass-towel-glasduk",
+            "addon_text": "Glasduken för eftertorkningen.",
+            "kit_product": "stort-interior-startkit",
+            "kit_label": "Gör insidan komplett",
+            "kit_text": "Clarity och Glass Towel, plus rengöring av ytor och detaljer."
           }
         },
         "dack": {
           "type": "product",
           "settings": {
-            "label": "Däck & plast",
+            "label": "Däck",
             "product": "pristine-dack-plastfornyare",
-            "problem": "Däck och utvändig plast",
-            "points": "Djup, naturlig finish – inte blöt och blank\nAppliceras med en liten mängd på applikatorn\nLåt torka innan körning eller regn",
-            "next_product": "dackapplikator",
-            "next_label": "Komplettera med",
-            "next_text": "För jämn applicering på däcken."
+            "problem": "Däck & plast",
+            "text": "Djupare färg och jämn finish på däck och utvändig plast.",
+            "points": "Naturlig finish, inte blöt och blank\nEn liten mängd på applikatorn räcker\nLåt torka innan körning eller regn",
+            "routine_heading": "Komplettera däckjobbet",
+            "addon_product": "dackapplikator",
+            "addon_text": "För jämn applicering längs däcket.",
+            "kit_product": "falg-och-dack-komplett-kit",
+            "kit_label": "Ta fälgar och däck i ett",
+            "kit_text": "Revolt, fälgborste, Pristine och applikator som färdigt kit."
           }
         }
       },
@@ -847,17 +879,14 @@
         "flygrost",
         "foam",
         "handtvatt",
-        "glans",
+        "skydd",
         "glas",
         "dack"
       ],
       "settings": {
         "eyebrow": "Rätt produkt",
         "heading": "Rätt produkt för rätt typ av smuts",
-        "text": "Välj vad du vill få bort så visar vi rätt produkt direkt.",
-        "cta_label": "Se produkten",
-        "link_label": "",
-        "link": ""
+        "text": "Välj vad du vill få bort så visar vi rätt produkt direkt."
       }
     },
     "brand_story": {
