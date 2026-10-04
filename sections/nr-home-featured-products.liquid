@@ -1,87 +1,321 @@
 {% comment %}
-  "Featured products" — reuses the theme's native product-card block (same
-  component used on collection pages) so cards stay visually and
-  functionally consistent with the rest of the store, wrapped in the
-  NordicReflection heading/grid shell.
+  "Bästsäljare": fast shopping, not discovery. Each product answers in two
+  seconds: what is it (short name), what does it solve (one line), what
+  does it cost, can I add it now (+).
+
+  Display logic only: the product data stays unchanged. Name = the product
+  title before the dash ("Revolt – Flygrostborttagare" → "Revolt"). The
+  line comes from the block (e.g. "Flygrost & bromsdamm"), else
+  pdp.type_label. "+" adds one of a single-variant product through the same
+  Ajax add as the routine builder (assets/nr-homepage.js, data-nr-quick-add)
+  and announces it with CartLinesUpdateEvent; products with variants link
+  to their page instead.
+
+  Phones: one compact row per product (image, name, line, price, +).
+  Tablet/desktop: four columns.
 {% endcomment %}
 
-<div data-nr-scope class="nr-section nr-featured-products">
+<div data-nr-scope class="nr-section nr-bestsellers">
   <div class="nr-container">
-    <div class="nr-section-head" data-nr-reveal>
+    <div class="nr-section-head nr-bestsellers__head" data-nr-reveal>
       {%- if section.settings.heading != blank -%}
-        <h2 class="nr-h2">{{ section.settings.heading }}</h2>
+        <h2 class="nr-h2">{{ section.settings.heading | escape }}</h2>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
-        <p class="nr-body nr-body--muted">{{ section.settings.text }}</p>
+        <p class="nr-body nr-body--muted">{{ section.settings.text | escape }}</p>
       {%- endif -%}
     </div>
 
-    <div class="nr-grid nr-grid--4 nr-featured-products__grid" data-nr-reveal="stagger">
-      {% content_for 'blocks' %}
-    </div>
+    <ul class="nr-bestsellers__list" role="list" data-nr-reveal="stagger">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+        {%- if product == blank -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign name = product.title | split: ' – ' | first | split: ' - ' | first | strip
+          assign line = block.settings.line | default: product.metafields.pdp.type_label.value
+          assign variant = product.selected_or_first_available_variant
+        -%}
+        <li class="nr-best" {{ block.shopify_attributes }}>
+          <a
+            class="nr-best__media"
+            href="{{ product.url }}"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            {%- if product.featured_image != blank -%}
+              {{
+                product.featured_image
+                | image_url: width: 600
+                | image_tag: loading: 'lazy', alt: '', widths: '160, 240, 360, 480, 600', sizes: '(min-width: 750px) 24vw, 76px'
+              }}
+            {%- endif -%}
+          </a>
+          <div class="nr-best__text">
+            <a
+              class="nr-best__name"
+              href="{{ product.url }}"
+              data-nr-event="bestseller_click"
+              data-nr-product="{{ product.handle }}"
+              data-nr-source="home_bestsellers"
+            >
+              {{- name | escape -}}
+            </a>
+            {%- if line != blank -%}
+              <span class="nr-best__line">{{ line | escape }}</span>
+            {%- endif -%}
+          </div>
+          <span class="nr-best__price">
+            {%- if product.price_varies -%}Från {% endif -%}
+            {{- product.price | money -}}
+          </span>
+          {%- if product.available and product.has_only_default_variant -%}
+            <button
+              type="button"
+              class="nr-best__add"
+              data-nr-quick-add="{{ variant.id }}"
+              data-nr-event="bestseller_quick_add"
+              data-nr-product="{{ product.handle }}"
+              data-nr-source="home_bestsellers"
+              aria-label="Lägg {{ name | escape }} i varukorgen"
+            >
+              <svg class="nr-best__icon-add" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <svg class="nr-best__icon-done" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          {%- else -%}
+            <a
+              class="nr-best__add nr-best__add--link"
+              href="{{ product.url }}"
+              aria-label="Välj variant av {{ name | escape }}"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          {%- endif -%}
+          <span class="nr-best__status" data-nr-quick-add-status role="status" aria-live="polite"></span>
+        </li>
+      {%- endfor -%}
+    </ul>
   </div>
 </div>
 
 {% stylesheet %}
-  .nr-featured-products__grid .product-card {
-    --product-card-gap: 8px;
+  .nr-bestsellers__head .nr-body {
+    margin-top: 10px;
   }
 
-  /* Equal-height cards with the price on the same line in every card,
-     whatever the name or use-case line wraps to. */
-  .nr-featured-products__grid > product-card {
-    display: flex;
-    flex-direction: column;
+  .nr-bestsellers__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--nr-space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .nr-featured-products__grid .product-card__content {
-    flex: 1;
+  /* Desktop card: image, then name + line on the left, price + add on the
+     right. No card chrome; the image carries it. */
+  .nr-best {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'media media'
+      'text add'
+      'price add'
+      'status status';
+    align-items: start;
+    gap: 2px 12px;
+    min-width: 0;
   }
 
-  .nr-featured-products__grid .product-card__content > product-price {
-    margin-top: auto;
+  .nr-best__media {
+    grid-area: media;
+    display: block;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 14px;
+    overflow: hidden;
+    border-radius: var(--nr-radius-sm);
+    background: var(--nr-bg-soft);
+  }
+
+  .nr-best__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform 400ms var(--nr-ease-out);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .nr-best:hover .nr-best__media img {
+      transform: scale(1.03);
+    }
+  }
+
+  .nr-best__text {
+    grid-area: text;
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .nr-best__name {
+    font-family: var(--font-heading--family);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--nr-text);
+    text-decoration: none;
+  }
+
+  .nr-best__name::after {
+    /* Whole card area above is clickable through the name link. */
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    aspect-ratio: 4 / 5;
+  }
+
+  .nr-best__name:focus-visible {
+    outline: 2px solid var(--nr-text);
+    outline-offset: 2px;
+  }
+
+  .nr-best__line {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-best__price {
+    grid-area: price;
+    margin-top: 6px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nr-best__add {
+    grid-area: add;
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--nr-text);
+    border-radius: 50%;
+    background: var(--nr-bg);
+    color: var(--nr-text);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color var(--nr-transition-fast), color var(--nr-transition-fast),
+      transform var(--nr-transition-fast);
+  }
+
+  .nr-best__add svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .nr-best__add:hover:not(:disabled),
+  .nr-best__add.is-added {
+    background: var(--nr-text);
+    color: #fff;
+  }
+
+  .nr-best__add:active {
+    transform: scale(0.96);
+  }
+
+  .nr-best__add:disabled {
+    opacity: 0.6;
+  }
+
+  .nr-best__add:focus-visible {
+    outline: 2px solid var(--nr-text);
+    outline-offset: 2px;
+  }
+
+  .nr-best__icon-done,
+  .nr-best__add.is-added .nr-best__icon-add {
+    display: none;
+  }
+
+  .nr-best__add.is-added .nr-best__icon-done {
+    display: block;
+  }
+
+  .nr-best__status {
+    grid-area: status;
+    font-size: 0.8125rem;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-best__status:empty {
+    display: none;
+  }
+
+  .nr-best__status a {
+    color: inherit;
     font-weight: 600;
   }
 
-  .nr-featured-products__grid .card-gallery {
-    border-radius: var(--nr-radius-md);
-    overflow: hidden;
-    background: var(--nr-surface);
+  @media screen and (max-width: 989px) and (min-width: 750px) {
+    .nr-bestsellers__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--nr-space-lg) var(--nr-space-md);
+    }
   }
 
-  /* Mobile only: swipeable carousel instead of a stacked column.
-     749px matches this theme's own mobile/desktop split (see .size-style
-     in base.css and .nr-container above) so tablet layout is untouched. */
+  /* Phones: four quick rows. Image, name + line, price, + (thumb zone right). */
   @media screen and (max-width: 749px) {
-    /* .nr-grid.nr-featured-products__grid (not just the single class) so this
-       reliably beats the plain, unconditional `.nr-grid { display: grid }`
-       rule in nr-homepage.css regardless of stylesheet load order. */
-    .nr-grid.nr-featured-products__grid {
-      display: flex;
-      grid-template-columns: none;
-      flex-wrap: nowrap;
-      gap: var(--nr-space-sm);
-      overflow-x: auto;
-      overscroll-behavior-x: contain;
-      scroll-snap-type: x mandatory;
-      scroll-padding-inline-start: var(--nr-space-sm);
-      -webkit-overflow-scrolling: touch;
-      margin-inline: calc(var(--nr-space-sm) * -1);
-      padding-inline: var(--nr-space-sm);
-      padding-block-end: 4px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+    .nr-bestsellers__list {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--nr-border);
     }
 
-    .nr-grid.nr-featured-products__grid::-webkit-scrollbar {
-      display: none;
+    .nr-best {
+      grid-template-columns: 76px minmax(0, 1fr) auto auto;
+      grid-template-areas:
+        'media text price add'
+        'status status status status';
+      align-items: center;
+      gap: 0 14px;
+      padding-block: 12px;
+      border-bottom: 1px solid var(--nr-border);
     }
 
-    .nr-grid.nr-featured-products__grid > product-card {
-      flex: 0 0 auto;
-      width: 76%;
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
+    .nr-best__media {
+      width: 76px;
+      aspect-ratio: 1;
+      margin: 0;
+    }
+
+    .nr-best__name {
+      font-size: 1rem;
+    }
+
+    .nr-best__name::after {
+      inset: 0;
+      aspect-ratio: auto;
+    }
+
+    .nr-best__line {
+      font-size: 0.8125rem;
+    }
+
+    .nr-best__price {
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .nr-best__status {
+      padding: 6px 0 0 90px;
     }
   }
 {% endstylesheet %}
@@ -90,66 +324,30 @@
 {
   "name": "NR: Utvalda produkter",
   "tag": "section",
-  "max_blocks": 4,
-  "blocks": [
-    { "type": "@theme" },
-    { "type": "@app" }
-  ],
+  "max_blocks": 6,
   "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Bästsäljare" },
+    { "type": "text", "id": "text", "label": "Ingress", "default": "Mest köpta de senaste 90 dagarna." }
+  ],
+  "blocks": [
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Rubrik",
-      "default": "Produkter att börja med"
-    },
-    {
-      "type": "textarea",
-      "id": "text",
-      "label": "Ingress",
-      "default": "Ett noggrant utvalt sortiment för en komplett och effektiv tvättrutin."
+      "type": "item",
+      "name": "Produkt",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Produkt" },
+        {
+          "type": "text",
+          "id": "line",
+          "label": "Vad den löser (kort)",
+          "info": "T.ex. Flygrost & bromsdamm. Tomt = produktens typ (pdp.type_label)."
+        }
+      ]
     }
   ],
   "presets": [
     {
       "name": "NR: Utvalda produkter",
-      "blocks": [
-        {
-          "type": "product-card",
-          "settings": { "product_card_gap": 8 },
-          "blocks": [
-            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
-            { "type": "product-title" },
-            { "type": "price" }
-          ]
-        },
-        {
-          "type": "product-card",
-          "settings": { "product_card_gap": 8 },
-          "blocks": [
-            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
-            { "type": "product-title" },
-            { "type": "price" }
-          ]
-        },
-        {
-          "type": "product-card",
-          "settings": { "product_card_gap": 8 },
-          "blocks": [
-            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
-            { "type": "product-title" },
-            { "type": "price" }
-          ]
-        },
-        {
-          "type": "product-card",
-          "settings": { "product_card_gap": 8 },
-          "blocks": [
-            { "type": "_product-card-gallery", "settings": { "image_ratio": "adapt" } },
-            { "type": "product-title" },
-            { "type": "price" }
-          ]
-        }
-      ]
+      "blocks": [{ "type": "item" }, { "type": "item" }, { "type": "item" }, { "type": "item" }]
     }
   ]
 }

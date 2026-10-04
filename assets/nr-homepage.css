@@ -52,6 +52,16 @@
   color: var(--nr-text);
 }
 
+/* Phones: one rhythm for every homepage section. 48 px between sections,
+   20 px from a heading block to its content, 16 px gutters (.nr-container). */
+@media screen and (max-width: 749px) {
+  [data-nr-scope] {
+    --nr-section-space: 48px;
+    --nr-section-space-sm: 32px;
+    --nr-heading-gap: 20px;
+  }
+}
+
 /* ---------- Layout primitives ---------- */
 .nr-section {
   background: var(--nr-bg);

@@ -33,7 +33,7 @@
 {%- if panel_count > 0 -%}
   <div
     data-nr-scope
-    class="nr-section nr-section--dark nr-adv"
+    class="nr-section nr-adv"
     data-nr-advisor
   >
     <div class="nr-container">
@@ -240,23 +240,26 @@
 {%- endif -%}
 
 {% stylesheet %}
+  /* Light, first shopping moment of the page. One accent (saving green),
+     4 px radius, the shared button styles. */
   .nr-adv {
-    --adv-line: rgba(255, 255, 255, 0.14);
-    --adv-muted: rgba(255, 255, 255, 0.66);
+    --adv-fg: var(--nr-text);
+    --adv-muted: var(--nr-text-muted);
+    --adv-line: var(--nr-border);
     --adv-ease: cubic-bezier(0.16, 1, 0.3, 1);
-    background: #121212;
+    color: var(--adv-fg);
   }
 
   .nr-adv__head {
     max-width: var(--nr-text-width);
-    margin-bottom: var(--nr-space-lg);
+    margin-bottom: var(--nr-space-md);
   }
 
   .nr-adv__head .nr-body {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 
-  /* ---------- Problem words: a quiet index, not pills ---------- */
+  /* ---------- Problem words: an underlined index, not pills ---------- */
   .nr-adv__tabs-wrap {
     margin-bottom: var(--nr-space-lg);
     border-bottom: 1px solid var(--adv-line);
@@ -294,15 +297,15 @@
     right: 0;
     bottom: -1px;
     height: 2px;
-    background: #fff;
+    background: var(--adv-fg);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 240ms var(--adv-ease);
+    transition: transform 220ms var(--adv-ease);
   }
 
   .nr-adv__tab:hover,
   .nr-adv__tab[aria-selected='true'] {
-    color: #fff;
+    color: var(--adv-fg);
   }
 
   .nr-adv__tab[aria-selected='true']::after {
@@ -310,7 +313,7 @@
   }
 
   .nr-adv__tab:focus-visible {
-    outline: 2px solid #fff;
+    outline: 2px solid var(--adv-fg);
     outline-offset: 4px;
   }
 
@@ -338,11 +341,10 @@
     background: #1d1d1d;
   }
 
-  /* Studio light for products without a clip: one soft source from the
-     upper left, a floor, and the problem word set large behind the bottle. */
+  /* Studio light for products without a clip: one soft source, a floor,
+     and the problem word set large behind the bottle. */
   .nr-adv__stage--studio {
-    background:
-      radial-gradient(120% 90% at 22% 12%, #f7f7f4 0%, #e9e8e3 55%, #dcdbd5 100%);
+    background: radial-gradient(120% 90% at 22% 12%, #f4f4f1 0%, #e6e5e0 55%, #d8d7d1 100%);
   }
 
   .nr-adv__clip {
@@ -355,8 +357,8 @@
 
   .nr-adv__clip-toggle {
     position: absolute;
-    left: 14px;
-    bottom: 14px;
+    left: 12px;
+    bottom: 12px;
     z-index: 2;
   }
 
@@ -418,13 +420,13 @@
     box-shadow: -24px -24px 60px -36px rgba(0, 0, 0, 0.55);
   }
 
-  /* ---------- Story column ---------- */
+  /* ---------- Story ---------- */
   .nr-adv__info {
     min-width: 0;
   }
 
   .nr-adv__problem {
-    margin: 0 0 14px;
+    margin: 0 0 12px;
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -435,25 +437,23 @@
   .nr-adv__name {
     margin: 0;
     font-family: var(--font-heading--family);
-    font-size: clamp(2.5rem, 1.6rem + 2.6vw, 4.25rem);
+    font-size: clamp(2.25rem, 1.6rem + 2.2vw, 4rem);
     font-weight: 500;
     line-height: 0.95;
     letter-spacing: -0.03em;
-    color: #fff;
   }
 
   .nr-adv__value {
-    margin: 18px 0 0;
+    margin: 16px 0 0;
     max-width: 32ch;
     font-size: 1.125rem;
     line-height: 1.45;
-    color: #fff;
   }
 
   .nr-adv__points {
     display: grid;
     gap: 6px;
-    margin: 20px 0 0;
+    margin: 18px 0 0;
     padding: 0;
     list-style: none;
   }
@@ -473,7 +473,7 @@
     top: 0.72em;
     width: 12px;
     height: 1px;
-    background: rgba(255, 255, 255, 0.5);
+    background: currentColor;
   }
 
   .nr-adv__buy {
@@ -481,7 +481,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 12px 24px;
-    margin-top: 28px;
+    margin-top: 26px;
   }
 
   .nr-adv__price {
@@ -489,7 +489,6 @@
     font-size: 1.5rem;
     font-weight: 500;
     font-variant-numeric: tabular-nums;
-    color: #fff;
   }
 
   .nr-adv__cta {
@@ -498,33 +497,25 @@
   }
 
   .nr-adv__helper {
-    margin: 18px 0 0;
+    margin: 16px 0 0;
   }
 
-  .nr-adv .nr-link {
-    color: #fff;
-  }
-
-  /* ---------- Enter: stage settles, story follows (≤ 300 ms) ---------- */
+  /* ---------- Enter: stage settles, story follows (≤ 260 ms) ---------- */
   @media (prefers-reduced-motion: no-preference) {
     .nr-adv__panel.is-entering .nr-adv__stage {
-      animation: nr-adv-stage 280ms var(--adv-ease) both;
+      animation: nr-adv-stage 240ms var(--adv-ease) both;
     }
 
     .nr-adv__panel.is-entering .nr-adv__bottle {
-      animation: nr-adv-rise 300ms var(--adv-ease) 40ms both;
+      animation: nr-adv-rise 260ms var(--adv-ease) 30ms both;
     }
 
     .nr-adv__panel.is-entering .nr-adv__info > * {
-      animation: nr-adv-rise 260ms var(--adv-ease) both;
-    }
-
-    .nr-adv__panel.is-entering .nr-adv__info > :nth-child(2) {
-      animation-delay: 30ms;
+      animation: nr-adv-rise 220ms var(--adv-ease) both;
     }
 
     .nr-adv__panel.is-entering .nr-adv__info > :nth-child(n + 3) {
-      animation-delay: 60ms;
+      animation-delay: 40ms;
     }
   }
 
@@ -542,7 +533,7 @@
   @keyframes nr-adv-rise {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(8px);
     }
     to {
       opacity: 1;
@@ -550,20 +541,21 @@
     }
   }
 
-  /* ---------- Routine builder (snippets/nr-routine) on the dark stage ---------- */
+  /* ---------- Routine builder (snippets/nr-routine): one add-on row and
+     one kit line, nothing more ---------- */
   .nr-adv .nr-routine {
-    margin-top: 28px;
-    padding-top: 20px;
+    margin-top: 26px;
+    padding-top: 18px;
     border-top: 1px solid var(--adv-line);
   }
 
   .nr-routine__head {
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--adv-muted, var(--nr-text-muted));
+    color: var(--nr-text-muted);
   }
 
   .nr-routine__opt {
@@ -577,18 +569,18 @@
 
   .nr-routine__opt--addon {
     display: grid;
-    grid-template-columns: 52px minmax(0, 1fr) auto auto;
+    grid-template-columns: 48px minmax(0, 1fr) auto auto;
     align-items: center;
-    gap: 4px 14px;
+    gap: 2px 14px;
   }
 
   .nr-routine__media {
     display: block;
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     overflow: hidden;
     border-radius: var(--nr-radius-sm);
-    background: #f1f0ec;
+    background: var(--nr-bg-soft);
   }
 
   .nr-routine__media img {
@@ -620,7 +612,7 @@
   .nr-routine__text {
     font-size: 0.8125rem;
     line-height: 1.4;
-    color: var(--adv-muted, var(--nr-text-muted));
+    color: var(--nr-text-muted);
   }
 
   .nr-routine__price {
@@ -630,27 +622,25 @@
   }
 
   .nr-routine__add {
-    min-height: 40px;
-    padding: 0 14px;
-    border: 1px solid currentColor;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--nr-text);
     border-radius: var(--nr-radius-sm);
     background: transparent;
-    color: inherit;
+    color: var(--nr-text);
     font: inherit;
     font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     white-space: nowrap;
     cursor: pointer;
+    touch-action: manipulation;
     transition: background-color var(--nr-transition-fast), color var(--nr-transition-fast);
   }
 
   .nr-routine__add:hover:not(:disabled) {
-    background: currentColor;
-  }
-
-  .nr-routine__add:hover:not(:disabled) span {
-    color: #121212;
+    background: var(--nr-text);
+    color: #fff;
   }
 
   .nr-routine__add:disabled {
@@ -658,8 +648,9 @@
     cursor: default;
   }
 
-  .nr-routine__add:focus-visible {
-    outline: 2px solid currentColor;
+  .nr-routine__add:focus-visible,
+  .nr-routine__opt--kit:focus-visible {
+    outline: 2px solid var(--nr-text);
     outline-offset: 2px;
   }
 
@@ -667,7 +658,7 @@
     grid-column: 2 / -1;
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--adv-muted, var(--nr-text-muted));
+    color: var(--nr-text-muted);
   }
 
   .nr-routine__status:empty {
@@ -679,85 +670,64 @@
     font-weight: 600;
   }
 
+  /* The complete solution: one text line, not another card. */
   .nr-routine__opt--kit {
     display: grid;
-    gap: 4px;
-    margin-top: 16px;
-    padding: 16px 18px;
-    border: 1px solid var(--adv-line, var(--nr-border));
-    border-radius: var(--nr-radius-sm);
-    transition: border-color var(--nr-transition-fast);
+    gap: 2px;
+    margin-top: 14px;
+    font-size: 0.875rem;
+    line-height: 1.45;
   }
 
-  .nr-routine__opt--kit:hover {
-    border-color: currentColor;
+  .nr-routine__kit-line {
+    display: inline;
   }
 
-  .nr-routine__opt--kit:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
+  .nr-routine__kit-label {
+    color: var(--nr-text-muted);
+  }
+
+  .nr-routine__kit-name {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .nr-routine__kit-tail {
+    white-space: nowrap;
+  }
+
+  .nr-routine__kit-price {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nr-routine__kit-save {
+    font-weight: 600;
+    color: var(--nr-save);
+    white-space: nowrap;
+  }
+
+  .nr-routine__kit-arrow {
+    display: inline-block;
+    transition: transform var(--nr-transition-fast);
+  }
+
+  .nr-routine__opt--kit:hover .nr-routine__kit-arrow {
+    transform: translateX(3px);
+  }
+
+  .nr-routine__note {
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .nr-routine__note[hidden] {
+    display: none;
   }
 
   .nr-routine__opt--addon[hidden] + .nr-routine__opt--kit {
     margin-top: 0;
-  }
-
-  .nr-routine__kit-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--adv-muted, var(--nr-text-muted));
-  }
-
-  .nr-routine__kit-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-  }
-
-  .nr-routine__kit-name {
-    font-size: 1.0625rem;
-    font-weight: 600;
-  }
-
-  .nr-routine__kit-price {
-    font-size: 1.0625rem;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-
-  .nr-routine__kit-match {
-    font-size: 0.875rem;
-    font-weight: 600;
-  }
-
-  .nr-routine__kit-match[hidden],
-  .nr-routine__text[hidden] {
-    display: none;
-  }
-
-  .nr-routine__kit-value {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px 12px;
-    font-size: 0.8125rem;
-    color: var(--adv-muted, var(--nr-text-muted));
-    font-variant-numeric: tabular-nums;
-  }
-
-  .nr-routine__kit-value strong {
-    font-weight: 600;
-    color: var(--nr-save-on-dark);
-  }
-
-  .nr-routine__kit-cta {
-    margin-top: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
   }
 
   /* ---------- Tablet ---------- */
@@ -778,20 +748,11 @@
     }
   }
 
-  /* ---------- Phones: words scroll, stage first, story below ---------- */
+  /* ---------- Phones: chips, one visual, one product, one CTA,
+     one small next step ---------- */
   @media screen and (max-width: 749px) {
-    .nr-adv {
-      padding-block: 48px;
-    }
-
     .nr-adv__head {
-      margin-bottom: var(--nr-space-md);
-    }
-
-    /* The label and name already say it; keep the rows to one glance. */
-    .nr-routine__opt--addon .nr-routine__text,
-    .nr-routine__opt--kit [data-nr-routine-kit-text] {
-      display: none;
+      margin-bottom: var(--nr-space-sm);
     }
 
     .nr-adv__tabs-wrap {
@@ -815,7 +776,7 @@
     }
 
     .nr-adv__tab {
-      min-height: 46px;
+      min-height: 44px;
       scroll-snap-align: start;
     }
 
@@ -826,71 +787,88 @@
       right: 0;
       bottom: 1px;
       width: 32px;
-      background: linear-gradient(to right, rgba(18, 18, 18, 0), #121212);
+      background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff);
       pointer-events: none;
     }
 
     .nr-adv__panel {
       grid-template-columns: minmax(0, 1fr);
-      gap: 22px;
+      gap: 18px;
     }
 
     .nr-adv__stage {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 16 / 11;
       margin-inline: calc(var(--nr-space-sm) * -1);
       border-radius: 0;
     }
 
     .nr-adv__stage--clip .nr-adv__bottle {
-      width: 36%;
-      height: 52%;
+      width: 32%;
+      height: 60%;
     }
 
     .nr-adv__problem {
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       font-size: 0.75rem;
     }
 
     .nr-adv__name {
-      font-size: 2.5rem;
+      font-size: 2.25rem;
     }
 
     .nr-adv__value {
-      margin-top: 12px;
-      font-size: 1.0625rem;
+      margin-top: 10px;
+      font-size: 1rem;
     }
 
     .nr-adv__points {
-      margin-top: 14px;
+      gap: 2px;
+      margin-top: 10px;
+    }
+
+    .nr-adv__points li {
+      font-size: 0.875rem;
     }
 
     .nr-adv__buy {
-      margin-top: 22px;
-      gap: 12px 16px;
+      flex-wrap: nowrap;
+      margin-top: 18px;
+      gap: 16px;
     }
 
     .nr-adv__cta {
       flex: 1 1 auto;
     }
 
+    /* The comparison link waits for tablet/desktop: one decision at a time. */
+    .nr-adv__helper {
+      display: none;
+    }
+
     .nr-adv .nr-routine {
-      margin-top: 22px;
-      padding-top: 16px;
+      margin-top: 20px;
+      padding-top: 14px;
     }
 
     .nr-routine__opt--addon {
-      grid-template-columns: 48px minmax(0, 1fr) auto;
-      gap: 4px 12px;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      gap: 0 12px;
     }
 
     .nr-routine__media {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
+    }
+
+    .nr-routine__opt--addon .nr-routine__text {
+      display: none;
     }
 
     .nr-routine__price {
       grid-column: 2;
       grid-row: 2;
+      font-size: 0.875rem;
+      color: var(--nr-text-muted);
     }
 
     .nr-routine__add {
@@ -900,10 +878,11 @@
 
     .nr-routine__status {
       grid-column: 1 / -1;
+      margin-top: 6px;
     }
 
     .nr-routine__opt--kit {
-      padding: 14px 16px;
+      margin-top: 12px;
     }
   }
 {% endstylesheet %}

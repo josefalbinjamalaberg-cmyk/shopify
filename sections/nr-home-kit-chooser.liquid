@@ -31,7 +31,7 @@
 -%}
 
 {%- if has_any_kit -%}
-  <div id="nr-bundle" data-nr-scope class="nr-section nr-kits">
+  <div id="nr-bundle" data-nr-scope class="nr-section nr-section--soft nr-kits">
     <div class="nr-container">
       <div class="nr-section-head nr-kits__head" data-nr-reveal>
         {%- if section.settings.heading != blank -%}
@@ -473,7 +473,7 @@
     --kitx-muted: var(--nr-text-muted);
     --kitx-line: var(--nr-border);
     --kitx-save: var(--nr-save);
-    background: var(--nr-bg-soft);
+    background: var(--nr-bg);
     color: var(--nr-text);
   }
 
@@ -621,87 +621,118 @@
     }
   }
 
+  /* ---------- Phones: one kit at a time ----------
+     86 vw scroll-snap cards with the next one peeking (the swipe cue).
+     Every card: environment band, role, name, who, count, price, saving,
+     CTA. The component strip is a desktop/tablet detail. */
   @media screen and (max-width: 749px) {
     .nr-kits .nr-section-head {
-      margin-bottom: var(--nr-space-md);
+      margin-bottom: var(--nr-space-sm);
     }
 
     .nr-kits__grid {
-      gap: 12px;
+      display: flex;
+      gap: 10px;
       margin-inline: calc(var(--nr-space-sm) * -1);
+      padding: 0 var(--nr-space-sm) 4px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--nr-space-sm);
+      scrollbar-width: none;
+    }
+
+    .nr-kits__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nr-kits__cell {
+      flex: 0 0 86%;
+      scroll-snap-align: start;
     }
 
     .nr-kitx {
-      border-radius: 0;
+      grid-template-rows: auto 1fr;
     }
 
-    .nr-kitx__body {
-      padding: 22px var(--nr-space-sm);
+    /* Environment band on top of every card. */
+    .nr-kitx .nr-kitx__env,
+    .nr-kitx--light .nr-kitx__env,
+    .nr-kitx--foam .nr-kitx__env {
+      position: relative;
+      inset: auto;
+      grid-row: 1;
+      width: auto;
+      height: 150px;
     }
 
     .nr-kitx--light .nr-kitx__env {
-      width: 120px;
-      height: 156px;
-    }
-
-    .nr-kitx--light .nr-kitx__body > :not(.nr-kitx__strip):not(.nr-kitx__actions) {
-      max-width: calc(100% - 112px);
-    }
-
-    .nr-kitx--light .nr-kitx__actions {
-      max-width: none;
+      background: var(--nr-bg);
     }
 
     .nr-kitx__packshot {
-      inset: 20px 12px 0 0;
-    }
-
-    .nr-kitx--foam .nr-kitx__body {
-      min-height: 300px;
-      justify-content: flex-end;
+      inset: 14px 0 0;
     }
 
     .nr-kitx--foam .nr-kitx__env::after {
-      background: linear-gradient(0deg, rgba(14, 16, 18, 0.88) 0%, rgba(14, 16, 18, 0.55) 60%, rgba(14, 16, 18, 0.25) 100%);
+      background: linear-gradient(0deg, rgba(14, 16, 18, 0.45), rgba(14, 16, 18, 0));
     }
 
     .nr-kitx--system .nr-kitx__env {
-      padding: 24px var(--nr-space-sm) 0;
+      align-items: flex-end;
+      padding: 16px var(--nr-space-sm) 0;
     }
 
     .nr-kitx__shelf {
       gap: 3px;
-      padding: 12px 8px 0;
+      padding: 10px 8px 0;
+    }
+
+    .nr-kitx__body,
+    .nr-kitx--system .nr-kitx__body {
+      grid-row: 2;
+      padding: 18px var(--nr-space-sm) 20px;
+    }
+
+    .nr-kitx--light .nr-kitx__body > :not(.nr-kitx__strip) {
+      max-width: none;
+    }
+
+    .nr-kitx__role {
+      margin-bottom: 6px;
+    }
+
+    .nr-kitx__name,
+    .nr-kitx--system .nr-kitx__name {
+      font-size: 1.625rem;
+    }
+
+    .nr-kitx__for {
+      margin-top: 6px;
+      font-size: 0.875rem;
+    }
+
+    .nr-kitx__price {
+      margin-top: 14px;
     }
 
     .nr-kitx__actions {
       width: 100%;
-    }
-
-    .nr-kitx__actions {
-      flex-wrap: nowrap;
-      gap: 16px;
-      margin-top: 18px;
+      margin-top: auto;
+      padding-top: 16px;
     }
 
     .nr-kitx__cta {
       flex: 1 1 auto;
     }
 
-    .nr-kitx__price {
-      margin-top: 16px;
-    }
-
-    .nr-kitx__name {
-      font-size: 1.75rem;
-    }
-
-    .nr-kitx--system .nr-kitx__name {
-      font-size: 2rem;
+    .nr-kitx__toggle,
+    .nr-kitx__strip {
+      display: none !important;
     }
 
     .nr-kits__more {
-      padding-inline: 0;
+      margin-top: var(--nr-space-sm);
     }
   }
 {% endstylesheet %}

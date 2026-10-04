@@ -3,10 +3,11 @@
   At most two options:
     1. one add-on (the tool or next product the job needs) with an inline
        "Lägg till" (AJAX, single line, quantity 1), and
-    2. one complete solution (a real kit) with its live price, what its
-       contents cost one by one (snippets/nr-ks-separate – includes active
-       automatic discounts, never compare-at) and the saving. The saving line
-       only appears when the kit really is cheaper.
+    2. one complete solution as a single text line: "Finns som färdigt kit:
+       <kit> <price> spara <saving> →". The saving is what the contents cost
+       one by one (snippets/nr-ks-separate: includes active automatic
+       discounts, never compare-at) minus the kit price, and only appears
+       when the kit really is cheaper.
 
   Cart-aware (assets/nr-homepage.js, initRoutines): the cart is read once
   (/cart.js) and after every add.
@@ -25,7 +26,7 @@
   @param {string} [addon_text] - One line: why it belongs to the job.
   @param {product} [kit] - A kit that contains the main product.
   @param {string} [kit_label] - E.g. "Gör fälgtvätten komplett".
-  @param {string} [kit_text] - One line: what the kit is.
+  @param {string} [kit_text] - Kept for compatibility; not shown (one-line kit link).
   @param {string} [source] - Analytics source, e.g. "dirt_advisor".
 {%- enddoc -%}
 
@@ -142,37 +143,22 @@
         data-nr-product="{{ kit.handle }}"
         data-nr-source="{{ source | default: 'routine' }}"
       >
-        {%- if kit_label != blank -%}
-          <span class="nr-routine__kit-label">{{ kit_label | escape }}</span>
-        {%- endif -%}
-        <span class="nr-routine__kit-row">
-          <span class="nr-routine__kit-name">{{ kit_name | escape }}</span>
-          <span class="nr-routine__kit-price">{{ kit.price | money }}</span>
-        </span>
-        <span
-          class="nr-routine__kit-match"
-          data-nr-routine-match
-          hidden
-        >
-          De här två finns redan som färdigt kit.
-        </span>
-        {%- if kit_text != blank -%}
-          <span class="nr-routine__text" data-nr-routine-kit-text>{{ kit_text | escape }}</span>
-        {%- endif -%}
-        <span
-          class="nr-routine__text"
-          data-nr-routine-has-main
-          hidden
-        >
-          Innehåller {{ main_name | escape }}, som redan ligger i varukorgen.
+        <span class="nr-routine__kit-line">
+          <span class="nr-routine__kit-label">{{ kit_label | default: 'Finns som färdigt kit' | escape }}:</span>
+          <strong class="nr-routine__kit-name">{{ kit_name | escape }}</strong>
+          <span class="nr-routine__kit-tail">
+            <span class="nr-routine__kit-price">{{ kit.price | money }}</span>
+            {%- if kit_saving > 0 %}
+              <span class="nr-routine__kit-save">spara {{ kit_saving | money }}</span>
+            {%- endif -%}
+            &nbsp;<span class="nr-routine__kit-arrow" aria-hidden="true">&rarr;</span>
+          </span>
         </span>
         {%- if kit_saving > 0 -%}
-          <span class="nr-routine__kit-value">
-            Köpta separat {{ kit_separate | money }}
-            <strong>Du sparar {{ kit_saving | money }}</strong>
-          </span>
+          <span class="visually-hidden">Köpta separat {{ kit_separate | money }}.</span>
         {%- endif -%}
-        <span class="nr-routine__kit-cta">Välj kitet <span aria-hidden="true">&rarr;</span></span>
+        <span class="nr-routine__note" data-nr-routine-match hidden>De här två finns redan som färdigt kit.</span>
+        <span class="nr-routine__note" data-nr-routine-has-main hidden>Innehåller {{ main_name | escape }}, som redan ligger i varukorgen.</span>
       </a>
     {%- endif -%}
   </div>

@@ -53,7 +53,9 @@ prod('exterior-komplett-kit','Exteriör Komplett Kit',119900,'444',[comp(x) for 
 REV=[('streamnight',4,'Fantastisk','Snabb leverans till Gotland, en riktigt bra flygrostborttagare som gav ett fantastiskt resultat. Även en riktigt bra alkalisk avfättning. Grymma dofter som ger en bra känsla när man lägger på medlet. Slutresultatet på bil som hoj blir otroligt bra!','11 september 2026'),
  ('Hyseni',5,'Produkterna var riktigt bra och lätta…','Produkterna var riktigt bra och lätta att använda, kall- och alkaliska avfettningarna var riktigt bra för att få bort 150mils smuts från bilen, schampot gjorde bilen riktigt fin o blank med som dessutom skummade på bra och luktade riktigt gott! Rekommenderar starkt dessa produkter!','9 september 2026'),
  ('My Segerstedt',5,'Riktigt nöjd med produkterna!','Fantastiska produkter! Fälg rengöringen är helt otrolig, fälgarna var extremt smutsiga, sprayade på och lät de bara sitta en stund, spolade av och allt var borta! Avfettning och Schampo var också underbart. Gör definitivt sitt jobb ordentligt. Glosscoat gjorde bilen otroligt glansig🥰 Kommer definitivt fortsätta med dessa produkter❤️','8 september 2026')]
-reviews=[{'author':{'value':a},'rating':{'value':r},'title':{'value':t},'body':{'value':b},'date':{'value':d}} for a,r,t,b,d in REV]
+REV+=[('VP',5,'Jobbat med med Rekond i 3 år och…','Jobbat med med Rekond i 3 år och tvättar mina bilar flera gånger i veckan så testat en hel del produkter. Testade deras fälgrent, schampo och wet coat. Grym djup glans och otroligt bra rengöring. Avrinningen från wet coaten va helt brutal\nOtroligt nöjd med min beställning!','11 september 2026'),
+ ('Filip Am',5,'Produkterna gav ett resultat över min…','Produkterna gav ett resultat över min förväntan. Fungerade utmärkt och simpelt att använda, samt sköna att hålla i när dem används. Beställde på en måndag vid 17 fick hem sakerna på onsdagen vid 12. Extremt bra produkter som är väldigt prisvärda.','7 september 2026')]
+reviews=[{'system':{'handle':a.lower().replace(' ','-')},'author':{'value':a},'rating':{'value':r},'title':{'value':t},'body':{'value':b},'date':{'value':d}} for a,r,t,b,d in REV]
 vidobj={'media_type':'video','sources':[{'format':'mp4','height':480,'url':'v480.mp4'},{'format':'mp4','height':1080,'url':'v1080.mp4'},{'format':'mp4','height':720,'url':'v720.mp4'},{'format':'m3u8','height':1080,'url':'v.m3u8'}],'preview_image':ph('video',1600,900,'2a2a2a','555',False)}
 snips={'icon-or-image':'<svg viewBox="0 0 20 20" class="{{ class_name }}"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>'}
 for n in ['nr-video-toggle','nr-video-sources','nr-ks-separate','nr-kit-separate-total','nr-routine']:
@@ -109,7 +111,7 @@ for k in tpl['order']:
             for kk in ['video','image','title','text','helper_label','helper_link','next_link','word','cta_label','addon_product','kit_product','routine_heading','addon_text','kit_label','kit_text']: bs.setdefault(kk,'')
         bl.append({'settings':bs,'id':bk,'shopify_attributes':'','type':b['type']})
     body=clean(src).replace('alt: section.settings.image.alt | default: section.settings.heading,','alt: section.settings.heading,')
-    if typ=='nr-home-featured-products':
+    if typ=='nr-home-featured-products' and "content_for 'blocks'" in body:
         cards=''.join(card(s['blocks'][bk]) for bk in s['block_order'])
         body=body.replace("{% content_for 'blocks' %}",cards)
     out.append(env.from_string(body).render(section={'settings':ss,'blocks':bl,'id':k},settings=settings,shop={'metaobjects':{'nr_trustpilot_review':{'values':reviews}}},routes={'collections_url':'/collections'}))

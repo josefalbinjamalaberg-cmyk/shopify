@@ -271,17 +271,17 @@
     .nr-hero--small,
     .nr-hero--medium,
     .nr-hero--large {
-      height: clamp(420px, 66vh, 560px);
+      height: clamp(400px, 58vh, 490px);
       /* svh: sized to the viewport with the browser bars showing, so the
          hero doesn't jump when iOS Safari's address bar collapses. Capped so
-         the trust line and the start of the kit section show in the first
-         screen on a 390 × 844 phone. */
-      height: clamp(420px, 66svh, 560px);
+         the trust line and the first problem words of the product guide
+         show in the first screen on a 390 × 844 phone. */
+      height: clamp(400px, 58svh, 490px);
     }
 
     .nr-hero .nr-hero__content-wrap {
-      padding-block: var(--nr-space-xl) var(--nr-space-lg);
-      padding-inline: 22px;
+      padding-block: var(--nr-space-lg) 28px;
+      padding-inline: var(--nr-space-sm);
     }
 
     /* Mobile sits on video/image footage, not the soft background, so the
@@ -299,7 +299,7 @@
     }
 
     .nr-hero__content {
-      gap: 20px;
+      gap: 14px;
     }
 
     .nr-hero__heading {
@@ -317,13 +317,27 @@
       line-height: 1.5;
     }
 
+    /* One obvious action: the primary button full width, the secondary
+       as a quiet text link under it. */
     .nr-hero__actions {
       flex-direction: column;
       align-items: stretch;
+      gap: 4px;
     }
 
-    .nr-hero__actions .nr-btn {
+    .nr-hero__actions .nr-btn--primary {
       width: 100%;
+    }
+
+    .nr-hero--has-media .nr-hero__actions .nr-btn--secondary,
+    .nr-hero__actions .nr-btn--secondary {
+      align-self: center;
+      height: 44px;
+      padding-inline: 8px;
+      border-color: transparent;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1px;
     }
   }
 

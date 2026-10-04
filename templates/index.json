@@ -36,7 +36,8 @@
             "icon": "star",
             "heading": "[rating]/5 på Trustpilot",
             "text": "[count] omdömen om NordicReflection.",
-            "link": "https://se.trustpilot.com/review/nordicreflection.se"
+            "link": "https://se.trustpilot.com/review/nordicreflection.se",
+            "short": "[rating]/5"
           }
         },
         "point_2": {
@@ -67,476 +68,40 @@
     "featured_products": {
       "type": "nr-home-featured-products",
       "blocks": {
-        "card_1": {
-          "type": "product-card",
+        "best_1": {
+          "type": "item",
           "settings": {
             "product": "revolt-flygrostborttagare",
-            "product_card_gap": 8,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "gallery": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "product-title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "usecase": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Flygrost och bromsdamm på fälgen</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "1.4",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 2,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "gallery",
-            "title",
-            "usecase",
-            "price"
-          ]
+            "line": "Flygrost & bromsdamm"
+          }
         },
-        "card_2": {
-          "type": "product-card",
+        "best_2": {
+          "type": "item",
           "settings": {
             "product": "alkastrike-alkalisk-avfettning",
-            "product_card_gap": 8,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "gallery": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "product-title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "usecase": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Trafikfilm och vägsmuts före handtvätten</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "1.4",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 2,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "gallery",
-            "title",
-            "usecase",
-            "price"
-          ]
+            "line": "Trafikfilm & vägsmuts"
+          }
         },
-        "card_3": {
-          "type": "product-card",
+        "best_3": {
+          "type": "item",
           "settings": {
             "product": "glosscoat-hydrofobisk-sprayforsegling",
-            "product_card_gap": 8,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "gallery": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "product-title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "usecase": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Glans och vattenavrinning efter tvätten</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "1.4",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 2,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "gallery",
-            "title",
-            "usecase",
-            "price"
-          ]
+            "line": "Skydd & glans"
+          }
         },
-        "card_4": {
-          "type": "product-card",
+        "best_4": {
+          "type": "item",
           "settings": {
             "product": "core-apc-allrengoring",
-            "product_card_gap": 8,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "gallery": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "product-title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "usecase": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Allrengöring för interiören</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "1.4",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 2,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "gallery",
-            "title",
-            "usecase",
-            "price"
-          ]
+            "line": "Rengöring av interiören"
+          }
         }
       },
       "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4"
+        "best_1",
+        "best_2",
+        "best_3",
+        "best_4"
       ],
       "settings": {
         "heading": "Bästsäljare",
@@ -740,7 +305,7 @@
             "addon_product": "deepdegrease-kallavfettning",
             "addon_text": "Om bilen också har asfalt- eller tjärstänk.",
             "kit_product": "litet-exterior-startkit",
-            "kit_label": "Ta hela kombinationen",
+            "kit_label": "Ta hela grunden",
             "kit_text": "Alkastrike, DeepDegrease och Pure Shampoo. Grunden från förtvätt till handtvätt.",
             "helper_label": "Osäker på vilken avfettning du behöver?",
             "helper_link": "/products/alkastrike-alkalisk-avfettning#vilken-avfettning"
@@ -758,7 +323,7 @@
             "addon_product": "alkastrike-alkalisk-avfettning",
             "addon_text": "Om bilen också har trafikfilm och vägsmuts.",
             "kit_product": "litet-exterior-startkit",
-            "kit_label": "Ta hela kombinationen",
+            "kit_label": "Ta hela grunden",
             "kit_text": "DeepDegrease, Alkastrike och Pure Shampoo. Grunden från förtvätt till handtvätt.",
             "helper_label": "Osäker på vilken avfettning du behöver?",
             "helper_link": "/products/deepdegrease-kallavfettning#vilken-avfettning"
@@ -772,11 +337,11 @@
             "problem": "Flygrost & bromsdamm",
             "text": "Löser järnpartiklar och bromsdamm där vanlig tvätt inte räcker.",
             "points": "För fälgar och lack\nSynlig reaktion när produkten arbetar\nFör ingrodd metallsmuts",
-            "routine_heading": "Bygg vidare på fälgtvätten",
+            "routine_heading": "Komplettera fälgtvätten",
             "addon_product": "mikrofiber-falgborste",
             "addon_text": "Arbetar in Revolt där bromsdammet sitter hårt.",
             "kit_product": "falg-startkit",
-            "kit_label": "Gör fälgtvätten komplett",
+            "kit_label": "Finns som färdigt kit",
             "kit_text": "Revolt och Mikrofiber Fälgborste som färdigt kit.",
             "video": "shopify://files/videos/revoltförstavideo.mov"
           }
@@ -793,7 +358,7 @@
             "addon_product": "foam-lance-skumlans",
             "addon_text": "Det du skummar med. Kräver högtryckstvätt.",
             "kit_product": "foam-wash-kit",
-            "kit_label": "Ta hela Foam Wash Kit istället",
+            "kit_label": "Finns som färdigt kit",
             "kit_text": "Foamtastic och Foam Cannon som färdigt kit."
           }
         },
@@ -873,7 +438,7 @@
         "dack"
       ],
       "settings": {
-        "eyebrow": "Rätt produkt",
+        "eyebrow": "",
         "heading": "Rätt produkt för rätt typ av smuts",
         "text": "Välj vad du vill få bort så visar vi rätt produkt direkt."
       }
@@ -884,22 +449,22 @@
         "principle_1": {
           "type": "principle",
           "settings": {
-            "heading": "Rätt produkt för rätt smuts",
+            "heading": "Rätt produkt för rätt smuts.",
             "text": "Du ska förstå vad produkten gör innan du köper den."
           }
         },
         "principle_2": {
           "type": "principle",
           "settings": {
-            "heading": "Tydliga instruktioner",
+            "heading": "Tydligt hur du använder den.",
             "text": "Enklare att använda produkterna på rätt sätt."
           }
         },
         "principle_3": {
           "type": "principle",
           "settings": {
-            "heading": "En enklare tvättrutin",
-            "text": "En produkt för varje jobb. Använd det bilen behöver."
+            "heading": "Använd bara det bilen behöver.",
+            "text": "En produkt för varje jobb, inget extra."
           }
         }
       },
@@ -911,7 +476,7 @@
       "settings": {
         "heading": "Bilvård ska vara enklare att förstå",
         "text": "<p>Bilvård behöver inte bestå av ett rörigt sortiment och otydliga val. NordicReflection bygger på ett tydligt system där varje produkt har ett specifikt jobb, från att lösa smuts till att skapa glans och skydd.</p>",
-        "button_label": "Läs mer om NordicReflection",
+        "button_label": "Läs vår historia",
         "button_link": "shopify://pages/om-oss",
         "media_position": "left",
         "image": "shopify://shop_images/IMG_0778.png"
@@ -1058,16 +623,16 @@
       "settings": {
         "heading": "Vad kunder säger om NordicReflection",
         "max_reviews": 3,
-        "source_note": "Omdömen om NordicReflection som butik, hämtade från Trustpilot."
+        "highlights": "allt var borta\nGrym djup glans och otroligt bra rengöring\nFungerade utmärkt och simpelt att använda"
       }
     }
   },
   "order": [
     "hero",
     "benefits",
+    "visual_proof",
     "bundle",
     "featured_products",
-    "visual_proof",
     "reviews",
     "categories",
     "brand_story",

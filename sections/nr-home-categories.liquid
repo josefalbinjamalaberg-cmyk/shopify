@@ -7,7 +7,7 @@
   as progressive JPEG so every browser can show them.
 {% endcomment %}
 
-<div data-nr-scope class="nr-section nr-section--soft nr-categories">
+<div data-nr-scope class="nr-section nr-categories">
   <div class="nr-container">
     <h2 class="nr-h2 nr-categories__heading">{{ section.settings.heading | escape }}</h2>
 
@@ -225,13 +225,13 @@
 
     .nr-portals__item {
       min-height: 0;
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 1;
     }
 
     .nr-portals--3 .nr-portals__item--lead {
       grid-column: 1 / -1;
       grid-row: auto;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 16 / 10;
     }
 
     .nr-portal__text {
@@ -243,7 +243,7 @@
     }
 
     .nr-portals__item--lead .nr-portal__label {
-      font-size: 2.25rem;
+      font-size: 2rem;
     }
 
     .nr-portal__label {

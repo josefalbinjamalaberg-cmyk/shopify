@@ -13,7 +13,7 @@
   assign production_mode = settings.nr_production_mode
 -%}
 
-<div data-nr-scope class="nr-section nr-brand-story{% if section.settings.media_position == 'right' %} nr-brand-story--media-right{% endif %}">
+<div data-nr-scope class="nr-section nr-section--soft nr-brand-story{% if section.settings.media_position == 'right' %} nr-brand-story--media-right{% endif %}">
   <div class="nr-container">
     <div class="nr-brand-story__grid">
       <div class="nr-media nr-brand-story__media" data-nr-reveal>
@@ -57,8 +57,9 @@
         </div>
 
         {%- if section.settings.button_label != blank -%}
-          <a href="{{ section.settings.button_link | default: '#' }}" class="nr-btn nr-btn--secondary nr-brand-story__button">
-            {{ section.settings.button_label }}
+          <a href="{{ section.settings.button_link | default: '#' }}" class="nr-link nr-brand-story__button">
+            {{ section.settings.button_label | escape }}
+            <span class="nr-link__arrow" aria-hidden="true">&rarr;</span>
           </a>
         {%- endif -%}
       </div>
@@ -95,7 +96,7 @@
 
   .nr-brand-story__media {
     aspect-ratio: 4 / 5;
-    border-radius: var(--nr-radius-md);
+    border-radius: var(--nr-radius-sm);
   }
 
   .nr-brand-story__content {
@@ -141,6 +142,31 @@
 
     .nr-brand-story__content {
       max-width: 100%;
+    }
+
+    /* Editorial on phones: statement, three one-line principles, link,
+       then the image at a controlled crop. Long copy waits for tablet. */
+    .nr-brand-story__media,
+    .nr-brand-story--media-right .nr-brand-story__media {
+      order: 2;
+      aspect-ratio: 3 / 2;
+    }
+
+    .nr-brand-story__text,
+    .nr-brand-story__principle-text {
+      display: none;
+    }
+
+    .nr-brand-story__principles {
+      gap: 10px;
+      margin-block: 20px;
+      padding-block-start: 16px;
+    }
+
+    .nr-brand-story__principle-heading {
+      margin: 0;
+      font-size: 1.0625rem;
+      font-weight: 500;
     }
   }
 {% endstylesheet %}

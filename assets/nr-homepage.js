@@ -347,6 +347,58 @@
     }
   }
 
+  /* One add path for every homepage quick add (routine builder, bestsellers):
+     Ajax Cart API, then re-read the cart, refresh routine states and
+     announce the change like the theme's own product forms. */
+  async function addVariant(variantId) {
+    const response = await fetch(`${cartRoot()}cart/add.js`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ items: [{ id: Number(variantId), quantity: 1 }] }),
+    });
+    const result = await response.json();
+    if (!response.ok || result.status) throw new Error(result.description || result.message || 'add failed');
+    return result;
+  }
+
+  async function afterAdd(source, variantId) {
+    const cart = await readCart(true);
+    if (!cart) return;
+    refreshRoutines(cart);
+    announceCartChange(source, [{ merchandiseId: String(variantId), quantity: 1 }], cart);
+  }
+
+  /* ---------- Bestsellers: "+" quick add (single-variant products) ---------- */
+  function initQuickAdd() {
+    initAll('[data-nr-quick-add]', (button) => {
+      const item = button.closest('li');
+      const status = item?.querySelector('[data-nr-quick-add-status]');
+      const label = button.getAttribute('aria-label');
+
+      button.addEventListener('click', async () => {
+        if (button.disabled) return;
+        button.disabled = true;
+        if (status) status.textContent = '';
+        try {
+          await addVariant(button.dataset.nrQuickAdd);
+          button.classList.add('is-added');
+          button.setAttribute('aria-label', label.replace('Lägg', 'Lade') + ' (klart)');
+          if (status) status.innerHTML = `I varukorgen. <a href="${cartRoot()}cart">Till varukorgen</a>`;
+          await afterAdd(button, button.dataset.nrQuickAdd);
+          setTimeout(() => {
+            button.classList.remove('is-added');
+            button.setAttribute('aria-label', label);
+            button.disabled = false;
+          }, 2400);
+        } catch (error) {
+          button.disabled = false;
+          if (status) status.textContent = 'Det gick inte att lägga till just nu. Försök igen eller öppna produkten.';
+        }
+      });
+    });
+  }
+
   function initRoutines() {
     const roots = document.querySelectorAll('[data-nr-routine]');
     if (!roots.length) return;
@@ -378,25 +430,13 @@
         if (status) status.textContent = '';
 
         try {
-          const response = await fetch(`${cartRoot()}cart/add.js`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ items: [{ id: Number(button.dataset.nrRoutineAdd), quantity: 1 }] }),
-          });
-          const result = await response.json();
-          if (!response.ok || result.status) throw new Error(result.description || result.message || 'add failed');
-
+          await addVariant(button.dataset.nrRoutineAdd);
           row.dataset.added = 'true';
           if (label) label.textContent = 'Tillagd';
           if (status) {
             status.innerHTML = `I varukorgen. <a href="${cartRoot()}cart">Till varukorgen</a>`;
           }
-          const cart = await readCart(true);
-          if (cart) {
-            refreshRoutines(cart);
-            announceCartChange(button, [{ merchandiseId: button.dataset.nrRoutineAdd, quantity: 1 }], cart);
-          }
+          await afterAdd(button, button.dataset.nrRoutineAdd);
         } catch (error) {
           button.disabled = false;
           if (label) label.textContent = 'Lägg till';
@@ -428,6 +468,7 @@
     initKitToggles();
     initAdvisor();
     initRoutines();
+    initQuickAdd();
     initShortTitles();
     initResultSlider();
   }

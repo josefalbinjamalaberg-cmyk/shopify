@@ -5,7 +5,7 @@ const set=async(p,products)=>p.evaluate(async([U,products])=>fetch(U+'/__set',{m
 const errs=[];p.on('pageerror',e=>errs.push(e.message));
 const state=async()=>p.evaluate(()=>{const pn=document.getElementById([...document.querySelectorAll('[role=tab]')].find(t=>t.textContent.trim()==='Flygrost').getAttribute('aria-controls'));
  const r=pn.querySelector('[data-nr-routine]'); const q=s=>r.querySelector(s);
- return {routine:!r.hidden, addon:!q('[data-nr-routine-addon]').hidden, kit:!q('[data-nr-routine-kit]').hidden, match:!q('[data-nr-routine-match]').hidden, hasMain:!q('[data-nr-routine-has-main]').hidden, kitText:!q('[data-nr-routine-kit-text]').hidden, btn:q('[data-nr-routine-add]').textContent.trim(), status:q('[data-nr-routine-status]').textContent.trim()}});
+ return {routine:!r.hidden, addon:!q('[data-nr-routine-addon]').hidden, kit:!q('[data-nr-routine-kit]').hidden, match:!q('[data-nr-routine-match]').hidden, hasMain:!q('[data-nr-routine-has-main]').hidden, btn:q('[data-nr-routine-add]').textContent.trim(), status:q('[data-nr-routine-status]').textContent.trim()}});
 const open=async(products)=>{await p.goto(U+'/after.html'); await set(p,products); await p.goto(U+'/after.html'); await p.locator('[data-nr-advisor]').scrollIntoViewIfNeeded(); await p.getByRole('tab',{name:'Flygrost'}).click(); await p.waitForTimeout(500);};
 await open([]); console.log('empty      ',JSON.stringify(await state()));
 await p.locator('[role=tabpanel]:not([hidden]) [data-nr-routine-add]').click(); await p.waitForTimeout(600);
