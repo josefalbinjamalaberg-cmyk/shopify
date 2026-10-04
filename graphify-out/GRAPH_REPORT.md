@@ -1,17 +1,17 @@
 # Graph Report - shopify  (2026-10-04)
 
 ## Corpus Check
-- 174 files · ~880,967 words
+- 177 files · ~902,997 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 149 file(s) not represented in the graph (top: .liquid 84, .csv 53, .css 9)
+- Unclassified: 150 file(s) not represented in the graph (top: .liquid 85, .csv 53, .css 9)
 
 ## Summary
-- 2635 nodes · 3429 edges · 198 communities (159 shown, 39 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 37 edges (avg confidence: 0.87)
+- 2665 nodes · 3476 edges · 190 communities (150 shown, 40 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 39 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `20c06dd6`
+- Built from commit: `6258e9fd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -22,12 +22,12 @@
 - gray
 - nr-tracking-mock.js
 - NordicReflection Prisanalys: Fardiga paket
-- init
+- nr-homepage.js
 - CLAUDE.md
 - icon/generate.py
 - slide_search_core.py
 - Tailwind CSS Utility Reference
-- logo/core.py
+- cip/core.py
 - design_system.py
 - Brand Guidelines v1.0
 - Design
@@ -54,12 +54,12 @@
 - TailwindConfigGenerator
 - Appendix B - Canonical Sources (read these before reinventing)
 - generate-slide.py
-- test_design_system_mode.py
+- _style_is_dark_primary
 - Routing by Task Type
 - Asset Organization Guide
 - Primary Color Meanings
 - Core Logo Types
-- cip/core.py
+- logo/search.py
 - TestDomainDetection
 - fetch-background.py
 - color
@@ -75,8 +75,8 @@
 - Icon Design Reference
 - Copywriting Formulas
 - Copywriting Formulas
-- parse_decision_rules
-- _palette_is_dark
+- test_data_contracts.py
+- test_design_system_mode.py
 - CatalogRefreshTest
 - Banner Design - Multi-Format Creative Banner System
 - Messaging Framework
@@ -91,7 +91,7 @@
 - Logo Design Reference
 - Token Architecture
 - design-tokens-starter.json
-- test_text_layout_resilience.py
+- H
 - NordicReflection Kit PDP system (nr-ks) – step 1–5
 - TestStyleTaxonomy
 - 4. DESIGN ENGINEERING DIRECTIVES (Bias Correction)
@@ -108,7 +108,7 @@
 - inject-brand-context.cjs
 - CIP Design Style Guide
 - primitive
-- TestGeneratedConfigIsValidJs
+- test_tailwind_config_gen.py
 - TestNativeDesktopStackFreshness
 - Quick Reference
 - 10. REFERENCE VOCABULARY (Pattern Names the Agent Should Know)
@@ -123,12 +123,12 @@
 - button
 - Slide Strategies
 - Collection pages – architecture (Exteriör first)
-- system/harness.py
+- home/harness.py
 - .test_add_all_components_success
 - input
 - 9. AI TELLS (Forbidden Patterns)
-- BM25
-- _select_palette_for_mode
+- TestFixtureValidation
+- .test_init_default_typescript
 - radius
 - UI/UX Pro Max - Design Intelligence
 - 11. REDESIGN PROTOCOL
@@ -138,14 +138,14 @@
 - Slides Reference
 - HTML Slide Template
 - HTML Slide Template
-- test_relevance_evaluator.py
+- TestMetricMath
 - Query Contract
 - shadow
 - Slides
 - TestTokenizer
 - TestSearchDomains
-- read_rows
-- search-slides.py
+- .test_init_framework
+- .test_default_output_path_typescript
 - Pre-Delivery Checklist
 - Prerequisites
 - 0. BRIEF INFERENCE (Read the Room Before Anything Else)
@@ -160,11 +160,11 @@
 - Common Rules for Professional UI
 - Example Workflow
 - 7. DIAL DEFINITIONS (Technical Reference)
-- BM25
+- .test_custom_output_path
 - xl
 - padding-y
 - none
-- BM25
+- .test_base_config_structure
 - Tips for Better Results
 - destructive
 - destructive-foreground
@@ -180,13 +180,12 @@
 - Kit PDPs – Phase 1 audit
 - pathlib
 - .test_list_installed_empty
-- argparse
+- json
 - .test_get_installed_components_empty
-- rollout/build.py
+- collections/content-source.py
 - .test_add_components_no_config
 - TestThresholdGate
 - .test_add_all_components_dry_run
-- split_values
 - Kit PDP system (v2)
 - md
 - .test_add_components_no_components
@@ -194,24 +193,17 @@
 - .test_recommend_plugins_nextjs
 - .test_add_breakpoints
 - .temp_project
-- .test_validate_config_valid
 - .test_add_spacing
 - .test_recommend_plugins
 - .test_add_components_dry_run
 - .test_init_default_project_root
 - .test_generate_config_with_colors
-- .test_validate_config_no_content
 - .test_add_fonts
 - publish
 - test_validate_tokens.py
-- .test_write_config_invalid_path
 - nr-collection.js
-- .test_generate_typescript_config
-- .test_generate_javascript_config
 - .test_validate_config_empty_theme
-- .test_add_colors
 - .test_full_configuration_typescript
-- .test_full_configuration_javascript
 - .test_default_content_paths_react
 - .test_default_content_paths_nextjs
 
@@ -228,16 +220,16 @@
 10. `search()` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `Produktguide – "Rätt produkt för rätt typ av smuts" (2026-10-04)` --references--> `initAdvisor()`  [INFERRED]
+  docs/home/README.md → assets/nr-homepage.js
+- `2. Routine builder: `snippets/nr-routine.liquid` + `initRoutines()` in `assets/nr-homepage.js`` --references--> `initRoutines()`  [INFERRED]
+  docs/home/README.md → assets/nr-homepage.js
 - `Base Color Presets` --references--> `init()`  [INFERRED]
   .claude/skills/ui-styling/references/shadcn-theming.md → assets/nr-homepage.js
 - `Style Variants` --references--> `init()`  [INFERRED]
   .claude/skills/ui-styling/references/shadcn-theming.md → assets/nr-homepage.js
-- `Produktguide – "Rätt produkt för rätt typ av smuts" (2026-10-04)` --references--> `initAdvisor()`  [INFERRED]
-  docs/home/README.md → assets/nr-homepage.js
 - `TestShadcnInstaller` --uses--> `ShadcnInstaller`  [INFERRED]
   .claude/skills/ui-styling/scripts/tests/test_shadcn_add.py → .claude/skills/ui-styling/scripts/shadcn_add.py
-- `TestGeneratedConfigIsValidJs` --uses--> `TailwindConfigGenerator`  [INFERRED]
-  .claude/skills/ui-styling/scripts/tests/test_tailwind_config_gen.py → .claude/skills/ui-styling/scripts/tailwind_config_gen.py
 
 ## Import Cycles
 - None detected.
@@ -245,7 +237,7 @@
 ## Hyperedges (group relationships)
 - **Bundle price ladder proposal across families** — docs_nordicreflection_prisanalys_paket_good_better_best_ladder, docs_nordicreflection_prisanalys_paket_interior_bundle_family, docs_nordicreflection_prisanalys_paket_rim_bundle_family, docs_nordicreflection_prisanalys_paket_exterior_bundle_family, docs_nordicreflection_prisanalys_paket_exterior_mid_bundle_proposal [EXTRACTED 1.00]
 
-## Communities (198 total, 39 thin omitted)
+## Communities (190 total, 40 thin omitted)
 
 ### Community 0 - "NrOrderTracking"
 Cohesion: 0.12
@@ -257,7 +249,7 @@ Nodes (60): BM25, _contains_phrase(), detect_domain(), _domain_keywords(), _exac
 
 ### Community 2 - "validate_data.py"
 Cohesion: 0.07
-Nodes (52): ambiguous_python_import_1a7aff1e4e66, ambiguous_python_import_862968582d30, Semantic quality contracts for the core UI/UX datasets., read_rows(), TestAccessibilityGuidance, TestChartsTypographyAndIcons, TestCurrentReactGuidance, TestSemanticColors (+44 more)
+Nodes (51): ambiguous_python_import_1a7aff1e4e66, ambiguous_python_import_862968582d30, Semantic quality contracts for the core UI/UX datasets., read_rows(), TestAccessibilityGuidance, TestChartsTypographyAndIcons, TestCurrentReactGuidance, TestSemanticColors (+43 more)
 
 ### Community 3 - "gray"
 Cohesion: 0.05
@@ -271,29 +263,29 @@ Nodes (27): build(), createMockTransport(), EVENTS, inDays(), item(), ORDERS, PI
 Cohesion: 0.25
 Nodes (15): NordicReflection Prisanalys: Fardiga paket, Automatic upgrade line in bundle comparison, Cost data gaps in Shopify, Decisions needed, Exterior bundle family (Startkit / Komplett Kit), Exterior mid bundle proposal (Startkit + Foamtastic + GlossCoat, 719 kr), Foam Wash Kit, Bra / Battre / Bast price ladder (+7 more)
 
-### Community 6 - "init"
-Cohesion: 0.07
-Nodes (35): init(), initAdvisor(), initAll(), initKitToggles(), initResultSlider(), initReveal(), initShortTitles(), initVideos() (+27 more)
+### Community 6 - "nr-homepage.js"
+Cohesion: 0.05
+Nodes (49): announceCartChange(), applyRoutineState(), init(), initAdvisor(), initAll(), initKitToggles(), initResultSlider(), initReveal() (+41 more)
 
 ### Community 8 - "icon/generate.py"
 Cohesion: 0.10
 Nodes (29): apply_color(), apply_viewbox_size(), extract_svgs(), generate_batch(), generate_icon(), generate_sizes(), load_env(), main() (+21 more)
 
 ### Community 9 - "slide_search_core.py"
-Cohesion: 0.16
-Nodes (19): calculate_pattern_break(), detect_domain(), get_background_config(), get_color_for_emotion(), get_layout_for_goal(), get_typography_for_slide(), _load_decision_csv(), Auto-detect the most relevant domain from query (+11 more)
+Cohesion: 0.08
+Nodes (38): format_context(), format_result(), main(), Format a single search result for display, Slide Search CLI - Search slide design databases for strategies, layouts, copy,…, Format contextual recommendations for display., BM25, calculate_pattern_break() (+30 more)
 
 ### Community 10 - "Tailwind CSS Utility Reference"
 Cohesion: 0.05
 Nodes (43): Arbitrary Values, Aspect Ratio, Background Colors, Border Color, Border Radius, Border Style, Border Width, Borders (+35 more)
 
-### Community 11 - "logo/core.py"
-Cohesion: 0.19
-Nodes (13): detect_domain(), _load_csv(), Load CSV and return list of dicts, Core search function using BM25, Auto-detect the most relevant domain from query, Main search function with auto-domain detection, Search across all domains and combine results, Logo Design Core - BM25 search engine for logo design guidelines (+5 more)
+### Community 11 - "cip/core.py"
+Cohesion: 0.06
+Nodes (36): BM25, detect_domain(), get_cip_brief(), _load_csv(), Load CSV and return list of dicts, Core search function using BM25, Auto-detect the most relevant domain from query, Main search function with auto-domain detection (+28 more)
 
 ### Community 12 - "design_system.py"
-Cohesion: 0.06
-Nodes (40): ambiguous_python_import_27651e179b1f, ambiguous_python_import_2f0c067c00e5, ambiguous_python_import_dace3b29cbf4, ambiguous_python_import_fcb3bee7b643, ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown() (+32 more)
+Cohesion: 0.07
+Nodes (34): ambiguous_python_import_27651e179b1f, ambiguous_python_import_2f0c067c00e5, ambiguous_python_import_dace3b29cbf4, ansi_ljust(), _detect_page_type(), format_ascii_box(), format_markdown(), format_master_md() (+26 more)
 
 ### Community 13 - "Brand Guidelines v1.0"
 Cohesion: 0.05
@@ -336,8 +328,8 @@ Cohesion: 0.07
 Nodes (28): Accordion, Alert, ARIA Labels, Checkbox and Radio, Color Contrast, Command Palette Navigation, Component-Specific Patterns, Dialog/Modal Navigation (+20 more)
 
 ### Community 23 - "TestTailwindConfigGenerator"
-Cohesion: 0.07
-Nodes (15): Test adding colors multiple times., Test adding full color palette., Test TailwindConfigGenerator class., Test that adding same plugin twice doesn't duplicate., Test generating config with plugins., Test writing configuration to file., Test initialization for JavaScript config., Test that written config contains expected content. (+7 more)
+Cohesion: 0.06
+Nodes (16): Test adding colors multiple times., Test adding full color palette., Test TailwindConfigGenerator class., Test that adding same plugin twice doesn't duplicate., Test generating JavaScript configuration., Test generating config with plugins., Test validating valid configuration., Test validating config with no content paths. (+8 more)
 
 ### Community 24 - "html-token-validator.py"
 Cohesion: 0.12
@@ -352,8 +344,8 @@ Cohesion: 0.08
 Nodes (25): Common Pitfalls, Core Prompt Structure, Detailed Brief, Eco/Sustainable, Effective Keywords by Style, Fashion Brand, Healthcare, Industry-Specific Prompts (+17 more)
 
 ### Community 27 - "DesignSystemGenerator"
-Cohesion: 0.12
-Nodes (10): DesignSystemGenerator, Generates design system recommendations from aggregated searches., Load reasoning rules from CSV., Execute searches across multiple domains., Select best matching result based on priority keywords., Extract results list from search result dict., Generate complete design system recommendation. variance/motion/density are…, Bucket a 1-10 dial value into its tier config. Returns None if value is None. (+2 more)
+Cohesion: 0.08
+Nodes (15): DesignSystemGenerator, Generates design system recommendations from aggregated searches., Load reasoning rules from CSV., Execute searches across multiple domains., Find matching reasoning rule for a category., Apply reasoning rules to search results., Select best matching result based on priority keywords., Extract results list from search result dict. (+7 more)
 
 ### Community 28 - "Color Palette Management"
 Cohesion: 0.08
@@ -384,20 +376,20 @@ Cohesion: 0.09
 Nodes (22): @apply Directive, Best Practices, Color Customization, Complete Tailwind Config, Configuration Examples, Content Configuration, Custom Color Palette, Custom Font Sizes (+14 more)
 
 ### Community 35 - "TailwindConfigGenerator"
-Cohesion: 0.10
-Nodes (12): main(), Add custom font families. Args: fonts: Dict of font_type: [font_names] e.g.,…, Add custom spacing values. Args: spacing: Dict of name: value e.g., {'18':…, Add custom breakpoints. Args: breakpoints: Dict of name: width e.g., {'3xl':…, Add plugin requirements. Args: plugins: List of plugin names e.g.,…, Get plugin recommendations based on configuration. Returns: List of recommended…, Generate Tailwind CSS configuration files., Validate configuration. Returns: Tuple of (valid, message) (+4 more)
+Cohesion: 0.09
+Nodes (12): Add custom font families. Args: fonts: Dict of font_type: [font_names] e.g.,…, Add custom spacing values. Args: spacing: Dict of name: value e.g., {'18':…, Add custom breakpoints. Args: breakpoints: Dict of name: width e.g., {'3xl':…, Add plugin requirements. Args: plugins: List of plugin names e.g.,…, Get plugin recommendations based on configuration. Returns: List of recommended…, Generate Tailwind CSS configuration files., Validate configuration. Returns: Tuple of (valid, message), Add custom colors to theme. Args: colors: Dict of color_name: color_value Value… (+4 more)
 
 ### Community 36 - "Appendix B - Canonical Sources (read these before reinventing)"
 Cohesion: 0.09
 Nodes (21): APPENDICES - Real Source-Backed Reference Material, Appendix A - Install Commands per Design System, Appendix B - Canonical Sources (read these before reinventing), Appendix C - Apple Liquid Glass: Honest Web Approximation, Apple Liquid Glass (Apple platforms only), Atlassian, Bootstrap, Carbon (+13 more)
 
 ### Community 37 - "generate-slide.py"
-Cohesion: 0.09
-Nodes (26): _e(), generate_chart_slide(), generate_cta_slide(), generate_deck(), generate_metrics_slide(), generate_problem_slide(), generate_solution_slide(), generate_testimonial_slide() (+18 more)
-
-### Community 38 - "test_design_system_mode.py"
 Cohesion: 0.14
-Nodes (11): _filter_anti_patterns_for_mode(), _query_wants_dark(), True when a styles.csv row describes itself as dark-first., True when the query explicitly asks for a dark theme., Resolve the mode the rest of the output has to agree with., Drop "avoid dark mode" advice once dark mode is the resolved answer., _resolve_color_mode(), _style_is_dark_primary() (+3 more)
+Nodes (20): _e(), generate_chart_slide(), generate_cta_slide(), generate_deck(), generate_metrics_slide(), generate_problem_slide(), generate_solution_slide(), generate_testimonial_slide() (+12 more)
+
+### Community 38 - "_style_is_dark_primary"
+Cohesion: 0.24
+Nodes (7): _query_wants_dark(), True when a styles.csv row describes itself as dark-first., True when the query explicitly asks for a dark theme., Resolve the mode the rest of the output has to agree with., _resolve_color_mode(), _style_is_dark_primary(), TestModeResolution
 
 ### Community 39 - "Routing by Task Type"
 Cohesion: 0.10
@@ -415,9 +407,9 @@ Nodes (18): Accessibility Considerations, Analogous, Black, Blue, Color Combinat
 Cohesion: 0.11
 Nodes (18): 1. Wordmark (Logotype), 2. Lettermark (Monogram), 3. Pictorial Mark (Brand Mark), 4. Abstract Mark, 5. Mascot, 6. Emblem, 7. Combination Mark, Aesthetic Styles (+10 more)
 
-### Community 43 - "cip/core.py"
-Cohesion: 0.20
-Nodes (13): detect_domain(), get_cip_brief(), _load_csv(), Load CSV and return list of dicts, Core search function using BM25, Auto-detect the most relevant domain from query, Main search function with auto-domain detection, Search across all domains and combine results (+5 more)
+### Community 43 - "logo/search.py"
+Cohesion: 0.29
+Nodes (6): ambiguous_python_import_7e842b6a8c63, format_output(), generate_design_brief(), Format results for Claude consumption (token-optimized), Logo Design Search - CLI for searching logo design guidelines Usage: python…, Generate a comprehensive logo design brief based on query
 
 ### Community 45 - "fetch-background.py"
 Cohesion: 0.16
@@ -475,13 +467,13 @@ Nodes (14): AIDA (Attention-Interest-Desire-Action), Before-After-Bridge, Contra
 Cohesion: 0.13
 Nodes (14): AIDA (Attention-Interest-Desire-Action), Before-After-Bridge, Contrast Patterns, Copywriting Formulas, Core Formulas, Cost of Inaction, FAB (Features-Advantages-Benefits), Formula-to-Slide Mapping (+6 more)
 
-### Community 59 - "parse_decision_rules"
-Cohesion: 0.17
-Nodes (9): Find matching reasoning rule for a category., Apply reasoning rules to search results., apply_decision_rules(), _object_without_duplicates(), parse_decision_rules(), Return deterministic mutations and an audit trail; never execute data., Closed, non-executable grammar for design-system decision rules., Parse the canonical condition -> action-array representation. (+1 more)
+### Community 59 - "test_data_contracts.py"
+Cohesion: 0.10
+Nodes (15): ambiguous_python_import_b9171ee6cb4c, apply_decision_rules(), _object_without_duplicates(), parse_decision_rules(), Return deterministic mutations and an audit trail; never execute data., Closed, non-executable grammar for design-system decision rules., Parse the canonical condition -> action-array representation., _validate_action() (+7 more)
 
-### Community 60 - "_palette_is_dark"
-Cohesion: 0.18
-Nodes (7): _palette_is_dark(), WCAG relative luminance of a #RRGGBB string, or None if unparseable., True when a colors.csv row's Background is a dark surface., _relative_luminance(), The exact reproduction from issue #428., TestEndToEndCoherence, TestLuminance
+### Community 60 - "test_design_system_mode.py"
+Cohesion: 0.09
+Nodes (18): _contrast_ratio(), _derive_dark_palette(), _filter_anti_patterns_for_mode(), _palette_is_dark(), WCAG relative luminance of a #RRGGBB string, or None if unparseable., True when a colors.csv row's Background is a dark surface., WCAG contrast ratio for two hex colors, or None if either is invalid., Keep product brand tokens while deriving accessible dark surfaces. (+10 more)
 
 ### Community 62 - "Banner Design - Multi-Format Creative Banner System"
 Cohesion: 0.14
@@ -531,10 +523,6 @@ Nodes (12): Categories, Dark Mode, File Organization, Layer 1: Primitive Tokens,
 Cohesion: 0.15
 Nodes (12): component, $type, $value, dark, semantic, $schema, $type, $value (+4 more)
 
-### Community 75 - "test_text_layout_resilience.py"
-Cohesion: 0.18
-Nodes (5): ambiguous_python_import_bfd22ae4b7aa, Canonical regression contracts for resilient UI text layouts., read_rows(), TestTextLayoutDataContracts, TestTextLayoutRetrieval
-
 ### Community 76 - "NordicReflection Kit PDP system (nr-ks) – step 1–5"
 Cohesion: 0.20
 Nodes (9): Data gaps / missing content, New metafields (product, `custom`) – not read by the live theme, NordicReflection Kit PDP system (nr-ks) – step 1–5, Page architecture (shared, content per kit), Restore, Single source of truth, Step 1 – Audit (verified in Shopify 2026-10-04), Step 2 – Design system (+1 more)
@@ -544,8 +532,8 @@ Cohesion: 0.17
 Nodes (12): 4.10 Quotes & Testimonials, 4.11 Page Theme Lock (Light / Dark Mode Consistency), 4.1 Typography, 4.2 Color Calibration, 4.3 Layout Diversification, 4.4 Materiality, Shadows, Cards, 4.5 Interactive UI States, 4.6 Data & Form Patterns (+4 more)
 
 ### Community 79 - "system/build.py"
-Cohesion: 0.39
-Nodes (6): build(), faq_blocks(), hero(), main(), Kit PDP system – template builder (one data table per kit). Hero structure is…, stages()
+Cohesion: 0.33
+Nodes (7): copy, build(), faq_blocks(), hero(), main(), Kit PDP system – template builder (one data table per kit). Hero structure is…, stages()
 
 ### Community 80 - "Primitive Tokens"
 Cohesion: 0.17
@@ -576,8 +564,8 @@ Cohesion: 0.20
 Nodes (6): Generate configuration file content. Returns: Configuration file as string, Generate TypeScript configuration., Generate JavaScript configuration., Format plugins array for config. Validates each plugin name against a strict…, Add indentation to JSON string., Write configuration to file. Returns: Tuple of (success, message)
 
 ### Community 87 - "render-html.py"
-Cohesion: 0.21
-Nodes (11): ambiguous_python_import_4bbefc92923a, base64, generate_html(), get_deliverable_info(), get_image_base64(), main(), Convert image to base64 for embedding in HTML, Extract deliverable type from filename and get info (+3 more)
+Cohesion: 0.15
+Nodes (14): ambiguous_python_import_4bbefc92923a, base64, generate_html(), get_deliverable_info(), get_image_base64(), main(), Convert image to base64 for embedding in HTML, Extract deliverable type from filename and get info (+6 more)
 
 ### Community 88 - "Core Visual Elements"
 Cohesion: 0.18
@@ -595,9 +583,9 @@ Nodes (10): Bold Dynamic, CIP Design Style Guide, Classic Traditional, Color Psy
 Cohesion: 0.18
 Nodes (11): fast, normal, slow, $type, $value, $type, $value, primitive (+3 more)
 
-### Community 92 - "TestGeneratedConfigIsValidJs"
-Cohesion: 0.25
-Nodes (7): Reduce a generated TS/JS config to a bare assignable object so it can be handed…, Regression guard for the missing-comma bug between the ``theme`` block and…, The property preceding ``plugins`` must end with a comma (pure-Python check, so…, The emitted config parses as valid JS via ``node --check``., _strip_to_object(), TestGeneratedConfigIsValidJs, parametrize
+### Community 92 - "test_tailwind_config_gen.py"
+Cohesion: 0.15
+Nodes (11): main(), Tailwind CSS Configuration Generator Generate tailwind.config.js/ts with custom…, Tests for tailwind_config_gen.py, Reduce a generated TS/JS config to a bare assignable object so it can be handed…, Regression guard for the missing-comma bug between the ``theme`` block and…, The property preceding ``plugins`` must end with a comma (pure-Python check, so…, The emitted config parses as valid JS via ``node --check``., _strip_to_object() (+3 more)
 
 ### Community 94 - "Quick Reference"
 Cohesion: 0.18
@@ -651,9 +639,9 @@ Nodes (9): Common Structures, Duarte Sparkline Pattern, Matching Strategy to Con
 Cohesion: 0.29
 Nodes (6): Collection pages – architecture (Exteriör first), Data model (Shopify), Go-live (after the preview is approved and the theme is published), Principle, Search & Discovery – steps for the store owner (once), Theme
 
-### Community 107 - "system/harness.py"
-Cohesion: 0.17
-Nodes (15): blk(), clean(), ph(), resolve(), sec(), clean(), kit(), money() (+7 more)
+### Community 107 - "home/harness.py"
+Cohesion: 0.10
+Nodes (22): card(), fixvid(), money(), ph(), prod(), resolve(), blk(), clean() (+14 more)
 
 ### Community 108 - ".test_add_all_components_success"
 Cohesion: 0.22
@@ -666,14 +654,6 @@ Nodes (8): padding-x, input, $type, $value, focus-ring, padding-x, $type, $value
 ### Community 110 - "9. AI TELLS (Forbidden Patterns)"
 Cohesion: 0.25
 Nodes (8): 9.A Visual & CSS, 9. AI TELLS (Forbidden Patterns), 9.B Typography, 9.C Layout & Spacing, 9.D Content & Data ("Jane Doe" Effect), 9.E External Resources & Components, 9.F Production-Test Tells (banned outright), 9.G EM-DASH BAN (the single most-violated Tell)
-
-### Community 111 - "BM25"
-Cohesion: 0.18
-Nodes (9): BM25, _load_csv(), Load CSV and return list of dicts, Core search function using BM25, BM25 ranking algorithm for text search, Lowercase, split, remove punctuation, filter short words, Build BM25 index from documents, Score all documents against query (+1 more)
-
-### Community 112 - "_select_palette_for_mode"
-Cohesion: 0.22
-Nodes (7): _contrast_ratio(), _derive_dark_palette(), WCAG contrast ratio for two hex colors, or None if either is invalid., Keep product brand tokens while deriving accessible dark surfaces., Pick the highest-ranked palette matching the resolved mode. Only the dark case…, _select_palette_for_mode(), TestPaletteSelection
 
 ### Community 113 - "radius"
 Cohesion: 0.29
@@ -711,10 +691,6 @@ Nodes (6): Animation Classes, Background Images, Base Structure, Chart.js Integr
 Cohesion: 0.29
 Nodes (6): Animation Classes, Background Images, Base Structure, Chart.js Integration, CSS Variables Reference, HTML Slide Template
 
-### Community 122 - "test_relevance_evaluator.py"
-Cohesion: 0.18
-Nodes (5): Unit tests for metric math and relevance fixture validation., TestFixtureValidation, TestMetricMath, importlib_util, tempfile
-
 ### Community 123 - "Query Contract"
 Cohesion: 0.29
 Nodes (7): Query Contract, Step 1: Analyze User Requirements, Step 2: Generate Design System (new projects/pages), Step 2b: Persist Design System (Master + Overrides Pattern), Step 2c: Design Dials (optional), Step 3: Supplement with Detailed Searches (as needed), Step 4: Stack Guidelines
@@ -726,14 +702,6 @@ Nodes (6): sm, shadow, sm, sm, $type, $value
 ### Community 125 - "Slides"
 Cohesion: 0.33
 Nodes (5): References (Knowledge Base), Routing, Slides, Subcommands, When to Use
-
-### Community 128 - "read_rows"
-Cohesion: 0.13
-Nodes (4): read_rows(), TestGeneratedCatalogContract, TestLandingAndStackContract, TestReasoningContract
-
-### Community 129 - "search-slides.py"
-Cohesion: 0.27
-Nodes (10): format_context(), format_result(), main(), Format a single search result for display, Slide Search CLI - Search slide design databases for strategies, layouts, copy,…, Format contextual recommendations for display., Main search function with auto-domain detection, Search across all domains for comprehensive results (+2 more)
 
 ### Community 130 - "Pre-Delivery Checklist"
 Cohesion: 0.33
@@ -791,10 +759,6 @@ Nodes (5): Example Workflow, Step 1: Analyze Requirements, Step 2: Generate Desi
 Cohesion: 0.50
 Nodes (4): 7. DIAL DEFINITIONS (Technical Reference), DESIGN_VARIANCE (Level 1-10), MOTION_INTENSITY (Level 1-10), VISUAL_DENSITY (Level 1-10)
 
-### Community 144 - "BM25"
-Cohesion: 0.28
-Nodes (5): BM25, BM25 ranking algorithm for text search, Lowercase, split, remove punctuation, filter short words, Build BM25 index from documents, Score all documents against query
-
 ### Community 145 - "xl"
 Cohesion: 0.67
 Nodes (4): xl, xl, $type, $value
@@ -806,10 +770,6 @@ Nodes (4): padding-y, padding-y, $type, $value
 ### Community 147 - "none"
 Cohesion: 0.67
 Nodes (4): $type, $value, none, none
-
-### Community 148 - "BM25"
-Cohesion: 0.28
-Nodes (5): BM25, BM25 ranking algorithm for text search, Lowercase, split, remove punctuation, filter short words, Build BM25 index from documents, Score all documents against query
 
 ### Community 149 - "Tips for Better Results"
 Cohesion: 0.50
@@ -848,20 +808,16 @@ Cohesion: 0.40
 Nodes (4): Active kits (8) — verified, Findings that apply to all kits, Kit PDPs – Phase 1 audit, Needs your input before phase 3
 
 ### Community 162 - "pathlib"
+Cohesion: 0.08
+Nodes (22): ambiguous_python_import_4aa1a5da4b7d, ambiguous_python_import_9c9aff68267f, ambiguous_python_import_bfd22ae4b7aa, ambiguous_python_import_c894f1325619, Offline contract tests for deterministic upstream catalog refreshes., Freshness and migration contracts for native, desktop, and 3D stacks., Unit tests for metric math and relevance fixture validation., Regression tests for the public style taxonomy and search contract. (+14 more)
+
+### Community 164 - "json"
 Cohesion: 0.10
-Nodes (27): ambiguous_python_import_4aa1a5da4b7d, ambiguous_python_import_9c9aff68267f, ambiguous_python_import_b9171ee6cb4c, ambiguous_python_import_c894f1325619, main(), Slide Token Validator (Legacy Wrapper) Now delegates to html-token-validator.py…, Delegate to unified html-token-validator.py with --type slides., shadcn/ui Component Installer Add shadcn/ui components to project with… (+19 more)
+Nodes (22): ambiguous_python_import_e82323b3f9ad, ambiguous_python_import_fcb3bee7b643, argparse, format_brief(), format_results(), main(), Format search results for display, CIP Design Search CLI - Search corporate identity design guidelines (+14 more)
 
-### Community 164 - "argparse"
-Cohesion: 0.14
-Nodes (14): ambiguous_python_import_7e842b6a8c63, ambiguous_python_import_e82323b3f9ad, argparse, format_brief(), format_results(), main(), Format search results for display, CIP Design Search CLI - Search corporate identity design guidelines (+6 more)
-
-### Community 166 - "rollout/build.py"
-Cohesion: 0.29
-Nodes (6): build(), mf(), Collection-page data: filter values and product-card copy. Source of truth for…, main(), Kit page v3 rollout (2026-10-02): the seven remaining kits. Generates, from one…, template()
-
-### Community 170 - "split_values"
-Cohesion: 0.47
-Nodes (3): split_values(), style_identities(), TestStyleIdentityContract
+### Community 166 - "collections/content-source.py"
+Cohesion: 0.67
+Nodes (3): build(), mf(), Collection-page data: filter values and product-card copy. Source of truth for…
 
 ### Community 171 - "Kit PDP system (v2)"
 Cohesion: 0.33
@@ -872,8 +828,8 @@ Cohesion: 0.67
 Nodes (4): $type, $value, md, md
 
 ### Community 174 - "advisor-qa.js"
-Cohesion: 0.50
-Nodes (3): { chromium }, ws, ref_playwright
+Cohesion: 0.20
+Nodes (6): { chromium }, ws, { chromium }, ws, { chromium }, ref_playwright
 
 ### Community 187 - "test_validate_tokens.py"
 Cohesion: 0.18
@@ -884,24 +840,24 @@ Cohesion: 0.33
 Nodes (5): collectionOf(), publish(), root, rootOf(), ref_theme_section_renderer
 
 ## Knowledge Gaps
-- **1085 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1080 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1563 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **39 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **1093 isolated node(s):** `fs`, `path`, `fs`, `path`, `fs` (+1088 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1576 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **40 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `ShadcnInstaller` connect `ShadcnInstaller` to `.test_add_components_already_installed`, `pathlib`, `.test_list_installed_empty`, `.test_get_installed_components_empty`, `.test_add_components_no_config`, `.test_add_all_components_dry_run`, `.test_add_all_components_success`, `.test_add_components_no_components`, `TestShadcnInstaller`, `.check_shadcn_config`, `.test_add_components_dry_run`, `.test_init_default_project_root`?**
+- **Why does `ShadcnInstaller` connect `ShadcnInstaller` to `.test_add_components_already_installed`, `.test_list_installed_empty`, `json`, `.test_get_installed_components_empty`, `.test_add_components_no_config`, `.test_add_all_components_dry_run`, `.test_add_all_components_success`, `.test_add_components_no_components`, `TestShadcnInstaller`, `.check_shadcn_config`, `.test_add_components_dry_run`, `.test_init_default_project_root`?**
   _High betweenness centrality (0.019) - this node is a cross-community bridge._
-- **Why does `TailwindConfigGenerator` connect `TailwindConfigGenerator` to `TestTailwindConfigGenerator`, `pathlib`, `.test_recommend_plugins_nextjs`, `.test_add_breakpoints`, `.test_validate_config_valid`, `.test_add_spacing`, `.test_recommend_plugins`, `.test_generate_config_with_colors`, `.test_validate_config_no_content`, `.test_add_fonts`, `.test_write_config_invalid_path`, `.test_generate_typescript_config`, `.test_generate_javascript_config`, `.test_validate_config_empty_theme`, `.test_add_colors`, `.test_full_configuration_typescript`, `.test_full_configuration_javascript`, `.test_default_content_paths_react`, `.test_default_content_paths_nextjs`, `.generate_config_string`, `TestGeneratedConfigIsValidJs`, `._base_config`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `DesignSystemGenerator` connect `DesignSystemGenerator` to `read_rows`, `pathlib`, `test_design_system_mode.py`, `design_system.py`, `_select_palette_for_mode`, `parse_decision_rules`, `_palette_is_dark`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `TailwindConfigGenerator` connect `TailwindConfigGenerator` to `.test_init_framework`, `.test_default_output_path_typescript`, `.test_custom_output_path`, `.test_base_config_structure`, `TestTailwindConfigGenerator`, `.test_recommend_plugins_nextjs`, `.test_add_breakpoints`, `.test_add_spacing`, `.test_recommend_plugins`, `.test_generate_config_with_colors`, `.test_add_fonts`, `.test_validate_config_empty_theme`, `.test_full_configuration_typescript`, `.test_default_content_paths_react`, `.test_default_content_paths_nextjs`, `.generate_config_string`, `test_tailwind_config_gen.py`, `._base_config`, `.test_init_default_typescript`?**
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
+- **Why does `DesignSystemGenerator` connect `DesignSystemGenerator` to `test_data_contracts.py`, `design_system.py`, `test_design_system_mode.py`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `TailwindConfigGenerator` (e.g. with `TestGeneratedConfigIsValidJs` and `TestTailwindConfigGenerator`) actually correct?**
   _`TailwindConfigGenerator` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 3 inferred relationships involving `DesignSystemGenerator` (e.g. with `TestReasoningMatch` and `TestReasoningContract`) actually correct?**
   _`DesignSystemGenerator` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `fs`, `path`, `fs` to the rest of the system?**
-  _1085 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1093 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `NrOrderTracking` be split into smaller, more focused modules?**
   _Cohesion score 0.12280701754385964 - nodes in this community are weakly interconnected._
