@@ -1,0 +1,50 @@
+{%- doc -%}
+  Kit PDP system: text of one kit component. Everything comes from the ONE
+  product reference in the nr_kit_component metaobject (custom.kit_components):
+    name   → referenced product title (part before " – ")
+    role   → product pdp.type_label, else component role
+    amount → "<qty> st · <size>" from the component
+    why    → custom.kit_component_notes[index] of the kit, else component purpose
+  Never shows price, sale badges or add-to-cart: the customer buys the kit.
+
+  @param {object} component - nr_kit_component metaobject
+  @param {string} why - one sentence: why it is included
+{%- enddoc -%}
+
+{%- liquid
+  assign component_variant = component.variant.value
+  assign component_product = component_variant.product
+  assign name = component_product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip
+  assign role = component_product.metafields.pdp.type_label.value | default: component.role.value
+  assign quantity = component.quantity.value | default: 1
+  assign size = component.size.value
+  assign url = component_product.url
+  if component_product.variants.size > 1
+    assign url = component_variant.url
+  endif
+  if size != blank and role != blank
+    # "Detaljborstar, 2-pack" → "Detaljborstar" (the amount line carries the size)
+    assign role = role | remove: size | strip
+    assign role_end = role | slice: -1, 1
+    if role_end == ','
+      assign role_cut = role.size | minus: 1
+      assign role = role | slice: 0, role_cut | strip
+    endif
+  endif
+  if role == name
+    assign role = ''
+  endif
+-%}
+<h3 class="nr-ks-item__name">
+  <a href="{{ url }}">{{ name | escape }}</a>
+</h3>
+{%- if role != blank -%}
+  <p class="nr-ks-item__role">{{ role | escape }}</p>
+{%- endif -%}
+<p class="nr-ks-item__amount">
+  {{- quantity }} st
+  {%- if size != blank %} · {{ size | escape }}{% endif -%}
+</p>
+{%- if why != blank -%}
+  <p class="nr-ks-item__why">{{ why | escape }}</p>
+{%- endif -%}

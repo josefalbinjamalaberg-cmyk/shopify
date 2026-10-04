@@ -1,0 +1,96 @@
+{%- doc -%}
+  Kit PDP system – 10. Final CTA: kit image, name, one line, price and the
+  same primary action as the hero ("Lägg paketet i varukorgen").
+  The button forwards to the hero's native add-to-cart (same cart drawer,
+  same events, same inventory checks). Without JavaScript the form posts to
+  /cart/add with the kit's variant.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign variant = kit.selected_or_first_available_variant
+  assign title = kit.metafields.custom.kit_name.value | default: kit.metafields.custom.kit_display_title.value | default: kit.title
+-%}
+
+<section
+  class="nr-pdp-section nr-ks-section nr-ks-section--soft"
+  aria-labelledby="NrKsFinalHeading-{{ section.id }}"
+>
+  <div class="nr-pdp-container nr-ks-final">
+    <span class="nr-ks-media nr-ks-final__media">
+      {%- if kit.featured_image != blank -%}
+        {{
+          kit.featured_image
+          | image_url: width: 640
+          | image_tag: loading: 'lazy', alt: '', widths: '240, 320, 480, 640', sizes: '(min-width: 750px) 320px, 70vw'
+        }}
+      {%- endif -%}
+    </span>
+    <div>
+      <h2
+        class="nr-ks-final__title"
+        id="NrKsFinalHeading-{{ section.id }}"
+      >
+        {{ title | escape }}
+      </h2>
+      {%- if section.settings.line != blank -%}
+        <p class="nr-ks-final__line">{{ section.settings.line | escape }}</p>
+      {%- endif -%}
+      <p class="nr-ks-final__price">{{ variant.price | money }}</p>
+      <form
+        class="nr-ks-final__form"
+        action="{{ routes.cart_add_url }}"
+        method="post"
+        data-nr-ks-final
+      >
+        <input
+          type="hidden"
+          name="id"
+          value="{{ variant.id }}"
+        >
+        <input
+          type="hidden"
+          name="quantity"
+          value="1"
+        >
+        <button
+          type="submit"
+          class="nr-ks-button"
+          {% unless variant.available %}
+            disabled
+          {% endunless %}
+        >
+          {%- if variant.available -%}
+            {{ section.settings.button_label | escape }}
+          {%- else -%}
+            Slutsåld
+          {%- endif -%}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+  document.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement) || !form.hasAttribute('data-nr-ks-final')) return;
+    const main = document.querySelector('product-form-component [ref="addToCartButton"]');
+    if (main instanceof HTMLButtonElement && !main.disabled) {
+      event.preventDefault();
+      main.click();
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "NR Kit: avslutning",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "line", "label": "En rad" },
+    { "type": "text", "id": "button_label", "label": "Knapptext", "default": "Lägg paketet i varukorgen" }
+  ],
+  "presets": [{ "name": "NR Kit: avslutning", "category": "Product" }]
+}
+{% endschema %}

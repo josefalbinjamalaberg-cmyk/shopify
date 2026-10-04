@@ -1,0 +1,127 @@
+{%- doc -%}
+  Kit PDP system – 9. Details and FAQ (accordions; primary selling content is
+  never hidden here).
+    Exakt innehåll  generated from custom.kit_components (name · qty · size)
+    Säkerhet        each component's own pdp.safety_note (verified copy)
+    Leverans        global shipping settings (Frakt & leverans)
+    FAQ             question blocks, written per kit
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign components = kit.metafields.custom.kit_components.value
+  assign threshold = settings.free_shipping_threshold
+  assign delivery_text = settings.delivery_time_text
+  assign threshold_ore = threshold | times: 100
+  assign has_safety = false
+  for c in components
+    if c.variant.value.product.metafields.pdp.safety_note.value != blank
+      assign has_safety = true
+    endif
+  endfor
+-%}
+
+<section
+  class="nr-pdp-section nr-ks-section"
+  aria-labelledby="NrKsDetailsHeading-{{ section.id }}"
+>
+  <div class="nr-pdp-container nr-ks-details">
+    <header class="nr-ks-head">
+      <h2
+        class="nr-ks-h2"
+        id="NrKsDetailsHeading-{{ section.id }}"
+      >
+        {{ section.settings.heading | escape }}
+      </h2>
+    </header>
+
+    <div class="nr-ks-acc">
+      {%- if components != blank -%}
+        <details class="nr-ks-acc__item">
+          <summary class="nr-ks-acc__q">Exakt innehåll</summary>
+          <div class="nr-ks-acc__a">
+            <ul role="list">
+              {%- for c in components -%}
+                {%- assign n = c.variant.value.product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip -%}
+                <li>
+                  <span>{{ n | escape }}</span>
+                  <span>
+                    {{- c.quantity.value | default: 1 }} st
+                    {%- if c.size.value != blank %} · {{ c.size.value | escape }}{% endif -%}
+                  </span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </details>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.settings.question != blank and block.settings.answer != blank -%}
+          <details
+            class="nr-ks-acc__item"
+            {{ block.shopify_attributes }}
+          >
+            <summary class="nr-ks-acc__q">{{ block.settings.question | escape }}</summary>
+            <div class="nr-ks-acc__a">{{ block.settings.answer }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_safety -%}
+        <details class="nr-ks-acc__item">
+          <summary class="nr-ks-acc__q">Säkerhet och hantering</summary>
+          <div class="nr-ks-acc__a">
+            {%- for c in components -%}
+              {%- assign note = c.variant.value.product.metafields.pdp.safety_note.value -%}
+              {%- if note != blank -%}
+                {%- assign n = c.variant.value.product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip -%}
+                <p><strong>{{ n | escape }}:</strong> {{ note | escape }}</p>
+              {%- endif -%}
+            {%- endfor -%}
+            <p>Följ alltid produktetiketten.</p>
+          </div>
+        </details>
+      {%- endif -%}
+
+      {%- if delivery_text != blank or threshold > 0 -%}
+        <details class="nr-ks-acc__item">
+          <summary class="nr-ks-acc__q">Leverans</summary>
+          <div class="nr-ks-acc__a">
+            <p>
+              {%- if delivery_text != blank -%}{{ delivery_text | escape }}.{% endif %}
+              {% if threshold > 0 -%}
+                {%- if kit.price >= threshold_ore -%}
+                  Fri frakt på kitet.
+                {%- else -%}
+                  Fri frakt över {{ threshold }}&nbsp;kr.
+                {%- endif -%}
+              {%- endif -%}
+            </p>
+          </div>
+        </details>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "NR Kit: detaljer och frågor",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Bra att veta" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Fråga",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Fråga" },
+        { "type": "richtext", "id": "answer", "label": "Svar", "info": "Endast verifierade uppgifter." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "NR Kit: detaljer och frågor", "category": "Product" }]
+}
+{% endschema %}

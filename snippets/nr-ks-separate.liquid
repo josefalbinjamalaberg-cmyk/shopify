@@ -1,0 +1,27 @@
+{%- doc -%}
+  Kit PDP system: what the kit's contents cost bought one by one, in öre.
+
+  = snippets/nr-kit-separate-total (current price of every referenced
+    component variant × quantity; never compare-at)
+  − custom.kit_separate_adjust (kr, optional): an ACTIVE automatic discount
+    that lowers the one-by-one price of the same products (e.g. "revolt +
+    mikrofiber" on the wheel kits), so the saving is never overstated.
+
+  The only place the separate value is calculated – hero, value section and
+  any other caller capture this snippet. Outputs 0 when components are missing.
+
+  @param {product} product - The kit product.
+{%- enddoc -%}
+
+{%- liquid
+  capture separate_total
+    render 'nr-kit-separate-total', product: product
+  endcapture
+  assign separate_total = separate_total | strip | plus: 0
+  assign adjust = product.metafields.custom.kit_separate_adjust.value
+  if separate_total > 0 and adjust != blank
+    assign adjust_ore = adjust | times: 100 | round
+    assign separate_total = separate_total | minus: adjust_ore
+  endif
+  echo separate_total
+-%}

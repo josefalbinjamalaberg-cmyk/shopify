@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -15,137 +6,204 @@
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
-          "settings": {}
+          "settings": {
+            "media_presentation": "carousel",
+            "media_columns": "one",
+            "image_gap": 0,
+            "large_first_image": false,
+            "icons_style": "arrow",
+            "slideshow_controls_style": "thumbnails",
+            "slideshow_mobile_controls_style": "counter",
+            "thumbnail_position": "right",
+            "thumbnail_width": 56,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": false,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": true,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         },
         "product-details": {
           "type": "_product-details",
           "static": true,
           "settings": {
-            "width": "custom",
+            "width": "fill",
             "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "center",
             "gap": 20,
+            "sticky_details_desktop": true,
+            "background_media": "none",
+            "background_color": "",
             "video_position": "cover",
             "background_image_position": "cover",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
           "blocks": {
-            "summary": {
-              "type": "nr-kitpage-summary",
-              "settings": {}
+            "intro": {
+              "type": "nr-ks-intro",
+              "settings": {
+                "eyebrow": "Exteriör · Start",
+                "value_line": "För dig som vill få grunden rätt – från avfettning till handtvätt.",
+                "point_1": "3 produkter, 3 tydliga uppgifter",
+                "point_2": "Asfalt, trafikfilm och handtvätt",
+                "point_3": "Paketpris istället för styckköp"
+              }
             },
             "buy_buttons": {
               "type": "buy-buttons",
               "settings": {
+                "stacking": true,
+                "text_color": "",
+                "show_pickup_availability": false,
+                "gift_card_form": false,
+                "recipient_button_style": "default",
+                "recipient_button_background": "{{ settings.color_palette.background }}",
+                "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_style": "default",
+                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "input_style": "default",
+                "input_background_color": "{{ settings.color_palette.background }}",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "{{ settings.color_palette.foreground }}",
+                "border_width": 1,
+                "border_radius": 0,
                 "padding-block-start": 4,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0,
-                "add_to_cart_label": "Lägg kitet i varukorgen",
-                "stacking": true
+                "add_to_cart_label": "Lägg paketet i varukorgen"
               },
               "blocks": {
                 "quantity": {
                   "type": "quantity",
                   "static": true,
-                  "settings": {}
+                  "settings": {
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0
+                  },
+                  "blocks": {}
                 },
                 "add-to-cart": {
                   "type": "add-to-cart",
                   "static": true,
                   "settings": {
-                    "style_class": "button"
-                  }
+                    "style_class": "button",
+                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}"
+                  },
+                  "blocks": {}
                 },
                 "accelerated-checkout": {
                   "type": "accelerated-checkout",
                   "static": true,
-                  "settings": {}
+                  "settings": {},
+                  "blocks": {}
                 }
               },
               "block_order": []
             },
-            "meta": {
-              "type": "nr-kitpage-meta",
-              "settings": {}
-            },
-            "points": {
-              "type": "nr-kitpage-points",
-              "settings": {}
+            "delivery": {
+              "type": "nr-pdp-delivery",
+              "settings": {
+                "return_text": "14 dagars ångerrätt",
+                "show_payment_icons": true
+              }
             }
           },
           "block_order": [
-            "summary",
+            "intro",
             "buy_buttons",
-            "points",
-            "meta"
+            "delivery"
           ]
         }
       },
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": true,
-        "limit_details_width": false,
+        "equal_columns": false,
+        "limit_details_width": true,
         "gap": 48,
         "enable_sticky_add_to_cart": true,
+        "background_color": "#f5f4f0",
         "padding-block-start": 24,
-        "padding-block-end": 8
+        "padding-block-end": 24
       }
     },
-    "included": {
-      "type": "nr-kitpage-included",
+    "contents": {
+      "type": "nr-ks-contents",
       "settings": {
-        "heading": "Det här ingår",
-        "lead": "Tre produkter – tre tydliga uppgifter.",
-        "not_included_label": "Ingår inte:",
-        "not_included": "tryckspruta för Alkastrike, tvätthinkar och washpad eller tvätthandske, och duk för DeepDegrease."
+        "heading": "Det här får du",
+        "lead": "Varje produkt har en tydlig uppgift.",
+        "layout": "auto",
+        "note_label": "Ingår inte:",
+        "note": "tryckspruta för Alkastrike, tvätthinkar och washpad eller tvätthandske."
       }
     },
-    "usage": {
-      "type": "nr-kitpage-usage",
+    "system": {
+      "type": "nr-ks-system",
       "settings": {
-        "heading": "Så använder du kitet",
-        "lead": "",
-        "video_product": "alkastrike-alkalisk-avfettning",
-        "video_heading": "Lär känna Alkastrike",
-        "video_caption": "",
-        "note": "Arbeta inte på varma ytor eller i direkt solljus, och låt aldrig produkterna torka in. DeepDegrease är brandfarlig – använd den aldrig nära öppen låga, gnistor eller värmekällor."
+        "heading": "Din exteriörrutin",
+        "lead": "Tre produkter. Tre jobb. I den här ordningen.",
+        "note_heading": "Varför två avfettningar?",
+        "note": "De löser olika sorters smuts. DeepDegrease tar asfalt, tjära och oljebaserad smuts. Alkastrike tar trafikfilm, insekter och organisk smuts. DeepDegrease används på fläckarna, när bilen har dem."
       },
       "blocks": {
         "s1": {
-          "type": "step",
+          "type": "stage",
           "settings": {
-            "title": "Asfalt och tjära",
-            "text": "Applicera DeepDegrease outspädd direkt på fläckarna, låt verka enligt etiketten och torka bort med en duk. Arbeta väl ventilerat.",
+            "label": "Grovsmuts",
             "products": [
               "deepdegrease-kallavfettning"
-            ]
+            ],
+            "text": "Asfalt, tjära och oljerester. Används outspädd, direkt på fläckarna."
           }
         },
         "s2": {
-          "type": "step",
+          "type": "stage",
           "settings": {
-            "title": "Förtvätt",
-            "text": "Späd Alkastrike efter smutsgrad enligt etiketten, spraya jämnt med en tryckspruta, låt verka och spola av med högtryck.",
+            "label": "Trafikfilm",
             "products": [
               "alkastrike-alkalisk-avfettning"
-            ]
+            ],
+            "text": "Trafikfilm, insekter och vägsmuts, innan du rör lacken."
           }
         },
         "s3": {
-          "type": "step",
+          "type": "stage",
           "settings": {
-            "title": "Handtvätt",
-            "text": "Späd Pure Shampoo i tvätthinken enligt etiketten och tvätta panel för panel med två hinkar. Spola av hela bilen.",
+            "label": "Handtvätt",
             "products": [
               "pure-shampoo-ph-neutralt-bilschampo"
-            ]
+            ],
+            "text": "Själva tvätten. Skonsamt mot vax och keramiska lackskydd."
           }
         }
       },
@@ -155,39 +213,117 @@
         "s3"
       ]
     },
-    "compare": {
-      "type": "nr-kitpage-compare",
+    "value": {
+      "type": "nr-ks-value",
       "settings": {
-        "heading": "Välj rätt nivå",
-        "alternative": "exterior-komplett-kit",
-        "alt_audience": "För hela tvätten – även skum, fälgar, glas, däck och lackskydd.",
-        "current_audience": "För grunden – avfettning, förtvätt och handtvätt."
+        "heading": "Varför paketet?",
+        "separate_line": "Du väljer och kombinerar allt själv.",
+        "kit_line": "Färdig kombination, utvald för uppgiften."
       }
     },
-    "faq": {
-      "type": "nr-kitpage-faq",
+    "fit": {
+      "type": "nr-ks-fit",
       "settings": {
-        "heading": "Vanliga frågor"
+        "heading": "Passar dig som",
+        "points": "Vill få grunden rätt vid varje tvätt\nHar både vägsmuts och asfaltsstänk på bilen\nTvättar för hand med tvätthink\nInte behöver hela exteriörsortimentet än",
+        "prompt_heading": "Vill du ha hela rutinen?",
+        "prompt_text": "Exteriör Komplett lägger till skumförtvätt, fälgar, glas, däck och lackskydd.",
+        "alternative": "exterior-komplett-kit"
+      }
+    },
+    "tiers": {
+      "type": "nr-ks-tiers",
+      "settings": {
+        "heading": "Vilket exteriörkit passar dig?"
+      }
+    },
+    "proof": {
+      "type": "nr-ks-proof",
+      "settings": {
+        "heading": "Produkterna i kitet",
+        "lead": "Filmat av NordicReflection.",
+        "products": [
+          "alkastrike-alkalisk-avfettning",
+          "pure-shampoo-ph-neutralt-bilschampo"
+        ]
+      }
+    },
+    "trust": {
+      "type": "nr-pdp-trust",
+      "settings": {
+        "heading": "Vad kunder säger om NordicReflection",
+        "max_reviews": 3,
+        "source_note": "Omdömen om NordicReflection som butik, hämtade från Trustpilot. Inte betyg av det här kitet."
+      }
+    },
+    "details": {
+      "type": "nr-ks-details",
+      "settings": {
+        "heading": "Bra att veta"
       },
       "blocks": {
-        "retur": {
+        "q1": {
           "type": "question",
           "settings": {
-            "question": "Retur",
-            "answer": "<p>Har du frågor om retur eller reklamation? Kontakta vår kundtjänst så hjälper vi dig.</p>"
+            "question": "Vilken produkt använder jag till vad?",
+            "answer": "<p>DeepDegrease till asfalt, tjära och oljerester. Alkastrike till trafikfilm, insekter och vägsmuts. Pure Shampoo till handtvätten i tvätthinken.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Behöver jag använda allt vid varje tvätt?",
+            "answer": "<p>Inte nödvändigtvis. Använd produkterna efter vilken smuts bilen har. DeepDegrease används på fläckarna när bilen har asfalt, tjära eller oljerester.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Passar kitet en nybörjare?",
+            "answer": "<p>Ja. Tre produkter med var sin tydlig uppgift, och varje produkt har en steg-för-steg-guide på sin produktsida.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "Hur späder jag Alkastrike?",
+            "answer": "<p>Alkastrike är koncentrerad och kan spädas upp till 1:25. Blanda efter smutsgrad och följ produktetiketten.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "Behöver jag något mer?",
+            "answer": "<p>För Alkastrike behövs en tryckspruta, och för handtvätten tvätthinkar och en washpad eller tvätthandske. De ingår inte i kitet.</p>"
           }
         }
       },
       "block_order": [
-        "retur"
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
       ]
+    },
+    "final": {
+      "type": "nr-ks-final",
+      "settings": {
+        "line": "Avfettning, förtvätt och handtvätt i ett paket.",
+        "button_label": "Lägg paketet i varukorgen"
+      }
     }
   },
   "order": [
     "main",
-    "included",
-    "usage",
-    "compare",
-    "faq"
+    "contents",
+    "system",
+    "value",
+    "fit",
+    "tiers",
+    "proof",
+    "trust",
+    "details",
+    "final"
   ]
 }

@@ -1,0 +1,1073 @@
+/*
+  NordicReflection – Kit PDP system (prefix nr-ks).
+  One design system for every kit/bundle product page. Builds on the standard
+  PDP (assets/nr-pdp.css: tokens, trust line, delivery line, brand reviews,
+  58/42 hero, section entrance) and only adds what kits need.
+
+  Tokens
+    colour   ink #111 · muted #5f5f5f · faint #8a8a8a (large numbers only)
+             line rgba(17,17,17,.12) · soft #f5f5f2 · accent #1f6b3a (saving,
+             current-kit marker, nothing else)
+    shape    sharp everywhere (radius 0). Buttons keep the theme radius.
+    type     theme fonts only. Hierarchy = size, weight, tracking.
+    space    section 56px mobile / 104px desktop · gutter 20/40 (nr-pdp)
+    motion   one entrance per section (nr-pdp.js, 320ms), hover 200ms.
+             Nothing moves under prefers-reduced-motion.
+*/
+
+:root {
+  --ks-ink: var(--nr-pdp-text, #111111);
+  --ks-muted: var(--nr-pdp-muted, #5f5f5f);
+  --ks-faint: #8a8a8a;
+  --ks-line: var(--nr-pdp-line, rgba(17, 17, 17, 0.12));
+  --ks-soft: var(--nr-pdp-soft, #f5f5f2);
+  --ks-accent: var(--nr-pdp-accent, #1f6b3a);
+  --ks-space: 56px;
+  --ks-gap: 24px;
+  --ks-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ks-h2: clamp(1.75rem, 1.3rem + 1.9vw, 2.75rem);
+  --ks-number: clamp(2.5rem, 1.9rem + 2.6vw, 4.25rem);
+}
+
+@media screen and (min-width: 750px) {
+  :root {
+    --ks-space: 104px;
+    --ks-gap: 40px;
+  }
+}
+
+[class*='nr-ks'],
+[class*='nr-ks'] *,
+[class*='nr-ks'] *::before,
+[class*='nr-ks'] *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Shared primitives ---------- */
+
+.nr-ks-section {
+  padding-block: var(--ks-space);
+  color: var(--ks-ink);
+}
+
+.nr-ks-section--soft {
+  background: var(--ks-soft);
+}
+
+.nr-ks-head {
+  display: grid;
+  gap: 10px;
+  max-width: 44rem;
+  margin-bottom: calc(var(--ks-gap) * 1.25);
+}
+
+.nr-ks-h2 {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-weight: var(--font-heading--weight, 600);
+  font-size: var(--ks-h2);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.nr-ks-lead {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--ks-muted);
+}
+
+/* Small uppercase label: kit category, group names, column labels. */
+.nr-ks-label {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--ks-muted);
+}
+
+.nr-ks-number {
+  font-size: var(--ks-number);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ks-faint);
+}
+
+.nr-ks-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ks-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.nr-ks-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.nr-ks-media {
+  display: block;
+  background: var(--ks-soft);
+  overflow: hidden;
+}
+
+.nr-ks-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---------- 1. Hero (purchase column) ---------- */
+
+.nr-ks-intro {
+  gap: 0;
+}
+
+.nr-ks-intro .nr-pdp-trustline {
+  margin-bottom: 18px;
+}
+
+.nr-ks-intro__eyebrow {
+  margin: 0 0 10px;
+  color: var(--ks-ink);
+}
+
+.nr-ks-intro__title {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-weight: var(--font-heading--weight, 600);
+  font-size: clamp(2.25rem, 1.75rem + 2vw, 3.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.nr-ks-intro__value {
+  margin: 14px 0 0;
+  max-width: 34ch;
+  font-size: 1.125rem;
+  line-height: 1.45;
+}
+
+.nr-ks-price {
+  margin: 26px 0 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--ks-line);
+}
+
+.nr-ks-price__amount {
+  display: block;
+  font-size: clamp(1.75rem, 1.5rem + 0.9vw, 2.125rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-ks-price__separate {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: var(--ks-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-ks-price__saving {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ks-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-ks-points {
+  display: grid;
+  gap: 8px;
+  margin: 22px 0 6px;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-ks-points li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.nr-ks-points svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  color: var(--ks-accent);
+}
+
+/* ---------- 2. Det här får du ---------- */
+
+/* Small kits (2–3 products): one horizontal sequence. */
+.nr-ks-seq {
+  display: grid;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-ks-seq__item {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  grid-template-areas: 'media number' 'media body';
+  gap: 0 18px;
+  align-items: start;
+}
+
+.nr-ks-seq__number {
+  grid-area: number;
+}
+
+.nr-ks-seq__body {
+  grid-area: body;
+}
+
+.nr-ks-seq__media {
+  grid-area: media;
+  aspect-ratio: 1;
+}
+
+.nr-ks-seq__media img {
+  padding: 8%;
+}
+
+.nr-ks-seq__number {
+  display: block;
+  margin-bottom: 10px;
+  font-size: clamp(2rem, 1.6rem + 1.4vw, 2.5rem);
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-seq {
+    grid-template-columns: repeat(var(--ks-count, 3), minmax(0, 1fr));
+    gap: 0 56px;
+    border-top: 1px solid var(--ks-ink);
+  }
+
+  .nr-ks-seq__item {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'number' 'media' 'body';
+    align-content: start;
+    gap: 0;
+    padding-top: 28px;
+  }
+
+  /* Column rule centred in the gap, so every column has the same width. */
+  .nr-ks-seq__item + .nr-ks-seq__item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -28px;
+    border-left: 1px solid var(--ks-line);
+  }
+
+  .nr-ks-seq__number {
+    font-size: var(--ks-number);
+    margin-bottom: 24px;
+  }
+
+  .nr-ks-seq__media {
+    aspect-ratio: 4 / 5;
+    margin-bottom: 28px;
+  }
+
+  .nr-ks-seq__media img {
+    padding: 10%;
+  }
+}
+
+/* Large kits: grouped editorial rows. */
+.nr-ks-groups {
+  display: grid;
+  gap: 48px;
+}
+
+.nr-ks-group__label {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ks-ink);
+  color: var(--ks-ink);
+}
+
+.nr-ks-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-ks-row {
+  display: grid;
+  grid-template-columns: 44px 88px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--ks-line);
+}
+
+.nr-ks-row__number {
+  font-size: 1.75rem;
+  padding-top: 2px;
+}
+
+.nr-ks-row__media {
+  aspect-ratio: 1;
+}
+
+.nr-ks-row__media img {
+  padding: 8%;
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-groups {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 0;
+    row-gap: 56px;
+  }
+
+  .nr-ks-group {
+    display: contents;
+  }
+
+  .nr-ks-group__label {
+    padding: 26px 24px 0 0;
+    border-bottom: 0;
+    border-top: 1px solid var(--ks-ink);
+  }
+
+  .nr-ks-rows {
+    border-top: 1px solid var(--ks-ink);
+  }
+
+  .nr-ks-row {
+    grid-template-columns: 96px 160px minmax(0, 1fr);
+    gap: 32px;
+    padding-block: 28px;
+    align-items: center;
+  }
+
+  .nr-ks-row__number {
+    font-size: var(--ks-number);
+  }
+}
+
+/* Component text (shared by sequence and rows). */
+.nr-ks-item__name {
+  margin: 0;
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.nr-ks-item__name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nr-ks-item__name a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.nr-ks-item__role {
+  margin: 4px 0 0;
+  font-size: 0.9375rem;
+  color: var(--ks-muted);
+}
+
+.nr-ks-item__amount {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-ks-item__why {
+  margin: 10px 0 0;
+  max-width: 42ch;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.nr-ks-note {
+  margin: 28px 0 0;
+  max-width: 62ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ks-muted);
+}
+
+.nr-ks-note strong {
+  color: var(--ks-ink);
+}
+
+/* ---------- 3. Systemet / rutinen ---------- */
+
+.nr-ks-flow {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-ks-stage {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding-block: 26px;
+  border-top: 1px solid var(--ks-ink);
+}
+
+.nr-ks-stage__label {
+  margin: 0;
+  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.nr-ks-stage__products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-ks-stage__products a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ks-ink);
+  text-decoration: none;
+}
+
+.nr-ks-stage__products a:hover span {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.nr-ks-stage__thumb {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+}
+
+.nr-ks-stage__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.nr-ks-stage__text {
+  margin: 0;
+  max-width: 40ch;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ks-muted);
+}
+
+/* Arrow between stages (mobile: down, desktop: across). */
+.nr-ks-stage + .nr-ks-stage::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-right: 1px solid var(--ks-ink);
+  border-bottom: 1px solid var(--ks-ink);
+  transform: translate(0, -50%) rotate(45deg);
+  background: var(--ks-soft);
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-flow {
+    grid-template-columns: repeat(var(--ks-count, 3), minmax(0, 1fr));
+    border-top: 1px solid var(--ks-ink);
+  }
+
+  .nr-ks-stage {
+    padding: 32px 32px 0 0;
+    border-top: 0;
+    align-content: start;
+  }
+
+  .nr-ks-stage + .nr-ks-stage {
+    padding-left: 32px;
+  }
+
+  .nr-ks-stage + .nr-ks-stage::before {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
+.nr-ks-flow__note {
+  display: grid;
+  gap: 6px;
+  margin: 40px 0 0;
+  padding-top: 24px;
+  max-width: 60ch;
+  border-top: 1px solid var(--ks-line);
+}
+
+.nr-ks-flow__note h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.nr-ks-flow__note p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ks-muted);
+}
+
+/* ---------- 4. Värde: köpa separat vs paket ---------- */
+
+.nr-ks-versus {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--ks-ink);
+}
+
+.nr-ks-versus__col {
+  display: grid;
+  gap: 6px;
+  padding-block: 24px;
+}
+
+.nr-ks-versus__col + .nr-ks-versus__col {
+  border-top: 1px solid var(--ks-line);
+}
+
+.nr-ks-versus__price {
+  margin: 8px 0 0;
+  font-size: clamp(2rem, 1.6rem + 1.6vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-ks-versus__col--separate .nr-ks-versus__price {
+  color: var(--ks-muted);
+  font-weight: 400;
+}
+
+.nr-ks-versus__meta {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--ks-muted);
+}
+
+.nr-ks-versus__saving {
+  margin: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--ks-ink);
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  font-weight: 600;
+  color: var(--ks-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-versus {
+    grid-template-columns: 1fr 1fr;
+    max-width: 880px;
+  }
+
+  .nr-ks-versus__col {
+    padding: 32px 32px 32px 0;
+  }
+
+  .nr-ks-versus__col + .nr-ks-versus__col {
+    padding-left: 32px;
+    border-top: 0;
+    border-left: 1px solid var(--ks-line);
+  }
+
+  .nr-ks-versus__saving {
+    grid-column: 1 / -1;
+    padding-top: 22px;
+  }
+}
+
+/* ---------- 5. Passar dig som ---------- */
+
+.nr-ks-fit {
+  display: grid;
+  gap: 36px;
+}
+
+.nr-ks-fit__list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ks-ink);
+}
+
+.nr-ks-fit__list li {
+  padding-block: 16px;
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  line-height: 1.35;
+  border-bottom: 1px solid var(--ks-line);
+}
+
+.nr-ks-fit__prompt {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.nr-ks-fit__prompt h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.nr-ks-fit__prompt p {
+  margin: 0;
+  max-width: 38ch;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ks-muted);
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-fit {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: 72px;
+  }
+
+  .nr-ks-fit__prompt {
+    padding-top: 18px;
+  }
+}
+
+/* ---------- 6. Kitfamiljen ---------- */
+
+.nr-ks-tiers {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-ks-tier {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 4px 18px;
+  align-content: start;
+  padding-block: 24px;
+  border-top: 1px solid var(--ks-line);
+}
+
+.nr-ks-tier.is-current {
+  border-top: 2px solid var(--ks-ink);
+}
+
+.nr-ks-tier__media {
+  grid-row: span 6;
+  aspect-ratio: 1;
+}
+
+.nr-ks-tier__media img {
+  padding: 6%;
+}
+
+.nr-ks-tier__current {
+  color: var(--ks-accent);
+}
+
+.nr-ks-tier__name {
+  margin: 2px 0 0;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.nr-ks-tier__summary {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ks-muted);
+}
+
+.nr-ks-tier__contents {
+  margin: 10px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.nr-ks-tier__contents strong {
+  font-weight: 600;
+}
+
+.nr-ks-tier__price {
+  margin: 12px 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-ks-tier__price span {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--ks-muted);
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-tiers {
+    grid-template-columns: repeat(var(--ks-count, 3), minmax(0, 1fr));
+    gap: 40px;
+  }
+
+  .nr-ks-tier {
+    grid-template-columns: minmax(0, 1fr);
+    padding-block: 24px 0;
+  }
+
+  .nr-ks-tier__media {
+    grid-row: auto;
+    order: -1;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 18px;
+  }
+
+  .nr-ks-tier,
+  .nr-ks-tier.is-current {
+    border-top: 0;
+  }
+
+  .nr-ks-tier__body {
+    padding-top: 18px;
+    border-top: 1px solid var(--ks-line);
+  }
+
+  .nr-ks-tier.is-current .nr-ks-tier__body {
+    border-top: 2px solid var(--ks-ink);
+    padding-top: 17px;
+  }
+}
+
+/* ---------- 7. Riktiga produkter i bruk ---------- */
+
+.nr-ks-proof {
+  display: grid;
+  gap: 28px;
+}
+
+/* Mobile: clips side by side in a native scroll-snap row (no library). */
+@media screen and (max-width: 749px) {
+  .nr-ks-proof {
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(var(--nr-pdp-gutter, 20px) * -1);
+    padding-inline: var(--nr-pdp-gutter, 20px);
+    scroll-padding-inline: var(--nr-pdp-gutter, 20px);
+  }
+
+  .nr-ks-proof::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nr-ks-proof__item {
+    scroll-snap-align: start;
+  }
+
+  .nr-ks-proof--1 {
+    grid-auto-columns: 100%;
+  }
+}
+
+.nr-ks-proof__item {
+  margin: 0;
+}
+
+.nr-ks-proof__media {
+  aspect-ratio: 4 / 5;
+  background: #111111;
+}
+
+.nr-ks-proof__media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nr-ks-proof__caption {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 0.9375rem;
+}
+
+.nr-ks-proof__caption strong {
+  font-weight: 600;
+}
+
+.nr-ks-proof__caption span {
+  color: var(--ks-muted);
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-proof {
+    grid-template-columns: repeat(var(--ks-count, 2), minmax(0, 1fr));
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* Two clips: offset the second for a calmer, less grid-like composition. */
+  .nr-ks-proof--2 .nr-ks-proof__item:nth-child(2) {
+    margin-top: 96px;
+  }
+}
+
+/* ---------- 9. Detaljer / FAQ ---------- */
+
+.nr-ks-details {
+  display: grid;
+  gap: 40px;
+}
+
+@media screen and (min-width: 990px) {
+  .nr-ks-details {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: 72px;
+  }
+}
+
+.nr-ks-acc {
+  border-top: 1px solid var(--ks-ink);
+}
+
+.nr-ks-acc__item {
+  border-bottom: 1px solid var(--ks-line);
+}
+
+.nr-ks-acc__q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 60px;
+  padding-block: 16px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nr-ks-acc__q::-webkit-details-marker {
+  display: none;
+}
+
+.nr-ks-acc__q::after {
+  content: '';
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-3px) rotate(45deg);
+  transition: transform 200ms var(--ks-ease);
+}
+
+.nr-ks-acc__item[open] > .nr-ks-acc__q::after {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+.nr-ks-acc__q:focus-visible {
+  outline: 2px solid var(--ks-ink);
+  outline-offset: 3px;
+}
+
+.nr-ks-acc__a {
+  padding-bottom: 22px;
+  max-width: 64ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ks-muted);
+}
+
+.nr-ks-acc__a p {
+  margin: 0 0 10px;
+}
+
+.nr-ks-acc__a ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nr-ks-acc__a li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 8px;
+  border-bottom: 1px solid var(--ks-line);
+}
+
+.nr-ks-acc__a li:last-child {
+  border-bottom: 0;
+}
+
+.nr-ks-acc__a li span:last-child {
+  color: var(--ks-ink);
+  white-space: nowrap;
+}
+
+/* ---------- 10. Final CTA ---------- */
+
+.nr-ks-final {
+  display: grid;
+  gap: 24px;
+  align-items: center;
+}
+
+.nr-ks-final__media {
+  display: none;
+  aspect-ratio: 1;
+  max-width: 320px;
+  background: #ffffff;
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-final__media {
+    display: block;
+  }
+}
+
+.nr-ks-final__title {
+  margin: 0;
+  font-family: var(--font-heading--family, inherit);
+  font-weight: var(--font-heading--weight, 600);
+  font-size: var(--ks-h2);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.nr-ks-final__line {
+  margin: 10px 0 0;
+  max-width: 40ch;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: var(--ks-muted);
+}
+
+.nr-ks-final__price {
+  margin: 22px 0 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.nr-ks-final__form {
+  margin-top: 18px;
+}
+
+.nr-ks-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: var(--style-border-radius-buttons-primary, 14px);
+  background: var(--ks-ink);
+  color: #ffffff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 200ms var(--ks-ease), transform 200ms var(--ks-ease);
+}
+
+.nr-ks-button:hover {
+  opacity: 0.88;
+}
+
+.nr-ks-button:active {
+  transform: translateY(1px);
+}
+
+.nr-ks-button:focus-visible {
+  outline: 2px solid var(--ks-ink);
+  outline-offset: 3px;
+}
+
+.nr-ks-button[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media screen and (min-width: 750px) {
+  .nr-ks-final {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 64px;
+  }
+
+  .nr-ks-button {
+    width: auto;
+    min-width: 320px;
+  }
+}
+
+/* ---------- Hero: the primary CTA is the largest control in the column ---------- */
+.product-details:has(.nr-ks-intro) .add-to-cart-button {
+  min-height: 56px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}

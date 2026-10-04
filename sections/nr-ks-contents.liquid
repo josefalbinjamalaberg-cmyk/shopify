@@ -1,0 +1,192 @@
+{%- doc -%}
+  Kit PDP system – 2. Det här får du.
+  One entry per custom.kit_components item: large number, real product image,
+  name, role, quantity · size, one sentence why it is included
+  (snippets/nr-ks-component). No prices or buttons per component.
+
+  Layout follows the size of the kit (setting "layout"):
+    auto  ≤ 3 components → one horizontal sequence (columns on desktop)
+          ≥ 4 components → editorial rows grouped by the component's
+          "group" field (e.g. Förtvätt, Handtvätt, Finish & skydd)
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign components = kit.metafields.custom.kit_components.value
+  assign notes = kit.metafields.custom.kit_component_notes.value
+  assign layout = section.settings.layout
+  if layout == 'auto'
+    if components.size <= 3
+      assign layout = 'sequence'
+    else
+      assign layout = 'groups'
+    endif
+  endif
+-%}
+
+{%- if components != blank -%}
+  <section
+    class="nr-pdp-section nr-ks-section"
+    id="NrKsContents"
+    aria-labelledby="NrKsContentsHeading-{{ section.id }}"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-ks-head">
+        <h2
+          class="nr-ks-h2"
+          id="NrKsContentsHeading-{{ section.id }}"
+        >
+          {{ section.settings.heading | escape }}
+        </h2>
+        {%- if section.settings.lead != blank -%}
+          <p class="nr-ks-lead">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      {%- if layout == 'sequence' -%}
+        <ol
+          class="nr-ks-seq"
+          role="list"
+          style="--ks-count: {{ components.size }};"
+        >
+          {%- for component in components -%}
+            {%- liquid
+              assign component_variant = component.variant.value
+              assign component_image = component_variant.image | default: component_variant.product.featured_image
+              assign index = forloop.index0
+              assign why = notes[index] | default: component.purpose.value
+            -%}
+            {%- if component_variant != blank -%}
+              <li class="nr-ks-seq__item">
+                <span
+                  class="nr-ks-number nr-ks-seq__number"
+                  aria-hidden="true"
+                >
+                  {{- forloop.index | prepend: '0' | slice: -2, 2 -}}
+                </span>
+                <span class="nr-ks-media nr-ks-seq__media">
+                  {%- if component_image != blank -%}
+                    {{
+                      component_image
+                      | image_url: width: 900
+                      | image_tag:
+                        loading: 'lazy',
+                        alt: component_variant.product.title,
+                        widths: '200, 300, 450, 600, 900',
+                        sizes: '(min-width: 750px) 30vw, 104px'
+                    }}
+                  {%- endif -%}
+                </span>
+                <div class="nr-ks-seq__body">
+                  {% render 'nr-ks-component', component: component, why: why %}
+                </div>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ol>
+      {%- else -%}
+        {%- liquid
+          # Group order = first appearance in the kit's component list.
+          assign group_names = ''
+          for component in components
+            assign g = component.group.value | default: 'Ingår'
+            assign needle = '|' | append: g | append: '|'
+            assign haystack = '|' | append: group_names | append: '|'
+            unless haystack contains needle
+              if group_names == ''
+                assign group_names = g
+              else
+                assign group_names = group_names | append: '|' | append: g
+              endif
+            endunless
+          endfor
+          assign group_names = group_names | split: '|'
+        -%}
+        <div class="nr-ks-groups">
+          {%- for group_name in group_names -%}
+            <div class="nr-ks-group">
+              <h3 class="nr-ks-label nr-ks-group__label">{{ group_name | escape }}</h3>
+              <ol
+                class="nr-ks-rows"
+                role="list"
+              >
+                {%- for component in components -%}
+                  {%- liquid
+                    assign g = component.group.value | default: 'Ingår'
+                    if g != group_name
+                      continue
+                    endif
+                    assign component_variant = component.variant.value
+                    assign component_image = component_variant.image | default: component_variant.product.featured_image
+                    assign index = forloop.index0
+                    assign why = notes[index] | default: component.purpose.value
+                  -%}
+                  {%- if component_variant != blank -%}
+                    <li class="nr-ks-row">
+                      <span
+                        class="nr-ks-number nr-ks-row__number"
+                        aria-hidden="true"
+                      >
+                        {{- forloop.index | prepend: '0' | slice: -2, 2 -}}
+                      </span>
+                      <span class="nr-ks-media nr-ks-row__media">
+                        {%- if component_image != blank -%}
+                          {{
+                            component_image
+                            | image_url: width: 480
+                            | image_tag:
+                              loading: 'lazy',
+                              alt: component_variant.product.title,
+                              widths: '180, 240, 320, 480',
+                              sizes: '(min-width: 750px) 160px, 88px'
+                          }}
+                        {%- endif -%}
+                      </span>
+                      <div class="nr-ks-row__body">
+                        {% render 'nr-ks-component', component: component, why: why %}
+                      </div>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ol>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.note != blank -%}
+        <p class="nr-ks-note">
+          {%- if section.settings.note_label != blank -%}
+            <strong>{{ section.settings.note_label | escape }}</strong>
+          {% endif -%}
+          {{ section.settings.note | escape }}
+        </p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: det här får du",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Det här får du" },
+    { "type": "text", "id": "lead", "label": "Ingress", "default": "Varje produkt har en tydlig uppgift." },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "auto", "label": "Automatiskt efter antal" },
+        { "value": "sequence", "label": "Sekvens (2–3 produkter)" },
+        { "value": "groups", "label": "Grupperade rader" }
+      ],
+      "default": "auto"
+    },
+    { "type": "text", "id": "note_label", "label": "Etikett före notering", "info": "T.ex. Ingår inte:" },
+    { "type": "text", "id": "note", "label": "Notering", "info": "Endast verifierade uppgifter." }
+  ],
+  "presets": [{ "name": "NR Kit: det här får du", "category": "Product" }]
+}
+{% endschema %}

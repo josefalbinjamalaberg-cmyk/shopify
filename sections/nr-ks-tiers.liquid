@@ -1,0 +1,193 @@
+{%- doc -%}
+  Kit PDP system – 6. The kit family (editorial columns, not a table).
+  Kits: custom.kit_family of this kit (product references, in display order).
+  Per kit: tier label (custom.kit_tier, e.g. START / FOAM / KOMPLETT, else
+  the part after "·" in custom.kit_eyebrow), one-line summary
+  (custom.kit_tier_summary, else custom.kit_card_line), number of products,
+  contents and price. The current kit is marked "Ditt val".
+
+  Contents are calculated from the kits' component references: when another
+  kit in the family is fully contained, the column reads
+  "Allt i <that kit>, plus X och Y" (the largest contained kit wins), so
+  BAS → DETALJ → KOMPLETT shows only what each step adds. A kit that does not
+  contain another (e.g. Foam Wash next to Exteriör Start) lists its own
+  contents, so a different use case is never presented as a bigger tier.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign family = kit.metafields.custom.kit_family.value
+-%}
+
+{%- if family.size > 1 -%}
+  <section
+    class="nr-pdp-section nr-ks-section"
+    id="NrKsTiers"
+    aria-labelledby="NrKsTiersHeading-{{ section.id }}"
+    tabindex="-1"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-ks-head">
+        <h2
+          class="nr-ks-h2"
+          id="NrKsTiersHeading-{{ section.id }}"
+        >
+          {{ section.settings.heading | escape }}
+        </h2>
+        {%- if section.settings.lead != blank -%}
+          <p class="nr-ks-lead">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ol
+        class="nr-ks-tiers"
+        role="list"
+        style="--ks-count: {{ family.size }};"
+      >
+        {%- for card in family -%}
+          {%- liquid
+            assign card_components = card.metafields.custom.kit_components.value
+            assign card_ids = '|'
+            for c in card_components
+              assign card_ids = card_ids | append: c.variant.value.id | append: '|'
+            endfor
+
+            # Largest other family kit fully contained in this one.
+            assign base = nil
+            assign base_size = 0
+            for other in family
+              if other.id == card.id
+                continue
+              endif
+              assign other_components = other.metafields.custom.kit_components.value
+              if other_components.size >= card_components.size or other_components.size <= base_size
+                continue
+              endif
+              assign contained = true
+              for c in other_components
+                assign needle = '|' | append: c.variant.value.id | append: '|'
+                unless card_ids contains needle
+                  assign contained = false
+                  break
+                endunless
+              endfor
+              if contained
+                assign base = other
+                assign base_size = other_components.size
+              endif
+            endfor
+
+            assign base_ids = '|'
+            if base != nil
+              for c in base.metafields.custom.kit_components.value
+                assign base_ids = base_ids | append: c.variant.value.id | append: '|'
+              endfor
+            endif
+
+            assign tier = card.metafields.custom.kit_tier.value
+            if tier == blank
+              assign tier = card.metafields.custom.kit_eyebrow.value | split: '·' | last | strip
+            endif
+            assign summary = card.metafields.custom.kit_tier_summary.value | default: card.metafields.custom.kit_card_line.value
+            assign card_title = card.metafields.custom.kit_name.value | default: card.metafields.custom.kit_display_title.value | default: card.title
+            assign is_current = false
+            if card.id == kit.id
+              assign is_current = true
+            endif
+          -%}
+          <li
+            class="nr-ks-tier{% if is_current %} is-current{% endif %}"
+            {% if is_current %}
+              aria-current="page"
+            {% endif %}
+          >
+            <a
+              class="nr-ks-media nr-ks-tier__media"
+              href="{{ card.url }}"
+              tabindex="-1"
+              aria-hidden="true"
+            >
+              {%- if card.featured_image != blank -%}
+                {{
+                  card.featured_image
+                  | image_url: width: 640
+                  | image_tag: loading: 'lazy', alt: '', widths: '200, 320, 480, 640', sizes: '(min-width: 750px) 30vw, 96px'
+                }}
+              {%- endif -%}
+            </a>
+            <div class="nr-ks-tier__body">
+              {%- if is_current -%}
+                <p class="nr-ks-label nr-ks-tier__current">{{ tier | escape }} · Ditt val</p>
+              {%- else -%}
+                <p class="nr-ks-label">{{ tier | escape }}</p>
+              {%- endif -%}
+              <h3 class="nr-ks-tier__name">{{ card_title | escape }}</h3>
+              {%- if summary != blank -%}
+                <p class="nr-ks-tier__summary">{{ summary | escape }}</p>
+              {%- endif -%}
+              <p class="nr-ks-tier__contents">
+                {%- if base != nil -%}
+                  {%- assign base_title = base.metafields.custom.kit_name.value | default: base.metafields.custom.kit_display_title.value | default: base.title -%}
+                  Allt i {{ base_title | escape }}, plus
+                  <strong>
+                    {%- assign extra_count = card_components.size | minus: base_size -%}
+                    {%- assign shown = 0 -%}
+                    {%- for c in card_components -%}
+                      {%- assign needle = '|' | append: c.variant.value.id | append: '|' -%}
+                      {%- unless base_ids contains needle -%}
+                        {%- assign shown = shown | plus: 1 -%}
+                        {%- assign n = c.variant.value.product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip -%}
+                        {%- if shown > 1 and shown == extra_count %} och {% elsif shown > 1 %}, {% endif -%}
+                        {{- n | escape -}}
+                      {%- endunless -%}
+                    {%- endfor -%}
+                  </strong>
+                {%- else -%}
+                  {%- for c in card_components -%}
+                    {%- liquid
+                      assign n = c.variant.value.product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip
+                      assign s = c.size.value
+                      if s contains 'pack'
+                        assign n = n | append: ' ' | append: s
+                      endif
+                    -%}
+                    {{- n | escape -}}
+                    {%- unless forloop.last -%}
+                      {%- if forloop.rindex == 2 %} och {% else %}, {% endif -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </p>
+              <p class="nr-ks-tier__price">
+                {{- card.price | money }} <span>· {{ card_components.size }} produkter</span>
+              </p>
+              {%- unless is_current -%}
+                <a
+                  class="nr-ks-link"
+                  href="{{ card.url }}"
+                  data-nr-event="kit_family_click"
+                  data-nr-product="{{ card.handle }}"
+                  data-nr-source="kit_tiers"
+                >
+                  Se {{ card_title | escape }} <span aria-hidden="true">&rarr;</span>
+                </a>
+              {%- endunless -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: kitfamiljen",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Vilket kit passar dig?" },
+    { "type": "text", "id": "lead", "label": "Ingress" }
+  ],
+  "presets": [{ "name": "NR Kit: kitfamiljen", "category": "Product" }]
+}
+{% endschema %}

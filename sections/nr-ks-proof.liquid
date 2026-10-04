@@ -1,0 +1,91 @@
+{%- doc -%}
+  Kit PDP system – 7. Real product proof.
+  Real NordicReflection clips: the first video in each chosen product's
+  pdp.demo_media (the same clip as on that product's own page). Caption =
+  product name + a neutral line from the section; nothing claims more than
+  the clip shows. Products without a clip are skipped; with no clips at all
+  the section is not rendered – never a placeholder or a generated image.
+{%- enddoc -%}
+
+{%- liquid
+  assign clip_count = 0
+  for p in section.settings.products
+    for media in p.metafields.pdp.demo_media.value
+      if media.media_type == 'video'
+        assign clip_count = clip_count | plus: 1
+        break
+      endif
+    endfor
+  endfor
+-%}
+
+{%- if clip_count > 0 -%}
+  <section
+    class="nr-pdp-section nr-ks-section"
+    aria-labelledby="NrKsProofHeading-{{ section.id }}"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-ks-head">
+        <h2
+          class="nr-ks-h2"
+          id="NrKsProofHeading-{{ section.id }}"
+        >
+          {{ section.settings.heading | escape }}
+        </h2>
+        {%- if section.settings.lead != blank -%}
+          <p class="nr-ks-lead">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </header>
+      <div
+        class="nr-ks-proof nr-ks-proof--{{ clip_count }}"
+        style="--ks-count: {{ clip_count }};"
+      >
+        {%- for p in section.settings.products -%}
+          {%- liquid
+            assign clip = nil
+            for media in p.metafields.pdp.demo_media.value
+              if media.media_type == 'video'
+                assign clip = media
+                break
+              endif
+            endfor
+            assign p_name = p.title | replace: ' - ', ' – ' | split: ' – ' | first | strip
+            assign p_type = p.metafields.pdp.type_label.value
+          -%}
+          {%- if clip != nil -%}
+            <figure class="nr-ks-proof__item">
+              <div class="nr-ks-proof__media">
+                {{
+                  clip
+                  | video_tag:
+                    image_size: '900x',
+                    controls: true,
+                    muted: true,
+                    playsinline: true,
+                    preload: 'none'
+                }}
+              </div>
+              <figcaption class="nr-ks-proof__caption">
+                <strong>{{ p_name | escape }}</strong>
+                {%- if p_type != blank -%}<span>{{ p_type | escape }}</span>{%- endif -%}
+              </figcaption>
+            </figure>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: riktiga produkter",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Produkterna i kitet" },
+    { "type": "text", "id": "lead", "label": "Ingress", "default": "Filmat av NordicReflection." },
+    { "type": "product_list", "id": "products", "label": "Filmer från produkter", "info": "Första filmen i varje produkts PDP-demo. Utan film visas inget.", "limit": 3 }
+  ],
+  "presets": [{ "name": "NR Kit: riktiga produkter", "category": "Product" }]
+}
+{% endschema %}

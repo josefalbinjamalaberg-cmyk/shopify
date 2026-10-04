@@ -1,0 +1,101 @@
+{%- doc -%}
+  Kit PDP system – 5. Passar dig som + escape route.
+  Left: max four "passar dig som" lines (section setting, one per line;
+  fallback custom.kit_fit_points). Right: a decision-support prompt
+  ("Vill du ha hela rutinen?") that links to the alternative kit and to the
+  kit family comparison (#NrKsTiers), so a customer for whom this kit is
+  wrong moves to another kit instead of leaving.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign points = section.settings.points | newline_to_br | split: '<br />'
+  assign has_points = false
+  for p in points
+    if p != blank
+      assign has_points = true
+    endif
+  endfor
+  unless has_points
+    assign points = kit.metafields.custom.kit_fit_points.value
+    if points != blank
+      assign has_points = true
+    endif
+  endunless
+  assign alt = section.settings.alternative
+  if alt != blank
+    assign alt_title = alt.metafields.custom.kit_name.value | default: alt.metafields.custom.kit_display_title.value | default: alt.title
+  endif
+-%}
+
+{%- if has_points -%}
+  <section
+    class="nr-pdp-section nr-ks-section"
+    aria-labelledby="NrKsFitHeading-{{ section.id }}"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-ks-head">
+        <h2
+          class="nr-ks-h2"
+          id="NrKsFitHeading-{{ section.id }}"
+        >
+          {{ section.settings.heading | escape }}
+        </h2>
+      </header>
+      <div class="nr-ks-fit">
+        <ul
+          class="nr-ks-fit__list"
+          role="list"
+        >
+          {%- for p in points limit: 4 -%}
+            {%- assign line = p | strip -%}
+            {%- if line != blank -%}
+              <li>{{ line | escape }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+
+        {%- if section.settings.prompt_heading != blank -%}
+          <div class="nr-ks-fit__prompt">
+            <h3>{{ section.settings.prompt_heading | escape }}</h3>
+            {%- if section.settings.prompt_text != blank -%}
+              <p>{{ section.settings.prompt_text | escape }}</p>
+            {%- endif -%}
+            {%- if alt != blank -%}
+              <a
+                class="nr-ks-link"
+                href="{{ alt.url }}"
+                data-nr-event="kit_family_click"
+                data-nr-product="{{ alt.handle }}"
+                data-nr-source="kit_fit"
+              >
+                Se {{ alt_title | escape }} <span aria-hidden="true">&rarr;</span>
+              </a>
+            {%- endif -%}
+            <a
+              class="nr-ks-link"
+              href="#NrKsTiers"
+            >
+              Jämför kiten
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: passar dig som",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Passar dig som" },
+    { "type": "textarea", "id": "points", "label": "Punkter", "info": "En per rad, max fyra. Tomt = Paket – passar dig som (metafält)." },
+    { "type": "text", "id": "prompt_heading", "label": "Fråga", "info": "T.ex. Vill du ha hela rutinen?" },
+    { "type": "text", "id": "prompt_text", "label": "Text under frågan" },
+    { "type": "product", "id": "alternative", "label": "Länka till kit" }
+  ],
+  "presets": [{ "name": "NR Kit: passar dig som", "category": "Product" }]
+}
+{% endschema %}

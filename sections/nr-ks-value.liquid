@@ -1,0 +1,66 @@
+{%- doc -%}
+  Kit PDP system – 4. Varför paketet?
+  Köpa separat (number of products, current separate value, "Välj allt själv")
+  versus the kit (same products, kit price, "Färdig kombination"), then the
+  saving. Every figure comes from snippets/nr-ks-separate and the kit price –
+  nothing typed here. Hidden when the kit is not cheaper than its parts.
+{%- enddoc -%}
+
+{%- liquid
+  assign kit = product
+  assign components = kit.metafields.custom.kit_components.value
+  assign kit_price = kit.selected_or_first_available_variant.price
+  assign title = kit.metafields.custom.kit_name.value | default: kit.metafields.custom.kit_display_title.value | default: kit.title
+  capture separate_total
+    render 'nr-ks-separate', product: kit
+  endcapture
+  assign separate_total = separate_total | strip | plus: 0
+  assign saving = separate_total | minus: kit_price
+-%}
+
+{%- if components != blank and saving > 0 -%}
+  <section
+    class="nr-pdp-section nr-ks-section"
+    aria-labelledby="NrKsValueHeading-{{ section.id }}"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-ks-head">
+        <h2
+          class="nr-ks-h2"
+          id="NrKsValueHeading-{{ section.id }}"
+        >
+          {{ section.settings.heading | escape }}
+        </h2>
+      </header>
+
+      <div class="nr-ks-versus">
+        <div class="nr-ks-versus__col nr-ks-versus__col--separate">
+          <p class="nr-ks-label">Köpa separat</p>
+          <p class="nr-ks-versus__meta">{{ components.size }} produkter, var för sig</p>
+          <p class="nr-ks-versus__price">{{ separate_total | money }}</p>
+          <p class="nr-ks-versus__meta">{{ section.settings.separate_line | escape }}</p>
+        </div>
+        <div class="nr-ks-versus__col">
+          <p class="nr-ks-label">{{ title | escape }}</p>
+          <p class="nr-ks-versus__meta">Samma {{ components.size }} produkter</p>
+          <p class="nr-ks-versus__price">{{ kit_price | money }}</p>
+          <p class="nr-ks-versus__meta">{{ section.settings.kit_line | escape }}</p>
+        </div>
+        <p class="nr-ks-versus__saving">Du sparar {{ saving | money }}</p>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: värde",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Varför paketet?" },
+    { "type": "text", "id": "separate_line", "label": "Rad under Köpa separat", "default": "Du väljer och kombinerar allt själv." },
+    { "type": "text", "id": "kit_line", "label": "Rad under paketet", "default": "Färdig kombination, utvald för uppgiften." }
+  ],
+  "presets": [{ "name": "NR Kit: värde", "category": "Product" }]
+}
+{% endschema %}

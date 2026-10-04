@@ -1,0 +1,111 @@
+{%- doc -%}
+  Kit PDP system – 3. How the system works (e.g. "Din exteriörrutin").
+  One block per stage: a large job label (GROVSMUTS, TRAFIKFILM …), the
+  products that do it (product references – name, image and link come from
+  the product) and one line. Stages read as a sequence with arrows; the
+  optional note explains why the products are not redundant or which ones
+  are situational. Soft background band, so the page changes rhythm here.
+{%- enddoc -%}
+
+{%- if section.blocks.size > 0 -%}
+  <section
+    class="nr-pdp-section nr-ks-section nr-ks-section--soft"
+    aria-labelledby="NrKsSystemHeading-{{ section.id }}"
+  >
+    <div class="nr-pdp-container">
+      <header class="nr-ks-head">
+        <h2
+          class="nr-ks-h2"
+          id="NrKsSystemHeading-{{ section.id }}"
+        >
+          {{ section.settings.heading | escape }}
+        </h2>
+        {%- if section.settings.lead != blank -%}
+          <p class="nr-ks-lead">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ol
+        class="nr-ks-flow"
+        role="list"
+        style="--ks-count: {{ section.blocks.size }};"
+      >
+        {%- for block in section.blocks -%}
+          <li
+            class="nr-ks-stage"
+            {{ block.shopify_attributes }}
+          >
+            <h3 class="nr-ks-stage__label">{{ block.settings.label | escape }}</h3>
+            {%- if block.settings.products != blank -%}
+              <ul
+                class="nr-ks-stage__products"
+                role="list"
+              >
+                {%- for stage_product in block.settings.products -%}
+                  {%- assign stage_name = stage_product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip -%}
+                  <li>
+                    <a href="{{ stage_product.url }}">
+                      <span
+                        class="nr-ks-stage__thumb"
+                        aria-hidden="true"
+                      >
+                        {%- if stage_product.featured_image != blank -%}
+                          {{
+                            stage_product.featured_image
+                            | image_url: width: 120
+                            | image_tag: loading: 'lazy', alt: '', widths: '60, 120', sizes: '44px'
+                          }}
+                        {%- endif -%}
+                      </span>
+                      <span>{{ stage_name | escape }}</span>
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="nr-ks-stage__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ol>
+
+      {%- if section.settings.note_heading != blank or section.settings.note != blank -%}
+        <div class="nr-ks-flow__note">
+          {%- if section.settings.note_heading != blank -%}
+            <h3>{{ section.settings.note_heading | escape }}</h3>
+          {%- endif -%}
+          {%- if section.settings.note != blank -%}
+            <p>{{ section.settings.note | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NR Kit: systemet",
+  "class": "nr-ks-shell",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Din rutin" },
+    { "type": "text", "id": "lead", "label": "Ingress" },
+    { "type": "text", "id": "note_heading", "label": "Notering – rubrik", "info": "T.ex. Varför inte samma sak två gånger?" },
+    { "type": "textarea", "id": "note", "label": "Notering – text", "info": "Endast verifierade uppgifter." }
+  ],
+  "blocks": [
+    {
+      "type": "stage",
+      "name": "Uppgift",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Uppgift", "info": "Kort, t.ex. GROVSMUTS." },
+        { "type": "product_list", "id": "products", "label": "Produkter", "limit": 4 },
+        { "type": "text", "id": "text", "label": "En rad" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "NR Kit: systemet", "category": "Product" }]
+}
+{% endschema %}
