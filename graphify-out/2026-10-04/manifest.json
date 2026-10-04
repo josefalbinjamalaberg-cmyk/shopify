@@ -66,9 +66,9 @@
     "semantic_hash": ""
   },
   "templates/product.kit-exteriorstart.json": {
-    "mtime": 1791125110.677079,
-    "seen": 1791125318.9548755,
-    "ast_hash": "3bbf1be044e37299b4db0475d3de6816",
+    "mtime": 1790954359.9198139,
+    "seen": 1790954545.9790933,
+    "ast_hash": "fcafd0f98680e46b9254c8ac2dcd2a09",
     "semantic_hash": ""
   },
   "templates/product.kit-falgdack.json": {
@@ -1413,120 +1413,6 @@
     "mtime": 1790954520.7692916,
     "seen": 1790954545.9792159,
     "ast_hash": "954f4868d377b30395edb0efcd060fd5",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/build.py": {
-    "mtime": 1791125110.6458273,
-    "seen": 1791125318.9548583,
-    "ast_hash": "bdf0a31b43c6d158e17605196ed00dad",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/harness.py": {
-    "mtime": 1791125312.54893,
-    "seen": 1791125318.95486,
-    "ast_hash": "9a3de5455e195d499393e72a79292d55",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/README.md": {
-    "mtime": 1791125312.5508742,
-    "seen": 1791125318.9549606,
-    "ast_hash": "6c7a55950948d7d455fac4cdbf69bd9f",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-1024-fold.png": {
-    "mtime": 1791125312.5360134,
-    "seen": 1791125318.9550722,
-    "ast_hash": "aa00219732396c731565d3301c823aa6",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-1024-full.png": {
-    "mtime": 1791125312.53363,
-    "seen": 1791125318.9550736,
-    "ast_hash": "303331635182ca5437270d93e92444c4",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-1366-fold.png": {
-    "mtime": 1791125312.540704,
-    "seen": 1791125318.9550745,
-    "ast_hash": "81a0184949c74faca292245f6694e717",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-1366-full.png": {
-    "mtime": 1791125312.5381906,
-    "seen": 1791125318.9550755,
-    "ast_hash": "a512fd8ffccc6aa7332658aed0ee8610",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-1920-fold.png": {
-    "mtime": 1791125312.5460043,
-    "seen": 1791125318.9550767,
-    "ast_hash": "996e7b3411887b77d38f9a7f26e77859",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-1920-full.png": {
-    "mtime": 1791125312.543001,
-    "seen": 1791125318.9550776,
-    "ast_hash": "01282d5af6bea8b1561a3efaf040c083",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-320-fold.png": {
-    "mtime": 1791125312.5084662,
-    "seen": 1791125318.9550784,
-    "ast_hash": "a0e18f48c29a32e25a73b2f27bac941b",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-320-full.png": {
-    "mtime": 1791125312.5056667,
-    "seen": 1791125318.9550793,
-    "ast_hash": "a1e1c6dc377fd6f3f47152fc8ac113f1",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-375-fold.png": {
-    "mtime": 1791125312.5147128,
-    "seen": 1791125318.9550803,
-    "ast_hash": "4e351bbc6bc4fa675dc6c163279f542e",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-375-full.png": {
-    "mtime": 1791125312.5116358,
-    "seen": 1791125318.9550812,
-    "ast_hash": "17003f29db1251e20eec33a85bf7db7e",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-390-fold.png": {
-    "mtime": 1791125312.520699,
-    "seen": 1791125318.955082,
-    "ast_hash": "ca0758f4e75c3dde44b21cf1041a0285",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-390-full.png": {
-    "mtime": 1791125312.5175195,
-    "seen": 1791125318.955083,
-    "ast_hash": "4a0ae2a415f4853dd9a7c10197f05108",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-430-fold.png": {
-    "mtime": 1791125312.5259843,
-    "seen": 1791125318.955084,
-    "ast_hash": "555214dd63ca3a38cb8c491462fcf959",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-430-full.png": {
-    "mtime": 1791125312.5231485,
-    "seen": 1791125318.9550848,
-    "ast_hash": "a8af0bbcdcbec910b095ed575b37c070",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-768-fold.png": {
-    "mtime": 1791125312.531407,
-    "seen": 1791125318.9550858,
-    "ast_hash": "25bb83352d4f4bc35390f51f43bbbf85",
-    "semantic_hash": ""
-  },
-  "docs/kits/system/screens/kit-exteriorstart-768-full.png": {
-    "mtime": 1791125312.5288982,
-    "seen": 1791125318.9550867,
-    "ast_hash": "061ddd6d306eeb2a281587b8463d521f",
     "semantic_hash": ""
   }
 }
