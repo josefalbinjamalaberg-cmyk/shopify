@@ -25,6 +25,11 @@ for h,t,pr,c in [('revolt-flygrostborttagare','Revolt – Flygrostborttagare',18
  ('clarity-glasrengoring','Clarity – Glasrengöring',14900,'a9c4d0'),('pristine-dack-plastfornyare','Pristine - Däck- & Plastförnyare',18900,'c9a3b3'),
  ('core-apc-allrengoring','Core APC – Allrengöring (APC)',15900,'7a7a7a'),('foam-lance-skumlans','Foam Cannon',39900,'777777')]:
     prod(h,t,pr,c)
+for h,t,pr in [('falg-startkit','Fälg startkit',30900),('wash-pad-mikrofiber','Washpad',14900),('mikrofiberduk','Mikrofiberduk',4900),('glass-towel-glasduk','Glass Towel – Glasduk',6900),('dackapplikator','Däckapplikator',4000),('mikrofiber-falgborste','Mikrofiber Fälgborste',18900)]:
+    prod(h,t,pr,'888')
+P['mikrofiberduk']['price_varies']=True
+PDP={'alkastrike-alkalisk-avfettning':'Löser trafikfilm, insekter och organisk smuts före kontaktvätten.','deepdegrease-kallavfettning':'Löser upp asfalt, tjära och oljebaserad smuts – före handtvätten.','revolt-flygrostborttagare':'Löser upp flygrost och bromsdamm på fälgen – så att det kan spolas bort.','foamtastic-hogkoncentrerat-snow-foam':'Tjockt, vidhäftande skum som löser upp smuts innan handtvätten.','pure-shampoo-ph-neutralt-bilschampo':'Skonsamt mot vax och keramiska lackskydd – ändå kraftfullt mot smuts och vägfilm.','glosscoat-hydrofobisk-sprayforsegling':'Glans och vattenavrinning på några minuter – sista steget efter tvätten.','clarity-glasrengoring':'Klart glas utan ränder – in- och utvändigt.','pristine-dack-plastfornyare':'Djupare färg och jämn finish på däck och utvändig plast.'}
+for h,v in PDP.items(): P[h]['metafields']['pdp']={'value_line':{'value':v},'benefits':{'value':['A','B','C']}}
 def comp(h): return {'variant':{'value':{'price':P[h]['price'],'product':P[h]}},'quantity':{'value':1}}
 prod('litet-exterior-startkit','Exteriör Startkit',42900,'444',[comp(x) for x in ['deepdegrease-kallavfettning','alkastrike-alkalisk-avfettning','pure-shampoo-ph-neutralt-bilschampo']],'Exteriör Startkit')
 prod('foam-wash-kit','Foam Wash Kit',46900,'444',[comp(x) for x in ['foamtastic-hogkoncentrerat-snow-foam','foam-lance-skumlans']],'Foam Wash Kit')
@@ -45,7 +50,7 @@ env.filters['money']=money
 env.filters['asset_url']=lambda s:'/'+s
 env.filters['stylesheet_tag']=lambda s:''
 env.filters['image_url']=lambda i,**k: (i or {}).get('src','') if isinstance(i,dict) else str(i)
-env.filters['image_tag']=lambda u,**k: f'<img src="{u}" alt="{k.get("alt","")}" loading="lazy" style="{k.get("style","")}">'
+env.filters['image_tag']=lambda u,**k: f'<img src="{u}" alt="{k.get("alt","")}" class="{k.get("class","")}" width="600" height="600" loading="lazy" style="{k.get("style","")}">'
 settings={'nr_trustpilot_rating':'4.7','nr_trustpilot_count':34,'nr_trustpilot_url':'https://se.trustpilot.com/review/nordicreflection.se','free_shipping_threshold':799,'nr_production_mode':False}
 def resolve(k,v):
     if isinstance(v,str) and v in P: return P[v]
@@ -78,6 +83,8 @@ for k in tpl['order']:
     bl=[]
     for bk in s.get('block_order',[]):
         b=s['blocks'][bk]; bs={kk:resolve(kk,v) for kk,v in b.get('settings',{}).items()}
+        if typ=='nr-home-visual-proof':
+            for kk in ['video','image','title','text','helper_label','helper_link','next_link']: bs.setdefault(kk,'')
         bl.append({'settings':bs,'id':bk,'shopify_attributes':'','type':b['type']})
     body=clean(src).replace('alt: section.settings.image.alt | default: section.settings.heading,','alt: section.settings.heading,')
     if typ=='nr-home-featured-products':
@@ -93,5 +100,5 @@ product-card{{display:flex;flex-direction:column;gap:8px}} .title{{font-weight:6
 .nr-grid{{display:grid;gap:24px}} .nr-grid--3{{grid-template-columns:repeat(3,1fr)}} .nr-grid--4{{grid-template-columns:repeat(4,1fr)}}
 {css}
 [data-nr-reveal],[data-nr-reveal] > *{{opacity:1!important;transform:none!important;visibility:visible!important}} header.h{{position:relative}}</style></head><body><header class="h">NordicReflection<span>☰</span></header>{''.join(out)}<footer style="height:200px;background:#111"></footer>
-<script>document.querySelectorAll('video').forEach(v=>v.poster=v.poster)</script></body></html>'''
+<script type="module">{open(R+'assets/nr-homepage.js').read()}</script><script>document.querySelectorAll('video').forEach(v=>v.poster=v.poster)</script></body></html>'''
 os.makedirs('out',exist_ok=True); open(f'out/{mode}.html','w').write(html); print('ok',mode)

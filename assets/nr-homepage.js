@@ -158,6 +158,85 @@
     });
   }
 
+  /* ---------- Product advisor: chips as ARIA tabs ----------
+     All panels are server-rendered; switching only toggles `hidden`, so
+     prices and links are never stale. Arrow keys/Home/End move between
+     chips (automatic activation – panels are local, nothing is fetched).
+     Videos in hidden panels pause on their own: initVideos' observer sees
+     them leave the viewport when the panel is hidden. */
+  function initAdvisor() {
+    initAll('[data-nr-advisor]', (root) => {
+      const tablist = root.querySelector('[data-nr-advisor-tabs]');
+      const tabs = [...root.querySelectorAll('[data-nr-advisor-tab]')];
+      if (!tablist || tabs.length < 2) return;
+
+      const panelFor = (tab) => document.getElementById(tab.getAttribute('aria-controls'));
+
+      // Keep the chosen chip in view inside the scrollable row (phones)
+      // without scrolling the page vertically.
+      const reveal = (tab) => {
+        if (tablist.scrollWidth <= tablist.clientWidth) return;
+        const pad = 16;
+        const left = tab.offsetLeft - tablist.offsetLeft;
+        const right = left + tab.offsetWidth;
+        if (left - pad < tablist.scrollLeft) {
+          tablist.scrollTo({ left: left - pad, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        } else if (right + pad > tablist.scrollLeft + tablist.clientWidth) {
+          tablist.scrollTo({
+            left: right + pad - tablist.clientWidth,
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          });
+        }
+      };
+
+      const select = (next, { focus = false } = {}) => {
+        const current = tabs.find((tab) => tab.getAttribute('aria-selected') === 'true');
+        if (focus) next.focus({ preventScroll: true });
+        reveal(next);
+        if (current === next) return;
+
+        tabs.forEach((tab) => {
+          const selected = tab === next;
+          tab.setAttribute('aria-selected', String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+          const panel = panelFor(tab);
+          if (!panel) return;
+          panel.hidden = !selected;
+          panel.classList.remove('is-entering');
+        });
+
+        const panel = panelFor(next);
+        if (panel && !prefersReducedMotion) {
+          // Restart the enter animation even on quick repeated switches.
+          void panel.offsetWidth;
+          panel.classList.add('is-entering');
+          panel.addEventListener('animationend', () => panel.classList.remove('is-entering'), { once: true });
+        }
+      };
+
+      tabs.forEach((tab) => tab.addEventListener('click', () => select(tab)));
+
+      tablist.addEventListener('keydown', (event) => {
+        const index = tabs.indexOf(document.activeElement);
+        if (index < 0) return;
+        let target = null;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') target = tabs[(index + 1) % tabs.length];
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') target = tabs[(index - 1 + tabs.length) % tabs.length];
+        else if (event.key === 'Home') target = tabs[0];
+        else if (event.key === 'End') target = tabs[tabs.length - 1];
+        if (!target) return;
+        event.preventDefault();
+        select(target, { focus: true });
+      });
+
+      // Theme editor: selecting a block shows its panel.
+      root.addEventListener('shopify:block:select', (event) => {
+        const tab = tabs.find((t) => panelFor(t) === event.target);
+        if (tab) select(tab);
+      });
+    });
+  }
+
   /* ---------- Results gallery: simple before/after drag slider ---------- */
   function initResultSlider() {
     initAll('[data-nr-result-slider]', (root) => {
@@ -178,6 +257,7 @@
     initWashSteps();
     initVideos();
     initKitToggles();
+    initAdvisor();
     initShortTitles();
     initResultSlider();
   }

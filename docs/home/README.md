@@ -62,3 +62,23 @@ Klaviyo popup.
 
 `docs/home/backup/` holds the live `index.json` and `header-group.json`.
 Section files: previous versions = commit before 3c43fcb.
+
+## Produktguide – "Rätt produkt för rätt typ av smuts" (2026-10-04)
+
+`sections/nr-home-visual-proof.liquid` (editor name **NR: Produktguide**) replaces the dark problem index with a mini product advisor.
+
+- **Chips:** an ARIA tablist with one block per kind of dirt. Arrow keys, Home and End work, and focus rings are visible. On desktop the chips wrap. On phones they scroll sideways in one row with an edge fade, and the selected chip is scrolled into view.
+- **Panels:** all panels are rendered on the server from the block's product reference, so name, price, image and URL come from the product and never go stale. Switching only toggles `hidden`, with a 220 ms fade and an 8 px rise; prefers-reduced-motion turns this off. The logic is `initAdvisor()` in `assets/nr-homepage.js`.
+- **Layout:** desktop is 55/45, visual and content. Phones show the visual (16:10) and then the content.
+- **Content order:** problem → name → value line → 3 points → price → `SE PRODUKTEN →` → next step → optional helper link.
+- **Fallbacks per block:** the text falls back to `pdp.value_line`, the points to `pdp.benefits`, and the image to the product image. An optional in-use video replaces the image and keeps the packshot in the corner (Revolt and Foamtastic use real clips).
+- **Next step (real products, prices from the reference):**
+  - Alkastrike and DeepDegrease → Exteriör Startkit
+  - Revolt → Fälg startkit
+  - Foamtastic → Foam Wash Kit
+  - Pure → Washpad
+  - GlossCoat → Mikrofiberduk
+  - Clarity → Glass Towel
+  - Pristine → Däckapplikator
+- **Helper link:** shown only on the two degreaser panels. "Osäker på vilken avfettning du behöver?" links to the comparison anchor `#vilken-avfettning` on that product's page.
+- **QA:** `advisor-qa.js` clicks every chip at 320/375/390/430/768/1024/1366/1920. At every width exactly one panel is visible, aria-selected/controls match, the price and next step are correct, nothing overflows, there is no horizontal page scroll, keyboard navigation works and there are no JS errors. Screens are in `screens/advisor-*.png`.

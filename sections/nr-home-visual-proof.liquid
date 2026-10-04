@@ -1,305 +1,744 @@
 {% comment %}
-  "Rätt produkt för rätt typ av smuts" – the homepage's problem → product
-  index, and its one dark media moment.
+  "Rätt produkt för rätt typ av smuts" – the homepage's mini product advisor.
 
-  Answers "I have this problem – what do I buy?" (the navigation's
-  "Tvätta bilen steg för steg" answers how the range fits together).
-  Left: one real clip (the first block that has a video). Right: every block
-  as one row – the problem (large), the product that solves it, one line and
-  its current price – the whole row links to the product. Product name,
-  price and URL come from the block's product reference; nothing typed twice.
-  Rows are not numbered: the customer picks the job they have, nobody needs
-  all eight every wash.
+  The customer picks what they want to get rid of (one chip per block) and the
+  panel below shows the one product for that job: problem, name, one line,
+  three short points, price, "Se produkten" and the logical next step (a kit
+  that contains it, or the tool it is used with).
+
+  Every panel is rendered on the server from the block's product reference –
+  name, price, image and URL are never typed twice, so nothing goes stale.
+  Chips are an ARIA tablist (arrow keys, Home/End); switching is handled by
+  initAdvisor() in assets/nr-homepage.js – no library. Only the selected
+  panel's media loads (hidden panels' lazy images and videos stay idle).
+
+  Fallbacks per block: short description → pdp.value_line, points →
+  pdp.benefits, image → product image, display title → product title before
+  the dash, next-step text → none.
 {% endcomment %}
 
 {%- liquid
-  assign clip_block = nil
+  assign panel_count = 0
   for block in section.blocks
-    if block.settings.video != blank and block.settings.product != blank
-      assign clip_block = block
-      break
+    if block.settings.product != blank
+      assign panel_count = panel_count | plus: 1
     endif
   endfor
 -%}
 
-<div data-nr-scope class="nr-section nr-section--dark nr-proof-index">
-  <div class="nr-container">
-    <div class="nr-section-head nr-proof-index__head" data-nr-reveal>
-      {%- if section.settings.heading != blank -%}
-        <h2 class="nr-h2">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.text != blank -%}
-        <p class="nr-body nr-body--muted">{{ section.settings.text }}</p>
-      {%- endif -%}
-    </div>
+{%- if panel_count > 0 -%}
+  <div
+    data-nr-scope
+    class="nr-section nr-section--soft nr-advisor"
+    data-nr-advisor
+  >
+    <div class="nr-container">
+      <div class="nr-section-head nr-advisor__head" data-nr-reveal>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="nr-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="nr-h2" id="NrAdvisorHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="nr-body nr-body--muted">{{ section.settings.text | escape }}</p>
+        {%- endif -%}
+      </div>
 
-    <div class="nr-proof-index__layout{% if clip_block != nil %} nr-proof-index__layout--media{% endif %}">
-      {%- if clip_block != nil -%}
-        {%- assign clip_product = clip_block.settings.product -%}
-        <figure class="nr-proof-index__media" data-nr-reveal>
-          <div class="nr-proof-index__video-wrap">
-            <video
-              data-nr-video
-              class="nr-proof-index__video"
-              muted
-              loop
-              autoplay
-              playsinline
-              preload="none"
-              poster="{{ clip_block.settings.image | default: clip_block.settings.video.preview_image | image_url: width: 900 }}"
+      <div class="nr-advisor__chips-wrap">
+        <div
+          class="nr-advisor__chips"
+          role="tablist"
+          {% if section.settings.heading != blank %}
+            aria-labelledby="NrAdvisorHeading-{{ section.id }}"
+          {% else %}
+            aria-label="Välj vad du vill få bort"
+          {% endif %}
+          data-nr-advisor-tabs
+        >
+          {%- assign shown = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.product == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign shown = shown | plus: 1 -%}
+            {%- liquid
+              assign label = block.settings.label
+              if label == blank
+                assign label = block.settings.product.title | split: ' – ' | first | split: ' - ' | first
+              endif
+            -%}
+            <button
+              type="button"
+              class="nr-advisor__chip"
+              role="tab"
+              id="NrAdvisorTab-{{ block.id }}"
+              aria-controls="NrAdvisorPanel-{{ block.id }}"
+              aria-selected="{% if shown == 1 %}true{% else %}false{% endif %}"
+              {% if shown != 1 %}
+                tabindex="-1"
+              {% endif %}
+              data-nr-advisor-tab
             >
-              {%- render 'nr-video-sources', video: clip_block.settings.video -%}
-            </video>
-            {%- render 'nr-video-toggle', class_name: 'nr-proof-index__video-toggle' -%}
-          </div>
-          <figcaption class="nr-proof-index__caption">
-            {{ clip_product.title | split: ' – ' | first | split: ' - ' | first }} · {{ clip_block.settings.problem }}
-          </figcaption>
-        </figure>
-      {%- endif -%}
+              {{- label | escape -}}
+            </button>
+          {%- endfor -%}
+        </div>
+      </div>
 
-      <ul class="nr-proof-index__list" role="list" data-nr-reveal="stagger">
+      <div class="nr-advisor__panels">
+        {%- assign shown = 0 -%}
         {%- for block in section.blocks -%}
           {%- assign product = block.settings.product -%}
           {%- if product == blank -%}{%- continue -%}{%- endif -%}
-          <li class="nr-proof-index__item" {{ block.shopify_attributes }}>
-            <a href="{{ product.url }}" class="nr-proof-index__row">
-              <span class="nr-proof-index__problem">{{ block.settings.problem }}</span>
-              <span class="nr-proof-index__product">
-                <span class="nr-proof-index__name">{{ product.title | split: ' – ' | first | split: ' - ' | first }}</span>
-                {%- if block.settings.text != blank -%}
-                  <span class="nr-proof-index__text">{{ block.settings.text }}</span>
-                {%- endif -%}
-              </span>
-              <span class="nr-proof-index__price">{{ product.price | money }}</span>
-              <span class="nr-proof-index__arrow" aria-hidden="true">→</span>
-            </a>
-          </li>
-        {%- endfor -%}
-      </ul>
-    </div>
+          {%- liquid
+            assign shown = shown | plus: 1
+            assign short_title = product.title | split: ' – ' | first | split: ' - ' | first
+            assign name = block.settings.title | default: short_title
+            assign problem = block.settings.problem | default: block.settings.label
+            assign value_line = block.settings.text | default: product.metafields.pdp.value_line.value
 
-    {%- if section.settings.link_label != blank -%}
-      <p class="nr-proof-index__more">
-        <a href="{{ section.settings.link | default: '#' }}" class="nr-link">
-          {{ section.settings.link_label }}
-          <span class="nr-link__arrow" aria-hidden="true">→</span>
-        </a>
-      </p>
-    {%- endif -%}
+            assign points = block.settings.points | newline_to_br | split: '<br />'
+            assign has_points = false
+            for p in points
+              assign p_stripped = p | strip
+              if p_stripped != blank
+                assign has_points = true
+              endif
+            endfor
+            unless has_points
+              assign points = product.metafields.pdp.benefits.value
+            endunless
+
+            assign visual = block.settings.image | default: product.featured_image
+            assign video = block.settings.video
+
+            assign next = block.settings.next_product
+            assign next_url = block.settings.next_link | default: next.url
+            if next != blank
+              assign next_name = next.metafields.custom.kit_name.value | default: next.title | split: ' – ' | first | split: ' - ' | first
+            endif
+          -%}
+          <div
+            class="nr-advisor__panel{% if video != blank %} nr-advisor__panel--video{% endif %}"
+            role="tabpanel"
+            id="NrAdvisorPanel-{{ block.id }}"
+            aria-labelledby="NrAdvisorTab-{{ block.id }}"
+            {% if shown != 1 %}
+              hidden
+            {% endif %}
+            data-nr-advisor-panel
+            {{ block.shopify_attributes }}
+          >
+            <div class="nr-advisor__visual">
+              {%- if video != blank -%}
+                <video
+                  data-nr-video
+                  class="nr-advisor__video"
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                  aria-hidden="true"
+                  {% if visual != blank %}
+                    poster="{{ video.preview_image | default: visual | image_url: width: 1100 }}"
+                  {% endif %}
+                >
+                  {%- render 'nr-video-sources', video: video -%}
+                </video>
+                {%- render 'nr-video-toggle', class_name: 'nr-advisor__video-toggle' -%}
+                {%- if product.featured_image != blank -%}
+                  <span class="nr-advisor__packshot">
+                    {{
+                      product.featured_image
+                      | image_url: width: 240
+                      | image_tag: loading: 'lazy', alt: '', widths: '120, 180, 240', sizes: '96px'
+                    }}
+                  </span>
+                {%- endif -%}
+              {%- elsif visual != blank -%}
+                {{
+                  visual
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: name,
+                    class: 'nr-advisor__image',
+                    widths: '360, 540, 720, 900, 1200',
+                    sizes: '(min-width: 990px) 680px, (min-width: 750px) 50vw, calc(100vw - 32px)'
+                }}
+              {%- endif -%}
+            </div>
+
+            <div class="nr-advisor__content">
+              {%- if problem != blank -%}
+                <p class="nr-advisor__problem">{{ problem | escape }}</p>
+              {%- endif -%}
+              <h3 class="nr-advisor__name">{{ name | escape }}</h3>
+              {%- if value_line != blank -%}
+                <p class="nr-advisor__value">{{ value_line | escape }}</p>
+              {%- endif -%}
+
+              {%- if points != blank -%}
+                <ul class="nr-advisor__points" role="list">
+                  {%- assign point_count = 0 -%}
+                  {%- for p in points -%}
+                    {%- assign line = p | strip -%}
+                    {%- if line == blank or point_count == 3 -%}{%- continue -%}{%- endif -%}
+                    {%- assign point_count = point_count | plus: 1 -%}
+                    <li>
+                      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <span>{{ line | escape }}</span>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+
+              <div class="nr-advisor__buy">
+                <p class="nr-advisor__price">
+                  {%- if product.price_varies -%}Från {% endif -%}
+                  {{- product.price | money -}}
+                </p>
+                <a
+                  href="{{ product.url }}"
+                  class="nr-btn nr-btn--primary nr-advisor__cta"
+                  data-nr-event="advisor_product_click"
+                  data-nr-product="{{ product.handle }}"
+                >
+                  {{ section.settings.cta_label | default: 'Se produkten' | escape }}
+                  <span class="visually-hidden">: {{ name | escape }}</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+
+              {%- if next != blank -%}
+                <a
+                  href="{{ next_url }}"
+                  class="nr-advisor__next"
+                  data-nr-event="advisor_next_click"
+                  data-nr-product="{{ next.handle }}"
+                >
+                  {%- if next.featured_image != blank -%}
+                    <span class="nr-advisor__next-media">
+                      {{
+                        next.featured_image
+                        | image_url: width: 160
+                        | image_tag: loading: 'lazy', alt: '', widths: '80, 120, 160', sizes: '56px'
+                      }}
+                    </span>
+                  {%- endif -%}
+                  <span class="nr-advisor__next-body">
+                    {%- if block.settings.next_label != blank -%}
+                      <span class="nr-advisor__next-label">{{ block.settings.next_label | escape }}</span>
+                    {%- endif -%}
+                    <span class="nr-advisor__next-name">
+                      {{- next_name | escape -}}
+                      <span class="nr-advisor__next-price">
+                        {%- if next.price_varies %} · från {% else %} · {% endif -%}
+                        {{- next.price | money -}}
+                      </span>
+                    </span>
+                    {%- if block.settings.next_text != blank -%}
+                      <span class="nr-advisor__next-text">{{ block.settings.next_text | escape }}</span>
+                    {%- endif -%}
+                  </span>
+                  <span class="nr-advisor__next-arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              {%- endif -%}
+
+              {%- if block.settings.helper_label != blank and block.settings.helper_link != blank -%}
+                <p class="nr-advisor__helper">
+                  <a href="{{ block.settings.helper_link }}" class="nr-link">
+                    {{ block.settings.helper_label | escape }}
+                    <span class="nr-link__arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                </p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+        <p class="nr-advisor__more">
+          <a href="{{ section.settings.link }}" class="nr-link">
+            {{ section.settings.link_label | escape }}
+            <span class="nr-link__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </p>
+      {%- endif -%}
+    </div>
   </div>
-</div>
+{%- endif -%}
 
 {% stylesheet %}
-  .nr-proof-index__head {
+  .nr-advisor__head {
     max-width: var(--nr-text-width);
   }
 
-  .nr-proof-index__layout {
+  .nr-advisor .nr-section-head .nr-body {
+    margin-top: 12px;
+  }
+
+  /* ---------- Chips (ARIA tabs) ---------- */
+  .nr-advisor__chips-wrap {
+    margin-bottom: var(--nr-space-md);
+  }
+
+  .nr-advisor__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .nr-advisor__chip {
+    flex: none;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--nr-border);
+    border-radius: 999px;
+    background: var(--nr-bg);
+    color: var(--nr-text);
+    font: inherit;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color var(--nr-transition-fast), border-color var(--nr-transition-fast),
+      color var(--nr-transition-fast);
+  }
+
+  @media (hover: hover) {
+    .nr-advisor__chip:hover {
+      border-color: var(--nr-text);
+    }
+  }
+
+  .nr-advisor__chip[aria-selected='true'] {
+    background: var(--nr-text);
+    border-color: var(--nr-text);
+    color: #fff;
+  }
+
+  .nr-advisor__chip:focus-visible {
+    outline: 2px solid var(--nr-text);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Panel ---------- */
+  .nr-advisor__panel {
     display: grid;
-    gap: var(--nr-space-lg);
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+    align-items: center;
+    gap: var(--nr-space-xl);
   }
 
-  @media screen and (min-width: 990px) {
-    .nr-proof-index__layout--media {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-      gap: var(--nr-space-xl);
-      align-items: start;
+  .nr-advisor__panel[hidden] {
+    display: none;
+  }
+
+  .nr-advisor__panel.is-entering {
+    animation: nr-advisor-in 220ms var(--nr-ease-out) both;
+  }
+
+  @keyframes nr-advisor-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
     }
-
-    .nr-proof-index__media {
-      position: sticky;
-      top: calc(var(--header-height, 80px) + 24px);
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
 
-  .nr-proof-index__media {
-    margin: 0;
+  @media (prefers-reduced-motion: reduce) {
+    .nr-advisor__panel.is-entering {
+      animation: none;
+    }
   }
 
-  .nr-proof-index__video-wrap {
+  .nr-advisor__visual {
     position: relative;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 5 / 4;
     overflow: hidden;
     border-radius: var(--nr-radius-md);
-    background: #1b1b1b;
+    background: var(--nr-bg);
   }
 
-  @media screen and (max-width: 749px) {
-    .nr-proof-index__video-wrap {
-      aspect-ratio: 16 / 10;
-    }
+  .nr-advisor__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6%;
   }
 
-  .nr-proof-index__video {
+  .nr-advisor__video {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    background: #1b1b1b;
   }
 
-  .nr-proof-index__video-toggle {
+  .nr-advisor__video-toggle {
     position: absolute;
-    right: 8px;
-    bottom: 8px;
+    right: 10px;
+    bottom: 10px;
     z-index: 1;
   }
 
-  .nr-proof-index__caption {
-    margin-top: 10px;
+  /* With a clip, the packshot stays visible as a small card in the corner. */
+  .nr-advisor__packshot {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    width: 88px;
+    aspect-ratio: 1;
+    padding: 6px;
+    border-radius: var(--nr-radius-sm);
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  .nr-advisor__packshot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .nr-advisor__content {
+    min-width: 0;
+    max-width: 480px;
+  }
+
+  .nr-advisor__problem {
+    margin: 0 0 8px;
     font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nr-text-muted);
   }
 
-  .nr-proof-index__list {
+  .nr-advisor__name {
     margin: 0;
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.24);
-  }
-
-  .nr-proof-index__item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .nr-proof-index__row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto 16px;
-    grid-template-areas:
-      'problem price arrow'
-      'product product product';
-    align-items: baseline;
-    gap: 4px 16px;
-    min-height: 56px;
-    padding-block: 16px;
-    color: #fff;
-    text-decoration: none;
-  }
-
-  .nr-proof-index__problem {
-    grid-area: problem;
     font-family: var(--font-heading--family);
-    font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+    font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem);
     font-weight: 500;
-    line-height: 1.15;
+    line-height: 1.1;
     letter-spacing: -0.01em;
   }
 
-  .nr-proof-index__product {
-    grid-area: product;
+  .nr-advisor__value {
+    margin: 12px 0 0;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+
+  .nr-advisor__points {
+    display: grid;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nr-advisor__points li {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  .nr-advisor__points svg {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    color: #1f6b3a;
+  }
+
+  .nr-advisor__buy {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 2px 10px;
+    align-items: center;
+    gap: 12px 20px;
+    margin-top: 24px;
   }
 
-  .nr-proof-index__name {
+  .nr-advisor__price {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nr-advisor__cta {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Next step: one quiet, fully clickable row. */
+  .nr-advisor__next {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    margin-top: 20px;
+    padding: 12px 14px 12px 12px;
+    border: 1px solid var(--nr-border);
+    border-radius: var(--nr-radius-md);
+    background: var(--nr-bg);
+    color: var(--nr-text);
+    text-decoration: none;
+    transition: border-color var(--nr-transition-fast);
+  }
+
+  @media (hover: hover) {
+    .nr-advisor__next:hover {
+      border-color: var(--nr-text);
+    }
+
+    .nr-advisor__next:hover .nr-advisor__next-arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  .nr-advisor__next:focus-visible {
+    outline: 2px solid var(--nr-text);
+    outline-offset: 2px;
+  }
+
+  .nr-advisor__next-media {
+    display: block;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--nr-radius-sm);
+    background: var(--nr-bg-soft);
+    overflow: hidden;
+  }
+
+  .nr-advisor__next-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .nr-advisor__next-body {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .nr-advisor__next-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-advisor__next-name {
     font-size: 0.9375rem;
     font-weight: 600;
   }
 
-  .nr-proof-index__text {
-    font-size: 0.875rem;
-    line-height: 1.45;
-    color: rgba(255, 255, 255, 0.66);
-  }
-
-  .nr-proof-index__price {
-    grid-area: price;
-    font-size: 0.9375rem;
-    font-weight: 600;
+  .nr-advisor__next-price {
+    font-weight: 400;
+    color: var(--nr-text-muted);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
 
-  .nr-proof-index__arrow {
-    grid-area: arrow;
-    color: rgba(255, 255, 255, 0.6);
-    transition: transform var(--nr-transition-fast), color var(--nr-transition-fast);
+  .nr-advisor__next-text {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--nr-text-muted);
   }
 
-  @media (hover: hover) {
-    .nr-proof-index__row:hover .nr-proof-index__arrow {
-      color: #fff;
-      transform: translateX(3px);
-    }
-
-    .nr-proof-index__row:hover .nr-proof-index__problem {
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 5px;
-    }
+  .nr-advisor__next-arrow {
+    transition: transform var(--nr-transition-fast);
   }
 
-  .nr-proof-index__row:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
+  .nr-advisor__helper {
+    margin: 16px 0 0;
   }
 
-  @media screen and (min-width: 750px) {
-    .nr-proof-index__row {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr) auto 16px;
-      grid-template-areas: 'problem product price arrow';
-      align-items: center;
-      padding-block: 20px;
-    }
-  }
-
-  .nr-proof-index__more {
+  .nr-advisor__more {
     margin: var(--nr-space-lg) 0 0;
   }
 
-  .nr-section--dark .nr-proof-index__more .nr-link {
-    color: #fff;
+  /* ---------- Tablet ---------- */
+  @media screen and (max-width: 989px) {
+    .nr-advisor__panel {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--nr-space-lg);
+    }
+
+    .nr-advisor__visual {
+      aspect-ratio: 1;
+    }
+  }
+
+  /* ---------- Phones: one swipeable chip row, visual then content ---------- */
+  @media screen and (max-width: 749px) {
+    .nr-advisor .nr-section-head {
+      margin-bottom: var(--nr-space-sm);
+    }
+
+    .nr-advisor__chips-wrap {
+      position: relative;
+      margin: 0 calc(var(--nr-space-sm) * -1) var(--nr-space-sm);
+    }
+
+    .nr-advisor__chips {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: var(--nr-space-sm);
+      padding: 2px var(--nr-space-sm);
+      scrollbar-width: none;
+    }
+
+    .nr-advisor__chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nr-advisor__chip {
+      scroll-snap-align: start;
+      min-height: 40px;
+      padding: 0 14px;
+      font-size: 0.875rem;
+    }
+
+    /* Edge fade hints that the row scrolls. */
+    .nr-advisor__chips-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 28px;
+      background: linear-gradient(to right, rgba(245, 245, 242, 0), var(--nr-bg-soft));
+      pointer-events: none;
+    }
+
+    .nr-advisor__panel {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--nr-space-sm);
+    }
+
+    .nr-advisor__visual {
+      aspect-ratio: 16 / 10;
+    }
+
+    .nr-advisor__image {
+      padding: 4%;
+    }
+
+    .nr-advisor__packshot {
+      width: 64px;
+      left: 8px;
+      bottom: 8px;
+      padding: 4px;
+    }
+
+    .nr-advisor__problem {
+      margin-bottom: 4px;
+      font-size: 0.75rem;
+    }
+
+    .nr-advisor__name {
+      font-size: 1.75rem;
+    }
+
+    .nr-advisor__value {
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+
+    .nr-advisor__points {
+      margin-top: 14px;
+      gap: 6px;
+    }
+
+    .nr-advisor__buy {
+      margin-top: 18px;
+      gap: 12px 16px;
+    }
+
+    .nr-advisor__cta {
+      flex: 1 1 auto;
+    }
+
+    .nr-advisor__next {
+      margin-top: 14px;
+      gap: 12px;
+    }
+
+    .nr-advisor__next-media {
+      width: 48px;
+      height: 48px;
+    }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "NR: Bevis i bild",
+  "name": "NR: Produktguide",
   "tag": "section",
   "max_blocks": 10,
   "settings": [
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Rubrik",
-      "default": "Rätt produkt för rätt typ av smuts"
+      "type": "paragraph",
+      "content": "Ett block per smuttyp. Namn, pris, bild och länk hämtas från produkten. Tomma fält faller tillbaka på produktens metafält (Värderad rad, Fördelar)."
     },
+    { "type": "text", "id": "eyebrow", "label": "Överrubrik", "default": "Rätt produkt" },
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Rätt produkt för rätt typ av smuts" },
     {
-      "type": "textarea",
+      "type": "text",
       "id": "text",
-      "label": "Ingress (valfri)"
+      "label": "Ingress",
+      "default": "Välj vad du vill få bort så visar vi rätt produkt direkt."
     },
-    {
-      "type": "text",
-      "id": "link_label",
-      "label": "Länktext (valfri)",
-      "info": "Pilen läggs till automatiskt."
-    },
-    {
-      "type": "url",
-      "id": "link",
-      "label": "Länk"
-    }
+    { "type": "text", "id": "cta_label", "label": "Knapptext", "default": "Se produkten", "info": "Pilen läggs till automatiskt." },
+    { "type": "text", "id": "link_label", "label": "Länktext under guiden (valfri)" },
+    { "type": "url", "id": "link", "label": "Länk" }
   ],
   "blocks": [
     {
-      "type": "proof",
-      "name": "Problem → produkt",
+      "type": "product",
+      "name": "Smuts → produkt",
       "settings": [
-        { "type": "text", "id": "problem", "label": "Problem", "default": "Trafikfilm" },
+        { "type": "text", "id": "label", "label": "Chip-text", "default": "Trafikfilm & vägsmuts" },
         { "type": "product", "id": "product", "label": "Produkt" },
-        { "type": "text", "id": "text", "label": "Kort förklaring" },
-        { "type": "image_picker", "id": "image", "label": "Affisch för videon (valfri)" },
-        { "type": "video", "id": "video", "label": "Video (valfri)", "info": "Första blocket med video visas som film bredvid listan." }
+        { "type": "text", "id": "problem", "label": "Problem (rad ovanför namnet)", "info": "Tomt = chip-texten." },
+        { "type": "text", "id": "title", "label": "Visningsnamn", "info": "Tomt = produktnamnet före tankstrecket." },
+        { "type": "text", "id": "text", "label": "Kort beskrivning", "info": "En rad. Tomt = produktens värderad rad (pdp.value_line)." },
+        { "type": "textarea", "id": "points", "label": "Punkter", "info": "En per rad, max tre. Tomt = produktens fördelar (pdp.benefits)." },
+        { "type": "image_picker", "id": "image", "label": "Bild (valfri)", "info": "Tomt = produktbilden." },
+        { "type": "video", "id": "video", "label": "Video i användning (valfri)", "info": "Visas i stället för bilden, med produktbilden i hörnet." },
+        { "type": "header", "content": "Nästa steg" },
+        { "type": "product", "id": "next_product", "label": "Produkt eller kit" },
+        { "type": "text", "id": "next_label", "label": "Etikett", "default": "Komplettera med" },
+        { "type": "text", "id": "next_text", "label": "Kort förklaring" },
+        { "type": "url", "id": "next_link", "label": "Länk (valfri)", "info": "Tomt = produktens sida." },
+        { "type": "header", "content": "Hjälplänk (valfri)" },
+        { "type": "text", "id": "helper_label", "label": "Text", "info": "T.ex. Osäker på vilken avfettning du behöver?" },
+        { "type": "url", "id": "helper_link", "label": "Länk" }
       ]
     }
   ],
   "presets": [
     {
-      "name": "NR: Bevis i bild",
-      "blocks": [{ "type": "proof" }, { "type": "proof" }, { "type": "proof" }]
+      "name": "NR: Produktguide",
+      "blocks": [{ "type": "product" }, { "type": "product" }, { "type": "product" }]
     }
   ]
 }
