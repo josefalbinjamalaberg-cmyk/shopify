@@ -647,39 +647,31 @@
           "type": "kit",
           "settings": {
             "product": "litet-exterior-startkit",
-            "badge": "Start",
-            "featured": false,
+            "badge": "Grunden",
             "subheading": "För dig som vill få grunden rätt, från avfettning till handtvätt.",
-            "text": "",
-            "points": "DeepDegrease, Alkastrike och Pure Shampoo\nAsfalt, trafikfilm och handtvätt\nEn tydlig grundrutin",
-            "button_label": "Se paketet",
-            "contents": "3 produkter"
+            "style": "light",
+            "button_label": "Se kitet"
           }
         },
         "kit_foam": {
           "type": "kit",
           "settings": {
             "product": "foam-wash-kit",
-            "badge": "Skumtvätt",
-            "featured": false,
+            "badge": "Foam setup",
             "subheading": "För dig med högtryckstvätt som vill skumtvätta bilen.",
-            "text": "",
-            "points": "Foamtastic och Foam Cannon\nTjockt, jämnt skum över hela bilen\nKräver högtryckstvätt, ingår inte",
-            "button_label": "Se paketet",
-            "contents": "2 produkter"
+            "style": "foam",
+            "video": "shopify://files/videos/foambanner1.mov",
+            "button_label": "Se kitet"
           }
         },
         "kit_complete": {
           "type": "kit",
           "settings": {
             "product": "exterior-komplett-kit",
-            "badge": "Bästsäljande kit",
-            "featured": true,
-            "subheading": "Hela exteriörrutinen i ett paket. Slipp välja själv.",
-            "text": "",
-            "points": "Förtvätt, handtvätt, fälgar, glas, däck och lackskydd\nAllt i Startkit och fem produkter till\nKemikalier, verktyg köps separat",
-            "button_label": "Se paketet",
-            "contents": "8 produkter"
+            "badge": "Hela rutinen",
+            "subheading": "Hela exteriören, från förtvätt till finish. Slipp välja själv.",
+            "style": "system",
+            "button_label": "Se kitet"
           }
         }
       },
@@ -689,11 +681,8 @@
         "kit_complete"
       ],
       "settings": {
-        "eyebrow": "Färdiga lösningar",
         "heading": "Hitta rätt paket",
-        "text": "Rätt produkter tillsammans, till ett bättre paketpris. Välj efter hur du tvättar.",
-        "tagline": "",
-        "more_text": "Vill du se fler alternativ?",
+        "text": "Färdiga system när du vill slippa välja.",
         "more_label": "Se alla färdiga paket",
         "more_link": "shopify://collections/fardiga-paket"
       }
@@ -804,8 +793,7 @@
             "addon_text": "Det du skummar med. Kräver högtryckstvätt.",
             "kit_product": "foam-wash-kit",
             "kit_label": "Ta hela Foam Wash Kit istället",
-            "kit_text": "Foamtastic och Foam Cannon som färdigt kit.",
-            "video": "shopify://files/videos/foambanner1.mov"
+            "kit_text": "Foamtastic och Foam Cannon som färdigt kit."
           }
         },
         "handtvatt": {

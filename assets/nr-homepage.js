@@ -167,19 +167,22 @@
     });
   }
 
-  /* ---------- Kit cards: collapsible details on small screens ---------- */
+  /* ---------- Kits: "Visa vad som ingår" component strip ----------
+     Without JS every strip stays visible; with JS it opens on request. */
   function initKitToggles() {
-    initAll('[data-nr-kit-toggle]', (toggle) => {
-      const card = toggle.closest('.nr-kit');
-      const label = toggle.querySelector('[data-nr-kit-toggle-label]');
-      if (!card) return;
-      card.classList.add('is-collapsible');
+    initAll('[data-nr-kitx-toggle]', (toggle) => {
+      const strip = document.getElementById(toggle.getAttribute('aria-controls'));
+      const label = toggle.querySelector('[data-nr-kitx-toggle-label]');
+      const card = toggle.closest('.nr-kitx');
+      if (!strip || !card) return;
+      [...strip.children].forEach((part, index) => part.style.setProperty('--i', index));
+      card.setAttribute('data-nr-kitx-ready', '');
       toggle.hidden = false;
       toggle.addEventListener('click', () => {
-        const open = !card.classList.contains('is-open');
-        card.classList.toggle('is-open', open);
+        const open = !strip.classList.contains('is-open');
+        strip.classList.toggle('is-open', open);
         toggle.setAttribute('aria-expanded', String(open));
-        if (label) label.textContent = open ? 'Dölj detaljer' : 'Visa vad som ingår';
+        if (label) label.textContent = open ? 'Dölj innehållet' : 'Visa vad som ingår';
       });
     });
   }
