@@ -912,9 +912,9 @@
     "semantic_hash": ""
   },
   "docs/collections/content-source.py": {
-    "mtime": 1790524714.3726742,
-    "seen": 1790614364.3443089,
-    "ast_hash": "9157f8640b21f6db3966f8808ee1546b",
+    "mtime": 1791144587.3738348,
+    "seen": 1791145090.3636818,
+    "ast_hash": "38a25268ad39dceee3c29a86335a0cb3",
     "semantic_hash": ""
   },
   "locales/sv.json": {
@@ -924,9 +924,9 @@
     "semantic_hash": ""
   },
   "templates/collection.exterior.json": {
-    "mtime": 1790614132.1582634,
-    "seen": 1790614364.3443193,
-    "ast_hash": "41c53b33152ea1f6c5a343c2d01b00f0",
+    "mtime": 1791144560.3350146,
+    "seen": 1791145090.363743,
+    "ast_hash": "5d95eddc7c05cc63f17b40d487c92519",
     "semantic_hash": ""
   },
   "docs/collections/architecture.md": {
@@ -1755,6 +1755,114 @@
     "mtime": 1791143595.186721,
     "seen": 1791143607.0571408,
     "ast_hash": "d59804b2352943de5ec69d7ec0477cfa",
+    "semantic_hash": ""
+  },
+  "assets/nr-shop.js": {
+    "mtime": 1791144493.40926,
+    "seen": 1791145090.3636703,
+    "ast_hash": "31e6b6ab6d291db9ee0e517756dbe9be",
+    "semantic_hash": ""
+  },
+  "docs/collections/backup/collection.json.live-205928595790.json": {
+    "mtime": 1791145052.6530294,
+    "seen": 1791145090.3636792,
+    "ast_hash": "5c2647b95e28d2966eea7316105840d0",
+    "semantic_hash": ""
+  },
+  "docs/collections/harness.py": {
+    "mtime": 1791145038.1955178,
+    "seen": 1791145090.3636827,
+    "ast_hash": "3c6617ca0d174f244773195a733ce212",
+    "semantic_hash": ""
+  },
+  "docs/collections/interaction-qa.js": {
+    "mtime": 1791145038.2015398,
+    "seen": 1791145090.3636847,
+    "ast_hash": "69a34ab70f31ea497560b53d905fbc3d",
+    "semantic_hash": ""
+  },
+  "docs/collections/mock-server.py": {
+    "mtime": 1791145038.1988392,
+    "seen": 1791145090.363686,
+    "ast_hash": "1deb5f9b8b11cdc6a1abeeba0c867b5b",
+    "semantic_hash": ""
+  },
+  "templates/collection.accessories.json": {
+    "mtime": 1791144758.5416136,
+    "seen": 1791145090.3637414,
+    "ast_hash": "1795d84c707e7e90223832ee7f087ccb",
+    "semantic_hash": ""
+  },
+  "templates/collection.interior.json": {
+    "mtime": 1791144560.3352633,
+    "seen": 1791145090.3637443,
+    "ast_hash": "8ee01300e24ce646262e7979be56d3e0",
+    "semantic_hash": ""
+  },
+  "templates/collection.json": {
+    "mtime": 1791144560.3361628,
+    "seen": 1791145090.3637455,
+    "ast_hash": "ccb089afd0434cba1b1bd1269d7342c9",
+    "semantic_hash": ""
+  },
+  "templates/collection.kits.json": {
+    "mtime": 1791144560.3357623,
+    "seen": 1791145090.3637466,
+    "ast_hash": "7565eb8b886625a4b5481d2cd43f6b3d",
+    "semantic_hash": ""
+  },
+  "docs/collections/README.md": {
+    "mtime": 1791145074.9492636,
+    "seen": 1791145090.3638594,
+    "ast_hash": "57031db584b78d738129aecf6531e088",
+    "semantic_hash": ""
+  },
+  "docs/collections/audit-2026-10-04.md": {
+    "mtime": 1791144145.841258,
+    "seen": 1791145090.3638628,
+    "ast_hash": "033a2b8f3e2a70db33918d36cf65172a",
+    "semantic_hash": ""
+  },
+  "docs/collections/screens/accessories-1366-full.png": {
+    "mtime": 1791145038.1849747,
+    "seen": 1791145090.3638809,
+    "ast_hash": "d85aba835e452d4dc062766f0b697b39",
+    "semantic_hash": ""
+  },
+  "docs/collections/screens/drawer-390.png": {
+    "mtime": 1791145038.1930993,
+    "seen": 1791145090.3638823,
+    "ast_hash": "966e2ccbad937715aec31cdbd3e0b3e4",
+    "semantic_hash": ""
+  },
+  "docs/collections/screens/exterior-1366-full.png": {
+    "mtime": 1791145038.1789196,
+    "seen": 1791145090.3638833,
+    "ast_hash": "200e4134d85ce5edf428159c8bbe563b",
+    "semantic_hash": ""
+  },
+  "docs/collections/screens/exterior-390-fold.png": {
+    "mtime": 1791145038.175586,
+    "seen": 1791145090.3638842,
+    "ast_hash": "5d408b965f1234a3f2be9d1978332ad3",
+    "semantic_hash": ""
+  },
+  "docs/collections/screens/fardiga-paket-1366-full.png": {
+    "mtime": 1791145038.187739,
+    "seen": 1791145090.3638854,
+    "ast_hash": "f8f636e0aeb5ffd947ebbb7ba07eb3cf",
+    "semantic_hash": ""
+  },
+  "docs/collections/screens/interior-390-full.png": {
+    "mtime": 1791145038.182034,
+    "seen": 1791145090.3638866,
+    "ast_hash": "5aeb0ea556eebd403e0068eaceb2fd97",
+    "semantic_hash": ""
+  },
+  "docs/collections/screens/kits-390-fold.png": {
+    "mtime": 1791145038.1903267,
+    "seen": 1791145090.3638878,
+    "ast_hash": "d04f9f8176d01335b07d3c1207d10e9b",
     "semantic_hash": ""
   }
 }
