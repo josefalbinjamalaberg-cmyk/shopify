@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "main": {
+      "type": "nr-shop",
+      "blocks": {
+        "n1": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Exteriör",
+            "url": "shopify://collections/exterior"
+          }
+        },
+        "n2": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Interiör",
+            "url": "shopify://collections/interior"
+          }
+        },
+        "n3": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Tillbehör",
+            "url": "shopify://collections/accessories"
+          }
+        },
+        "n4": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Färdiga paket",
+            "url": "shopify://collections/fardiga-paket"
+          }
+        }
+      },
+      "block_order": [
+        "n1",
+        "n2",
+        "n3",
+        "n4"
+      ],
+      "settings": {
+        "mood": "all",
+        "eyebrow": "NordicReflection",
+        "heading": "",
+        "intro": "",
+        "show_trust": true,
+        "intent_heading": "Kategori",
+        "intent_filter": "",
+        "chip_order": "",
+        "card_intent": "",
+        "drawer_filters": "filter.p.m.nrc.product_kind",
+        "show_pairs": false,
+        "kits_in_module": false,
+        "continue_heading": "Fortsätt handla",
+        "continue_1": "",
+        "continue_2": "",
+        "continue_3": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

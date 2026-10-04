@@ -25,7 +25,7 @@ V = dict(
 P = [
     # --- Exteriör (chemicals) ---
     ('15963399553358', 'Revolt', 'Löser flygrost och bromsdamm på lack och fälgar.', ['iron'], [], [], 'kind_chem', None),
-    ('15959788814670', 'Alkastrike', 'Löser trafikfilm, insekter och vägsmuts.', ['traffic_film', 'foam'], [], [], 'kind_chem', None),
+    ('15959788814670', 'Alkastrike', 'Löser trafikfilm, insekter och vägsmuts.', ['traffic_film'], [], [], 'kind_chem', None),
     ('15963418362190', 'DeepDegrease', 'Löser asfalt, tjära och oljebaserad smuts.', ['tar'], [], [], 'kind_chem', None),
     ('15963388379470', 'Foamtastic', 'Tjockt skum som löser smuts före handtvätten.', ['foam'], [], [], 'kind_chem', None),
     ('15963382055246', 'Pure Shampoo', 'Skonsamt bilschampo för handtvätten.', ['contact_wash'], [], [], 'kind_chem', None),
@@ -53,6 +53,22 @@ P = [
     ('15963500609870', 'Torkduk 50×80', 'Snabb avtorkning av kaross och detaljer.', [], [], ['acc_drying'], 'kind_towel', None),
     ('15963501134158', 'Torkduk 40×40', 'Kompakt duk för detaljer, glas och lack.', [], [], ['acc_drying', 'acc_detailing'], 'kind_towel', None),
 ]
+
+# nrc.pairs_with (one "Passar med" line on accessory cards). Only pairs a kit or
+# the product's own instructions already make.
+PAIRS = {
+    '15963462795598': '15963388379470',  # Foam Cannon -> Foamtastic (Foam Wash Kit)
+    '15963460075854': '15959788814670',  # Tryckspruta -> Alkastrike (sprayed with a pressure sprayer)
+    '15963482751310': '15963382055246',  # Washpad -> Pure Shampoo (two-bucket steps)
+    '15963454832974': '15963382055246',  # Tvätthink -> Pure Shampoo (two-bucket steps)
+    '15963479048526': '15963399553358',  # Mikrofiber Fälgborste -> Revolt (Fälg Startkit)
+    '16015891235150': '15963399553358',  # DeepReach -> Revolt (Revolt steps: work in with a wheel brush)
+    '15963484750158': '15963415740750',  # Däckapplikator -> Pristine (Fälg & Däck kit, Pristine steps)
+    '16015909454158': '15963424031054',  # Glass Towel -> Clarity (Stort Interiör kit, Clarity steps)
+    '15963468333390': '15963421442382',  # Scrub Pad -> Core APC (interior kits)
+    '16015861219662': '15963421442382',  # Detail Brush Duo -> Core APC (Mellan interiör kit)
+    '15963505688910': '15963394867534',  # Mikrofiberduk -> GlossCoat (GlossCoat steps: buff with microfibre)
+}
 
 # Manual collection order (customer relevance, not alphabetical)
 ORDER = dict(

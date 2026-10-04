@@ -1,0 +1,127 @@
+{%- doc -%}
+  Collection product card: answers WHAT, WHY, PRICE in two seconds.
+    use-case label  (first value of the collection's nrc.intent_* list, or
+                     nrc.card_label for kits)
+    short name      (nrc.card_name, else the title before the dash)
+    one line        (nrc.card_line; hidden in the 2-column phone grid)
+    price           (Från … when variants differ)
+    quick add       single available variant → "+" (Ajax add, same path as the
+                    homepage); several variants → "Välj" to the product page
+                    (never auto-picks a variant); sold out → "Slut", disabled
+    passar med      optional nrc.pairs_with, one line, desktop only
+  Product data is never changed: this is display logic only.
+
+  @param {product} product
+  @param {string} [intent_key] - nrc metafield key for the label, e.g. intent_exterior.
+  @param {boolean} [show_pairs]
+  @param {number} [position] - 1-based position in the grid (analytics).
+  @param {string} [collection_handle]
+{%- enddoc -%}
+
+{%- liquid
+  assign nrc = product.metafields.nrc
+  assign name = nrc.card_name.value
+  if name == blank
+    assign name = product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip
+  endif
+  assign line = nrc.card_line.value
+  assign label = nrc.card_label.value
+  if label == blank and intent_key != blank
+    assign intents = nrc[intent_key].value
+    if intents != blank
+      assign label = intents.first.label.value
+    endif
+  endif
+  assign variant = product.selected_or_first_available_variant
+  assign pair = nil
+  if show_pairs
+    assign pair = nrc.pairs_with.value
+  endif
+-%}
+
+<li
+  class="nr-card"
+  data-nr-card
+  data-position="{{ position }}"
+>
+  <a
+    class="nr-card__media"
+    href="{{ product.url }}"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    {%- if product.featured_image != blank -%}
+      {{
+        product.featured_image
+        | image_url: width: 720
+        | image_tag:
+          loading: 'lazy',
+          alt: '',
+          widths: '240, 360, 480, 720',
+          sizes: '(min-width: 990px) 22vw, (min-width: 750px) 30vw, 46vw'
+      }}
+    {%- endif -%}
+  </a>
+
+  <div class="nr-card__body">
+    {%- if label != blank -%}
+      <p class="nr-card__label">{{ label | escape }}</p>
+    {%- endif -%}
+    <h3 class="nr-card__name">
+      <a
+        href="{{ product.url }}"
+        data-nr-shop-product="{{ product.handle }}"
+        data-position="{{ position }}"
+      >
+        {{- name | escape -}}
+      </a>
+    </h3>
+    {%- if line != blank -%}
+      <p class="nr-card__line">{{ line | escape }}</p>
+    {%- endif -%}
+    {%- if pair -%}
+      {%- assign pair_name = pair.metafields.nrc.card_name.value | default: pair.title -%}
+      <p class="nr-card__pair">
+        Passar med <a href="{{ pair.url }}">{{ pair_name | escape }}</a>
+      </p>
+    {%- endif -%}
+    <div class="nr-card__buy">
+      <p class="nr-card__price">
+        {%- if product.price_varies -%}Från {% endif -%}
+        {{- product.price | money -}}
+      </p>
+      {%- if product.available == false -%}
+        <button
+          type="button"
+          class="nr-card__add nr-card__add--text"
+          disabled
+        >
+          Slut
+        </button>
+      {%- elsif product.has_only_default_variant -%}
+        <button
+          type="button"
+          class="nr-card__add"
+          data-nr-quick-add="{{ variant.id }}"
+          data-nr-product="{{ product.handle }}"
+          data-position="{{ position }}"
+          aria-label="Lägg {{ name | escape }} i varukorgen"
+        >
+          <svg class="nr-card__icon-add" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="nr-card__icon-done" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      {%- else -%}
+        <a
+          class="nr-card__add nr-card__add--text"
+          href="{{ product.url }}"
+          data-nr-shop-product="{{ product.handle }}"
+          data-position="{{ position }}"
+        >
+          Välj<span class="visually-hidden"> alternativ för {{ name | escape }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <p class="nr-card__status" data-nr-quick-add-status role="status" aria-live="polite"></p>
+  </div>
+</li>

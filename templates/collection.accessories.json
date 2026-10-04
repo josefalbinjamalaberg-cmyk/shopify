@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "main": {
+      "type": "nr-shop",
+      "blocks": {
+        "towels": {
+          "type": "compare",
+          "settings": {
+            "position": "after_row",
+            "after": 12,
+            "show_for_intent": "Torkning",
+            "eyebrow": "Vilken torkduk passar dig?",
+            "product_1": "torkduk-70x90-1400gsm",
+            "text_1": "Störst. Torkar hela bilen med få drag.",
+            "product_2": "torkduk-50x80-1400gsm",
+            "text_2": "Balans mellan räckvidd och kontroll.",
+            "product_3": "torkduk-40x40-1400gsm",
+            "text_3": "Kompakt. Detaljer, glas, dörrgångar och interiör.",
+            "link_label": "",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "towels"
+      ],
+      "settings": {
+        "mood": "accessories",
+        "eyebrow": "Tillbehör",
+        "heading": "Rätt verktyg för jobbet.",
+        "intro": "Dukar, borstar och utrustning sorterade efter hur du faktiskt använder dem.",
+        "show_trust": true,
+        "intent_heading": "Vad ska du göra?",
+        "intent_filter": "filter.p.m.nrc.intent_accessories",
+        "chip_order": "Förtvätt & applicering,Handtvätt,Fälgar & däck,Torkning,Interiör,Glas,Detaljering",
+        "card_intent": "intent_accessories",
+        "drawer_filters": "filter.p.m.nrc.product_kind",
+        "show_pairs": true,
+        "kits_in_module": false,
+        "continue_heading": "Fortsätt handla",
+        "continue_1": "exterior",
+        "continue_2": "interior",
+        "continue_3": "fardiga-paket"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

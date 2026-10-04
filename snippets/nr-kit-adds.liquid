@@ -1,0 +1,51 @@
+{%- doc -%}
+  What a kit adds on top of a smaller kit, from the kits' component
+  references (custom.kit_components, matched by variant id). Outputs
+  "Foamtastic, Revolt och GlossCoat" when every component of `base` is in
+  `kit`; outputs nothing when `base` is not fully contained (then the kit is
+  a different setup, not a bigger tier, and the caller lists its contents).
+
+  @param {product} kit
+  @param {product} base
+{%- enddoc -%}
+
+{%- liquid
+  assign kit_ids = '|'
+  for c in kit.metafields.custom.kit_components.value
+    assign kit_ids = kit_ids | append: c.variant.value.id | append: '|'
+  endfor
+  assign base_ids = '|'
+  assign contained = true
+  for c in base.metafields.custom.kit_components.value
+    assign needle = '|' | append: c.variant.value.id | append: '|'
+    assign base_ids = base_ids | append: c.variant.value.id | append: '|'
+    unless kit_ids contains needle
+      assign contained = false
+    endunless
+  endfor
+
+  if contained
+    assign names = ''
+    for c in kit.metafields.custom.kit_components.value
+      assign needle = '|' | append: c.variant.value.id | append: '|'
+      unless base_ids contains needle
+        assign n = c.variant.value.product.metafields.nrc.card_name.value | default: c.variant.value.product.title | replace: ' - ', ' – ' | split: ' – ' | first | strip
+        if names == ''
+          assign names = n
+        else
+          assign names = names | append: '|' | append: n
+        endif
+      endunless
+    endfor
+    assign list = names | split: '|'
+    for n in list
+      if forloop.first
+        echo n
+      elsif forloop.last
+        echo ' och ' | append: n
+      else
+        echo ', ' | append: n
+      endif
+    endfor
+  endif
+-%}

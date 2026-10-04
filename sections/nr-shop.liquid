@@ -1,0 +1,586 @@
+{%- comment -%}
+  NordicReflection collection page: a shopping assistant, not a grid.
+
+    01 compact intro (H1 + one line + count + one trust line), mood per page
+    02 intent chips  ("Vad behöver bilen?"): native Search & Discovery filter
+       values as links to Shopify's own filter URLs (reload, back, sharing work)
+    03 toolbar       count · Filtrera (drawer, native GET form) · Sortera
+    04 product grid  snippets/nr-shop-card (label, short name, line, price, +)
+    05 one or two editorial moments (blocks): after the first row and/or after
+       the grid, only when nothing is filtered
+    06 continue      other categories
+
+  Everything shopping-related is Shopify-native: filters come from
+  collection.filters (only the params listed in the settings are shown), sort
+  from collection.sort_options, order "Rekommenderat" = the collection's
+  manual order. assets/nr-shop.js only upgrades links/forms to in-place
+  updates (section rendering + history.pushState) and adds analytics and
+  quick add; without it every control still works as a normal page load.
+{%- endcomment -%}
+
+{{ 'nr-homepage.css' | asset_url | stylesheet_tag }}
+{{ 'nr-shop.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'nr-shop.js' | asset_url }}" type="module" defer></script>
+
+{%- liquid
+  assign ss = section.settings
+
+  # --- Filters allowed on this page ---
+  assign intent_param = ss.intent_filter | strip
+  assign intent = nil
+  if intent_param != blank
+    assign found = collection.filters | where: 'param_name', intent_param
+    if found.size > 0
+      assign intent = found.first
+    endif
+  endif
+  assign drawer_filters = collection.filters | where: 'param_name', 'nr-none'
+  assign drawer_params = ss.drawer_filters | split: ','
+  for p in drawer_params
+    assign dp = p | strip
+    if dp != blank
+      assign extra = collection.filters | where: 'param_name', dp
+      assign drawer_filters = drawer_filters | concat: extra
+    endif
+  endfor
+  assign all_filters = drawer_filters
+  if intent != nil
+    assign intent_arr = collection.filters | where: 'param_name', intent_param
+    assign all_filters = intent_arr | concat: drawer_filters
+  endif
+
+  assign active_count = 0
+  for f in all_filters
+    assign n = f.active_values | size
+    assign active_count = active_count | plus: n
+  endfor
+
+  assign sort_suffix = ''
+  if collection.sort_by != blank and collection.sort_by != collection.default_sort_by
+    assign sort_suffix = '?sort_by=' | append: collection.sort_by
+  endif
+  assign clear_all_url = collection.url | append: sort_suffix
+
+  assign heading = ss.heading | default: collection.title
+  if ss.heading == blank and collection.handle == 'all'
+    assign heading = 'Alla produkter'
+  endif
+  assign eyebrow = ss.eyebrow | default: collection.title
+  assign intro = ss.intro
+  if intro == blank
+    assign intro = collection.description | strip_html | strip
+  endif
+  assign hide_kits = false
+  if ss.kits_in_module and active_count == 0
+    assign hide_kits = true
+  endif
+-%}
+
+{%- comment -%} Horizon's view element: publishes the standard collection_viewed event for all pixels. {%- endcomment -%}
+{% # theme-check-disable-next-line UnknownFilter %}
+<collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
+<div
+  class="nr-shop nr-shop--{{ ss.mood }}"
+  data-nr-scope
+  data-nr-shop
+  data-section-id="{{ section.id }}"
+  data-collection="{{ collection.handle }}"
+>
+  {%- comment -%} 01 Intro {%- endcomment -%}
+  <header class="nr-shop-intro">
+    <div class="nr-shop__wrap">
+      {%- if eyebrow != blank -%}
+        <p class="nr-shop-intro__eyebrow">{{ eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="nr-shop-intro__title">{{ heading | escape }}</h1>
+      {%- if intro != blank -%}
+        <p class="nr-shop-intro__copy">{{ intro | escape }}</p>
+      {%- endif -%}
+      {%- if ss.show_trust -%}
+        <p class="nr-shop-intro__trust">
+          {%- if settings.nr_trustpilot_rating != blank -%}
+            <span><span class="nr-shop-intro__star" aria-hidden="true">★</span> {{ settings.nr_trustpilot_rating | replace: '.', ',' }}/5 på Trustpilot</span>
+          {%- endif -%}
+          <span>Skickas nästa vardag</span>
+          {%- if settings.free_shipping_threshold != blank -%}
+            <span>Fri frakt över {{ settings.free_shipping_threshold }} kr</span>
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    </div>
+  </header>
+
+  <div class="nr-shop__wrap nr-shop__body" data-nr-shop-root>
+    {%- comment -%} 02 Intent chips or category links {%- endcomment -%}
+    {%- liquid
+      assign nav_blocks = section.blocks | where: 'type', 'nav_link'
+    -%}
+    {%- if intent != nil and intent.values.size > 0 -%}
+      {%- liquid
+        assign base_url = intent.url_to_remove
+        if base_url contains '?'
+          assign joiner = '&'
+        else
+          assign joiner = '?'
+        endif
+        assign ordered = '||'
+        assign chip_labels = ss.chip_order | split: ','
+        for l in chip_labels
+          assign lab = l | strip
+          assign hit = intent.values | where: 'label', lab
+          if hit.size > 0
+            assign ordered = ordered | append: lab | append: '||'
+          endif
+        endfor
+        for v in intent.values
+          assign needle = '||' | append: v.label | append: '||'
+          unless ordered contains needle
+            assign ordered = ordered | append: v.label | append: '||'
+          endunless
+        endfor
+        assign ordered_labels = ordered | split: '||'
+      -%}
+      <nav class="nr-shop-intents" aria-labelledby="NrShopIntents-{{ section.id }}">
+        <h2 class="nr-shop-intents__heading" id="NrShopIntents-{{ section.id }}">
+          {{- ss.intent_heading | default: intent.label | escape -}}
+        </h2>
+        <ul class="nr-chips" role="list">
+          <li>
+            <a
+              class="nr-chip"
+              href="{{ base_url }}"
+              data-nr-shop-link
+              data-nr-intent="alla"
+              {% if intent.active_values.size == 0 %}
+                aria-current="true"
+              {% endif %}
+            >
+              Visa alla
+            </a>
+          </li>
+          {%- for lab in ordered_labels -%}
+            {%- if lab == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign value = intent.values | where: 'label', lab | first -%}
+            {%- liquid
+              if value.active
+                if intent.active_values.size > 1
+                  assign chip_url = value.url_to_remove
+                else
+                  assign chip_url = base_url
+                endif
+              else
+                assign enc = value.value | url_encode
+                assign chip_url = base_url | append: joiner | append: value.param_name | append: '=' | append: enc
+              endif
+            -%}
+            <li>
+              <a
+                class="nr-chip"
+                href="{{ chip_url }}"
+                data-nr-shop-link
+                data-nr-intent="{{ value.label | escape }}"
+                {% if value.active %}
+                  aria-current="true"
+                {% endif %}
+                {% if value.count == 0 and value.active == false %}
+                  aria-disabled="true"
+                {% endif %}
+              >
+                {{- value.label | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- elsif nav_blocks.size > 0 -%}
+      <nav class="nr-shop-intents" aria-labelledby="NrShopIntents-{{ section.id }}">
+        <h2 class="nr-shop-intents__heading" id="NrShopIntents-{{ section.id }}">
+          {{- ss.intent_heading | default: 'Kategori' | escape -}}
+        </h2>
+        <ul class="nr-chips" role="list">
+          {%- for block in nav_blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <a class="nr-chip" href="{{ block.settings.url | default: '#' }}">{{ block.settings.label | escape }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- elsif intent_param != blank and request.design_mode -%}
+      <p class="nr-shop-note">
+        Snabbvalen visas när filtret <code>{{ intent_param }}</code> är tillagt i Search &amp; Discovery (se docs/collections/README.md).
+      </p>
+    {%- endif -%}
+
+    {%- comment -%} 03 Toolbar: count · Filtrera · Sortera {%- endcomment -%}
+    {%- liquid
+      assign has_drawer = false
+      for f in drawer_filters
+        if f.values.size > 1
+          assign has_drawer = true
+        endif
+      endfor
+    -%}
+    <div class="nr-shop-toolbar">
+      <p class="nr-shop-toolbar__count" data-nr-count="{{ collection.products_count }}" aria-live="polite">
+        {%- if collection.products_count == 1 -%}1 produkt{%- else -%}{{ collection.products_count }} produkter{%- endif -%}
+      </p>
+      <div class="nr-shop-toolbar__actions">
+        {%- if has_drawer -%}
+          <button
+            type="button"
+            class="nr-shop-toolbar__btn"
+            aria-haspopup="dialog"
+            aria-controls="NrShopDrawer-{{ section.id }}"
+            aria-expanded="false"
+            data-nr-drawer-open
+          >
+            Filtrera{% if active_count > 0 %} ({{ active_count }}){% endif %}
+          </button>
+        {%- endif -%}
+        <form class="nr-shop-sort" action="{{ collection.url }}" method="get" data-nr-shop-sort>
+          {%- for f in all_filters -%}
+            {%- for v in f.active_values -%}
+              <input type="hidden" name="{{ v.param_name }}" value="{{ v.value }}">
+            {%- endfor -%}
+          {%- endfor -%}
+          <label class="nr-shop-sort__label" for="NrShopSort-{{ section.id }}">Sortera</label>
+          <select id="NrShopSort-{{ section.id }}" name="sort_by" class="nr-shop-sort__select">
+            {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+            {%- for option in collection.sort_options -%}
+              {%- liquid
+                case option.value
+                  when 'manual'
+                    assign sort_label = 'Rekommenderat'
+                  when 'best-selling'
+                    assign sort_label = 'Bästsäljande'
+                  when 'created-descending'
+                    assign sort_label = 'Nyast'
+                  when 'price-ascending'
+                    assign sort_label = 'Pris: lågt till högt'
+                  when 'price-descending'
+                    assign sort_label = 'Pris: högt till lågt'
+                  else
+                    assign sort_label = ''
+                endcase
+              -%}
+              {%- if sort_label != blank -%}
+                <option value="{{ option.value }}"{% if option.value == current_sort %} selected{% endif %}>{{ sort_label }}</option>
+              {%- endif -%}
+            {%- endfor -%}
+          </select>
+          <noscript><button type="submit">Sortera</button></noscript>
+        </form>
+      </div>
+    </div>
+
+    {%- comment -%} Active selections, outside the drawer {%- endcomment -%}
+    {%- if active_count > 0 -%}
+      <ul class="nr-shop-active" role="list" aria-label="Valda filter">
+        {%- for f in all_filters -%}
+          {%- for v in f.active_values -%}
+            <li>
+              <a class="nr-shop-active__pill" href="{{ v.url_to_remove }}" data-nr-shop-link data-nr-clear>
+                {{- v.label | escape }}
+                <span aria-hidden="true">×</span><span class="visually-hidden"> (ta bort)</span>
+              </a>
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+        <li>
+          <a class="nr-shop-active__clear" href="{{ clear_all_url }}" data-nr-shop-link data-nr-clear>Rensa alla</a>
+        </li>
+      </ul>
+    {%- endif -%}
+
+    {%- comment -%} 05 Editorial moments (rendered once, placed below) {%- endcomment -%}
+    {%- capture after_grid -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.position == 'after_grid' -%}
+          {%- liquid
+            assign show_module = false
+            if active_count == 0
+              assign show_module = true
+            elsif block.settings.show_for_intent != blank and intent != nil
+              assign hit = intent.active_values | where: 'label', block.settings.show_for_intent
+              if hit.size > 0 and active_count == hit.size
+                assign show_module = true
+              endif
+            endif
+          -%}
+          {%- if show_module -%}
+            {%- render 'nr-shop-module', block: block, collection_handle: collection.handle -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- comment -%} 04 Grid {%- endcomment -%}
+    {%- paginate collection.products by 48 -%}
+      {%- if collection.products.size == 0 -%}
+        <div class="nr-shop-empty">
+          <p class="nr-shop-empty__title">Inga produkter matchar dina val.</p>
+          <p>Prova att ta bort ett filter.</p>
+          <a class="nr-btn nr-btn--secondary" href="{{ clear_all_url }}" data-nr-shop-link data-nr-clear>Rensa filter</a>
+        </div>
+      {%- else -%}
+        <ul class="nr-shop-grid" role="list" id="ResultsList">
+          {%- assign shown = 0 -%}
+          {%- for product in collection.products -%}
+            {%- if hide_kits and product.metafields.nrc.product_kind.value.key.value == 'kind_kit' -%}{%- continue -%}{%- endif -%}
+            {%- assign shown = shown | plus: 1 -%}
+            {%- render 'nr-shop-card',
+              product: product,
+              intent_key: ss.card_intent,
+              show_pairs: ss.show_pairs,
+              position: shown,
+              collection_handle: collection.handle
+            -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.position != 'after_row' -%}{%- continue -%}{%- endif -%}
+              {%- liquid
+                assign show_module = false
+                if active_count == 0
+                  assign show_module = true
+                elsif block.settings.show_for_intent != blank and intent != nil
+                  assign hit = intent.active_values | where: 'label', block.settings.show_for_intent
+                  if hit.size > 0 and active_count == hit.size
+                    assign show_module = true
+                  endif
+                endif
+                assign after_n = block.settings.after | default: 4
+                if active_count > 0
+                  # Filtered: the helper follows the (shorter) result list.
+                  assign after_n = collection.products.size
+                endif
+              -%}
+              {%- if show_module and shown == after_n -%}
+                <li class="nr-shop-grid__module">{%- render 'nr-shop-module', block: block, collection_handle: collection.handle -%}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- comment -%} A module placed after more products than are shown follows the last one. {%- endcomment -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.position != 'after_row' or active_count > 0 -%}{%- continue -%}{%- endif -%}
+            {%- assign after_n = block.settings.after | default: 4 -%}
+            {%- if after_n > shown and shown > 0 -%}
+              <li class="nr-shop-grid__module">{%- render 'nr-shop-module', block: block, collection_handle: collection.handle -%}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        {%- if paginate.pages > 1 -%}
+          <nav class="nr-shop-pages" aria-label="Sidor">
+            {{- paginate | default_pagination: previous: 'Föregående', next: 'Nästa' -}}
+          </nav>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endpaginate -%}
+
+    {%- if active_count == 0 and after_grid != blank -%}
+      <div class="nr-shop-after">{{ after_grid }}</div>
+    {%- endif -%}
+
+    {%- comment -%} 06 Continue {%- endcomment -%}
+    {%- if ss.continue_1 != blank or ss.continue_2 != blank or ss.continue_3 != blank -%}
+      <nav class="nr-shop-continue" aria-label="{{ ss.continue_heading | default: 'Fortsätt handla' | escape }}">
+        <p class="nr-shop-continue__heading">{{ ss.continue_heading | default: 'Fortsätt handla' | escape }}</p>
+        <ul role="list">
+          {%- for c in (1..3) -%}
+            {%- assign key = 'continue_' | append: c -%}
+            {%- assign col = ss[key] -%}
+            {%- if col != blank -%}
+              <li>
+                <a href="{{ col.url }}" class="nr-shop-continue__link">
+                  <span>{{ col.title | escape }}</span>
+                  <span class="nr-shop-continue__count">{{ col.products_count }} produkter</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    {%- comment -%} Filter drawer: a native GET form, applied on "Visa N produkter" {%- endcomment -%}
+    {%- if has_drawer -%}
+      <dialog class="nr-shop-drawer" id="NrShopDrawer-{{ section.id }}" aria-labelledby="NrShopDrawerTitle-{{ section.id }}" data-nr-drawer>
+        <form class="nr-shop-drawer__form" action="{{ collection.url }}" method="get" data-nr-drawer-form>
+          <div class="nr-shop-drawer__head">
+            <h2 class="nr-shop-drawer__title" id="NrShopDrawerTitle-{{ section.id }}">Filtrera</h2>
+            <button type="button" class="nr-shop-drawer__close" data-nr-drawer-close aria-label="Stäng filter">
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <div class="nr-shop-drawer__body">
+            {%- if collection.sort_by != blank -%}
+              <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+            {%- endif -%}
+            {%- for f in all_filters -%}
+              {%- if f.values.size < 2 -%}{%- continue -%}{%- endif -%}
+              <fieldset class="nr-shop-drawer__group">
+                <legend>
+                  {%- if f.param_name == intent_param and ss.intent_heading != blank -%}
+                    {{- ss.intent_heading | escape -}}
+                  {%- else -%}
+                    {{- f.label | escape -}}
+                  {%- endif -%}
+                </legend>
+                {%- for v in f.values -%}
+                  {%- assign input_id = 'NrF-' | append: section.id | append: '-' | append: forloop.parentloop.index | append: '-' | append: forloop.index -%}
+                  <label class="nr-shop-check" for="{{ input_id }}">
+                    <input
+                      type="checkbox"
+                      id="{{ input_id }}"
+                      name="{{ v.param_name }}"
+                      value="{{ v.value }}"
+                      {% if v.active %}
+                        checked
+                      {% endif %}
+                      {% if v.count == 0 and v.active == false %}
+                        disabled
+                      {% endif %}
+                    >
+                    <span class="nr-shop-check__box" aria-hidden="true"></span>
+                    <span class="nr-shop-check__label">{{ v.label | escape }}</span>
+                    <span class="nr-shop-check__count">{{ v.count }}</span>
+                  </label>
+                {%- endfor -%}
+              </fieldset>
+            {%- endfor -%}
+          </div>
+          <div class="nr-shop-drawer__foot">
+            <a class="nr-shop-drawer__clear" href="{{ clear_all_url }}" data-nr-shop-link data-nr-clear>Rensa alla</a>
+            <button type="submit" class="nr-btn nr-btn--primary nr-shop-drawer__apply" data-nr-drawer-apply>
+              Visa {{ collection.products_count }} produkter
+            </button>
+          </div>
+        </form>
+      </dialog>
+    {%- endif -%}
+  </div>
+</div>
+</collection-component>
+
+{% schema %}
+{
+  "name": "NR: Kollektion",
+  "tag": "section",
+  "class": "nr-shop-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "mood",
+      "label": "Stämning",
+      "options": [
+        { "value": "exterior", "label": "Exteriör (mörk, teknisk)" },
+        { "value": "interior", "label": "Interiör (lugn, ljus)" },
+        { "value": "accessories", "label": "Tillbehör (taktil, sten)" },
+        { "value": "all", "label": "Alla produkter (neutral)" }
+      ],
+      "default": "all"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Överrubrik", "info": "Tomt = kollektionens namn." },
+    { "type": "text", "id": "heading", "label": "Rubrik (H1)", "info": "Tomt = kollektionens namn." },
+    { "type": "textarea", "id": "intro", "label": "Ingress", "info": "En mening. Tomt = kollektionens beskrivning." },
+    { "type": "checkbox", "id": "show_trust", "label": "Visa en rad med Trustpilot, leverans och fri frakt", "default": true },
+    { "type": "header", "content": "Snabbval" },
+    { "type": "text", "id": "intent_heading", "label": "Rubrik för snabbval", "default": "Vad behöver bilen?" },
+    {
+      "type": "text",
+      "id": "intent_filter",
+      "label": "Filter för snabbval",
+      "info": "Search & Discovery-filtrets parameter, t.ex. filter.p.m.nrc.intent_exterior."
+    },
+    { "type": "textarea", "id": "chip_order", "label": "Ordning (etiketter, kommaseparerade)" },
+    {
+      "type": "select",
+      "id": "card_intent",
+      "label": "Etikett på produktkortet",
+      "options": [
+        { "value": "intent_exterior", "label": "Exteriör" },
+        { "value": "intent_interior", "label": "Interiör" },
+        { "value": "intent_accessories", "label": "Tillbehör" },
+        { "value": "", "label": "Ingen" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "drawer_filters",
+      "label": "Filter i Filtrera-panelen",
+      "info": "Kommaseparerade parametrar, t.ex. filter.p.m.nrc.product_kind. Snabbvalsfiltret följer alltid med."
+    },
+    { "type": "checkbox", "id": "show_pairs", "label": "Visa 'Passar med' (nrc.pairs_with)", "default": false },
+    {
+      "type": "checkbox",
+      "id": "kits_in_module",
+      "label": "Visa paket i paketmodulen i stället för i rutnätet (ofiltrerat)",
+      "default": false
+    },
+    { "type": "header", "content": "Fortsätt handla" },
+    { "type": "text", "id": "continue_heading", "label": "Rubrik", "default": "Fortsätt handla" },
+    { "type": "collection", "id": "continue_1", "label": "Kollektion 1" },
+    { "type": "collection", "id": "continue_2", "label": "Kollektion 2" },
+    { "type": "collection", "id": "continue_3", "label": "Kollektion 3" }
+  ],
+  "blocks": [
+    {
+      "type": "compare",
+      "name": "Jämförelse",
+      "limit": 2,
+      "settings": [
+        { "type": "select", "id": "position", "label": "Placering", "options": [{ "value": "after_row", "label": "I rutnätet" }, { "value": "after_grid", "label": "Efter produkterna" }], "default": "after_row" },
+        { "type": "range", "id": "after", "label": "Efter produkt nummer", "min": 1, "max": 16, "step": 1, "default": 4 },
+        { "type": "text", "id": "show_for_intent", "label": "Visa även vid snabbval", "info": "Etiketten, t.ex. Torkning. Annars visas modulen bara när inget är filtrerat." },
+        { "type": "text", "id": "eyebrow", "label": "Fråga", "default": "Osäker på avfettning?" },
+        { "type": "product", "id": "product_1", "label": "Produkt 1" },
+        { "type": "text", "id": "text_1", "label": "När (produkt 1)" },
+        { "type": "product", "id": "product_2", "label": "Produkt 2" },
+        { "type": "text", "id": "text_2", "label": "När (produkt 2)" },
+        { "type": "product", "id": "product_3", "label": "Produkt 3 (valfri)" },
+        { "type": "text", "id": "text_3", "label": "När (produkt 3)" },
+        { "type": "text", "id": "link_label", "label": "Länktext", "default": "Jämför" },
+        { "type": "url", "id": "link_url", "label": "Länk" }
+      ]
+    },
+    {
+      "type": "kit_ladder",
+      "name": "Paketstege",
+      "limit": 1,
+      "settings": [
+        { "type": "select", "id": "position", "label": "Placering", "options": [{ "value": "after_row", "label": "I rutnätet" }, { "value": "after_grid", "label": "Efter produkterna" }], "default": "after_row" },
+        { "type": "range", "id": "after", "label": "Efter produkt nummer", "min": 1, "max": 16, "step": 1, "default": 4 },
+        { "type": "text", "id": "show_for_intent", "label": "Visa även vid snabbval", "info": "Etiketten, t.ex. Torkning. Annars visas modulen bara när inget är filtrerat." },
+        { "type": "text", "id": "eyebrow", "label": "Fråga", "default": "Vill du ha allt färdigt?" },
+        { "type": "product_list", "id": "kits", "label": "Paket (minst till störst)", "limit": 4 },
+        { "type": "text", "id": "link_label", "label": "Länktext", "default": "Jämför paketen" },
+        { "type": "url", "id": "link_url", "label": "Länk" }
+      ]
+    },
+    {
+      "type": "callout",
+      "name": "Färdigt paket",
+      "limit": 1,
+      "settings": [
+        { "type": "select", "id": "position", "label": "Placering", "options": [{ "value": "after_row", "label": "I rutnätet" }, { "value": "after_grid", "label": "Efter produkterna" }], "default": "after_grid" },
+        { "type": "range", "id": "after", "label": "Efter produkt nummer", "min": 1, "max": 16, "step": 1, "default": 4 },
+        { "type": "text", "id": "show_for_intent", "label": "Visa även vid snabbval", "info": "Etiketten. Annars visas modulen bara när inget är filtrerat." },
+        { "type": "text", "id": "eyebrow", "label": "Fråga", "default": "Vill du slippa välja?" },
+        { "type": "product", "id": "product", "label": "Paket" },
+        { "type": "text", "id": "text", "label": "En rad", "info": "Tomt = paketets sammanfattning (custom.kit_tier_summary)." },
+        { "type": "text", "id": "link_label", "label": "Länktext", "default": "Se färdiga paket" },
+        { "type": "url", "id": "link_url", "label": "Länk" }
+      ]
+    },
+    {
+      "type": "nav_link",
+      "name": "Kategorilänk",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Text" },
+        { "type": "url", "id": "url", "label": "Länk" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "NR: Kollektion" }]
+}
+{% endschema %}

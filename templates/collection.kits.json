@@ -1,0 +1,66 @@
+{
+  "sections": {
+    "main": {
+      "type": "nr-kit-hub",
+      "blocks": {
+        "exterior": {
+          "type": "family",
+          "settings": {
+            "label": "Exteriör",
+            "hash": "exterior",
+            "question": "Hur komplett vill du göra utsidan?",
+            "kits": [
+              "litet-exterior-startkit",
+              "foam-wash-kit",
+              "exterior-komplett-kit"
+            ]
+          }
+        },
+        "wheels": {
+          "type": "family",
+          "settings": {
+            "label": "Fälg & däck",
+            "hash": "falg",
+            "question": "Bara fälgarna, eller hela hjulet?",
+            "kits": [
+              "falg-startkit",
+              "falg-och-dack-komplett-kit"
+            ]
+          }
+        },
+        "interior": {
+          "type": "family",
+          "settings": {
+            "label": "Interiör",
+            "hash": "interior",
+            "question": "Hur mycket av kupén vill du kunna göra?",
+            "kits": [
+              "interiorpaket-grundlaggande-interiorvard",
+              "mellan-interior-startkit",
+              "stort-interior-startkit"
+            ]
+          }
+        }
+      },
+      "block_order": [
+        "exterior",
+        "wheels",
+        "interior"
+      ],
+      "settings": {
+        "eyebrow": "Färdiga paket",
+        "heading": "Rätt produkter. Redan kombinerade.",
+        "intro": "Välj område och hur komplett du vill göra rutinen.",
+        "show_trust": true,
+        "tabs_heading": "Vilket område?",
+        "self_heading": "Vill du hellre välja själv?",
+        "continue_1": "exterior",
+        "continue_2": "interior",
+        "continue_3": "accessories"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

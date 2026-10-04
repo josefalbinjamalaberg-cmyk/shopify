@@ -1,0 +1,128 @@
+{%- doc -%}
+  One editorial moment inside a collection (sections/nr-shop blocks). Never
+  more than a compact strip: it helps one decision and gets out of the way.
+    compare     two or three products side by side: name + when to use it
+    kit_ladder  kits from small to complete: tier, price, what each adds
+                (snippets/nr-kit-adds), saving from snippets/nr-ks-separate
+    callout     one complete kit: "Vill du slippa välja?"
+
+  @param {block} block
+  @param {string} [collection_handle]
+{%- enddoc -%}
+
+{%- assign bs = block.settings -%}
+{%- case block.type -%}
+  {%- when 'compare' -%}
+    <aside class="nr-mod nr-mod--compare" {{ block.shopify_attributes }}>
+      {%- if bs.eyebrow != blank -%}
+        <p class="nr-mod__eyebrow">{{ bs.eyebrow | escape }}</p>
+      {%- endif -%}
+      <ul class="nr-mod-compare" role="list">
+        {%- for i in (1..3) -%}
+          {%- assign pk = 'product_' | append: i -%}
+          {%- assign tk = 'text_' | append: i -%}
+          {%- assign p = bs[pk] -%}
+          {%- if p == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign pname = p.metafields.nrc.card_name.value | default: p.title -%}
+          <li class="nr-mod-compare__item">
+            <a href="{{ p.url }}" class="nr-mod-compare__name" data-nr-shop-product="{{ p.handle }}" data-position="compare">{{ pname | escape }}</a>
+            {%- if bs[tk] != blank -%}
+              <span class="nr-mod-compare__text">{{ bs[tk] | escape }}</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- if bs.link_url != blank and bs.link_label != blank -%}
+        <a class="nr-link nr-mod__link" href="{{ bs.link_url }}">
+          {{- bs.link_label | escape }} <span class="nr-link__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      {%- endif -%}
+    </aside>
+
+  {%- when 'kit_ladder' -%}
+    {%- if bs.kits.size > 0 -%}
+      <aside class="nr-mod nr-mod--ladder" {{ block.shopify_attributes }}>
+        {%- if bs.eyebrow != blank -%}
+          <p class="nr-mod__eyebrow">{{ bs.eyebrow | escape }}</p>
+        {%- endif -%}
+        <ol class="nr-ladder" role="list">
+          {%- assign prev = nil -%}
+          {%- for kit in bs.kits -%}
+            {%- liquid
+              capture sep
+                render 'nr-ks-separate', product: kit
+              endcapture
+              assign sep = sep | strip | plus: 0
+              assign saving = 0
+              if sep > kit.price
+                assign saving = sep | minus: kit.price
+              endif
+              assign adds = ''
+              if prev != nil
+                capture adds
+                  render 'nr-kit-adds', kit: kit, base: prev
+                endcapture
+                assign adds = adds | strip
+              endif
+              assign tier = kit.metafields.custom.kit_tier.value | default: kit.title
+              assign summary = kit.metafields.custom.kit_tier_summary.value
+            -%}
+            <li class="nr-ladder__step">
+              <a
+                class="nr-ladder__link"
+                href="{{ kit.url }}"
+                data-nr-kit-click="{{ kit.handle }}"
+              >
+                <span class="nr-ladder__tier">{{ tier | escape }}</span>
+                <span class="nr-ladder__price">{{ kit.price | money }}</span>
+                <span class="nr-ladder__what">
+                  {%- if adds != blank -%}
+                    + {{ adds | escape }}
+                  {%- elsif summary != blank -%}
+                    {{ summary | escape }}
+                  {%- endif -%}
+                </span>
+                {%- if saving > 0 -%}
+                  <span class="nr-ladder__save">Du sparar {{ saving | money }}</span>
+                {%- endif -%}
+              </a>
+            </li>
+            {%- assign prev = kit -%}
+          {%- endfor -%}
+        </ol>
+        {%- if bs.link_url != blank and bs.link_label != blank -%}
+          <a class="nr-link nr-mod__link" href="{{ bs.link_url }}" data-nr-kit-click="ladder">
+            {{- bs.link_label | escape }} <span class="nr-link__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        {%- endif -%}
+      </aside>
+    {%- endif -%}
+
+  {%- when 'callout' -%}
+    {%- assign kit = bs.product -%}
+    <aside class="nr-mod nr-mod--callout" {{ block.shopify_attributes }}>
+      <div class="nr-callout__text">
+        {%- if bs.eyebrow != blank -%}
+          <p class="nr-mod__eyebrow">{{ bs.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if kit != blank -%}
+          {%- assign kname = kit.metafields.custom.kit_name.value | default: kit.title -%}
+          <p class="nr-callout__name">
+            <a href="{{ kit.url }}" data-nr-kit-click="{{ kit.handle }}">{{ kname | escape }}</a>
+            <span class="nr-callout__price">{{ kit.price | money }}</span>
+          </p>
+          <p class="nr-callout__line">{{ bs.text | default: kit.metafields.custom.kit_tier_summary.value | escape }}</p>
+        {%- endif -%}
+      </div>
+      {%- if bs.link_url != blank and bs.link_label != blank -%}
+        <a class="nr-btn nr-btn--secondary nr-callout__cta" href="{{ bs.link_url }}" data-nr-kit-click="callout">
+          {{- bs.link_label | escape }} <span aria-hidden="true">&rarr;</span>
+        </a>
+      {%- endif -%}
+      {%- if kit.featured_image != blank -%}
+        <span class="nr-callout__media" aria-hidden="true">
+          {{ kit.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: '', widths: '200, 300, 400', sizes: '160px' }}
+        </span>
+      {%- endif -%}
+    </aside>
+{%- endcase -%}

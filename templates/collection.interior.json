@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "main": {
+      "type": "nr-shop",
+      "blocks": {
+        "ladder": {
+          "type": "kit_ladder",
+          "settings": {
+            "position": "after_row",
+            "after": 4,
+            "show_for_intent": "Färdiga paket",
+            "eyebrow": "Vill du ha allt färdigt?",
+            "kits": [
+              "interiorpaket-grundlaggande-interiorvard",
+              "mellan-interior-startkit",
+              "stort-interior-startkit"
+            ],
+            "link_label": "Jämför paketen",
+            "link_url": "/collections/fardiga-paket#interior"
+          }
+        }
+      },
+      "block_order": [
+        "ladder"
+      ],
+      "settings": {
+        "mood": "interior",
+        "eyebrow": "Interiör",
+        "heading": "Rent där du faktiskt sitter.",
+        "intro": "Ytor, detaljer och glas. Välj efter vad du ska rengöra.",
+        "show_trust": true,
+        "intent_heading": "Vad ska du rengöra?",
+        "intent_filter": "filter.p.m.nrc.intent_interior",
+        "chip_order": "Ytor,Ingrodd smuts,Detaljer & springor,Glas,Torka av,Färdiga paket",
+        "card_intent": "intent_interior",
+        "drawer_filters": "",
+        "show_pairs": false,
+        "kits_in_module": true,
+        "continue_heading": "Fortsätt handla",
+        "continue_1": "exterior",
+        "continue_2": "accessories",
+        "continue_3": "fardiga-paket"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

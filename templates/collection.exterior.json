@@ -1,114 +1,58 @@
 {
   "sections": {
     "main": {
-      "type": "nr-collection",
+      "type": "nr-shop",
       "blocks": {
-        "filters": {
-          "type": "filters",
-          "static": true,
+        "compare": {
+          "type": "compare",
           "settings": {
-            "enable_filtering": true,
-            "filter_style": "horizontal",
-            "filter_width": "centered",
-            "text_label_case": "default",
-            "show_swatch_label": false,
-            "show_filter_label": false,
-            "enable_sorting": true,
-            "enable_grid_density": false,
-            "background_color": "",
-            "text_color": "",
-            "padding-block-start": 8,
-            "padding-block-end": 8,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0,
-            "facets_margin_bottom": 8,
-            "facets_margin_right": 20
-          },
-          "blocks": {}
+            "position": "after_row",
+            "after": 4,
+            "show_for_intent": "",
+            "eyebrow": "Osäker på avfettning?",
+            "product_1": "alkastrike-alkalisk-avfettning",
+            "text_1": "Trafikfilm, insekter och organisk smuts.",
+            "product_2": "deepdegrease-kallavfettning",
+            "text_2": "Asfalt, tjära och oljebaserad smuts.",
+            "link_label": "Jämför",
+            "link_url": "/products/alkastrike-alkalisk-avfettning#vilken-avfettning"
+          }
         },
-        "product-card": {
-          "type": "_product-card",
-          "static": true,
+        "callout": {
+          "type": "callout",
           "settings": {
-            "product_card_gap": 10,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "card-gallery": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "square",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "nr-card-info": {
-              "type": "nr-card-info",
-              "settings": {},
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "card-gallery",
-            "nr-card-info"
-          ]
+            "position": "after_grid",
+            "after": 4,
+            "show_for_intent": "",
+            "eyebrow": "Vill du slippa välja?",
+            "product": "exterior-komplett-kit",
+            "text": "Hela utsidan i en färdig rutin.",
+            "link_label": "Se färdiga paket",
+            "link_url": "shopify://collections/fardiga-paket"
+          }
         }
       },
+      "block_order": [
+        "compare",
+        "callout"
+      ],
       "settings": {
-        "layout_type": "grid",
-        "product_card_size": "medium",
-        "mobile_product_card_size": "small",
-        "enable_infinite_scroll": true,
-        "products_per_page": 24,
-        "product_grid_width": "centered",
-        "full_width_on_mobile": false,
-        "columns_gap_horizontal": 20,
-        "columns_gap_vertical": 36,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0,
-        "padding-block-start": 0,
-        "padding-block-end": 48,
-        "show_trust": true,
+        "mood": "exterior",
         "eyebrow": "Exteriör",
-        "heading": "Allt för bilens utsida",
-        "intro": "Från grovsmuts och förtvätt till handtvätt, glas och finish. Välj vad du vill lösa så visar vi rätt produkter.",
-        "intent_heading": "Vad vill du lösa?",
-        "primary_filter": "filter.p.m.nrc.intent_exterior",
-        "chip_order": "traffic-film, tar, iron, foam, contact-wash, protection, glass, tyres-trim",
-        "secondary_filters": "",
+        "heading": "Rätt produkt för varje jobb.",
+        "intro": "Från grovsmuts och förtvätt till handtvätt, glas och finish.",
+        "show_trust": true,
+        "intent_heading": "Vad behöver bilen?",
+        "intent_filter": "filter.p.m.nrc.intent_exterior",
+        "chip_order": "Trafikfilm,Asfalt & tjära,Flygrost & bromsdamm,Foam,Handtvätt,Skydd & glans,Glas,Däck & plast",
         "card_intent": "intent_exterior",
-        "help_question": "Osäker på vilken avfettning du behöver?",
-        "help_label": "Jämför Alkastrike och DeepDegrease",
-        "help_url": "/products/alkastrike-alkalisk-avfettning#vilken-avfettning",
-        "tip_heading": "",
-        "tip_text": "",
-        "tip_label": "",
-        "tip_url": "",
-        "cta_heading": "Vill du slippa välja?",
-        "cta_label": "Se våra färdiga tvättpaket",
-        "cta_url": "shopify://collections/fardiga-paket",
-        "cross_text": "Behöver du rätt verktyg?",
-        "cross_label_1": "Tillbehör",
-        "cross_url_1": "shopify://collections/accessories",
-        "cross_label_2": "",
-        "cross_url_2": ""
+        "drawer_filters": "",
+        "show_pairs": false,
+        "kits_in_module": false,
+        "continue_heading": "Fortsätt handla",
+        "continue_1": "interior",
+        "continue_2": "accessories",
+        "continue_3": "fardiga-paket"
       }
     }
   },
