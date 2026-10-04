@@ -18,6 +18,9 @@ P={}
 def prod(h,t,price,col='3a3a3a',comps=None,kit_name=None):
     p={'title':t,'handle':h,'url':'/products/'+h,'price':price,'compare_at_price':None,'featured_image':ph(t.split(' –')[0],600,600,'f5f5f2',col),'available':True,
        'metafields':{'custom':{'kit_components':{'value':comps or []},'kit_name':{'value':kit_name}, 'kit_separate_adjust':{'value':None}}}}
+    pid=str(1000+len(P)); p['id']=pid; p['available']=True; p['has_only_default_variant']=True
+    p['selected_or_first_available_variant']={'id':'9'+pid,'price':price,'available':True,'title':'Default Title'}
+    p['metafields'].setdefault('pdp',{})
     P[h]=p; return p
 for h,t,pr,c in [('revolt-flygrostborttagare','Revolt – Flygrostborttagare',18900,'5a3a5a'),('alkastrike-alkalisk-avfettning','Alkastrike – Alkalisk Avfettning',14900,'3a5a3a'),
  ('deepdegrease-kallavfettning','DeepDegrease – Kallavfettning',16900,'2b2b2b'),('foamtastic-hogkoncentrerat-snow-foam','Foamtastic – Snow Foam för effektiv förtvätt',16900,'9fb3bd'),
@@ -25,35 +28,54 @@ for h,t,pr,c in [('revolt-flygrostborttagare','Revolt – Flygrostborttagare',18
  ('clarity-glasrengoring','Clarity – Glasrengöring',14900,'a9c4d0'),('pristine-dack-plastfornyare','Pristine - Däck- & Plastförnyare',18900,'c9a3b3'),
  ('core-apc-allrengoring','Core APC – Allrengöring (APC)',15900,'7a7a7a'),('foam-lance-skumlans','Foam Cannon',39900,'777777')]:
     prod(h,t,pr,c)
-for h,t,pr in [('falg-startkit','Fälg startkit',30900),('wash-pad-mikrofiber','Washpad',14900),('mikrofiberduk','Mikrofiberduk',4900),('glass-towel-glasduk','Glass Towel – Glasduk',6900),('dackapplikator','Däckapplikator',4000),('mikrofiber-falgborste','Mikrofiber Fälgborste',18900)]:
+for h,t,pr in [('stort-interior-startkit-x','x',1),('wash-pad-mikrofiber','Washpad',14900),('mikrofiberduk','Mikrofiberduk',4900),('glass-towel-glasduk','Glass Towel – Glasduk',6900),('dackapplikator','Däckapplikator',4000),('mikrofiber-falgborste','Mikrofiber Fälgborste',18900)]:
     prod(h,t,pr,'888')
-P['mikrofiberduk']['price_varies']=True
+P['mikrofiberduk']['price_varies']=True; P['mikrofiberduk']['has_only_default_variant']=False
+P['mikrofiberduk']['selected_or_first_available_variant']['title']='1'
+P['mikrofiberduk']['metafields']['custom']['kit_components']={'value':[]}
+P['foam-lance-skumlans']['title']='Foam Cannon'
 PDP={'alkastrike-alkalisk-avfettning':'Löser trafikfilm, insekter och organisk smuts före kontaktvätten.','deepdegrease-kallavfettning':'Löser upp asfalt, tjära och oljebaserad smuts – före handtvätten.','revolt-flygrostborttagare':'Löser upp flygrost och bromsdamm på fälgen – så att det kan spolas bort.','foamtastic-hogkoncentrerat-snow-foam':'Tjockt, vidhäftande skum som löser upp smuts innan handtvätten.','pure-shampoo-ph-neutralt-bilschampo':'Skonsamt mot vax och keramiska lackskydd – ändå kraftfullt mot smuts och vägfilm.','glosscoat-hydrofobisk-sprayforsegling':'Glans och vattenavrinning på några minuter – sista steget efter tvätten.','clarity-glasrengoring':'Klart glas utan ränder – in- och utvändigt.','pristine-dack-plastfornyare':'Djupare färg och jämn finish på däck och utvändig plast.'}
 for h,v in PDP.items(): P[h]['metafields']['pdp']={'value_line':{'value':v},'benefits':{'value':['A','B','C']}}
-def comp(h): return {'variant':{'value':{'price':P[h]['price'],'product':P[h]}},'quantity':{'value':1}}
+for h in ['alkastrike-alkalisk-avfettning','pure-shampoo-ph-neutralt-bilschampo','glosscoat-hydrofobisk-sprayforsegling','pristine-dack-plastfornyare']:
+    P[h]['metafields']['pdp']['demo_media']={'value':['__VID__']}
+TL={'deepdegrease-kallavfettning':'Kallavfettning','alkastrike-alkalisk-avfettning':'Alkalisk förtvätt','pure-shampoo-ph-neutralt-bilschampo':'Bilschampo för kontaktvätt','foamtastic-hogkoncentrerat-snow-foam':'Snow foam / förtvätt','foam-lance-skumlans':'Foam cannon / skumkanon','revolt-flygrostborttagare':'Flygrostborttagare','clarity-glasrengoring':'Glasrengöring','pristine-dack-plastfornyare':'Däck- och plastförnyare','glosscoat-hydrofobisk-sprayforsegling':'Sprayförsegling'}
+for h,v in TL.items(): P[h]['metafields']['pdp']['type_label']={'value':v}
+SZ={'deepdegrease-kallavfettning':'1000 ml','foamtastic-hogkoncentrerat-snow-foam':'1000 ml'}
+def comp(h): return {'variant':{'value':{'price':P[h]['price'],'product':P[h]}},'quantity':{'value':1},'size':{'value':SZ.get(h,'500 ml' if h in TL and h!='foam-lance-skumlans' else None)}}
 prod('litet-exterior-startkit','Exteriör Startkit',42900,'444',[comp(x) for x in ['deepdegrease-kallavfettning','alkastrike-alkalisk-avfettning','pure-shampoo-ph-neutralt-bilschampo']],'Exteriör Startkit')
 prod('foam-wash-kit','Foam Wash Kit',46900,'444',[comp(x) for x in ['foamtastic-hogkoncentrerat-snow-foam','foam-lance-skumlans']],'Foam Wash Kit')
+prod('falg-startkit','Fälg startkit',30900,'444',[comp(x) for x in ['revolt-flygrostborttagare','mikrofiber-falgborste']],'Fälg Startkit')
+P['falg-startkit']['metafields']['custom']['kit_separate_adjust']={'value':56.7}
+prod('falg-och-dack-komplett-kit','Fälg Och Däck Komplett Kit',49900,'444',[comp(x) for x in ['revolt-flygrostborttagare','mikrofiber-falgborste','pristine-dack-plastfornyare','dackapplikator']],'Fälg & Däck Komplett Kit')
+P['falg-och-dack-komplett-kit']['metafields']['custom']['kit_separate_adjust']={'value':56.7}
+prod('stort-interior-startkit','Stort interiör Startkit',54900,'444',[comp(x) for x in ['core-apc-allrengoring','clarity-glasrengoring','glass-towel-glasduk','mikrofiberduk']],'Stort Interiör Startkit')
 prod('exterior-komplett-kit','Exteriör Komplett Kit',119900,'444',[comp(x) for x in ['deepdegrease-kallavfettning','alkastrike-alkalisk-avfettning','foamtastic-hogkoncentrerat-snow-foam','pure-shampoo-ph-neutralt-bilschampo','revolt-flygrostborttagare','clarity-glasrengoring','pristine-dack-plastfornyare','glosscoat-hydrofobisk-sprayforsegling']],'Exteriör Komplett Kit')
 REV=[('streamnight',4,'Fantastisk','Snabb leverans till Gotland, en riktigt bra flygrostborttagare som gav ett fantastiskt resultat. Även en riktigt bra alkalisk avfättning. Grymma dofter som ger en bra känsla när man lägger på medlet. Slutresultatet på bil som hoj blir otroligt bra!','11 september 2026'),
  ('Hyseni',5,'Produkterna var riktigt bra och lätta…','Produkterna var riktigt bra och lätta att använda, kall- och alkaliska avfettningarna var riktigt bra för att få bort 150mils smuts från bilen, schampot gjorde bilen riktigt fin o blank med som dessutom skummade på bra och luktade riktigt gott! Rekommenderar starkt dessa produkter!','9 september 2026'),
  ('My Segerstedt',5,'Riktigt nöjd med produkterna!','Fantastiska produkter! Fälg rengöringen är helt otrolig, fälgarna var extremt smutsiga, sprayade på och lät de bara sitta en stund, spolade av och allt var borta! Avfettning och Schampo var också underbart. Gör definitivt sitt jobb ordentligt. Glosscoat gjorde bilen otroligt glansig🥰 Kommer definitivt fortsätta med dessa produkter❤️','8 september 2026')]
 reviews=[{'author':{'value':a},'rating':{'value':r},'title':{'value':t},'body':{'value':b},'date':{'value':d}} for a,r,t,b,d in REV]
-vidobj={'sources':[{'format':'mp4','height':480,'url':'v480.mp4'},{'format':'mp4','height':1080,'url':'v1080.mp4'},{'format':'mp4','height':720,'url':'v720.mp4'},{'format':'m3u8','height':1080,'url':'v.m3u8'}],'preview_image':ph('video',1600,900,'2a2a2a','555',False)}
+vidobj={'media_type':'video','sources':[{'format':'mp4','height':480,'url':'v480.mp4'},{'format':'mp4','height':1080,'url':'v1080.mp4'},{'format':'mp4','height':720,'url':'v720.mp4'},{'format':'m3u8','height':1080,'url':'v.m3u8'}],'preview_image':ph('video',1600,900,'2a2a2a','555',False)}
 snips={'icon-or-image':'<svg viewBox="0 0 20 20" class="{{ class_name }}"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>'}
-for n in ['nr-video-toggle','nr-video-sources','nr-ks-separate','nr-kit-separate-total']:
+for n in ['nr-video-toggle','nr-video-sources','nr-ks-separate','nr-kit-separate-total','nr-routine']:
     if os.path.exists(R+'snippets/'+n+'.liquid'): snips[n]=clean(open(R+'snippets/'+n+'.liquid').read())
 env=Environment(loader=DictLoader(snips))
 def money(c):
     c=float(c); kr=int(c)//100; ore=int(round(c))%100
     return f"{kr:,}".replace(',',' ')+(f",{ore:02d}" if ore else '')+' kr'
 env.filters['money']=money
+env.filters['handleize']=lambda s: str(s).lower().replace(' ','-')
 env.filters['asset_url']=lambda s:'/'+s
 env.filters['stylesheet_tag']=lambda s:''
 env.filters['image_url']=lambda i,**k: (i or {}).get('src','') if isinstance(i,dict) else str(i)
 env.filters['image_tag']=lambda u,**k: f'<img src="{u}" alt="{k.get("alt","")}" class="{k.get("class","")}" width="600" height="600" loading="lazy" style="{k.get("style","")}">'
 settings={'nr_trustpilot_rating':'4.7','nr_trustpilot_count':34,'nr_trustpilot_url':'https://se.trustpilot.com/review/nordicreflection.se','free_shipping_threshold':799,'nr_production_mode':False}
+def fixvid(o):
+    if isinstance(o,dict):
+        return {k:fixvid(v) for k,v in o.items()}
+    if isinstance(o,list): return [vidobj if x=='__VID__' else fixvid(x) for x in o]
+    return o
 def resolve(k,v):
-    if isinstance(v,str) and v in P: return P[v]
+    if isinstance(v,str) and v in P: return fixvid(P[v])
     if isinstance(v,str) and v.startswith('shopify://files/videos'): return vidobj
     if isinstance(v,str) and v.startswith('shopify://shop_images'): return ph(k,1200,900,'cfcac0','',False)
     return v
@@ -84,7 +106,7 @@ for k in tpl['order']:
     for bk in s.get('block_order',[]):
         b=s['blocks'][bk]; bs={kk:resolve(kk,v) for kk,v in b.get('settings',{}).items()}
         if typ=='nr-home-visual-proof':
-            for kk in ['video','image','title','text','helper_label','helper_link','next_link']: bs.setdefault(kk,'')
+            for kk in ['video','image','title','text','helper_label','helper_link','next_link','word','cta_label','addon_product','kit_product','routine_heading','addon_text','kit_label','kit_text']: bs.setdefault(kk,'')
         bl.append({'settings':bs,'id':bk,'shopify_attributes':'','type':b['type']})
     body=clean(src).replace('alt: section.settings.image.alt | default: section.settings.heading,','alt: section.settings.heading,')
     if typ=='nr-home-featured-products':

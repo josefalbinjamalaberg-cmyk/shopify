@@ -63,6 +63,76 @@ Klaviyo popup.
 `docs/home/backup/` holds the live `index.json` and `header-group.json`.
 Section files: previous versions = commit before 3c43fcb.
 
+## Pass 2: campaign advisor, routine builder, kit and category art direction (2026-10-04)
+
+The design read was: preserve-mode redesign of a premium Scandinavian automotive DTC homepage, monochrome with one green "saving" accent, dials 6/4/3. Only three areas changed. Nothing new was added to the page.
+
+### 1. "Rätt produkt för rätt typ av smuts": `sections/nr-home-visual-proof.liquid`
+
+This is now the page's one dark moment.
+
+- **Problem words:** Trafikfilm, Asfalt, Flygrost, Foam, Handtvätt, Skydd, Glas and Däck form an ARIA tablist styled as an underlined index, not pills. On phones it scrolls sideways.
+- **Each state changes the whole stage.** The stage shows the real in-use clip in this order:
+  1. block video (Revolt: `revoltförstavideo.mov`);
+  2. otherwise the product's own `pdp.demo_media` clip;
+  3. otherwise a studio composition with the problem word set large behind the bottle (DeepDegrease and Clarity have no clip).
+- **Packshot:** always the real image. With a clip it sits on a light plate in front of the footage. `mix-blend-mode: multiply` makes white or transparent packshots read as objects.
+- **Story order:** problem, name, one line, three points, price, "Se <produkt> →", routine builder, optional helper link.
+- **Motion:** the stage settles and the story rises in 260–300 ms. Under `prefers-reduced-motion` there is no motion.
+
+### 2. Routine builder: `snippets/nr-routine.liquid` + `initRoutines()` in `assets/nr-homepage.js`
+
+It sits inline under the selected product and shows at most two options:
+- one add-on with an inline "Lägg till" (Ajax Cart API, announced with Shopify's `CartLinesUpdateEvent`, the same as the theme's product forms);
+- one real kit with its price, its separate value and the saving. The separate value comes from `nr-ks-separate`: current component prices minus the active Revolt + brush discount, never compare-at.
+
+The cart is read once (`/cart.js`) when the section approaches, and again after every add:
+- An add-on already in the cart is not offered again.
+- If the kit is already in the cart, the block hides.
+- If Revolt and the brush are both in the cart, the Fälg Startkit row says "De här två finns redan som färdigt kit."
+- If the main product is already in the cart, the kit row says the kit contains it.
+
+Nothing is swapped or removed automatically. If an add fails, the shopper sees an inline message and the button re-enables.
+
+| Product | Add-on | Kit (price · separate value · saving) |
+|---|---|---|
+| Alkastrike | DeepDegrease | Exteriör Startkit 429 · 497 · 68 |
+| DeepDegrease | Alkastrike | Exteriör Startkit |
+| Revolt | Mikrofiber Fälgborste | Fälg Startkit 309 · 321,30 · 12,30 (after the active 30 % brush discount) |
+| Foamtastic | Foam Cannon | Foam Wash Kit 469 · 568 · 99 |
+| Pure Shampoo | Washpad | Exteriör Startkit |
+| GlossCoat | Mikrofiberduk (1 st, 49 kr) | Exteriör Komplett 1 199 · 1 382 · 183, labelled "Om du ska köpa flera steg" |
+| Clarity | Glass Towel | Stort Interiör Startkit 549 · 674 · 125 |
+| Pristine | Däckapplikator | Fälg & Däck Komplett 499 · 550,30 · 51,30 |
+
+### 3. Kits: `sections/nr-home-kit-chooser.liquid`
+
+There are three environments instead of three equal cards:
+- **Grunden:** light, with a packshot.
+- **Foam setup:** the real `foambanner1.mov` loop as the environment.
+- **Hela rutinen:** dark, with all eight products on a two-level shelf.
+
+The Komplett panel is the tall right column on desktop. Each kit shows role, name, who it is for, count, price, separate value, saving and CTA. "Visa vad som ingår" opens a horizontal strip of the components (image, name, size, `pdp.type_label`).
+
+### 4. Categories: `sections/nr-home-categories.liquid`
+
+These are now portals: one dominant portal and two stacked, real photos full bleed, and the name, one line and "Utforska →" on a scrim. HEIC originals are served as progressive JPEG.
+
+### System and analytics
+
+- **Shared tokens:** `--nr-save` and `--nr-save-on-dark` in `nr-homepage.css`. One 4 px radius throughout. One section eyebrow (the advisor).
+- **Analytics:** `nr-homepage.js` now publishes `nr_*` custom events through `Shopify.analytics.publish`, as the product pages do: `dirt_advisor_select`, `dirt_advisor_product_click`, `routine_addon_click`, `routine_kit_click`, `kit_section_click` and `category_portal_click`.
+
+### QA
+
+QA used the local harness plus a mock `/cart.js` and `/cart/add.js` server (`mock-cart-server.py`). Widths tested: 320, 375, 390, 430, 768, 1024, 1366, 1440 and 1920.
+
+- **Rendering:** all 8 states show the correct product, price, CTA, add-on and kit. There is no horizontal scroll and nothing clips at any width.
+- **Cart:** six cart scenarios and the error path pass.
+- **Page length:** desktop is 91 px shorter than before. Mobile is 111 px longer (1.8 %); that space holds the whole routine builder.
+
+Screens are in `screens/v2-*.png`.
+
 ## Produktguide – "Rätt produkt för rätt typ av smuts" (2026-10-04)
 
 `sections/nr-home-visual-proof.liquid` (editor name **NR: Produktguide**) replaces the dark problem index with a mini product advisor.

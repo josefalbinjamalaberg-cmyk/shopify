@@ -749,7 +749,7 @@
 
   .nr-routine__kit-value strong {
     font-weight: 600;
-    color: #7fc29a;
+    color: var(--nr-save-on-dark);
   }
 
   .nr-routine__kit-cta {
@@ -780,8 +780,18 @@
 
   /* ---------- Phones: words scroll, stage first, story below ---------- */
   @media screen and (max-width: 749px) {
+    .nr-adv {
+      padding-block: 48px;
+    }
+
     .nr-adv__head {
       margin-bottom: var(--nr-space-md);
+    }
+
+    /* The label and name already say it; keep the rows to one glance. */
+    .nr-routine__opt--addon .nr-routine__text,
+    .nr-routine__opt--kit [data-nr-routine-kit-text] {
+      display: none;
     }
 
     .nr-adv__tabs-wrap {
@@ -826,7 +836,7 @@
     }
 
     .nr-adv__stage {
-      aspect-ratio: 5 / 4;
+      aspect-ratio: 4 / 3;
       margin-inline: calc(var(--nr-space-sm) * -1);
       border-radius: 0;
     }

@@ -25,6 +25,9 @@
   --nr-text-muted: #686868;
   --nr-border: rgba(17, 17, 17, 0.12);
   --nr-accent: #111111;
+  /* Saving / value: the one accent, light and dark backgrounds. */
+  --nr-save: #1f6b3a;
+  --nr-save-on-dark: #9fd8b4;
 
   --nr-radius-sm: 4px;
   --nr-radius-md: 8px;

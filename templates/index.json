@@ -607,7 +607,7 @@
           "type": "category",
           "settings": {
             "label": "Exteriör",
-            "description": "Förtvätt, fälg, schampo & skydd",
+            "description": "Från grovsmuts till finish.",
             "link": "/collections/exterior",
             "image": "shopify://shop_images/IMG_0350_794d0134-4f67-4ed9-8987-8b9f36a57cd0.heic"
           }
@@ -616,7 +616,7 @@
           "type": "category",
           "settings": {
             "label": "Interiör",
-            "description": "Rengöring för bilens insida",
+            "description": "För rena ytor, detaljer och glas.",
             "link": "/collections/interior",
             "image": "shopify://shop_images/IMG_0310_13b17cb9-ea51-42d6-8d97-1a16b1bfccf7.heic"
           }
@@ -625,7 +625,7 @@
           "type": "category",
           "settings": {
             "label": "Tillbehör",
-            "description": "Dukar, borstar & tvättutrustning",
+            "description": "Rätt verktyg för varje steg.",
             "link": "/collections/accessories",
             "image": "shopify://shop_images/IMG_0237_96af2006-479e-4106-bcff-d3cb93887ee5.heic"
           }
@@ -637,7 +637,8 @@
         "cat_3"
       ],
       "settings": {
-        "heading": "Handla efter område"
+        "heading": "Handla efter område",
+        "cta_label": "Utforska"
       }
     },
     "bundle": {

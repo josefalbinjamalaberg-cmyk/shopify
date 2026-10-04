@@ -1,239 +1,258 @@
 {% comment %}
-  "Utvalda kategorier" — four fixed, equal-width category cards directly
-  under the hero. Each card always renders (label + link have schema
-  defaults), so a missing image can never collapse the grid down to a
-  single card the way the previous collection-picker version could.
-  Image object-position reads each image's native Shopify focal point
-  (set in Admin → Media), so no per-card position setting is needed.
+  Category portals: three ways into the brand, not three collection cards.
+  Three blocks: one dominant portal beside two stacked ones (desktop); on
+  phones the first full width, the other two side by side. Real photos full
+  bleed with the name, one line and "Utforska" on a bottom scrim. Image
+  crop follows each image's Shopify focal point. HEIC originals are served
+  as progressive JPEG so every browser can show them.
 {% endcomment %}
 
 <div data-nr-scope class="nr-section nr-section--soft nr-categories">
   <div class="nr-container">
-    <h2 class="nr-h2 nr-categories__heading">{{ section.settings.heading }}</h2>
+    <h2 class="nr-h2 nr-categories__heading">{{ section.settings.heading | escape }}</h2>
 
     <ul
-      class="nr-categories__grid{% if section.blocks.size == 3 %} nr-categories__grid--feature{% endif %}"
+      class="nr-portals nr-portals--{{ section.blocks.size }}"
       role="list"
-      style="--nr-categories-count: {{ section.blocks.size }};"
       data-nr-reveal="stagger"
     >
-      {% for block in section.blocks %}
+      {%- for block in section.blocks -%}
         {%- liquid
           assign image = block.settings.image
           assign focal_point = image.presentation.focal_point | default: 'center'
+          assign image_src = image.src | downcase
+          assign is_lead = false
+          if forloop.first and section.blocks.size == 3
+            assign is_lead = true
+          endif
         -%}
-        <li class="nr-categories__item" {{ block.shopify_attributes }}>
-          <a href="{{ block.settings.link | default: '#' }}" class="nr-categories__card">
-            <span class="nr-categories__media">
+        <li class="nr-portals__item{% if is_lead %} nr-portals__item--lead{% endif %}" {{ block.shopify_attributes }}>
+          <a
+            href="{{ block.settings.link | default: '#' }}"
+            class="nr-portal"
+            data-nr-event="category_portal_click"
+            data-nr-source="{{ block.settings.label | handleize }}"
+          >
+            <span class="nr-portal__media">
               {%- if image != blank -%}
-                {{
-                  image
-                  | image_url: width: 900
-                  | image_tag:
-                    loading: 'lazy',
-                    alt: block.settings.label,
-                    widths: '400, 600, 900',
-                    sizes: '(min-width: 990px) 50vw, (min-width: 750px) 46vw, 92vw',
-                    style: 'object-position: ' | append: focal_point
-                }}
-              {%- else -%}
-                <span class="nr-placeholder nr-categories__placeholder">
-                  <span class="nr-placeholder__label">Bild kommer snart</span>
-                </span>
+                {%- comment -%} HEIC originals are served as progressive JPEG so every browser shows them. {%- endcomment -%}
+                {%- if image_src contains '.heic' -%}
+                  {{
+                    image
+                    | image_url: width: 1400, format: 'pjpg'
+                    | image_tag:
+                      loading: 'lazy',
+                      alt: '',
+                      widths: '480, 720, 960, 1400',
+                      sizes: '(min-width: 990px) 60vw, 100vw',
+                      style: 'object-position: ' | append: focal_point
+                  }}
+                {%- else -%}
+                  {{
+                    image
+                    | image_url: width: 1400
+                    | image_tag:
+                      loading: 'lazy',
+                      alt: '',
+                      widths: '480, 720, 960, 1400',
+                      sizes: '(min-width: 990px) 60vw, 100vw',
+                      style: 'object-position: ' | append: focal_point
+                  }}
+                {%- endif -%}
               {%- endif -%}
             </span>
-            <span class="nr-categories__label">{{ block.settings.label }}</span>
-            {%- if block.settings.description != blank -%}
-              <span class="nr-categories__description">{{ block.settings.description }}</span>
-            {%- endif -%}
+            <span class="nr-portal__text">
+              <span class="nr-portal__label">{{ block.settings.label | escape }}</span>
+              {%- if block.settings.description != blank -%}
+                <span class="nr-portal__line">{{ block.settings.description | escape }}</span>
+              {%- endif -%}
+              <span class="nr-portal__cta">{{ section.settings.cta_label | default: 'Utforska' | escape }} <span aria-hidden="true">&rarr;</span></span>
+            </span>
           </a>
         </li>
-      {% endfor %}
+      {%- endfor -%}
     </ul>
   </div>
 </div>
 
 {% stylesheet %}
-  /* Extra bottom air on this section specifically — on top of the shared
-     .nr-section padding-block, not instead of it, so other homepage
-     sections using .nr-section stay untouched. */
-  .nr-categories {
-    padding-bottom: calc(var(--nr-section-space) + 24px);
-  }
-
   .nr-categories__heading {
-    text-align: left;
-    /* Base heading→grid gap (var(--nr-space-lg)) plus a bit more
-       breathing room, scoped to this heading only — doesn't touch the
-       shared --nr-space-lg variable or any other section's spacing. */
-    margin-bottom: calc(var(--nr-space-lg) + 24px);
-    /* ~12.5% smaller than the shared .nr-h2 scale at every breakpoint, so
-       this heading doesn't visually compete with the more commercially
-       important problem-solving sections above/below it. */
-    font-size: clamp(1.5rem, 1.1rem + 1.7vw, 2.625rem);
+    margin-bottom: var(--nr-space-lg);
   }
 
-  .nr-categories__grid {
-    list-style: none;
+  /* Portals: one dominant category beside two stacked ones. Real photos
+     full bleed, text on a bottom scrim, no card chrome. */
+  .nr-portals {
+    display: grid;
+    grid-template-columns: repeat(var(--nr-portal-cols, 3), minmax(0, 1fr));
+    gap: 12px;
     margin: 0;
     padding: 0;
-    display: grid;
-    /* Column count matches the actual number of blocks (set via inline
-       custom property above), so removing a card re-spaces the rest
-       evenly across the full row instead of leaving a phantom column. */
-    grid-template-columns: repeat(var(--nr-categories-count, 4), minmax(0, 1fr));
-    gap: var(--nr-space-md);
+    list-style: none;
   }
 
-  .nr-categories__card {
+  .nr-portals--3 {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-rows: repeat(2, clamp(240px, 22vw, 330px));
+  }
+
+  .nr-portals--3 .nr-portals__item--lead {
+    grid-row: 1 / span 2;
+  }
+
+  .nr-portals--2 {
+    --nr-portal-cols: 2;
+  }
+
+  .nr-portals--4 {
+    --nr-portal-cols: 4;
+  }
+
+  .nr-portals__item {
     display: flex;
-    flex-direction: column;
-    gap: var(--nr-space-sm);
-    text-decoration: none;
-    color: inherit;
+    min-width: 0;
+    min-height: 260px;
   }
 
-  .nr-categories__media {
-    display: block;
-    aspect-ratio: 4 / 5;
+  .nr-portal {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
     overflow: hidden;
-    border-radius: var(--nr-radius-md);
-    background: var(--nr-bg-soft);
+    border-radius: var(--nr-radius-sm);
+    background: #1b1b1b;
+    color: #fff;
+    text-decoration: none;
+    isolation: isolate;
   }
 
-  .nr-categories__media img {
+  .nr-portal__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .nr-portal__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 320ms ease;
+    transition: transform 600ms var(--nr-ease-out);
   }
 
-  .nr-categories__placeholder {
-    min-height: 0;
-    border-radius: var(--nr-radius-md);
+  .nr-portal__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0.25) 45%, rgba(10, 10, 10, 0) 70%);
   }
 
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .nr-categories__card:hover .nr-categories__media img {
-      transform: scale(1.04);
-    }
+  .nr-portal__text {
+    display: grid;
+    gap: 6px;
+    padding: clamp(20px, 2.4vw, 36px);
   }
 
-  .nr-categories__card:focus-visible {
-    outline: 2px solid var(--nr-text);
-    outline-offset: 4px;
-    border-radius: var(--nr-radius-md);
-  }
-
-  .nr-categories__label {
+  .nr-portal__label {
     font-family: var(--font-heading--family);
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
 
-  .nr-categories__description {
-    margin-top: -8px;
-    font-size: 0.875rem;
+  .nr-portals__item--lead .nr-portal__label {
+    font-size: clamp(2.25rem, 1.4rem + 2.6vw, 4rem);
+  }
+
+  .nr-portal__line {
+    max-width: 32ch;
+    font-size: 0.9375rem;
     line-height: 1.45;
-    color: var(--nr-text-muted);
+    color: rgba(255, 255, 255, 0.86);
   }
 
-  .nr-categories__card:active .nr-categories__media {
-    transform: scale(0.99);
+  .nr-portal__cta {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  .nr-categories__media {
+  .nr-portal__cta span {
+    display: inline-block;
     transition: transform var(--nr-transition-fast);
   }
 
-  /* Three categories: one large feature tile beside two stacked tiles,
-     instead of a third row of identical equal-width cards on the page. */
-  @media screen and (min-width: 990px) {
-    .nr-categories__grid--feature {
-      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-      grid-template-rows: auto auto;
-      column-gap: var(--nr-space-lg);
-      row-gap: var(--nr-space-md);
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .nr-portal:hover .nr-portal__media img {
+      transform: scale(1.035);
     }
 
-    .nr-categories__grid--feature > :first-child {
-      grid-row: span 2;
+    .nr-portal:hover .nr-portal__cta span {
+      transform: translateX(4px);
     }
+  }
 
-    .nr-categories__grid--feature .nr-categories__card {
-      height: 100%;
-    }
-
-    .nr-categories__grid--feature > :first-child .nr-categories__media {
-      aspect-ratio: auto;
-      flex: 1;
-      min-height: 0;
-    }
-
-    .nr-categories__grid--feature > :not(:first-child) .nr-categories__media {
-      aspect-ratio: 16 / 9;
-    }
-
-    .nr-categories__grid--feature > :first-child .nr-categories__label {
-      font-size: 1.375rem;
-    }
+  .nr-portal:focus-visible {
+    outline: 2px solid var(--nr-text);
+    outline-offset: 3px;
   }
 
   @media screen and (max-width: 989px) {
-    .nr-categories__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .nr-portals--3 {
+      grid-template-rows: repeat(2, 260px);
     }
 
-    .nr-categories__grid--feature > :first-child {
-      grid-column: 1 / -1;
-    }
-
-    .nr-categories__grid--feature > :first-child .nr-categories__media {
-      aspect-ratio: 16 / 9;
+    .nr-portals--4 {
+      --nr-portal-cols: 2;
     }
   }
 
-  /* Mobile: the first category full width, the other two side by side.
-     Shorter than three stacked full-width photos, still no carousel. */
+  /* Phones: the lead portal full width, the other two side by side. */
   @media screen and (max-width: 749px) {
     .nr-categories__heading {
       margin-bottom: var(--nr-space-md);
-      font-size: clamp(1.375rem, 1.2rem + 1vw, 1.75rem);
     }
 
-    .nr-categories__grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
-    .nr-categories__grid--feature {
+    .nr-portals,
+    .nr-portals--3 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px 12px;
+      grid-template-rows: none;
+      gap: 8px;
     }
 
-    .nr-categories__card {
-      gap: 10px;
+    .nr-portals__item {
+      min-height: 0;
+      aspect-ratio: 3 / 4;
     }
 
-    .nr-categories__media {
+    .nr-portals--3 .nr-portals__item--lead {
+      grid-column: 1 / -1;
+      grid-row: auto;
       aspect-ratio: 4 / 3;
     }
 
-    .nr-categories__grid--feature > :first-child .nr-categories__media {
-      aspect-ratio: 4 / 3;
+    .nr-portal__text {
+      padding: 16px;
     }
 
-    .nr-categories__grid--feature > :not(:first-child) .nr-categories__media {
-      aspect-ratio: 1;
+    .nr-portals__item:not(.nr-portals__item--lead) .nr-portal__line {
+      display: none;
     }
 
-    .nr-categories__grid--feature > :not(:first-child) .nr-categories__label {
-      font-size: 1rem;
+    .nr-portals__item--lead .nr-portal__label {
+      font-size: 2.25rem;
     }
 
-    .nr-categories__grid--feature > :not(:first-child) .nr-categories__description {
-      font-size: 0.8125rem;
+    .nr-portal__label {
+      font-size: 1.375rem;
+    }
+
+    .nr-portal__cta {
+      margin-top: 4px;
+      font-size: 0.75rem;
     }
   }
 {% endstylesheet %}
@@ -249,7 +268,8 @@
       "id": "heading",
       "label": "Rubrik",
       "default": "Utvalda kategorier"
-    }
+    },
+    { "type": "text", "id": "cta_label", "label": "Länktext", "default": "Utforska", "info": "Pilen läggs till automatiskt." }
   ],
   "blocks": [
     {
