@@ -46,15 +46,13 @@
         muted
         loop
         playsinline
+        preload="metadata"
         {% if section.settings.video_autoplay %}
           autoplay
         {% endif %}
         poster="{{ video_poster | image_url: width: 1920 }}"
       >
-        <source
-          src="{{ section.settings.desktop_video.sources.last.url }}"
-          type="video/mp4"
-        >
+        {%- render 'nr-video-sources', video: section.settings.desktop_video -%}
       </video>
     {%- elsif has_image -%}
       <picture>
@@ -273,10 +271,12 @@
     .nr-hero--small,
     .nr-hero--medium,
     .nr-hero--large {
-      height: clamp(420px, 78vh, 620px);
+      height: clamp(420px, 66vh, 560px);
       /* svh: sized to the viewport with the browser bars showing, so the
-         hero doesn't jump when iOS Safari's address bar collapses. */
-      height: clamp(420px, 78svh, 620px);
+         hero doesn't jump when iOS Safari's address bar collapses. Capped so
+         the trust line and the start of the kit section show in the first
+         screen on a 390 × 844 phone. */
+      height: clamp(420px, 66svh, 560px);
     }
 
     .nr-hero .nr-hero__content-wrap {

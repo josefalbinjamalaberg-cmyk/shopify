@@ -1,0 +1,44 @@
+{%- doc -%}
+  <source> tags for a Shopify-hosted video: MP4 renditions only (never the
+  HLS playlist, which Chrome and Firefox cannot play from a plain <video>),
+  ≤ 720p for phones and ≤ 1080p for larger screens. Browsers without
+  <source media> support use the first (smaller) file.
+
+  @param {video} video - The video file (e.g. section.settings.desktop_video)
+{%- enddoc -%}
+
+{%- liquid
+  assign small = nil
+  assign large = nil
+  for s in video.sources
+    if s.format != 'mp4'
+      continue
+    endif
+    if s.height <= 720
+      if small == nil or s.height > small.height
+        assign small = s
+      endif
+    endif
+    if s.height <= 1080
+      if large == nil or s.height > large.height
+        assign large = s
+      endif
+    endif
+  endfor
+  if small == nil
+    assign small = large
+  endif
+-%}
+{%- if small != nil -%}
+  <source
+    media="(max-width: 749px)"
+    src="{{ small.url }}"
+    type="video/mp4"
+  >
+{%- endif -%}
+{%- if large != nil -%}
+  <source
+    src="{{ large.url }}"
+    type="video/mp4"
+  >
+{%- endif -%}

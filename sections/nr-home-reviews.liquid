@@ -1,0 +1,235 @@
+{% comment %}
+  "Vad kunder säger om NordicReflection" – brand reviews on the homepage.
+
+  One source of truth (same as the product pages' trust section):
+    rating, count, link → theme settings (NordicReflection – Trustpilot)
+    reviews             → metaobject nr_trustpilot_review (verbatim Trustpilot
+                          reviews of the store: author, rating, title, body, date)
+  Full review text is shown – never cut mid-sentence. Trustpilot's own titles
+  for short reviews are the first words of the text ending in "…"; those
+  titles are hidden so the same words are not printed twice.
+  Desktop: three columns. Phones: a native scroll-snap row that shows the
+  next review's edge (no carousel library, vertical scrolling stays free).
+{% endcomment %}
+
+{%- liquid
+  assign rating = settings.nr_trustpilot_rating
+  assign rating_count = settings.nr_trustpilot_count
+  assign trustpilot_url = settings.nr_trustpilot_url
+  assign reviews = shop.metaobjects.nr_trustpilot_review.values
+-%}
+
+{%- if reviews.size > 0 -%}
+  <div data-nr-scope class="nr-section nr-home-reviews">
+    <div class="nr-container">
+      <div class="nr-section-head nr-home-reviews__head" data-nr-reveal>
+        <h2 class="nr-h2">{{ section.settings.heading | escape }}</h2>
+        {%- if rating != blank -%}
+          <p class="nr-home-reviews__score">
+            <span class="nr-home-reviews__stars" aria-hidden="true">
+              {%- for i in (1..5) -%}
+                <svg viewBox="0 0 12 12" focusable="false"><path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/></svg>
+              {%- endfor -%}
+            </span>
+            <span>
+              <strong>{{ rating | replace: '.', ',' | escape }}/5</strong> på Trustpilot
+              {%- if rating_count > 0 %} · {{ rating_count }} omdömen om NordicReflection{% endif -%}
+            </span>
+          </p>
+        {%- endif -%}
+      </div>
+
+      <ul class="nr-home-reviews__list" role="list" data-nr-reveal="stagger">
+        {%- for review in reviews limit: section.settings.max_reviews -%}
+          {%- liquid
+            assign review_rating = review.rating.value | default: 5
+            assign title = review.title.value
+            assign body = review.body.value
+            assign title_stub = title | remove: '…' | remove: '...' | strip
+            if title contains '…' and body contains title_stub
+              assign title = ''
+            endif
+          -%}
+          <li class="nr-home-reviews__item">
+            <figure class="nr-home-reviews__review">
+              <p class="nr-home-reviews__rating">
+                <span class="visually-hidden">{{ review_rating }} av 5 stjärnor</span>
+                <span class="nr-home-reviews__stars" aria-hidden="true">
+                  {%- for i in (1..5) -%}
+                    <svg viewBox="0 0 12 12" focusable="false"{% if i > review_rating %} class="is-empty"{% endif %}><path d="M6 .8l1.55 3.3 3.6.42-2.66 2.47.7 3.56L6 8.77 2.81 10.55l.7-3.56L.85 4.52l3.6-.42z" fill="currentColor"/></svg>
+                  {%- endfor -%}
+                </span>
+              </p>
+              {%- if title != blank -%}
+                <p class="nr-home-reviews__title">{{ title | escape }}</p>
+              {%- endif -%}
+              <blockquote class="nr-home-reviews__body">
+                {{- body | escape | newline_to_br -}}
+              </blockquote>
+              <figcaption class="nr-home-reviews__meta">
+                {{- review.author.value | escape -}}
+                {%- if review.date.value != blank %}, {{ review.date.value | escape }}{% endif -%}
+              </figcaption>
+            </figure>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <p class="nr-home-reviews__foot">
+        <span>{{ section.settings.source_note | escape }}</span>
+        {%- if trustpilot_url != blank -%}
+          <a
+            href="{{ trustpilot_url }}"
+            class="nr-link"
+            target="_blank"
+            rel="noopener"
+          >
+            Läs alla omdömen på Trustpilot
+            <span class="visually-hidden">(öppnas i ny flik)</span>
+            <span class="nr-link__arrow" aria-hidden="true">↗</span>
+          </a>
+        {%- endif -%}
+      </p>
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .nr-home-reviews__head {
+    max-width: var(--nr-text-width);
+  }
+
+  .nr-home-reviews__score {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin: var(--nr-space-sm) 0 0;
+    font-size: 0.9375rem;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-home-reviews__score strong {
+    color: var(--nr-text);
+  }
+
+  .nr-home-reviews__stars {
+    display: inline-flex;
+    gap: 2px;
+    color: #1f6b3a;
+  }
+
+  .nr-home-reviews__stars svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nr-home-reviews__stars svg.is-empty {
+    color: var(--nr-border);
+  }
+
+  .nr-home-reviews__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--nr-space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nr-home-reviews__item {
+    min-width: 0;
+    padding-top: var(--nr-space-md);
+    border-top: 1px solid var(--nr-text);
+  }
+
+  .nr-home-reviews__review {
+    margin: 0;
+  }
+
+  .nr-home-reviews__rating {
+    margin: 0 0 12px;
+  }
+
+  .nr-home-reviews__title {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .nr-home-reviews__body {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .nr-home-reviews__meta {
+    margin-top: 14px;
+    font-size: 0.8125rem;
+    color: var(--nr-text-muted);
+  }
+
+  .nr-home-reviews__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px 24px;
+    margin: var(--nr-space-lg) 0 0;
+    font-size: 0.8125rem;
+    color: var(--nr-text-muted);
+  }
+
+  /* Tablet: two columns. Phones: one swipe row with a peek of the next review. */
+  @media screen and (max-width: 989px) {
+    .nr-home-reviews__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .nr-home-reviews__list {
+      display: flex;
+      gap: var(--nr-space-sm);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--nr-space-sm);
+      margin-inline: calc(var(--nr-space-sm) * -1);
+      padding-inline: var(--nr-space-sm);
+      scrollbar-width: none;
+    }
+
+    .nr-home-reviews__list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nr-home-reviews__item {
+      flex: 0 0 82%;
+      scroll-snap-align: start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "NR: Kundomdömen",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Betyg och länk: Temainställningar → NordicReflection – Trustpilot. Omdömen: metaobjektet Trustpilot-omdöme (Innehåll → Metaobjekt)."
+    },
+    { "type": "text", "id": "heading", "label": "Rubrik", "default": "Vad kunder säger om NordicReflection" },
+    { "type": "range", "id": "max_reviews", "label": "Antal omdömen", "min": 3, "max": 6, "step": 1, "default": 3 },
+    {
+      "type": "text",
+      "id": "source_note",
+      "label": "Källtext",
+      "default": "Omdömen om NordicReflection som butik, hämtade från Trustpilot."
+    }
+  ],
+  "presets": [{ "name": "NR: Kundomdömen" }]
+}
+{% endschema %}

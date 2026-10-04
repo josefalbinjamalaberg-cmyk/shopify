@@ -10,9 +10,9 @@
   Kits with a `custom.separate_components` metafield instead compare against
   what those products cost bought separately (snippets/nr-kit-separate-total),
   shown as "Köpta separat" rather than a struck-through previous price.
-  The saving bar is scaled against the largest saving in the section, so
-  the bigger kits visibly give more value; the percentage is the saving
-  relative to the compare-at price.
+  The saving is shown as a plain amount ("Du sparar X kr") – no percentage
+  or progress bar, so the section reads as value clarification, not a sale.
+  Kit names: custom.kit_name (same source as the kit pages), else the title.
   A block without a product renders nothing; if no block has a product the
   whole section is hidden.
 
@@ -31,7 +31,7 @@
     if kit != blank
       assign has_any_kit = true
       capture kit_separate
-        render 'nr-kit-separate-total', product: kit
+        render 'nr-ks-separate', product: kit
       endcapture
       assign kit_base = kit_separate | strip | plus: 0
       if kit_base == 0
@@ -72,7 +72,7 @@
           {%- liquid
             assign saving = 0
             capture separate_total
-              render 'nr-kit-separate-total', product: product
+              render 'nr-ks-separate', product: product
             endcapture
             assign separate_total = separate_total | strip | plus: 0
             assign base_price = separate_total
@@ -81,8 +81,6 @@
             endif
             if base_price > product.price
               assign saving = base_price | minus: product.price
-              assign saving_pct = saving | times: 100.0 | divided_by: base_price | round
-              assign saving_bar = saving | times: 100.0 | divided_by: max_saving | round
             endif
             assign points = block.settings.points | newline_to_br | split: '<br />'
             assign card_id = 'NrKit-' | append: block.id
@@ -112,7 +110,12 @@
                 </a>
 
                 <div class="nr-kit__summary">
-                  <h3 class="nr-kit__title" id="{{ card_id }}">{{ product.title }}</h3>
+                  <h3 class="nr-kit__title" id="{{ card_id }}">
+                    {{- product.metafields.custom.kit_name.value | default: product.title | escape -}}
+                  </h3>
+                  {%- if block.settings.subheading != blank -%}
+                    <p class="nr-kit__for">{{ block.settings.subheading | escape }}</p>
+                  {%- endif -%}
                   {%- if block.settings.contents != blank -%}
                     <p class="nr-kit__contents">{{ block.settings.contents | escape }}</p>
                   {%- endif -%}
@@ -128,21 +131,15 @@
                       <s class="nr-kit__price-was">{{ product.compare_at_price | money }}</s>
                     {%- endif -%}
                   </p>
+                  {%- if saving > 0 -%}
+                    <p class="nr-kit__value">Du sparar {{ saving | money }}</p>
+                  {%- endif -%}
                 </div>
               </div>
 
-              {%- if saving > 0 -%}
-                <div class="nr-kit__value">
-                  <p class="nr-kit__value-row">
-                    <span class="nr-kit__value-label">Du sparar</span>
-                    <span class="nr-kit__value-amount">{{ saving | money }} <span class="nr-kit__value-pct">(−{{ saving_pct }}&nbsp;%)</span></span>
-                  </p>
-                  <span class="nr-kit__value-bar" aria-hidden="true"><span style="width: {{ saving_bar }}%"></span></span>
-                </div>
-              {%- endif -%}
 
               {%- assign details_id = 'NrKitDetails-' | append: block.id -%}
-              {%- if block.settings.subheading != blank or block.settings.text != blank or block.settings.points != blank -%}
+              {%- if block.settings.text != blank or block.settings.points != blank -%}
               <button
                 type="button"
                 class="nr-kit__toggle"
@@ -157,9 +154,6 @@
               {%- endif -%}
 
               <div class="nr-kit__details" id="{{ details_id }}">
-              {%- if block.settings.subheading != blank -%}
-                <p class="nr-kit__lead">{{ block.settings.subheading | escape }}</p>
-              {%- endif -%}
               {%- if block.settings.text != blank -%}
                 <p class="nr-kit__text">{{ block.settings.text | escape }}</p>
               {%- endif -%}
@@ -337,72 +331,26 @@
     color: var(--nr-text-muted);
   }
 
+  .nr-kit__for {
+    margin: 6px 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
   .nr-kit__contents {
     margin: 4px 0 0;
     font-size: 0.8125rem;
     color: var(--nr-text-muted);
   }
 
-  /* Saving meter: bar length relative to the section's largest saving */
+  /* Saving: one quiet line under the price, same green as the kit pages
+     ("Du sparar"). No box, percentage or meter – value, not a sale. */
   .nr-kit__value {
-    margin-top: var(--nr-space-sm);
-    padding: 12px 14px;
-    background: var(--nr-bg-soft);
-    border-radius: var(--nr-radius-sm);
-  }
-
-  .nr-kit__value-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 2px 12px;
-    margin: 0;
+    margin: 6px 0 0;
     font-size: 0.875rem;
-  }
-
-  .nr-kit__value-label {
-    color: var(--nr-text-muted);
-  }
-
-  .nr-kit__value-amount {
     font-weight: 600;
-  }
-
-  .nr-kit__value-pct {
-    font-weight: 400;
-    color: var(--nr-text-muted);
-  }
-
-  /* The bar is the value itself; no empty track behind it, so it reads as
-     "how much" rather than as a progress meter. */
-  .nr-kit__value-bar {
-    display: block;
-    height: 4px;
-    margin-top: 10px;
-    border-radius: 2px;
-  }
-
-  .nr-kit__value-bar > span {
-    display: block;
-    height: 100%;
-    min-width: 6px;
-    border-radius: inherit;
-    background: rgba(17, 17, 17, 0.55);
-  }
-
-  .nr-kits__item--featured .nr-kit__value {
-    background: var(--nr-text);
-    color: #fff;
-  }
-
-  .nr-kits__item--featured .nr-kit__value-label,
-  .nr-kits__item--featured .nr-kit__value-pct {
-    color: rgba(255, 255, 255, 0.75);
-  }
-
-  .nr-kits__item--featured .nr-kit__value-bar > span {
-    background: #fff;
+    color: #1f6b3a;
+    font-variant-numeric: tabular-nums;
   }
 
   .nr-kit__lead {
@@ -574,10 +522,6 @@
       padding-top: 24px;
     }
 
-    .nr-kit__value {
-      margin-top: 12px;
-      padding: 10px 12px;
-    }
 
     .nr-kit__media {
       flex-basis: 96px;

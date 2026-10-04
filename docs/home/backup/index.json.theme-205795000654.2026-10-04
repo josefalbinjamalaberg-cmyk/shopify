@@ -14,7 +14,7 @@
       "settings": {
         "eyebrow": "",
         "heading": "Bilvård byggd steg för steg",
-        "text": "Från förtvätt till finish, med rätt produkt för varje jobb.",
+        "text": "Från förtvätt till finish, med en produkt för varje steg.",
         "primary_button_label": "Handla bilvård",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Hitta ditt tvättkit",
@@ -33,17 +33,16 @@
         "point_1": {
           "type": "point",
           "settings": {
-            "icon": "star",
-            "heading": "[rating]/5 på Trustpilot",
-            "text": "[count] omdömen om NordicReflection.",
-            "link": "https://se.trustpilot.com/review/nordicreflection.se"
+            "icon": "check_box",
+            "heading": "Nöjda bilvårdsentusiaster",
+            "text": "4.7 av 5 på Trustpilot, 34 omdömen."
           }
         },
         "point_2": {
           "type": "point",
           "settings": {
             "icon": "stopwatch",
-            "heading": "Skickas nästa vardag",
+            "heading": "Snabb leverans",
             "text": "Vi skickar normalt senast nästa vardag."
           }
         },
@@ -51,8 +50,8 @@
           "type": "point",
           "settings": {
             "icon": "truck",
-            "heading": "Fri frakt över [threshold] kr",
-            "text": "Gäller hela beställningen."
+            "heading": "Fri frakt över 799 kr",
+            "text": "Fri frakt när du handlar för över 799 kr."
           }
         }
       },
@@ -67,7 +66,7 @@
     "featured_products": {
       "type": "nr-home-featured-products",
       "blocks": {
-        "card_1": {
+        "product_1": {
           "type": "product-card",
           "settings": {
             "product": "revolt-flygrostborttagare",
@@ -131,7 +130,7 @@
             "usecase": {
               "type": "text",
               "settings": {
-                "text": "<p>Flygrost och bromsdamm på fälgen</p>",
+                "text": "<p>För järnpartiklar och fälgrengöring</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -183,7 +182,7 @@
             "price"
           ]
         },
-        "card_2": {
+        "product_3": {
           "type": "product-card",
           "settings": {
             "product": "alkastrike-alkalisk-avfettning",
@@ -247,7 +246,7 @@
             "usecase": {
               "type": "text",
               "settings": {
-                "text": "<p>Trafikfilm och vägsmuts före handtvätten</p>",
+                "text": "<p>För trafikfilm och organisk vägsmuts</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -299,10 +298,10 @@
             "price"
           ]
         },
-        "card_3": {
+        "product_4": {
           "type": "product-card",
           "settings": {
-            "product": "glosscoat-hydrofobisk-sprayforsegling",
+            "product": "foamtastic-hogkoncentrerat-snow-foam",
             "product_card_gap": 8,
             "width": "fill",
             "custom_width": 100,
@@ -363,7 +362,7 @@
             "usecase": {
               "type": "text",
               "settings": {
-                "text": "<p>Glans och vattenavrinning efter tvätten</p>",
+                "text": "<p>För skumförtvätt</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -415,10 +414,10 @@
             "price"
           ]
         },
-        "card_4": {
+        "product_2": {
           "type": "product-card",
           "settings": {
-            "product": "core-apc-allrengoring",
+            "product": "pure-shampoo-ph-neutralt-bilschampo",
             "product_card_gap": 8,
             "width": "fill",
             "custom_width": 100,
@@ -479,7 +478,7 @@
             "usecase": {
               "type": "text",
               "settings": {
-                "text": "<p>Allrengöring för interiören</p>",
+                "text": "<p>För kontaktvätten</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -533,14 +532,14 @@
         }
       },
       "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4"
+        "product_1",
+        "product_3",
+        "product_4",
+        "product_2"
       ],
       "settings": {
         "heading": "Bästsäljare",
-        "text": "Mest köpta de senaste 90 dagarna."
+        "text": ""
       }
     },
     "shop_by_problem": {
@@ -600,6 +599,139 @@
         "text": ""
       }
     },
+    "1790010514dd646917": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "17900112775de6b377": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_f9f7e7d_gRy4wf": {
+          "type": "ai_gen_block_f9f7e7d",
+          "settings": {
+            "heading": "Vad våra kunder säger",
+            "subheading": "Utvalda omdömen från våra kunder på Trustpilot.",
+            "trustpilot_url": "https://se.trustpilot.com/review/nordicreflection.se",
+            "trustpilot_label": "Läs alla omdömen på Trustpilot",
+            "total_rating": "",
+            "total_reviews": "",
+            "desktop_width_percent": 100,
+            "background_color": "#FFFFFF",
+            "card_color": "#FFFFFF",
+            "text_color": "#1C1C1C",
+            "border_color": "#DFDFDF",
+            "star_color": "#287A45",
+            "review_1_enabled": true,
+            "review_1_rating": 5,
+            "review_1_title": "Jobbat med med Rekond i 3 år och…",
+            "review_1_text": "Jobbat med med Rekond i 3 år och tvättar mina bilar flera gånger i veckan så testat en hel del produkter. Testade deras fälgrent, schampo och wet coat. Grym djup glans och otroligt bra rengöring. Avrinningen från wet coaten va helt brutal\nOtroligt nöjd med min beställning!",
+            "review_1_name": "VP",
+            "review_1_date": "11 september 2026",
+            "review_1_url": "",
+            "review_1_verified": false,
+            "review_2_enabled": true,
+            "review_2_rating": 5,
+            "review_2_title": "Riktigt nöjd med produkterna!",
+            "review_2_text": "Fantastiska produkter! Fälg rengöringen är helt otrolig, fälgarna var extremt smutsiga, sprayade på och lät de bara sitta en stund, spolade av och allt var borta! Avfettning och Schampo var också underbart. Gör definitivt sitt jobb ordentligt. Glosscoat gjorde bilen otroligt glansig🥰 Kommer definitivt fortsätta med dessa produkter❤️",
+            "review_2_name": "My Segerstedt",
+            "review_2_date": "8 september 2026",
+            "review_2_url": "",
+            "review_2_verified": false,
+            "review_3_enabled": true,
+            "review_3_rating": 5,
+            "review_3_title": "Produkterna gav ett resultat över min…",
+            "review_3_text": "Produkterna gav ett resultat över min förväntan. Fungerade utmärkt och simpelt att använda, samt sköna att hålla i när dem används. Beställde på en måndag vid 17 fick hem sakerna på onsdagen vid 12. Extremt bra produkter som är väldigt prisvärda.",
+            "review_3_name": "Filip Am",
+            "review_3_date": "7 september 2026",
+            "review_3_url": "",
+            "review_3_verified": false,
+            "review_4_enabled": true,
+            "review_4_rating": 4,
+            "review_4_title": "Fantastisk",
+            "review_4_text": "Snabb leverans till Gotland, en riktigt bra flygrostborttagare som gav ett fantastiskt resultat. Även en riktigt bra alkalisk avfättning. Grymma dofter som ger en bra känsla när man lägger på medlet. Slutresultatet på bil som hoj blir otroligt bra!",
+            "review_4_name": "streamnight",
+            "review_4_date": "11 september 2026",
+            "review_4_url": "",
+            "review_4_verified": false,
+            "review_5_enabled": true,
+            "review_5_rating": 5,
+            "review_5_title": "Produkterna var riktigt bra och lätta…",
+            "review_5_text": "Produkterna var riktigt bra och lätta att använda, kall- och alkaliska avfettningarna var riktigt bra för att få bort 150mils smuts från bilen, schampot gjorde bilen riktigt fin o blank med som dessutom skummade på bra och luktade riktigt gott! Rekommenderar starkt dessa produkter!",
+            "review_5_name": "Hyseni",
+            "review_5_date": "9 september 2026",
+            "review_5_url": "",
+            "review_5_verified": false,
+            "review_6_enabled": false,
+            "review_6_rating": 5,
+            "review_6_title": "",
+            "review_6_text": "",
+            "review_6_name": "",
+            "review_6_date": "",
+            "review_6_url": "",
+            "review_6_verified": false
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_f9f7e7d_gRy4wf"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "categories": {
       "type": "nr-home-categories",
       "blocks": {
@@ -637,7 +769,7 @@
         "cat_3"
       ],
       "settings": {
-        "heading": "Handla efter område"
+        "heading": "Utvalda kategorier"
       }
     },
     "bundle": {
@@ -649,10 +781,10 @@
             "product": "litet-exterior-startkit",
             "badge": "Start",
             "featured": false,
-            "subheading": "För dig som vill få grunden rätt, från avfettning till handtvätt.",
-            "text": "",
-            "points": "DeepDegrease, Alkastrike och Pure Shampoo\nAsfalt, trafikfilm och handtvätt\nEn tydlig grundrutin",
-            "button_label": "Se paketet",
+            "subheading": "Grunden för en ordentlig exteriörtvätt.",
+            "text": "Tre produkter som tar dig från avfettning till handtvätt. Ett enkelt sätt att komma igång utan att köpa mer än du behöver.",
+            "points": "Rätt produkter från start\nEn komplett grundrutin\nBättre pris än separat köp",
+            "button_label": "Välj Startkit",
             "contents": "3 produkter"
           }
         },
@@ -662,10 +794,10 @@
             "product": "foam-wash-kit",
             "badge": "Skumtvätt",
             "featured": false,
-            "subheading": "För dig med högtryckstvätt som vill skumtvätta bilen.",
-            "text": "",
-            "points": "Foamtastic och Foam Cannon\nTjockt, jämnt skum över hela bilen\nKräver högtryckstvätt, ingår inte",
-            "button_label": "Se paketet",
+            "subheading": "Foamtvätten du faktiskt vill använda.",
+            "text": "Foamtastic + Foam Cannon i ett färdigt paket. Produkterna är valda för att fungera tillsammans och ge dig ett tjockt, jämnt skumlager.",
+            "points": "Foam Cannon + Foamtastic\nFärdigt att använda tillsammans\nSpara jämfört med separat köp",
+            "button_label": "Välj Foam Wash Kit",
             "contents": "2 produkter"
           }
         },
@@ -675,10 +807,10 @@
             "product": "exterior-komplett-kit",
             "badge": "Bästsäljande kit",
             "featured": true,
-            "subheading": "Hela exteriörrutinen i ett paket. Slipp välja själv.",
-            "text": "",
-            "points": "Förtvätt, handtvätt, fälgar, glas, däck och lackskydd\nAllt i Startkit och fem produkter till\nKemikalier, verktyg köps separat",
-            "button_label": "Se paketet",
+            "subheading": "Hela rutinen. Ett paket.",
+            "text": "Från första rengöring till sista finish. För dig som vill ha hela NordicReflection-systemet och slippa fundera på vilka produkter som behövs.",
+            "points": "Hela exteriörrutinen\nProdukter för flera steg i tvätten\nStörst total besparing",
+            "button_label": "Välj Komplett Kit",
             "contents": "8 produkter"
           }
         }
@@ -691,7 +823,7 @@
       "settings": {
         "eyebrow": "Färdiga lösningar",
         "heading": "Hitta rätt paket",
-        "text": "Rätt produkter tillsammans, till ett bättre paketpris. Välj efter hur du tvättar.",
+        "text": "Rätt produkter tillsammans, till ett bättre paketpris. Välj nivån som passar din tvätt. Vi har redan satt ihop resten.",
         "tagline": "",
         "more_text": "Vill du se fler alternativ?",
         "more_label": "Se alla färdiga paket",
@@ -738,86 +870,42 @@
     "visual_proof": {
       "type": "nr-home-visual-proof",
       "blocks": {
-        "job_1": {
-          "type": "proof",
-          "settings": {
-            "problem": "Flygrost och bromsdamm",
-            "product": "revolt-flygrostborttagare",
-            "text": "Löser upp järnpartiklar på fälgen.",
-            "video": "shopify://files/videos/revoltförstavideo.mov"
-          }
-        },
-        "job_2": {
+        "proof_1": {
           "type": "proof",
           "settings": {
             "problem": "Trafikfilm",
             "product": "alkastrike-alkalisk-avfettning",
-            "text": "Trafikfilm, insekter och vägsmuts före handtvätten."
+            "text": "Löser upp trafikfilm och organisk smuts innan kontaktvätten."
           }
         },
-        "job_3": {
+        "proof_2": {
           "type": "proof",
           "settings": {
-            "problem": "Asfalt och tjära",
-            "product": "deepdegrease-kallavfettning",
-            "text": "Asfalt, tjära och oljebaserad smuts."
+            "problem": "Järnpartiklar",
+            "product": "revolt-flygrostborttagare",
+            "text": "Löser upp järnpartiklar och bromsdamm på fälgen.",
+            "video": "shopify://files/videos/revoltförstavideo.mov"
           }
         },
-        "job_4": {
+        "proof_3": {
           "type": "proof",
           "settings": {
             "problem": "Skumförtvätt",
             "product": "foamtastic-hogkoncentrerat-snow-foam",
-            "text": "Tjockt skum som löser smuts innan handtvätten."
-          }
-        },
-        "job_5": {
-          "type": "proof",
-          "settings": {
-            "problem": "Handtvätt",
-            "product": "pure-shampoo-ph-neutralt-bilschampo",
-            "text": "Skonsamt mot vax och keramiska lackskydd."
-          }
-        },
-        "job_6": {
-          "type": "proof",
-          "settings": {
-            "problem": "Glans och skydd",
-            "product": "glosscoat-hydrofobisk-sprayforsegling",
-            "text": "Glans och vattenavrinning efter tvätten."
-          }
-        },
-        "job_7": {
-          "type": "proof",
-          "settings": {
-            "problem": "Glas",
-            "product": "clarity-glasrengoring",
-            "text": "Klart glas utan ränder, in- och utvändigt."
-          }
-        },
-        "job_8": {
-          "type": "proof",
-          "settings": {
-            "problem": "Däck och plast",
-            "product": "pristine-dack-plastfornyare",
-            "text": "Djupare färg och jämn finish."
+            "text": "Tjockt, vidhäftande skum som löser upp smuts innan handtvätten.",
+            "video": "shopify://files/videos/foambanner1.mov"
           }
         }
       },
       "block_order": [
-        "job_1",
-        "job_2",
-        "job_3",
-        "job_4",
-        "job_5",
-        "job_6",
-        "job_7",
-        "job_8"
+        "proof_2",
+        "proof_1",
+        "proof_3"
       ],
       "settings": {
         "heading": "Rätt produkt för rätt typ av smuts",
-        "text": "Välj efter vad bilen behöver. Ingen tvätt kräver alla åtta.",
-        "link_label": "Se alla exteriörprodukter",
+        "text": "Rätt förtvätt hjälper dig att få bort mer smuts innan tvätthandsken rör lacken.",
+        "link_label": "Se produkter för förtvätt",
         "link": "shopify://collections/exterior"
       }
     },
@@ -841,8 +929,8 @@
         "principle_3": {
           "type": "principle",
           "settings": {
-            "heading": "En enklare tvättrutin",
-            "text": "En produkt för varje jobb. Använd det bilen behöver."
+            "heading": "En tydligare tvättprocess",
+            "text": "Varje steg har sin produkt, i rätt ordning."
           }
         }
       },
@@ -995,14 +1083,6 @@
         "text": "Få tvättguider, produktnyheter och användbara tips som hjälper dig få bättre resultat.",
         "privacy_text": "Genom att registrera dig godkänner du vår integritetspolicy. Du kan avsluta prenumerationen när som helst."
       }
-    },
-    "reviews": {
-      "type": "nr-home-reviews",
-      "settings": {
-        "heading": "Vad kunder säger om NordicReflection",
-        "max_reviews": 3,
-        "source_note": "Omdömen om NordicReflection som butik, hämtade från Trustpilot."
-      }
     }
   },
   "order": [
@@ -1011,10 +1091,11 @@
     "bundle",
     "featured_products",
     "visual_proof",
-    "reviews",
+    "17900112775de6b377",
     "categories",
     "brand_story",
     "shop_by_problem",
+    "1790010514dd646917",
     "demo",
     "guides",
     "results",

@@ -1,69 +1,128 @@
 {% comment %}
   Compact trust row directly under the hero. Maximum three points by design
   (schema caps blocks at 3) — simple line icons, no heavy card styling.
+  Live values come from the theme settings, never typed here:
+    [rating]    → NordicReflection – Trustpilot: betyg (e.g. 4,7)
+    [count]     → NordicReflection – Trustpilot: antal omdömen
+    [threshold] → Frakt & leverans: gräns för fri frakt (kr)
+  A point with a link (e.g. Trustpilot) becomes one link.
+  Mobile: one row of three short headings (texts hidden) so the row stays
+  a single line of trust instead of three stacked cards.
 {% endcomment %}
-
+{%- liquid
+  assign tp_rating = settings.nr_trustpilot_rating | replace: '.', ','
+  assign tp_count = settings.nr_trustpilot_count | append: ''
+  assign threshold = settings.free_shipping_threshold | append: ''
+-%}
 <div data-nr-scope class="nr-section nr-section--sm nr-benefits">
   <div class="nr-container">
-    <div class="nr-grid nr-grid--3 nr-benefits__grid">
+    <ul class="nr-grid nr-grid--3 nr-benefits__grid" role="list">
       {% for block in section.blocks %}
-        <div class="nr-benefits__item" data-nr-reveal {{ block.shopify_attributes }}>
+        {%- liquid
+          assign heading = block.settings.heading | replace: '[rating]', tp_rating | replace: '[count]', tp_count | replace: '[threshold]', threshold
+          assign text = block.settings.text | replace: '[rating]', tp_rating | replace: '[count]', tp_count | replace: '[threshold]', threshold
+        -%}
+        <li class="nr-benefits__item" data-nr-reveal {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a
+              class="nr-benefits__link"
+              href="{{ block.settings.link }}"
+              {% if block.settings.link contains 'http' %}
+                target="_blank" rel="noopener"
+              {% endif %}
+            >
+          {%- endif -%}
           <span class="nr-benefits__icon">
             {%- render 'icon-or-image', icon: block.settings.icon, width: 22, class_name: 'nr-benefits__icon-svg' -%}
           </span>
-          <div class="nr-benefits__copy">
-            {%- if block.settings.heading != blank -%}
-              <p class="nr-benefits__heading">{{ block.settings.heading }}</p>
+          <span class="nr-benefits__copy">
+            {%- if heading != blank -%}
+              <span class="nr-benefits__heading">{{ heading }}</span>
             {%- endif -%}
-            {%- if block.settings.text != blank -%}
-              <p class="nr-benefits__text">{{ block.settings.text }}</p>
+            {%- if text != blank -%}
+              <span class="nr-benefits__text">{{ text }}</span>
             {%- endif -%}
-          </div>
-        </div>
+          </span>
+          {%- if block.settings.link != blank -%}
+            {%- if block.settings.link contains 'http' -%}<span class="visually-hidden"> (öppnas i ny flik)</span>{%- endif -%}
+            </a>
+          {%- endif -%}
+        </li>
       {% endfor %}
-    </div>
+    </ul>
   </div>
 </div>
-
 {% stylesheet %}
   .nr-benefits__grid {
     gap: var(--nr-space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-
-  .nr-benefits__item {
+  .nr-benefits__item,
+  .nr-benefits__link {
     display: flex;
     align-items: flex-start;
     gap: var(--nr-space-sm);
+    color: inherit;
+    text-decoration: none;
   }
-
+  .nr-benefits__link:hover .nr-benefits__heading {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
   .nr-benefits__icon {
     flex-shrink: 0;
     width: 22px;
     height: 22px;
     display: inline-flex;
   }
-
   .nr-benefits__icon-svg {
     width: 100%;
     height: 100%;
   }
-
+  .nr-benefits__copy {
+    display: flex;
+    flex-direction: column;
+  }
   .nr-benefits__heading {
     margin: 0 0 2px;
     font-size: 0.9375rem;
     font-weight: 600;
   }
-
   .nr-benefits__text {
     margin: 0;
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--nr-text-muted);
   }
-
-  @media screen and (max-width: 480px) {
+  /* Phones: one compact row, three short headings, no secondary text. */
+  @media screen and (max-width: 749px) {
+    .nr-benefits.nr-section--sm {
+      padding-block: 18px;
+    }
     .nr-benefits__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .nr-benefits__item,
+    .nr-benefits__link {
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+    .nr-benefits__icon {
+      width: 18px;
+      height: 18px;
+    }
+    .nr-benefits__heading {
+      margin: 0;
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+    .nr-benefits__text {
+      display: none;
     }
   }
 {% endstylesheet %}
@@ -99,7 +158,13 @@
         {
           "type": "text",
           "id": "text",
-          "label": "Text"
+          "label": "Text",
+          "info": "[rating], [count] och [threshold] ersätts med Trustpilot-betyg, antal omdömen och gräns för fri frakt från temainställningarna."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Länk (valfri)"
         }
       ]
     }

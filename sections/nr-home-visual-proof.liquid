@@ -1,271 +1,256 @@
 {% comment %}
-  Visual proof cards — one real image (or video) per named problem, paired
-  with the product that solves it. The image itself is the proof; no
-  review stars or fabricated claims. A block only renders once a product
-  is assigned; falls back to the product's own photo if no dedicated
-  image/video is picked for the card.
+  "Rätt produkt för rätt typ av smuts" – the homepage's problem → product
+  index, and its one dark media moment.
 
-  Product bottle photos use object-fit: contain (whole bottle, padded on a
-  soft background) — cover would crop the bottle. Real action video
-  footage (e.g. a usage clip) stays object-fit: cover since it's meant to
-  fill the frame, not show a product silhouette.
+  Answers "I have this problem – what do I buy?" (the navigation's
+  "Tvätta bilen steg för steg" answers how the range fits together).
+  Left: one real clip (the first block that has a video). Right: every block
+  as one row – the problem (large), the product that solves it, one line and
+  its current price – the whole row links to the product. Product name,
+  price and URL come from the block's product reference; nothing typed twice.
+  Rows are not numbered: the customer picks the job they have, nobody needs
+  all eight every wash.
 {% endcomment %}
 
-<div data-nr-scope class="nr-section nr-section--soft nr-visual-proof">
+{%- liquid
+  assign clip_block = nil
+  for block in section.blocks
+    if block.settings.video != blank and block.settings.product != blank
+      assign clip_block = block
+      break
+    endif
+  endfor
+-%}
+
+<div data-nr-scope class="nr-section nr-section--dark nr-proof-index">
   <div class="nr-container">
-    <div class="nr-section-head nr-visual-proof__head" data-nr-reveal>
+    <div class="nr-section-head nr-proof-index__head" data-nr-reveal>
       {%- if section.settings.heading != blank -%}
         <h2 class="nr-h2">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
         <p class="nr-body nr-body--muted">{{ section.settings.text }}</p>
       {%- endif -%}
-      {%- if section.settings.link_label != blank -%}
-        <a href="{{ section.settings.link | default: '#' }}" class="nr-link nr-visual-proof__head-link">
+    </div>
+
+    <div class="nr-proof-index__layout{% if clip_block != nil %} nr-proof-index__layout--media{% endif %}">
+      {%- if clip_block != nil -%}
+        {%- assign clip_product = clip_block.settings.product -%}
+        <figure class="nr-proof-index__media" data-nr-reveal>
+          <div class="nr-proof-index__video-wrap">
+            <video
+              data-nr-video
+              class="nr-proof-index__video"
+              muted
+              loop
+              autoplay
+              playsinline
+              preload="none"
+              poster="{{ clip_block.settings.image | default: clip_block.settings.video.preview_image | image_url: width: 900 }}"
+            >
+              {%- render 'nr-video-sources', video: clip_block.settings.video -%}
+            </video>
+            {%- render 'nr-video-toggle', class_name: 'nr-proof-index__video-toggle' -%}
+          </div>
+          <figcaption class="nr-proof-index__caption">
+            {{ clip_product.title | split: ' – ' | first | split: ' - ' | first }} · {{ clip_block.settings.problem }}
+          </figcaption>
+        </figure>
+      {%- endif -%}
+
+      <ul class="nr-proof-index__list" role="list" data-nr-reveal="stagger">
+        {%- for block in section.blocks -%}
+          {%- assign product = block.settings.product -%}
+          {%- if product == blank -%}{%- continue -%}{%- endif -%}
+          <li class="nr-proof-index__item" {{ block.shopify_attributes }}>
+            <a href="{{ product.url }}" class="nr-proof-index__row">
+              <span class="nr-proof-index__problem">{{ block.settings.problem }}</span>
+              <span class="nr-proof-index__product">
+                <span class="nr-proof-index__name">{{ product.title | split: ' – ' | first | split: ' - ' | first }}</span>
+                {%- if block.settings.text != blank -%}
+                  <span class="nr-proof-index__text">{{ block.settings.text }}</span>
+                {%- endif -%}
+              </span>
+              <span class="nr-proof-index__price">{{ product.price | money }}</span>
+              <span class="nr-proof-index__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- if section.settings.link_label != blank -%}
+      <p class="nr-proof-index__more">
+        <a href="{{ section.settings.link | default: '#' }}" class="nr-link">
           {{ section.settings.link_label }}
           <span class="nr-link__arrow" aria-hidden="true">→</span>
         </a>
-      {%- endif -%}
-    </div>
-
-    <div class="nr-visual-proof__grid{% if section.blocks.size == 3 %} nr-visual-proof__grid--bento{% endif %}" data-nr-reveal="stagger">
-      {% for block in section.blocks %}
-        {%- liquid
-          assign product = block.settings.product
-        -%}
-        {%- if product != blank -%}
-          <div class="nr-visual-proof__card" {{ block.shopify_attributes }}>
-            <div class="nr-visual-proof__media{% if block.settings.video == blank %} nr-visual-proof__media--product{% endif %}">
-              {%- if block.settings.video != blank -%}
-                <video
-                  data-nr-video
-                  class="nr-visual-proof__video"
-                  muted
-                  loop
-                  autoplay
-                  playsinline
-                  poster="{{ block.settings.image | default: product.featured_image | image_url: width: 800 }}"
-                >
-                  <source src="{{ block.settings.video.sources.last.url }}" type="video/mp4">
-                </video>
-                {%- render 'nr-video-toggle', class_name: 'nr-visual-proof__video-toggle' -%}
-              {%- elsif block.settings.image != blank -%}
-                {{
-                  block.settings.image
-                  | image_url: width: 800
-                  | image_tag: loading: 'lazy', alt: block.settings.problem, widths: '400, 600, 800'
-                }}
-              {%- elsif product.featured_image != blank -%}
-                {{
-                  product.featured_image
-                  | image_url: width: 800
-                  | image_tag: loading: 'lazy', alt: block.settings.problem, widths: '400, 600, 800'
-                }}
-              {%- endif -%}
-            </div>
-            <div class="nr-visual-proof__copy">
-              <span class="nr-visual-proof__problem">{{ block.settings.problem }}</span>
-              <span class="nr-visual-proof__product">{{ product.title | split: ' – ' | first | split: ' - ' | first }}</span>
-              {%- if block.settings.text != blank -%}
-                <p class="nr-visual-proof__text">{{ block.settings.text }}</p>
-              {%- endif -%}
-              <a href="{{ product.url }}" class="nr-link nr-visual-proof__link">
-                Se produkt
-                <span class="nr-link__arrow" aria-hidden="true">→</span>
-              </a>
-            </div>
-          </div>
-        {%- endif -%}
-      {% endfor %}
-    </div>
+      </p>
+    {%- endif -%}
   </div>
 </div>
 
 {% stylesheet %}
-  .nr-visual-proof__head {
+  .nr-proof-index__head {
     max-width: var(--nr-text-width);
   }
 
-  .nr-visual-proof__head-link {
-    margin-top: var(--nr-space-sm);
-  }
-
-  .nr-visual-proof__grid {
+  .nr-proof-index__layout {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--nr-space-lg);
   }
 
-  .nr-visual-proof__card {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+  @media screen and (min-width: 990px) {
+    .nr-proof-index__layout--media {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--nr-space-xl);
+      align-items: start;
+    }
+
+    .nr-proof-index__media {
+      position: sticky;
+      top: calc(var(--header-height, 80px) + 24px);
+    }
   }
 
-  .nr-visual-proof__media {
+  .nr-proof-index__media {
+    margin: 0;
+  }
+
+  .nr-proof-index__video-wrap {
     position: relative;
-    aspect-ratio: 4 / 3;
-    border-radius: var(--nr-radius-md);
+    aspect-ratio: 4 / 5;
     overflow: hidden;
-    background: var(--nr-surface);
+    border-radius: var(--nr-radius-md);
+    background: #1b1b1b;
   }
 
-  .nr-visual-proof__media img,
-  .nr-visual-proof__video {
+  @media screen and (max-width: 749px) {
+    .nr-proof-index__video-wrap {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  .nr-proof-index__video {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
   }
 
-  .nr-visual-proof__media--product img {
-    object-fit: contain;
-    padding: 24px;
-  }
-
-  .nr-visual-proof__video-toggle {
+  .nr-proof-index__video-toggle {
     position: absolute;
     right: 8px;
     bottom: 8px;
     z-index: 1;
   }
 
-  .nr-visual-proof__copy {
-    padding-top: var(--nr-space-sm);
+  .nr-proof-index__caption {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.6);
   }
 
-  .nr-visual-proof__problem {
-    display: block;
+  .nr-proof-index__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+  }
+
+  .nr-proof-index__item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .nr-proof-index__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto 16px;
+    grid-template-areas:
+      'problem price arrow'
+      'product product product';
+    align-items: baseline;
+    gap: 4px 16px;
+    min-height: 56px;
+    padding-block: 16px;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .nr-proof-index__problem {
+    grid-area: problem;
     font-family: var(--font-heading--family);
-    font-size: 1.125rem;
-    font-weight: 600;
+    font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+    font-weight: 500;
+    line-height: 1.15;
     letter-spacing: -0.01em;
   }
 
-  .nr-visual-proof__product {
-    display: block;
-    margin-top: 2px;
-    font-size: 0.8125rem;
-    color: var(--nr-text-muted);
+  .nr-proof-index__product {
+    grid-area: product;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
   }
 
-  .nr-visual-proof__text {
-    margin: var(--nr-space-xs) 0 0;
+  .nr-proof-index__name {
     font-size: 0.9375rem;
-    line-height: 1.5;
-    color: var(--nr-text-muted);
-    max-width: 46ch;
+    font-weight: 600;
   }
 
-  .nr-visual-proof__link {
-    display: inline-flex;
-    margin-top: var(--nr-space-sm);
+  .nr-proof-index__text {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.66);
   }
 
-  /* Three proofs: a bento of one large tile (first block) and two compact
-     tiles beside it, media and text side by side. */
-  @media screen and (min-width: 990px) {
-    /* Large tile on the right: mirrors the category bento higher up the
-       page so the two sections don't share the same silhouette. */
-    .nr-visual-proof__grid--bento {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-      grid-template-rows: auto auto;
-      gap: var(--nr-space-md) var(--nr-space-lg);
+  .nr-proof-index__price {
+    grid-area: price;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .nr-proof-index__arrow {
+    grid-area: arrow;
+    color: rgba(255, 255, 255, 0.6);
+    transition: transform var(--nr-transition-fast), color var(--nr-transition-fast);
+  }
+
+  @media (hover: hover) {
+    .nr-proof-index__row:hover .nr-proof-index__arrow {
+      color: #fff;
+      transform: translateX(3px);
     }
 
-    .nr-visual-proof__grid--bento > :first-child {
-      grid-column: 2;
-      grid-row: 1 / span 2;
+    .nr-proof-index__row:hover .nr-proof-index__problem {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 5px;
     }
+  }
 
-    .nr-visual-proof__grid--bento > :not(:first-child) {
-      grid-column: 1;
-    }
+  .nr-proof-index__row:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
 
-    /* The large tile follows the height of the two compact tiles instead
-       of its media's intrinsic size: the media fills the space absolutely. */
-    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media {
-      position: relative;
-      aspect-ratio: auto;
-      flex: 1;
-      min-height: 320px;
-    }
-
-    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media > :not(.nr-video-toggle) {
-      position: absolute;
-      inset: 0;
-    }
-
-    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__problem {
-      font-size: 1.5rem;
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: var(--nr-space-md);
+  @media screen and (min-width: 750px) {
+    .nr-proof-index__row {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr) auto 16px;
+      grid-template-areas: 'problem product price arrow';
       align-items: center;
-      padding: var(--nr-space-sm);
-      background: var(--nr-surface);
-      border-radius: var(--nr-radius-md);
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__media {
-      aspect-ratio: 1;
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__copy {
-      padding-top: 0;
+      padding-block: 20px;
     }
   }
 
-  @media screen and (min-width: 750px) and (max-width: 989px) {
-    .nr-visual-proof__grid--bento {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--nr-space-md);
-    }
-
-    .nr-visual-proof__grid--bento > :first-child {
-      grid-column: 1 / -1;
-    }
-
-    .nr-visual-proof__grid--bento > :first-child .nr-visual-proof__media {
-      aspect-ratio: 16 / 9;
-    }
+  .nr-proof-index__more {
+    margin: var(--nr-space-lg) 0 0;
   }
 
-  /* Mobile: the first proof large, the other two as compact rows (media
-     beside text) so three videos/images don't stack into a long scroll. */
-  @media screen and (max-width: 749px) {
-    .nr-visual-proof__grid {
-      grid-template-columns: 1fr;
-      gap: var(--nr-space-md);
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) {
-      display: grid;
-      grid-template-columns: 112px minmax(0, 1fr);
-      gap: var(--nr-space-sm);
-      align-items: start;
-      padding-top: var(--nr-space-md);
-      border-top: 1px solid var(--nr-border);
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__media {
-      aspect-ratio: 1;
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__media--product img {
-      padding: 10px;
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__copy {
-      padding-top: 0;
-    }
-
-    .nr-visual-proof__grid--bento > :not(:first-child) .nr-visual-proof__link {
-      margin-top: var(--nr-space-xs);
-    }
+  .nr-section--dark .nr-proof-index__more .nr-link {
+    color: #fff;
   }
 {% endstylesheet %}
 
@@ -273,7 +258,7 @@
 {
   "name": "NR: Bevis i bild",
   "tag": "section",
-  "max_blocks": 3,
+  "max_blocks": 10,
   "settings": [
     {
       "type": "text",
@@ -301,13 +286,13 @@
   "blocks": [
     {
       "type": "proof",
-      "name": "Bevis",
+      "name": "Problem → produkt",
       "settings": [
         { "type": "text", "id": "problem", "label": "Problem", "default": "Trafikfilm" },
         { "type": "product", "id": "product", "label": "Produkt" },
         { "type": "text", "id": "text", "label": "Kort förklaring" },
-        { "type": "image_picker", "id": "image", "label": "Bild (valfri override)" },
-        { "type": "video", "id": "video", "label": "Video (valfri, prioriteras över bild)" }
+        { "type": "image_picker", "id": "image", "label": "Affisch för videon (valfri)" },
+        { "type": "video", "id": "video", "label": "Video (valfri)", "info": "Första blocket med video visas som film bredvid listan." }
       ]
     }
   ],
